@@ -5,3 +5,5 @@
 *.toc
 *.log
 *.pdf
+*.bbl
+*.blg

@@ -1,0 +1,90 @@
+% \documentclass[english]{article}
+% \usepackage[T1]{fontenc}
+% \usepackage[latin9]{inputenc}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{babel}
+\documentclass[../master.tex]{subfiles}
+\begin{document}
+
+    Consider a single state transition $\left(s,a,s'\right)$. If the
+action application was successful, ie. if $s\neq s'$, then the preconditions
+were satisfied, meaning that $g\left(P^{+}\right)\subseteq s$ and
+$g\left(P^{-}\right)\cap s=\emptyset$. From this information, however,
+it is unclear which of the predicates satisfied in $s$ are positive
+preconditions, and which of the predicates not satisfied are negative
+preconditions. Similarly, on action failure it is unclear which predicates
+should have been absent or present in $s$ for the application to
+be successful.
+
+
+\subsubsection*{Action failure}
+
+When an action application fails, it is unclear which predicate(s)
+caused the failure. $g\left(P^{+}\right)\nsubseteq s$ $g\left(P^{-}\right)\cap s\neq\emptyset$
+
+\[
+c^{+}=U^{+}\setminus\bigcup u\left(s\right)
+\]
+\[
+c^{-}=U^{-}\cap\bigcup u\left(s\right)
+\]
+
+\begin{itemize}
+\item If $\left|c^{+}\right|+\left|c^{-}\right|=1$:
+
+\begin{itemize}
+\item Add candidate to knowledge:
+\end{itemize}
+
+\[
+K^{\pm\prime}=K^{\pm}\cup c^{\pm}
+\]
+
+\begin{itemize}
+\item Remove known from unknown:
+\[
+U^{\pm\prime}=U^{\pm}\setminus c^{\pm}
+\]
+
+\item Remove all candidates containing $c$:
+\[
+C^{\prime}=\left\{ \left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C\land c^{+}\nsubseteq x^{+}\land c^{-}\nsubseteq x^{-}\right\}
+\]
+
+\end{itemize}
+\item Else:
+
+\begin{itemize}
+\item Add $c$ to candidates and remove generalizations:
+\[
+C^{\prime}=\left\{ \left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C\land c^{+}\nsubseteq x^{+}\land c^{-}\nsubseteq x^{-}\right\} \cup\left(c^{+},c^{-}\right)
+\]
+
+\end{itemize}
+\end{itemize}
+
+\subsubsection*{Action success}
+
+\[
+U^{+\prime}=U^{+}\cap\bigcup u\left(s\right)
+\]
+\[
+U^{-\prime}=U^{-}\setminus\bigcup u\left(s\right)
+\]
+
+
+Remove predicates proven to be absent from $P$:
+\[
+C^{\prime}=\left\{ \left(x^{+}\cap U^{-\prime},x^{-}\cap U^{-\prime}\right):\left(x^{+},x^{-}\right)\in C\right\}
+\]
+\[
+K^{\pm\prime}=\left\{ x^{\pm}:\left(x^{+},x^{-}\right)\in C^{\prime}\land\left|x^{\pm}\right|=1\land\left|x^{+}\right|+\left|x^{-}\right|=1\right\} \cup K^{\pm}
+\]
+
+
+\[
+C^{\prime\prime}=\left\{ \left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C^{\prime}\land\left(x^{+}\cap K^{+\prime}\neq\emptyset\lor x^{-}\cap K^{-\prime}\neq\emptyset\right)\right\}
+\]
+
+\end{document}

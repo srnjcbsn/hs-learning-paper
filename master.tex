@@ -1,4 +1,11 @@
-\documentclass[12pt]{report}
+\documentclass[english]{report}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage{subfiles}
+\usepackage{cite}
 
 \title {Automated Learning}
 
@@ -6,5 +13,19 @@
 \maketitle
 \tableofcontents
 
-\chapter{Introduction}
+\chapter{Inductive Learning}
+    \subfile{Strategy}
+
+\chapter{Inductive reasoning on transitions}
+    \subfile{TransitionLearning}
+
+\chapter{Results}
+
+\chapter{Conclusion}
+
+\chapter{Future work}
+
+\bibliography{refs}{}
+\bibliographystyle{plain}
+
 \end{document}
