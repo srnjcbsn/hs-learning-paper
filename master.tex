@@ -1,11 +1,25 @@
 \documentclass[english]{report}
 \usepackage[T1]{fontenc}
 \usepackage[latin9]{inputenc}
+\usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage[english]{babel}
 \usepackage{subfiles}
 \usepackage{cite}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+  \theoremstyle{plain}
+  \newtheorem{cor}{\protect\corollaryname}
+  \theoremstyle{definition}
+  \newtheorem{defn}{\protect\definitionname}
+
+\makeatother
+
+\usepackage{babel}
+  \providecommand{\definitionname}{Definition}
+\providecommand{\corollaryname}{Corollary}
 
 \title {Automated Learning}
 

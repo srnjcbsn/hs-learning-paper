@@ -1,90 +1,100 @@
-% \documentclass[english]{article}
-% \usepackage[T1]{fontenc}
-% \usepackage[latin9]{inputenc}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% \usepackage{babel}
+
 \documentclass[../master.tex]{subfiles}
 \begin{document}
 
-    Consider a single state transition $\left(s,a,s'\right)$. If the
-action application was successful, ie. if $s\neq s'$, then the preconditions
-were satisfied, meaning that $g\left(P^{+}\right)\subseteq s$ and
-$g\left(P^{-}\right)\cap s=\emptyset$. From this information, however,
-it is unclear which of the predicates satisfied in $s$ are positive
-preconditions, and which of the predicates not satisfied are negative
-preconditions. Similarly, on action failure it is unclear which predicates
-should have been absent or present in $s$ for the application to
-be successful.
-
-
-\subsubsection*{Action failure}
-
-When an action application fails, it is unclear which predicate(s)
-caused the failure. $g\left(P^{+}\right)\nsubseteq s$ $g\left(P^{-}\right)\cap s\neq\emptyset$
-
-\[
-c^{+}=U^{+}\setminus\bigcup u\left(s\right)
-\]
-\[
-c^{-}=U^{-}\cap\bigcup u\left(s\right)
-\]
-
 \begin{itemize}
-\item If $\left|c^{+}\right|+\left|c^{-}\right|=1$:
+    \item If the action
+    application is unsuccessful, ie. if $s=s'$, then at least one of $A$'s
+    preconditions were not satisfied by $s$. From this information, however, it
+    is unclear which predicates should have been absent from or present in $s$
+    for the application to be successful: any ungrounded variant of a predicate
+    $p\notin s$ resp. $q\in s$ would cause the failure if part of $P^{+}$ resp.
+    $P^{-}$.
 
-\begin{itemize}
-\item Add candidate to knowledge:
+    \item When $a$ was successfully applied, ie. when $s\neq s'$, all
+    preconditions of $A$ were satisfied, such that $g\left[P^{+}\right]\subseteq
+    s$ and $g\left[P^{-}\right]\cap s=\emptyset$. It follows logically that no
+    ungrounded version of a predicate $p\in s$ resp. $q\notin s$ can be part of
+    $P^{-}$ resp. $P^{+}$, as that would have caused the action to fail.
+    However, it is not clear which predicates in $s$ and $s^{C}$ satisfied the
+    preconditions, as some of them may have been redundant.
 \end{itemize}
+Thus,     only when action applications are successful can predicates be
+disproven to     be preconditions, but no predicate can be proven to be a
+precondition based     solely on a state transition.
 
-\[
-K^{\pm\prime}=K^{\pm}\cup c^{\pm}
-\]
+Consider the addition of prior knowledge $\left(K^{+},K^{-},U^{+},U^{-}\right)$,
+and assume that $s$ does not violate any precondition that is already known to
+be true (ie. $g\left[K^{+}\right]\subseteq s$ and $g\left[K^{-}\right]\cap
+s=\emptyset$). Then, in the case of action failure, any violated precondition
+$p$ must exist in either $U^{+}$ or $U^{-}$. The ungrounded predicates that
+would individually cause the failure if they were present in $P^{+}$ (resp.
+$P^{-}$) are denoted $c^{+}$ (resp. $c^{-}$), and are determined as follows:
 
-\begin{itemize}
-\item Remove known from unknown:
-\[
-U^{\pm\prime}=U^{\pm}\setminus c^{\pm}
-\]
+\[ c^{+}=U^{+}\setminus\bigcup ug\left[s\right] \] \[ c^{-}=U^{-}\cap\bigcup
+ug\left[s\right] \]
 
-\item Remove all candidates containing $c$:
-\[
-C^{\prime}=\left\{ \left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C\land c^{+}\nsubseteq x^{+}\land c^{-}\nsubseteq x^{-}\right\}
-\]
+For any \emph{candidate set} $c=\left(c^{+},c^{-}\right)$ constructed in this
+manner, it holds that at least one of the candidates is a precondition of $A$,
+ie. \begin{equation} c^{+}\cap P^{+}\neq\emptyset\lor c^{-}\cap
+P^{-}\neq\emptyset\label{eq:cP} \end{equation}
 
-\end{itemize}
-\item Else:
+\begin{cor} \label{candThe}Trivially, if (\ref{eq:cP}) holds and $c^{+}=\left\{
+p\right\} \land c^{-}=\emptyset$, then $p\in P^{+}$. Conversely, if
+$c^{+}=\emptyset\land c^{-}=\{q\}$, then $q\in P^{-}$. \end{cor} Notably, if
+several members of $c^{+}\cup c^{-}$ are preconditions of $A$, it can never be
+recuced to a singleton set, and no information can be gained from it.
 
-\begin{itemize}
-\item Add $c$ to candidates and remove generalizations:
-\[
-C^{\prime}=\left\{ \left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C\land c^{+}\nsubseteq x^{+}\land c^{-}\nsubseteq x^{-}\right\} \cup\left(c^{+},c^{-}\right)
-\]
+If, in a later state transition for the same action schema $A$, a predicate $p$
+is proven to be absent from $P^{\pm}$, then it is no longer a valid candidate,
+and can be removed from $c^{\pm}$ while maintaining the validity of
+(\ref{eq:cP}).
 
-\end{itemize}
-\end{itemize}
+If, however, a predicate $q\in c^{+}\cup c^{-}$ is proven to be a precondition,
+then removal of $q$ from $c$ might violate (\ref{eq:cP}). If $q$ is retained in
+$c$, then one of the following cases apply: \begin{itemize} \item
+$\left(c^{+}\cap P^{+}\right)\cup\left(c^{-}\cap P^{-}\right)=\{q\}$, ie. $q$ is
+the only predicate in $c$ that is a precondition. Then $c$ could eventually be
+reduced to the singleton set $\{q\}$, which does not produce any new knowledge,
+since $q$ is already known to be a precondition. \item $\left|\left(c^{+}\cap
+P^{+}\right)\cup\left(c^{-}\cap P^{-}\right)\right|>1$, ie. more than two
+predicates in $c$ are preconditions of $A$. As mentioned above, $c$ can never be
+reduced to the singleton set, and no knowledge can be gained from it.
+\end{itemize} In both cases, retaining the set $c$ as it is will not provide any
+new knowledge. Thus, a candidate set can be discarded when one of its predicates
+are proven to be present in $P^{\pm}$.
 
-\subsubsection*{Action success}
+We can now define a precondition hypothesis as follows: \begin{defn} A
+precondition hypothesis $H_{P}$ for an action schema $A$ is a five-tuple
+$\left(K^{+},K^{-},U^{+},U^{-},C\right)$, where $C$ is a set of candidate sets.
+\end{defn} Whenever new knowledge about a predicate is obtained, $C$ is updated
+using the following rules, ensuring that (\ref{eq:cP}) holds for all candidate
+sets in $C$: \begin{enumerate} \item If a predicate $p$ is proven to be absent
+from $P^{+}$, it is removed from all positive parts of candidate sets in $C$
+(similarly for $P^{-}$ and negative parts): \[ C'=\left\{ \left(x^{+}\cap
+U^{+},x^{-}\cap U^{-}\right):\left(x^{+},x^{-}\right)\in C\right\} \]
 
-\[
-U^{+\prime}=U^{+}\cap\bigcup u\left(s\right)
-\]
-\[
-U^{-\prime}=U^{-}\setminus\bigcup u\left(s\right)
-\]
+\item If a predicate $p$ is proven to be present in $P^{+}$ or $P^{-}$, any
+candidate set containing $p$ is removed from $C$: \[ C^{\prime}=\left\{
+\left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C\land\left(x^{+}\cap
+K^{+}\neq\emptyset\lor x^{-}\cap K^{-}\neq\emptyset\right)\right\} \]
 
-
-Remove predicates proven to be absent from $P$:
-\[
-C^{\prime}=\left\{ \left(x^{+}\cap U^{-\prime},x^{-}\cap U^{-\prime}\right):\left(x^{+},x^{-}\right)\in C\right\}
-\]
-\[
-K^{\pm\prime}=\left\{ x^{\pm}:\left(x^{+},x^{-}\right)\in C^{\prime}\land\left|x^{\pm}\right|=1\land\left|x^{+}\right|+\left|x^{-}\right|=1\right\} \cup K^{\pm}
-\]
-
-
-\[
-C^{\prime\prime}=\left\{ \left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C^{\prime}\land\left(x^{+}\cap K^{+\prime}\neq\emptyset\lor x^{-}\cap K^{-\prime}\neq\emptyset\right)\right\}
-\]
+\end{enumerate} Given a state transition $\left(s,a,s'\right)$ and a
+precondition hypothesis $H_{P}$, we can now produce an updated hypothesis by the
+following two cases: \begin{description} \item [{Action\ failure:}] The
+candidate set $c$ is determined as described above. If $c$ is the singleton set,
+the contained predicate is added to $K^{\pm}$ and removed from $U^{\pm}$, and
+$C$ is updated using rules 1 and 2. Otherwise, $c$ is added to $C$. \item
+[{Action\ success:}] Since all preconditions are satisfied, all ungrounded
+versions of predicates in $s$ are disproven to be negative predicates, and all
+ungrounded versions of predicates $q\notin s$ are disproven to be positive
+predicates, formally: \[ U^{+\prime}=U^{+}\cap\bigcup u\left(s\right) \] \[
+U^{-\prime}=U^{-}\setminus\bigcup u\left(s\right) \] Now, $C$ can be updated
+using rule 1, and theorem \ref{candThe} can be used on each candidate set in $C$
+to add singleton sets to $K^{+}$ and $K^{-}$: \[ K^{\pm\prime}=\left\{
+x^{\pm}:\left(x^{+},x^{-}\right)\in
+C^{\prime}\land\left|x^{\pm}\right|=1\land\left|x^{+}\right|+\left|x^{-}\right|=1\right\}
+\cup K^{\pm} \] As this may prove the presence of predicates in $P^{\pm}$, $C$
+must be updated using rule 2. \end{description}
 
 \end{document}

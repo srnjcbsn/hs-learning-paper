@@ -6,129 +6,127 @@
 \documentclass[../master.tex]{subfiles}
 \begin{document}
 
-    invalid action = preconditions not satisfied.
-
-    $\Pi(A)$ = parameters of $A$
-
-    $\Psi(a)$ = arguments to $a$
-
     Consider a state transition $\left(s,a,s'\right)$ where $s$ is a
-    state consisting of grounded predicates, $a$ is a $k$-ary action
-    application with arguments $a_{1},\dots,a_{k}$, and $s'$ is the
-    state resulting from the application of $a$ in $s$.
+state consisting of grounded predicates, $a$ is a $k$-ary action
+application with arguments $a_{1},\dots,a_{k}$, and $s'$ is the
+state resulting from the application of $a$ in $s$.
 
-    Trivially, $a^{+}=s'\setminus s$ resp. $a^{-}=s\setminus s'$ are
-    the grounded predicates added to resp. removed from the world by application
-    of $a$. Consequentially, for each predicate $p\in a^{+}$ there is
-    a predicate $q\in E^{+}$ such that $g\left(q\right)=p$ (dually for
-    $a^{-}$ and $E^{-}$). However, since the grounding function $g$
-    is non-injective, several different fluent predicates may be grounded
-    to the same $p$, hence the ungrounding function $u$ yields a set
-    of predicates:
-    \[
-    u:p\mapsto\left\{ q:g\left(q\right)=p\right\}
-    \]
-
-
-    For a predicate $p\in s^{+}$, the set $u\left(p\right)$ is contains
-    at least one element that is a member of $E^{+}$. If $u\left(p\right)$
-    is the singleton set, its one element $q$ can unambiguously be determined
-    to be a member of $E^{+}$. A similar argument can be made for $a^{-}$
-    and $E^{-}$. Let $uamb$ denote a function which, given a set of
-    ungrounded predicate sets, yields the union of the singleton sets,
-    formally:
-
-    \[
-    uamb:X\mapsto\bigcup\left\{ x:x\in X\land\left|x\right|=1\right\}
-    \]
+Trivially, $a^{+}=s'\setminus s$ resp. $a^{-}=s\setminus s'$ are
+the grounded predicates added to resp. removed from the world by application
+of $a$. Consequentially, for each predicate $p\in a^{+}$ there is
+a predicate $q\in E^{+}$ such that $g\left(q\right)=p$ (dually for
+$a^{-}$ and $E^{-}$). However, since the grounding function $g$
+is non-injective, several different fluent predicates may be grounded
+to the same $p$, hence the ungrounding function $u$ yields a set
+of predicates:
+\[
+ug:p\mapsto\left\{ q:g\left(q\right)=p\right\}
+\]
 
 
-    Then, the sets of fluent predicates $uamb\left(u\left(a^{+}\right)\right)$
-    and $uamb\left(u\left(a^{-}\right)\right)$ are proven to be in $E^{+}$
-    and $E^{-}$, respectively.
+For a predicate $p\in s^{+}$, the set $u\left(p\right)$ is contains
+at least one element that is a member of $E^{+}$. If $u\left(p\right)$
+is the singleton set, its one element $q$ can unambiguously be determined
+to be a member of $E^{+}$. A similar argument can be made for $a^{-}$
+and $E^{-}$. Let $uamb$ denote a function which, given a set of
+ungrounded predicate sets, yields the union of the singleton sets,
+formally:
 
-    The approach described above does not generally enumerate the effects
-    of $A$, for two reasons:
-    \begin{description}
-    \item [{Hidden\ effects:}] As $s'$ contains the subset of $s$ not explicitly
-    removed by application of $a$, it is unknown whether any predicate
-    $p\in s\cap s'$ was produced by $a$ or inherited from $s$. Similarly,
-    it is unknon whether a predicate $q\notin s\cup s'$ would be deleted
-    by $a$ if it had existed in $s$.
-    \item [{Ambiguous\ predicates:}] If for any two arguments $\psi_{i}$
-    and $\psi_{j}$ of $a$ it holds that $\psi_{i}=\psi_{j}$, then the
-    predicate $p\left(\psi_{i}\right)$ could be produced by grounding
-    of either $p\left(\pi_{i}\right)$ or $p\left(\pi_{j}\right)$. Hence,
-    it is unknown which predicate in the set $u\left(p\left(\psi\right)\right)$
-    is in $A$'s add or delete list, unless it is the singleton set.
-    \end{description}
-    Consequentially, an ungrounded predicate $p$ can only be established
-    as being part of $A$'s (positive or negative) effects if $\exists q\in a^{+}\cup a^{-}\left[g\left(q\right)=\left\{ p\right\} \right]$.
-    To lift this restriction, we propose a scheme for transition learning
-    taking into account prior knowledge, based on {[}Walsh{]}:
-
-    Consider a state transition $\left(s,a,s'\right)$ as well as a set
-    of grounded predicates $K^{+}$ that have previously been proven to
-    exist in $E^{+}$ and a set of ungrounded predicates $U^{+}$ that
-    have neither been proved nor disproved to be in $E^{+}$. Note that
-    $K^{+}\cap U^{+}=\emptyset$ , and that if a predicate $p$ is not
-    in either set, it must have been proven to be absent from $E^{+}$.
-    The possible hidden effects $s\cap s'$ can now be reduced to the
-    set
-    \[
-    u^{+}=s\cap s'\cap g\left[U^{+}\cup K^{+}\right]
-    \]
-    where $g\left(U^{+}\cup K^{+}\right)$ is the the set of all positive
-    grounded predicates that have not been disproven to exist in $E^{+}$,
-    ie. $g\left(E^{+}\right)\subseteq g\left(U^{+}\cup K^{+}\right)$.
-    When ungrounding the positive effects $a^{+}$, each of the resulting
-    sets are intersected with $U^{+}\cup K^{+}$, effectively removing
-    from the sets predicates which have previously been proven to be absent
-    from $E^{+}$.
-    \[
-    \alpha=\left\{ x\cap\left(U^{+}\cup K^{+}\right):x\in u\left[a^{+}\right]\right\}
-    \]
+\[
+uamb:X\mapsto\bigcup\left\{ x:x\in X\land\left|x\right|=1\right\}
+\]
 
 
-    The sets in $\alpha$ that are unambiguous can now be added to the
-    set of known positive predicates of $E$, while the set of unkowns
-    is redefined as the union of all ungroundings of $u^{+}$ that were
-    not previously proven included in or absent from $E^{+}$, as well
-    as all ambiguous predicates in $\alpha$.
-    \[
-    K^{+}=K^{+}\cup uamb\left(\alpha\right)
-    \]
+Then, the sets of fluent predicates $uamb\left[ug\left[a^{+}\right]\right]$
+and $uamb\left[u\left[a^{-}\right]\right]$ are proven to be in $E^{+}$
+and $E^{-}$, respectively.
+
+The approach described above does not generally enumerate the effects
+of $A$, for two reasons:
+\begin{description}
+\item [{Hidden\ effects:}] As $s'$ contains the subset of $s$ not explicitly
+removed by application of $a$, it is unknown whether any predicate
+$p\in s\cap s'$ was produced by $a$ or inherited from $s$. Similarly,
+it is unknon whether a predicate $q\notin s\cup s'$ would be deleted
+by $a$ if it had existed in $s$.
+\item [{Ambiguous\ predicates:}] If for any two arguments $\psi_{i}$
+and $\psi_{j}$ of $a$ it holds that $\psi_{i}=\psi_{j}$, then the
+predicate $p\left(\psi_{i}\right)$ could be produced by grounding
+of either $p\left(\pi_{i}\right)$ or $p\left(\pi_{j}\right)$. Hence,
+it is unknown which predicate in the set $ug\left[p\left(\psi\right)\right]$
+is in $A$'s add or delete list, unless it is the singleton set.
+\end{description}
+Consequentially, an ungrounded predicate $p$ can only be established
+as being part of $A$'s (positive or negative) effects if $\exists q\in a^{+}\cup a^{-}\left[g\left(q\right)=\left\{ p\right\} \right]$.
+To lift this restriction, we propose a scheme for transition learning
+taking into account prior knowledge, based on {[}Walsh{]}:
+
+Consider a state transition $\left(s,a,s'\right)$ as well as a set
+of grounded predicates $K^{+}$ that have previously been proven to
+exist in $E^{+}$ and a set of ungrounded predicates $U^{+}$ that
+have neither been proved nor disproved to be in $E^{+}$. Note that
+$K^{+}\cap U^{+}=\emptyset$ , and that if a predicate $p$ is not
+in either set, it must have been proven to be absent from $E^{+}$.
+The possible hidden effects $s\cap s'$ can now be reduced to the
+set
+\[
+u^{+}=s\cap s'\cap g\left[U^{+}\cup K^{+}\right]
+\]
+where $g\left(U^{+}\cup K^{+}\right)$ is the the set of all positive
+grounded predicates that have not been disproven to exist in $E^{+}$,
+ie. $g\left(E^{+}\right)\subseteq g\left(U^{+}\cup K^{+}\right)$.
+When ungrounding the positive effects $a^{+}$, each of the resulting
+sets are intersected with $U^{+}\cup K^{+}$, effectively removing
+from the sets predicates which have previously been proven to be absent
+from $E^{+}$.
+\[
+\alpha=\left\{ x\cap\left(U^{+}\cup K^{+}\right):x\in ug\left[a^{+}\right]\right\}
+\]
 
 
-    \[
-    U^{+}=\left(\bigcup u\left[u^{+}\right]\cap U^{+}\right)\cup amb\left(\alpha\right)
-    \]
+The sets in $\alpha$ that are unambiguous can now be added to the
+set of known positive predicates of $E$, while the set of unkowns
+is redefined as the union of all ungroundings of $u^{+}$ that were
+not previously proven included in or absent from $E^{+}$, as well
+as all ambiguous predicates in $\alpha$.
+\[
+K^{+}=K^{+}\cup uamb\left[\alpha\right]
+\]
 
 
-    Similarly to the positive effects described above, the sets $K^{-}$
-    and $U^{-}$ is maintained for the negative effects. Effect candidtes
-    are the sets resulting from ungrounding $a^{-}$, each intersected
-    with $U^{-}\cap K^{-}$ to remove predicates proven to be false:
-    \[
-    \beta=\left\{ x\cap\left(U^{-}\cup K^{-}\right):x\in u\left[a^{-}\right]\right\}
-    \]
+\[
+U^{+}=\left(\bigcup ug\left[u^{+}\right]\cap U^{+}\right)\cup amb\left[\alpha\right]
+\]
 
 
-    As above, the unambiguous predicates in $\beta$ have now been proven
-    to be false, and can be added to $K^{-}$.
+Similarly to the positive effects described above, the sets $K^{-}$
+and $U^{-}$ is maintained for the negative effects. Effect candidtes
+are the sets resulting from ungrounding $a^{-}$, each intersected
+with $U^{-}\cap K^{-}$ to remove predicates proven to be false:
+\[
+\beta=\left\{ x\cap\left(U^{-}\cup K^{-}\right):x\in ug\left[a^{-}\right]\right\}
+\]
 
-    \[
-    K^{-}=K^{-}\cup uamb\left(\beta\right)
-    \]
+
+As above, the unambiguous predicates in $\beta$ have now been proven
+to be false, and can be added to $K^{-}$.
+
+\[
+K^{-}=K^{-}\cup uamb\left[\beta\right]
+\]
 
 
-    As we do not allow spurious effects, all ungrounded predicates that
-    would produce a predicate $p\in s'$ when grounded are considered
-    proven to be absent from $E^{-}$. This is exactly the set $\bigcup u\left(s'\right)$.
-    Additionally, the ambiguous negative effects in $\beta$ are added
-    to the set $U^{-}$:
+As we do not allow spurious effects, all ungrounded predicates that
+would produce a predicate $p\in s'$ when grounded are considered
+proven to be absent from $E^{-}$. This is exactly the set $\bigcup ug\left[s'\right]$.
+Additionally, the ambiguous negative effects in $\beta$ are added
+to the set $U^{-}$:
 
-    \[
-    U^{-}=\left(U^{-}\setminus\bigcup u\left[s'\right]\right)\cup amb\left(\beta\right)
-    \]
+\[
+U^{-}=\left(U^{-}\setminus\bigcup ug\left[s'\right]\right)\cup amb\left[\beta\right]
+\]
+where the ambiguous actions are found as follows:
+\[
+amb:X\mapsto\bigcup\left\{ x:x\in X\land|x|>1\right\}
+\]
 \end{document}
