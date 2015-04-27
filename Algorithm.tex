@@ -1,0 +1,132 @@
+\documentclass[master.tex]{subfiles}
+\begin{document}
+
+In the following, we consider a general algorithm for learning in a virtual world. The algorithm bears resemblance to, and is derived from, the generally accepted scientific method [source], which can be summarized as follows:
+
+\begin{enumerate}
+    \item Propose a question
+    \item Collect existing knowledge about the question
+    \item Form a hypothesis answering the question
+    \item Conduct an experiment serving to prove or disprove the hypothesis
+    \item Analyse the results of the experiment and update the knowledge base accordingly.
+    \item Repeat from step 2, taking into account the newly obtained knowledge
+\end{enumerate}
+
+Note that the above summation does not describe an algorithm, as there is no termination condition in the cycle formed by steps 2-6. [Delete]
+
+The derived algorithm presented in figure \ref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2-6 in the summation given above, untill the question can be satisfactorily answered.
+
+In the following we will elaborate on the types and functions used in the algorithmization of the scientific method, and their relevance to learning.
+
+\begin{algorithm}
+    \caption{Abstract learning algorithm based on the scientific method.}
+    \label{algo:science}
+
+    \begin{algorithmic}
+        \Function {$\textsc{Learn}$} {\texttt{Question} $q$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
+            \While {$\neg canAnswer(q, k, w)$}
+                \State $k \gets k + inquire(w, q)$
+                \State \texttt{Hypothesis} $h \gets form(q, k, s)$
+                \State \texttt{Experiment} $e \gets design(w, h, s)$
+                \State $(\texttt{Result} \, r, w) \gets conduct(e, w)$
+                \State $k \gets k + analyse(r, k)$
+                \State $s \gets update(s, k)$
+            \EndWhile
+            \State \Return $k$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\paragraph*{World}
+In the context of this algorithm, it is assumed that the world is discrete and deterministic, ie. that it is only changed by the actions of the learning agent (specifically when the agent performs experiments).
+
+\paragraph*{Question}
+In the context of learning, the formulation of the question depends on whether the agent is goal-driven or hypothesis-driven; in the first case, the question will typically be posed as a problem that must be solved ("How do we transition to state $t$?"). In the second case, it will take the more general form "How does this domain work?".
+For the goal-oriented agent, the question can typically be answered when the problem has been solved, as the agent then has the knowledge required to solve the problem given the same start state (or any state on the path to the solution). For the hypothesis-driven agent, the question can be answered when a predefined amount of knowledge has been obtained about the domain. Note that although a hypothesis answers the question, it is generally not a satisfactory answer untill it has been proven to be true.
+
+\paragraph*{Strategy}
+The strategy determines how the agent forms hypotheses and chooses experiments to perform, and is as such essential to how the agent learns. Different learning strategies and their traits are described in section \ref{sec:strats}.
+
+\paragraph*{Hypothesis}
+Hypotheses are created and discarded in an ad-hoc manner, since we are only interested in the knowledge they allowed us to obtain. It is therefore presumed that given the knowledge derived from performing experiments based on the hypothesis, the question can be answered satisfatorily without knowledge of the hypothesis.
+
+\paragraph*{Experiment and Result}
+An experiment is designed by a strategy and carried out in the world, which it changes. It is assumed that these changes can be observed, and obtained as part of the \texttt{Result} of the experiment. Additionally, the result may contain information on how the experiment was run, which parts of it succeeded and which did not.
+
+
+
+\begin{description}
+    \item[$canAnswer( \texttt{Question} \; q
+                    , \texttt{Knowledge} \; k
+                    , \texttt{World} \; w
+                    )
+         $]
+        Whether the question can be satisfactorily answered, as described above.
+
+    \item[$inquire( \texttt{World} \; w
+                  , \texttt{Question} \; q
+                  )
+         $]
+        Obtains knowledge useful for answering the question $q$ from external sources (given the state of the world $w$). This can be used to query a teacher.
+
+    \item[$form( \texttt{Question} \; q
+               , \texttt{Knowledge} \; k
+               , \texttt{Strategy} \; s
+               )
+         $]
+        Forms a \texttt{Hypothesis} from $s$ that seeks to answer $q$ given $k$.
+
+    \item[$design( \texttt{World} \; w
+                 , \texttt{Hypothesis} \; h
+                 , \texttt{Strategy} \; s
+                 )
+         $]
+        Construct an experiment which --- when conducted --- will yield new data that may verify or falsify the current hypothesis.
+
+    \item[$conduct( \texttt{Experiment} \; e
+                  , \texttt{World} \; w
+                  )
+         $]
+        carries out the experiment $e$ in the world $w$, producing an updated world and a \texttt{Result}.
+
+    \item[$analyse( \texttt{Result} \; r
+                  , \texttt{Knowledge} \; k
+                  )
+         $]
+        Analyses the results of the conducted experiment with respect to existing knowledge.
+
+    \item[$update( \texttt{Strategy} \; s
+                 , \texttt{Knowledge} \; k
+                 )
+         $]
+        Based on the newly formed knowledge and the strategy that was used to obtain it, a new strategy is formed.
+\end{description}
+
+\subsection{PDDL-specific algorithm}
+
+In this report, the primary focus will be on agents learning PDDL action specifications in a static environment.
+
+In such an environment, a number of actions that the agent can perform are available, each accepting a fixed number of objects in the world as parameters. Upon execution of an action in the world, a new world is returned, reflecting the changes made by action execution. The configuration of the world can be observed as PDDL states.
+
+It is assumed that the mechanics of the environment can be specified as a PDDL domain, but that this specification is only partially known (or unknown) to the agent. Given a PDDL problem, it is then the agent's task to reach the goal specified by the problem by learning the effects and preconditions of the relevant actions.
+
+\begin{algorithm}
+    \caption{}
+    \label{algo:PDDL}
+
+    \begin{algorithmic}
+        \Function {$\textsc{Learn-PDDL}$} {\texttt{Problem} $p$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
+            \While {$\neg isSolved(p, k, w)$}
+                \State $k \gets k + query(p)$
+                \State \texttt{Domain} $d \gets form(p, k, s)$
+                \State \texttt{Plan} $l \gets design(w, d, s)$
+                \State $(\texttt{Result} \, r, w) \gets conduct(l, w)$
+                \State $k \gets k + analyse(r, k)$
+                \State $s \gets update(s, k)$
+            \EndWhile
+            \State \Return $k$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\end{document}
