@@ -27,16 +27,9 @@
 
     Learning is a gradual process of trial and error, testing and analysis.
     In the initial state of an agent it will know nothing, thus it must
-    test and try its available actions, in order to understand what it
-    is capable of. For instance, Imagine that you were given a two buttons
-    you would have no way of knowning what occurs once you press them
-    and if you have no teacher that can inform you, then only trough testing
-    by pressing the buttons can you find out.
+    test and try in order to understand what it is capable of. Furthermore, because an agent has limited resources it cannot test everything it must decide what to test and what to accept remaining ignorant about, we define these as the learning strategies of an agent.
 
-    In order for an agent to learn its action-schema it must use a strategy
-    which informs it on what actions it must take in order to achieve
-    its goals or learn something that allows it to achieve its goals.
-    In the {[}Walsh paper{]} two such strategies are provided:
+    In our analysis of agent learning strategies we have found there are different traits that exists between all strategies, and some of the traits do tend to oppose each other thus by looking at the extreme cases we can get an understanding of where they are useful and in what situations. In the {[}Walsh paper{]} two such strategies are provided:
     \begin{itemize}
     \item An \emph{optimistic} strategy, that will always assume all actions
     does as much as possible thus a plan can always be found.
@@ -45,30 +38,12 @@
     goals.
     \end{itemize}
     Both of these strategies are equally valid approaches to learning.
-    However they have different traits which we will define and analyse.
+    However they show two different traits which we will define and analyse.
     \begin{description}
-    \item [{Curious/Incurious}] A curious strategy will prefer to try unknown
-    methods if they provide potentially better solutions while an incurious
-    strategy will avoid the unknown and use what it knows. The curiosity
-    level of a strategy is dependent on how it values unproven knowledge
-    in relation to proven knowledge. \\
-    Curious: $value(u)=value(k)$ \\
-    Incurious: $value(u)<value(k)$ \\
-    \emph{where u is unproven knownledge and k is proven knowledge.}\\
-    A curious strategy has the advantage that it obtains knowledge from
-    which a planner produce generally shorter plans. Opposite an incurious
-    will generally quickly provide some plan to solve a problem even if
-    it might be a slower solution. For instance in the button example
-    imagine that the first button solved half of the all the goals each
-    time it was pressed where as the other button solved all the goals,
-    the incurious agent would press the first button and would now never
-    consider to press the other button since it is already capable of
-    solving all the goals (with two button presses). The curious agent
-    would try both approaches and thus learn that it can use the second
-    button for it to achieve the smallest plan, however imagine that there
-    was hundreds of buttons and only the two first did anything, in this
-    case the curious agent would have to press all of them before it could
-    begin solve the problem.
+    \item [{Explorative/Exploitative}] An explorative strategy, like an explorative graph search will prefer to try and test unknown territory in the hopes that it will provide it with a better solution, and only in cases where there is no upside decide not to explore.
+    An exploitative strategy however will avoid the unexplored and only learn something when necessary otherwise it will use what it has already learned. Much akin to how the dynamic between a Breath-First-Search and a Depth-First-Search works. The advantage of a Explorative strategy is that once it has learned something, it will be very efficient at doing that thing, however for it to get to that point it will spend a long time learning. Opposite an exploitative strategy will be very fast to learn something but it will very likely be an inefficent way.
+
+    For instance imagine an agent trying to learn how to sail a ship around an island, in the beginning it can either sail clockwise and counter-clockwise, because it is new and inexperianced it does not know what the outcome of either of these actions will be. Lets assume that the agent was given an task to bring the boat to location $ E $, because it does not no anything, both the clockwise and the counter-clockwise option is equally good to it. If it went with the counter-clockwise option then a strategy based on exploitativity would deem the problem solvable and no longer in need of learning, as the agent can simply sick to counter-clockwise moves around the island until it reaches its destination. However if it used a strategy based explorativity then it demand both options to be tested and thus the agent would do a clockwise afterwards learning that the problem can be easily solved using two clockwise moves instead of six counter-clockwise moves. If however the agent had went clockwise to begin with then it would have been wasting its time learning to move counter-clockwise as it is the inferior solution in this case.
     \item [{Self-sufficient/Help-seeking}] We define a strategy which favors
     or completely relies on a teacher assisting it as a Help-seeking strategy
     and a strategy which does not as a self-sufficient strategy. While
@@ -79,37 +54,18 @@
     a person that is put into a control room of nuclear powerplant, his
     learning strategy would not be to press the buttons until he figured
     out the system, but rather look through the manuals.
-    \item [{Goal~Driven}] A goal-driven strategy uses a sequence of problems
-    that the agent should learn to solve. Thus, for each problem, the
-    agent will gain enough knowledge to either solve it or correctly declare
-    it unsolvable. Note that the knowledge obtained with this strategy
-    is not necessarily sufficient to solve problems similar to the training
-    problems, it only guarantees that the agent can correctly solve the
-    given problems.
-    \item [{Hypothesis~Driven}] A hypothesis driven strategy does not require
-    a specific goal. Instead, it strives to make its hypothesis as precise
-    as possible. For inductive actionschema learning this means to prove
-    or disprove as many precondition and/or effects as possible. Another
-    example is academic research which is predominantly a hypothesis driven
-    learning strategy, as there is not always a clear problem to be solved
-    but rather the goal of to maximize the knowledge and understanding
-    of the subject. As evident this type of strategy might lead the agent
-    to learn something that is irrelevant to all problems it will ever
-    encounter, furthermore if the hypothesis space is large the agent
-    might never learn knowledge which is relevant to the problems given
-    to it.
+
     \end{description}
-    By defining the different traits of the strategies we are capable
-    of analysing the algorithms given in the {[}Walsh paper{]}.
+	By labelling the traits unique to learning strategies we can now apply them to the learning strategies which are provided in {[}Walsh paper{]} as part of the algorithm. Furthermore we can also define new strategies which use a different mixture of the traits:
     \begin{description}
-    \item [{Optimisic}] The \emph{optimistic} strategy that assumes that actions
+    \item [{Example: Optimisic}] The \emph{optimistic} strategy as described in {[}Walsh paper{]} assumes that actions
     can always be applied (unless proven otherwise) and contain \emph{all}
     positive effects (unless proven otherwise). Using this strategy, a
     plan can always be found (unless action schemas or goals have negative
-    predicates).\end{description}
+    predicates). As described the algorithm and strategy is purely based on the explorative trait, and has no mentions of reliance on a teacher or other external entity.\end{description}
     \begin{itemize}
-    \item Curious\\
-    The strategy is using a curious approach because the that actions
+    \item Explorative\\
+    The strategy is using a explorative approach because the that actions
     which are unknown or have not been tested will always be chosen over
     actions that has as these actions are assumed to do more than they
     are supposed to.
@@ -117,14 +73,13 @@
     The strategy always assumes it can solve all problems even if that
     is not the case, thus it will never ask a teacher unless the problem
     is actually unsolvable.
-    \item Goal Driven\\
-    The algoritm is based on providing it a goal it will try to solve\end{itemize}
+    \end{itemize}
     \begin{description}
-    \item [{Pessimistic}] A \emph{pessimistic} strategy assumes that actions
+    \item [{Example: Pessimistic}] A \emph{pessimistic} strategy assumes that actions
     can \emph{never} be applied (unless proven otherwise), and that they
     have all \emph{negative} effects (unless proven otherwise). \end{description}
     \begin{itemize}
-    \item Incurious\\
+    \item Exploitative\\
     The strategy used will purposely assume that things that it does not
     know about does less than they actually do thus it will never try
     things it does not know about.
@@ -132,42 +87,22 @@
     The strategy will ask for help as much as possible, meaning that even
     if it is only one action it does not know about. It will ask a teacher
     to explain what it does over trying it out for itself.
-    \item Goal Driven\\
-    Both of the algorithm given in the paper are Goal Driven.
     \end{itemize}
     As we can see both of these strategies are extremes of the different
     traits, thus by changing the traits we can define new strategies.
     \begin{description}
-    \item [{Confident~(worker~agent)}] This strategy about learning only
+    \item [{Example: Confident}] This strategy about learning only
     what is necessary to complete a task and learn it as quickly as possible,
-    it also needs to be self-reliant and simply test things for itself.
-    We see this in our world in the workplace where people are given a
-    job and is expected to find a solution as quickly as possible.\end{description}
+    it also needs to be self-reliant and simply test things for itself. We have chosen to name this an confident strategy, as these are the traits of a confident person. It also shows that there is a gradiant for instance if it is only self-sufficient and it never explores, would be an arrogant agent. However if it was overly help-seeking and explorative then would be an insecure agent, which doubt everything it has learned.
+    \end{description}
     \begin{itemize}
-    \item Incurious\\
+    \item Mostly exploitative\\
     The strategy relies on being confident in what it has learned and
-    thus does not try out new things.
-    \item Self-sufficient\\
-    It solves without the requirement of a teacher as there might not
-    exist information on the specific problem it is handling.
-    \item Goal Driven\\
-    It is given a task and is expected to solve it.\end{itemize}
-    \begin{description}
-    \item [{Researcher}] A learning strategy appropiate for researching a specific
-    field the agent would not be time constrained nor would it necessarily
-    have a specific goal in mind, rather it would be open ended.\end{description}
-    \begin{itemize}
-    \item Curious\\
-    A research strategy is curious about all approaches to a problem and
-    thus it will try to learn everything.
-    \item Self-sufficient\\
-    When researching something new and unexplored it there would not be
-    any available teacher for the subject thus a strategy which relies
-    on a teacher would be useless for research.
-    \item Hypothesis Driven\\
-    Unlike the other strategies a researh strategy is not focusing on
-    only one specific goal but rather to understand the entire domain.
+    thus does not try out new things except in cases where it deems things it has learned too inefficient.
+    \item Mostly Self-sufficient\\
+    It believes that the agent is capable of learning on its own and thus avoids seeking help.
     \end{itemize}
+
 
     \section{Algorithm}
 		\subfile{Algorithm}
