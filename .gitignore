@@ -10,3 +10,4 @@
 Plotting/.cabal-sandbox
 cabal.sandbox.config
 dist
+!Graphics/*

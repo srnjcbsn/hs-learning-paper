@@ -1,72 +1,75 @@
-% \documentclass[english]{article}
-% \usepackage[T1]{fontenc}
-% \usepackage[latin9]{inputenc}
-% \usepackage{amsmath}
-% \usepackage{amssymb}
-% \usepackage{babel}
-% \usepackage{subfiles}
 \documentclass[master.tex]{subfiles}
 \begin{document}
 
-    STRIPS(Standford instritute research problem solver) is schema used
-    to define a domain and a problem.
+STRIPS(Standford instritute research problem solver) is schema used
+to define a domain and a problem.
 
-    STRIPS contain four components
-    \begin{itemize}
+STRIPS contain four components
+
+\begin{itemize}
     \item An initial state $I$
     \item A set of conditions P which contain all possible predicates
     \item A goal state $G$
     \item A set $O$ of all available actionschemas
-    \end{itemize}
-    Actionschemas in STRIPS are defined as $\text{\ensuremath{\left(P^{+},P^{-},E^{+},E^{-}\right)}}$.
-    Futhermore, an actionschema also contain a list of variable $(x_{1},x_{2},\dots,x_{n-1},x_{n})$
-    which are the input parameters for an action. The preconditions define
-    when an actions is invalid meaning it can not be used, and the postconditions
-    define what predicates are present/not present in the state after
-    it has been applied. Predicates in the pre/post- conditins of an actionschema
-    are ungrounded meaning the object which they refer to are variables
-    and can change dependent on the input to an action.
+\end{itemize}
 
-    To apply an action to a state all predicates in an action must be
-    grounded. To ground a predicate $p(x_{1},\dots,x_{n})$ a mapping
-    $M$ from the variables to the real objects in the environment is
-    required, for instance $\{x_{1}\mapsto red,x_{2}\mapsto blue.....\}$.
-    The mapping is then applied to the variables of the predicate, after
-    which the predicate is considered grounded. Thus we define the grouding
-    as a function $g:p(x_{1},\dots,x_{n})\mapsto p\left(M\left(x_{1}\right),,\dots,M\left(x_{n}\right)\right)$.
+Actionschemas in STRIPS are defined as $\text{\ensuremath{\left(P^{+},P^{-},E^{+},E^{-}\right)}}$.
+Futhermore, an actionschema also contain a list of variable $(x_{1},x_{2},\dots,x_{n-1},x_{n})$
+which are the input parameters for an action. The preconditions define
+when an actions is invalid meaning it can not be used, and the postconditions
+define what predicates are present/not present in the state after
+it has been applied. Predicates in the pre/post- conditins of an actionschema
+are ungrounded meaning the object which they refer to are variables
+and can change dependent on the input to an action.
 
-    After predicates in an action has been grounded the preconditions
-    are checked if they hold for the current state $s$., \\
-    \[
-    g\left[P^{+}\right]\subseteq s\,\land\, g\left[P^{-}\right]\cap s=\emptyset
-    \]
-    .
+To apply an action to a state all predicates in an action must be
+grounded. To ground a predicate $p(x_{1},\dots,x_{n})$ a mapping
+$M$ from the variables to the real objects in the environment is
+required, for instance $\{x_{1}\mapsto red,x_{2}\mapsto blue, \dots\}$.
+The mapping is then applied to the variables of the predicate, after
+which the predicate is considered grounded. Thus we define the grouding
+as a function $g:p(x_{1},\dots,x_{n})\mapsto p\left(M\left(x_{1}\right),,\dots,M\left(x_{n}\right)\right)$.
 
-    If they hold then the postconditions can be applied to the state to
-    form the new state $s'$.
+After predicates in an action has been grounded the preconditions
+are checked if they hold for the current state $s$., \\
+\[
+g\left[P^{+}\right]\subseteq s\,\land\, g\left[P^{-}\right]\cap s=\emptyset
+\]
+.
 
-    \[
-    s'=\left(s\setminus g\left[E^{-}\right]\right)\cup g\left[E^{+}\right]
-    \]
+If they hold then the postconditions can be applied to the state to
+form the new state $s'$.
+
+\[
+s'=\left(s\setminus g\left[E^{-}\right]\right)\cup g\left[E^{+}\right]
+\]
 
 
-    grounded predicates that are identical and reside in both $E^{+}$
-    and $E^{-}$ are called spurious effects, if they are ignored the
-    then because of the definition of $s'$ then the positive effects
-    in $E^{+}$will always take precedence.
+grounded predicates that are identical and reside in both $E^{+}$
+and $E^{-}$ are called spurious effects, if they are ignored the
+then because of the definition of $s'$ then the positive effects
+in $E^{+}$will always take precedence.
 
-    Thus a state transition is defined as $(s,a,s')$ where $s$ is the
-    current state, $a$ is the grounded action and $s'$ is the new state.
-    Lastly it is important to note that all actions in STRIPS are absolute,
-    meaning they contain no conditional effects.
+Thus a state transition is defined as $(s,a,s')$ where $s$ is the
+current state, $a$ is the grounded action and $s'$ is the new state.
+Lastly it is important to note that all actions in STRIPS are absolute,
+meaning they contain no conditional effects.
 
-\section{Effects}
+\begin{enumerate}
+    \item[R1] An actions preconditions and effects are conjunctions of predicates.
+    \item[R2] Any predicates occurring in the preconditions or effects of an action schema can only reference literals from the action schema's parameter list.
+\end{enumerate}
+
+\section{Sokoban example}
+\subfile{TransitionLearning/SokobanExample}
+
+\section{Learning Effects}
 \subfile{TransitionLearning/Effects}
 
-\section{Preconditions}
+\section{Learning Preconditions}
 \subfile{TransitionLearning/Preconditions}
 
-\section{Conditional Effects}
+\section{Learning Conditional Effects}
 \subfile{TransitionLearning/Conditionals}
 
 \end{document}
