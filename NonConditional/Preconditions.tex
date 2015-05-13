@@ -143,7 +143,10 @@ U_0^+ = U_0^- =
 % sokoban successfully executes action move-h(t3, t4)
 
 \[
-    U_2^+ = U_0^+ \cap
+U_2^+ = \{ sokobanAt(from), clear(to), hAdj(from, to), hAdj(to, from) \}
+\]
+\[
+U_2^- = \{ sokobanAt(to), clear(from), vAdj(from, to), vAdj(to, from), at(to, from), at(from, to) \}
 \]
 
 \end{document}

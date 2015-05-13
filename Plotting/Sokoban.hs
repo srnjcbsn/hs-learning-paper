@@ -41,3 +41,6 @@ sokoWorld1 = [ [ s, c, e, g ]
              , [ e, w, w, w ]
              , [ g, w, w, w ]
              ]
+
+smallSokoWorld :: World
+smallSokoWorld = [ [g, c, s, e] ]

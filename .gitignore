@@ -12,3 +12,7 @@ Plotting/.cabal-sandbox
 cabal.sandbox.config
 dist
 !Graphics/*
+Plotting/.shake
+*.hi
+*.o
+MakePlots
