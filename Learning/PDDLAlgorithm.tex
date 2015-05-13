@@ -1,0 +1,34 @@
+\documentclass[../Master.tex]{subfiles}
+\begin{document}
+<TODO: Better introduction to PDDL learning>
+In this report, the primary focus will be on agents learning PDDL action specifications in a static environment.
+
+In such an environment, a number of actions that the agent can perform are available, each accepting a fixed number of objects in the world as parameters. Upon execution of an action in the world, a new world is returned, reflecting the changes made by action execution. The configuration of the world can be observed as a PDDL state.
+
+It is assumed that the mechanics of the environment can be specified as a PDDL domain, but that this specification is only partially known (or entirely unknown) to the agent. Given a PDDL problem, it is then the agent's task to reach the goal specified by the problem by learning the effects and preconditions of the relevant actions. Thus, in this instance the \textit{question} from algorithm \ref{algo:science} is a PDDL problem, and the $canAnswer$ function consists of checking whether the problem has been solved in the given state (denoted $isSolved$).
+
+In order to learn the domain specification, the agent must carry out actions in the environment and observe their outcomes. By applying a given strategy, it can form a hypothetical domain specification based on its current knowledge, and construct a plan which would solve the problem in case the hypothesis is correct. Such a domain specification is analoguous to the \texttt{Hypothesis} from algorithm \ref{algo:science}, while a plan is analoguous to an \texttt{Experiment}.
+
+Conducting an experiment means performing the actions in the plan until an action results in a state that does not match what the hypothesis predicted. In that case, the hypothesis has been disproven, which prompts the result of the experiment to be analysed and merged into the knowledge base.
+
+In algorithm \ref{algo:PDDL}, an instantiation of the more general algorithm from \ref{algo:science} is presented.
+
+\begin{algorithm}
+    \caption{}
+    \label{algo:PDDL}
+
+    \begin{algorithmic}
+        \Function {$\textsc{Learn-PDDL}$} {\texttt{Problem} $p$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
+            \While {$\neg isSolved(p, w)$}
+                \State $k \gets k + query(p)$
+                \State \texttt{Domain} $d \gets form(p, k, s)$
+                \State \texttt{Plan} $l \gets design(w, d, s)$
+                \State $(\texttt{Result} \, r, w) \gets conduct(l, w)$
+                \State $k \gets k + analyse(r, k)$
+                \State $s \gets update(s, k)$
+            \EndWhile
+            \State \Return $k$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\end{document}

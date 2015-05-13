@@ -1,14 +1,25 @@
-\documentclass[master.tex]{subfiles}
+\documentclass[Master.tex]{subfiles}
 \begin{document}
-	
+
+	\begin{itemize}
+		\item Introduce problem of learning (motivation)
+		\item Context: Walsh (explain optimistic and pessimistic algos), Conditional effects (abstract introduction)
+		\item Problem restatement: Sokoban
+		\item Result restatement: Conditional effects, better precondition learning (negative preconditions), more general algorithm
+		\begin{itemize}
+			\item Limits: No disjunctive preconds, (no parameters)
+		\end{itemize}
+		\item Road map
+	\end{itemize}
+
 	Today most study within the field of agent learning, revolves around
 	machine learning and statistical analysis. While that is a good approach
 	to learning in a partially observable environment, it does not give
 	us an insight into purely logical inductive learning. In this paper
 	we will attempt to explain learning from a strictly logic based standpoint,
 	to provide an insight of how learning is achieved and what it means
-	for an agent to learn something. 
-	
+	for an agent to learn something.
+
 	To understand the concept of learning for an agent we must understand
 	what it means to learn. Learning as defined by the oxford dictionary
 	is \emph{The acquisition of knowledge or skills through study, experience
@@ -17,8 +28,8 @@
 	a STRIPS world these motor functions would be the actions which is
 	available to the agent. Understanding SRIPS actions therefore makes
 	the perfect candidate as a first step to achieve an understanding
-	of a learning agent. 
-	
+	of a learning agent.
+
 	When you want to learn anything, you must put yourself in a situation
 	in which what you want to learn becomes obvious. For instance assume
 	you aquired a black box with two buttons on it, to learn what the
@@ -27,10 +38,70 @@
 	in that situation then the next step is to analyse the outcome. Analysing
 	the outcome means to gain an understanding of how you affected the
 	world, in inductive learning this is known as hypothesis construction.
-	
+
 	In this paper we will try to explain the dynamic between these two
 	steps however we will focus on hypothesis construction, specifically
 	we will show how it can be achieved where actions have conditional
 	effects.
-	
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Overview
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Introduction:
+% 	- Introduce problem of learning (motivation)
+% 	- Context: Walsh (explain optimistic and pessimistic algos), Conditional effects (abstract introduction)
+% 	- Problem restatement: Sokoban
+% 	- Result restatement: Conditional effects, better precondition learning (negative preconditions), more general algorithm
+% 		* Limits: No disjunctive preconds, (no parameters)
+% 	- Road map
+%
+% Introduction to Learning
+% 	- Explain scientific learning, how to learn scientifically?
+% 		* Strategy
+% 	- Algorithm
+% 	- Strategy examples
+% 	- framework for worlds (pddl)
+% 	- Sokoban as pddl
+% 	- Algorithm for pddl
+%
+% Nonconditional(Strips-style) Learning
+% 	- Non-conditional actions in pddl
+% 	- Sokoban example
+% 	- Effect Learning
+% 	- Precondition Learning
+% 	- Hypothesis construction
+% 		* How to: optimistic algorithm
+% 		* How to: pessimistic algorithm
+%
+% Conditional effects learning
+% 	- What is conditional effects
+% 	- Difficulities learning conditional effects
+% 	- Explain our models
+% 	- Hyper graph construction from state
+% 	- Hyper graph merging algorithm
+% 	- Hypothesis construction
+% 		* Pessimistic strategy
+% 		* Problems with using optimistic strategy
+% 		* Algorithm for hypothesis from hyper graph
+%
+% Methods (Implementation)
+% 	- Parsing domains
+% 	- Problems with fast-downward
+% 		* Preprocessing (SAS+)
+% 		* A* implementation
+% 	- bounded planner optimization
+% 	- Nonconditional optimistic
+% 	- Conditional pessimistic
+%
+% Results
+%
+% Discussion
+% 	- Comparison to Walsh
+% 	- Limitations
+% 	- Expressive power
+%
+% Conclusion
+% 	- more general algorithm
+% 	- Conditional effects
+
 \end{document}

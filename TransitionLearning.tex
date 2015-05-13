@@ -1,5 +1,7 @@
-\documentclass[master.tex]{subfiles}
+\documentclass[Master.tex]{subfiles}
 \begin{document}
+
+<\texttt{TODO:} rewrite based on \cite{ghallab2004a}>
 
 STRIPS(Standford instritute research problem solver) is schema used
 to define a domain and a problem.
@@ -46,7 +48,7 @@ s'=\left(s\setminus g\left[E^{-}\right]\right)\cup g\left[E^{+}\right]
 
 
 grounded predicates that are identical and reside in both $E^{+}$
-and $E^{-}$ are called spurious effects, if they are ignored the
+and $E^{-}$ are called spurious effects (see \cite{Russell}), if they are ignored the
 then because of the definition of $s'$ then the positive effects
 in $E^{+}$will always take precedence.
 
@@ -60,16 +62,16 @@ meaning they contain no conditional effects.
     \item[R2] Any predicates occurring in the preconditions or effects of an action schema can only reference literals from the action schema's parameter list.
 \end{enumerate}
 
-\section{Sokoban example}
-\subfile{TransitionLearning/SokobanExample}
-
-\section{Learning Effects}
-\subfile{TransitionLearning/Effects}
-
-\section{Learning Preconditions}
-\subfile{TransitionLearning/Preconditions}
-
-\section{Learning Conditional Effects}
-\subfile{TransitionLearning/Conditionals}
+% \section{Sokoban example}
+% \subfile{TransitionLearning/SokobanExample}
+%
+% \section{Learning Effects}
+% \subfile{TransitionLearning/Effects}
+%
+% \section{Learning Preconditions}
+% \subfile{TransitionLearning/Preconditions}
+%
+% \section{Learning Conditional Effects}
+% \subfile{TransitionLearning/Conditionals}
 
 \end{document}
