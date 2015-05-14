@@ -1,6 +1,16 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
+
+
+\[ c_t^+ = \{ x \; | \; x \in U_t^+ \land g(x) \notin s_t \} \]
+
+\[ c_t^- = \{ x : x \in U_t^- \land g(x) \in s_t \} \]
+
+\begin{cor}
+    If $g \left[ K_{t-1} \right] \cap s_{t-1} = \emptyset$, then $c_t^+ \cap P^+ \cup c_t^- \cap P^- \neq \emptyset$
+\end{cor}
+
 \begin{itemize}
     \item If the action
     application is unsuccessful, ie. if $s=s'$, then at least one of $A$'s
@@ -68,14 +78,16 @@ precondition hypothesis $H_{P}$ for an action schema $A$ is a five-tuple
 $\left(K^{+},K^{-},U^{+},U^{-},C\right)$, where $C$ is a set of candidate sets.
 \end{defn} Whenever new knowledge about a predicate is obtained, $C$ is updated
 using the following rules, ensuring that (\ref{eq:cP}) holds for all candidate
-sets in $C$: \begin{enumerate} \item If a predicate $p$ is proven to be absent
+sets in $C$:
+\begin{enumerate}
+    \item If a predicate $p$ is proven to be absent
 from $P^{+}$, it is removed from all positive parts of candidate sets in $C$
-(similarly for $P^{-}$ and negative parts): \[ C'=\left\{ \left(x^{+}\cap
-U^{+},x^{-}\cap U^{-}\right):\left(x^{+},x^{-}\right)\in C\right\} \]
+(similarly for $P^{-}$ and negative parts):
+    \[ C_t = \left\{ \left(x^{+}\cap
+U^{+},x^{-}\cap U^{-}\right):\left(x^{+},x^{-}\right)\in C_{t-1} \right\} \]
 
-\item If a predicate $p$ is proven to be present in $P^{+}$ or $P^{-}$, any
-candidate set containing $p$ is removed from $C$: \[ C^{\prime}=\left\{
-\left(x^{+},x^{-}\right):\left(x^{+},x^{-}\right)\in C\land\left(x^{+}\cap
+    \item If a predicate $p$ is proven to be present in $P^{+}$ or $P^{-}$, any candidate set containing $p$ is removed from $C$:
+    \[ C_t = \left\{ \left( x^{+},x^{-} \right) : \left(x^{+},x^{-}\right)\in C_{t-1} \land\left(x^{+}\cap
 K^{+}\neq\emptyset\lor x^{-}\cap K^{-}\neq\emptyset\right)\right\} \]
 
 \end{enumerate} Given a state transition $\left(s,a,s'\right)$ and a
@@ -100,53 +112,64 @@ must be updated using rule 2. \end{description}
 
 To see this machinery in action, we once again apply it to the sokoban domain.
 
-\[
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.7]{../Graphics/sokoSmall}
+    \caption{\label{fig:sokoSmall} Sokoban state with only one applicable \texttt{move-h} action. The tiles are named $t_1 \dots t_4$, from left to right.}
+\end{figure}
+
+
+\begin{equation}
 U_0^+ = U_0^- =
 \left\{
     \begin{gathered}
-        sokobanAt(to), sokobanAt(from), \\
-        clear(to), clear(from), \\
-        goal(to), goal(from), \\
-        vAdj(from), vAdj(to), \\
-        hAdj(from), hAdj(to), \\
-        at(from, to), at(to, from)
+        \texttt{sokobanAt}(to), \texttt{sokobanAt}(from), \\
+        \texttt{clear}(to), \texttt{clear}(from), \\
+        \texttt{goal}(to), \texttt{goal}(from), \\
+        \texttt{vAdj}(from), \texttt{vAdj}(to), \\
+        \texttt{hAdj}(from), \texttt{hAdj}(to), \\
+        \texttt{at}(from, to), \texttt{at}(to, from)
     \end{gathered}
 \right\}
-\]
+\end{equation}
 
-% GXSO
-%
-% sokoban tries to move left (move-h(t3, t2)), but fails
+If the agent decides that to move one tile to the right, and executes the \texttt{move-h}$(t_3, t_2)$ action, it will discover that the new state is exactly the same as the old, and that the action therefore must have failed. The ungrounded predicates that could have caused the failure are then the following:
 
 \begin{align}
-(c^+, c^-) =
+(c_1^+, c_1^-) =
 \left(
     \left\{
         \begin{gathered}
-            sokobanAt(to), \\
-            clear(to), clear(from), \\
-            goal(to), goal(from), \\
-            vAdj(from), vAdj(to), \\
-            at(from, to), at(to, from)
+            \texttt{sokobanAt}(to), \\
+            \texttt{clear}(to), \texttt{clear}(from), \\
+            \texttt{goal}(to), \texttt{goal}(from), \\
+            \texttt{vAdj}(from), \texttt{vAdj}(to), \\
+            \texttt{at}(from, to), \texttt{at}(to, from)
         \end{gathered}
     \right\}
     ,
     \left\{
         \begin{gathered}
-            sokobanAt(from), \\
-            hAdj(from), hAdj(to)
+            \texttt{sokobanAt}(from), \\
+            \texttt{hAdj}(from), \texttt{hAdj}(to)
         \end{gathered}
     \right\}
 \right)
 \end{align}
 
+If --- in the next simulation step --- the agent tries to move right using the action \texttt{move-h}$(t_3, t_4)$, the resulting state will be different, meaning that the action application was successful.
+
 % sokoban successfully executes action move-h(t3, t4)
 
 \[
-U_2^+ = \{ sokobanAt(from), clear(to), hAdj(from, to), hAdj(to, from) \}
+U_2^+ = \{ \texttt{sokobanAt}(from), \texttt{clear}(to), \texttt{hAdj}(from, to), \texttt{hAdj}(to, from) \}
 \]
 \[
-U_2^- = \{ sokobanAt(to), clear(from), vAdj(from, to), vAdj(to, from), at(to, from), at(from, to) \}
+U_2^- = \{ \texttt{sokobanAt}(to), \texttt{clear}(from), \texttt{vAdj}(from, to), \texttt{vAdj}(to, from), \texttt{at}(to, from), \texttt{at}(from, to) \}
+\]
+
+\[
+(c_1^+ \cap U_2^+, c_1^- \cap U_2^-) = ( \{ \texttt{clear}(to) \}, \; \emptyset )
 \]
 
 \end{document}
