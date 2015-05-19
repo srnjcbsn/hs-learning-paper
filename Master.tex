@@ -1,6 +1,6 @@
 \documentclass[english]{report}
 \usepackage[T1]{fontenc}
-\usepackage[latin9]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -10,6 +10,7 @@
 \usepackage[noend]{algpseudocode}
 \usepackage{algorithm}
 \usepackage{graphicx}
+\usepackage{paralist}
 \usepackage{caption}
 \captionsetup{justification=justified,singlelinecheck=false}
 \newcommand{\figref}[1]{\figurename~\ref{#1}}
@@ -20,21 +21,42 @@
   \newtheorem{cor}{\protect\corollaryname}
   \theoremstyle{definition}
   \newtheorem{defn}{\protect\definitionname}
-
+  \theoremstyle{plain}
+  \newtheorem{example}{Example}
+  \newtheorem{theorem}{Theorem}
 \makeatother
+
+% \newtheoremstyle{examplestyle}% name of the style to be used
+%   {}% measure of space to leave above the theorem. E.g.: 3pt
+%   {}% measure of space to leave below the theorem. E.g.: 3pt
+%   {}% name of font to use in the body of the theorem
+%   {10pt}% measure of space to indent
+%   {}% name of head font
+%   {}% punctuation between head and body
+%   {}% space after theorem head; " " = normal interword space
+%   {}% Manually specify head
+
+\renewcommand{\algorithmicrequire}{\textbf{input:}}
+\renewcommand{\algorithmicensure}{\textbf{output:}}
 
 \usepackage{babel}
   \providecommand{\definitionname}{Definition}
 \providecommand{\corollaryname}{Corollary}
 
 \title {Automated Learning}
+\author {Søren Jacobsen \and Jannick Johnsen}
 
 \begin{document}
 \graphicspath{{Graphics/}}
 
 \maketitle
 
+\begin{abstract}
+    <Insert abstract here>
+\end{abstract}
+
 \tableofcontents
+\listofalgorithms
 
 \chapter{Introduction}
 	\subfile{Introduction}
