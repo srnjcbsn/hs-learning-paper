@@ -10,6 +10,9 @@
 \usepackage[noend]{algpseudocode}
 \usepackage{algorithm}
 \usepackage{graphicx}
+\usepackage{caption}
+\captionsetup{justification=justified,singlelinecheck=false}
+\newcommand{\figref}[1]{\figurename~\ref{#1}}
 
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
@@ -43,7 +46,7 @@
     \subfile{NonConditional}
 
 \chapter{Conditional actions}
-    % \subfile{Conditional}
+    \subfile{Conditional}
 
 \chapter{Methods (Implementation)}
 
