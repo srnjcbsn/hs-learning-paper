@@ -16,3 +16,4 @@ Plotting/.shake
 *.hi
 *.o
 MakePlots
+*.loa
