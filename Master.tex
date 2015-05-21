@@ -17,13 +17,12 @@
 
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
-  \theoremstyle{plain}
-  \newtheorem{cor}{\protect\corollaryname}
   \theoremstyle{definition}
   \newtheorem{defn}{\protect\definitionname}
   \theoremstyle{plain}
   \newtheorem{example}{Example}
   \newtheorem{theorem}{Theorem}
+  \newtheorem{invariant}{Invariant}
 \makeatother
 
 % \newtheoremstyle{examplestyle}% name of the style to be used
@@ -44,9 +43,11 @@
 \providecommand{\corollaryname}{Corollary}
 
 \title {Automated Learning}
-\author {Søren Jacobsen \and Jannick Johnsen}
+\author {SÃ¸ren Jacobsen \and Jannick Johnsen}
 
 \begin{document}
+
+\newcommand{\master}{.}
 \graphicspath{{Graphics/}}
 
 \maketitle

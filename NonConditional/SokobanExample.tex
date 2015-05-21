@@ -3,16 +3,6 @@
 
 \graphicspath{{.../Graphics/}}
 
-% A state in the sokoban world, such as the one illustrated in figure \ref{fig:simpleSokoban}, consists of a number of tiles and crates, where some tiles are special goal tiles and each crate is located on a tile.s
-%
-% We will now present a formalization of the sokoban world in predicate logic, which can be used as a STRIPS-style domain specification. The formalization is based on \cite{BS2011}. The tiles can be seen as objects in the world, which are connected by presence of predicates $hAdj(t_1,t_2)$ and $vAdj(t_1,t_3)$, respectively denoting that tile $t_1$ is horizontally adjacent to tile $t_2$ and vertially adjacent to $t_3$. Note that this is a symmetric relationship: if $t_1$ is horizontally adjacent to $t_2$, then $t_2$ is also horizontally adjacent to $t_1$. The predicate $goal(t)$ denotes that $t$ is a goal tile.
-%
-% The crates are objects, denoted $c_1, \dots, c_n$, and given a location by the predicate $at( c, t )$, denoting that crate $c$ is on top of tile $t$. If a crate $c$ is atop a goal tile, the predicate $atGoal(c)$ holds true. Since there is only one sokoban agent, its location is given by the unary predicate $sokobanAt(t)$.
-%
-% With these predicates, and a set of objects denoting tiles and crates, a problem can now be specified. For the sokoban domain, the goal of any problem will be that all crates stand on a goal tile, ie. the formula $atGoal(c_1) \land atGoal(c_2) \land \cdots \land atGoal(c_n)$, where $c_1, c_n$  are the crate objects in the given problem. The initial state can be specified as a conjunction of the predicates discussed above, containing the literal objects. It is the responsibility of the problem designer that adjacency predicates are symmetric and that the problem is solvable. An example initial state, illustrated in figure \ref{fig:simpleSokoban}, is given below:
-%
-%     <\texttt{TODO:} insert good example that can be used in following sections>
-
 \subsubsection*{Domain specification}
 When designing a virtual or physical robot capable of solving a sokoban puzzle, it would be sufficient to equip it with a $move$ action which, given a direction or an adjacent tile, would relocate the sokoban appropriately, displacing any crates in the way. However, as STRIPS-style action schemas can only contain a single effect, it does not allow an action to, for example, push a crate \textit{if}  it is on the tile the sokoban is moving to. Instead, this requires different actions, which are outlined below:
 

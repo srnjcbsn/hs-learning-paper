@@ -1,0 +1,169 @@
+\documentclass[../../Master.tex]{subfiles}
+\begin{document}
+
+\subsubsection*{Action success}
+When an action $a$ applied to a state $s$ yields a state different from $s$ (such that $\gamma (s, a) \neq s$), then the action application was successful, and none of $A$'s preconditions were violated by $s$, meaning that
+
+        \[ g\left[P^+\right] \subseteq s_t \land
+            g\left[P^-\right] \subseteq \mathbb{P} \setminus s_t
+        \]
+ie. the grounding of any positive precondition will yield a predicate in $s$, and the grounding of any negative precondition yields a predicate which is not in $s$.
+It follows trivially that any predicate $p \in \mathbb{P}$ for which $g(p) \notin s_t$ can not be a positive precondition, as that would have caused the action to fail. Similarly, if $g(p) \in s_t$, then $p$ can not be a negative precondition. The sets of ungrounded predicates that can be disproven to be positive (resp. negative) preconditions are thus:
+
+\begin{equation*} \label{eq:DPlusTrans}
+    d^+ (s) = \left\{ x \; | \; x \in \mathbb{P} \land g(x) \notin s \right\}
+\end{equation*}
+
+\begin{equation*} \label{eq:DMinusTrans}
+    d^- (s) = \left\{ x \; | \; x \in \mathbb{P} \land g(x) \in s \right\}
+\end{equation*}
+
+As a convienence, $d(s)$ denotes the union of $d^+(s)$ and $d^-(s)$, where predicates from the latter are negated:
+
+\begin{equation*}
+    d(s) = d^+ (s) \cup \left\{ \neg p \; | \; p \in d^-(s) \right\}
+\end{equation*}
+
+\begin{example}[\texttt{move-h} action succeeded] \label{ex:moveSucceeded}
+    In case the sokoban agent applies the action $\texttt{move-h}(t_3, t_4)$ in state $s_0$, the resulting state $s_1$ will have the visible effect that the sokoban relocated from $t_3$ to $t_4$. To determine which predicates could not have caused the failure, predicates in $\mathbb{P}_{\texttt{move-h}}$ are grounded and their membership in $s_0$ is checked. For example, $g \left( \texttt{clear} \right) = \texttt{clear}\left( t_4 \right)$ is in $s_0$, which means that $\texttt{clear}(to)$ can not be a negative precondition. Proceeding in this manner yields the following results:
+
+    \begin{equation*}
+        d^+(s_0) = \left\{
+            \begin{gathered}
+                \texttt{sokobanAt}(to), \texttt{clear}(from), \\
+                \texttt{vAdj}(from, to), \texttt{vAdj}(to, from), \\
+                \texttt{vAdj}(from, from), \texttt{vAdj}(to, to), \\
+                \texttt{hAdj}(from, from), \texttt{hAdj}(to, to), \\
+                \texttt{at}(from, to), \texttt{at}(to, from), \\
+                \texttt{goal}(from), \texttt{goal}(to)
+            \end{gathered}
+        \right\}
+    \end{equation*}
+
+    \begin{equation*}
+        d^-(s_0) = \left\{
+            \begin{gathered}
+                \texttt{sokobanAt}(from), \texttt{clear}(to), \\
+                \texttt{hAdj}(from, to), \texttt{hAdj}(to, from)
+            \end{gathered}
+        \right\}
+    \end{equation*}
+
+    \noindent\rule{\textwidth}{1pt}
+\end{example}
+
+\subsubsection*{Action failure}
+In case of action failure, at least one of $A$'s preconditions were not satisfied by $s$, but there is no indication from the environment on which predicate(s) violated a precondition by their presence in or absence from $s$. However, it is certain that either a negative precondition was violated by a predicate $p \in s$, or a positive precondition was violated by a predicate absent from $s$. The predicates that would have caused the failure if part of $P^+$ (resp. $P^-$) are called the positive (resp. negative) candidates and can be determined as follows:
+
+\begin{equation} \label{eq:cPlus}
+    c^+(s) = \left\{ x \; | \; x \in \mathbb{P} \land g(x) \notin s \right\}
+\end{equation}
+\begin{equation} \label{eq:cMinus}
+    c^-(s) = \left\{ \neg x \; | \; x \in \mathbb{P} \land g(x) \in s \right\}
+\end{equation}
+
+As for disproven candidates, $c(s)$ denotes the union of $c^+(s)$ and $c^-(s)$ where predicates in $c^-(s)$ are negated.
+
+\begin{equation}
+    c(s) = c^+(s) \cup \left\{ p \; | \; p \in c^-(s) \right\}
+\end{equation}
+
+Since the action failed, it holds trivially that \textit{some} predicates in $c^+(s)$ or $c^-(s)$ (or both) are preconditions, ie.
+
+\begin{equation} \label{eq:inv}
+    \left| c(s) \cap P \right| \geq 1
+    \tag{\emph{inv}}
+\end{equation}
+
+This is an important invariant; if the sets $c^+$ and $c^-$ can be reduced such that only one predicate remain in $c^+ \cup c^-$ while \eqref{eq:inv} is maintained, then that predicate is proven to be a precondition (negative or positive, depending on whether it was a member of $c^+$ or $c^-$). Formally,
+
+\begin{theorem}
+    If \eqref{eq:inv} holds for $c(s) = \{p\}$, then $p$ is a precondition.
+\end{theorem}
+
+\begin{proof}
+    If invariant \eqref{eq:inv} holds for $c^+$ and $c^-$, then there is at least one predicate in $c^+$ that is a positive precondition, or at least one predicate in $c^-$ that is a negative precondition. If $c^+$ caontains only one predicate while $c^-$ contains none, then the single element in $c^+$ must be a positive precondition. A similar argument applies when $c^-$ is the singleton set and $c^+$ is empty.
+\end{proof}
+
+It is clear that if a predicate is disproven to be a precondition, then it can not be the precondition that was violated by $s$, and caused the action to fail. As such, it can safely be disregarded as a candidate:
+
+\begin{theorem} \label{th:invHolds}
+    If invariant \eqref{eq:inv} holds for candidate set $c(s)$, and a predicate $p \in c(s)$ has been disproven to be a precondition, then removal of $p$ from $c(s)$ maintains invariant \eqref{eq:inv}.
+\end{theorem}
+
+\begin{proof}
+    If $p \in c(s)$ is disproven to be a precondition, then there is at least one other predicate $q \in c(s)$ that is a precondition for \eqref{eq:inv} to hold. Hence, \eqref{eq:inv} still holds after removal of $p$.
+\end{proof}
+
+\begin{example}[\texttt{move-h} action failed]
+    If the agent decides to move one tile to the left in state $s_0$ (see example \ref{ex:ncp:sokobanSetup}), and appropriately executes the \texttt{move-h}$(t_3, t_2)$ action, it will discover that the new state is exactly the same as the old, and that the action therefore must have failed. The ungrounded predicates that could have caused the failure are then the following:
+    \begin{equation*}
+        c^+(s_0) = \left\{
+            \begin{gathered}
+                \texttt{sokobanAt}(to), \\
+                \texttt{clear}(to), \texttt{clear}(from), \\
+                \texttt{goal}(to), \texttt{goal}(from), \\
+                \texttt{vAdj}(from, to), \texttt{vAdj}(to, from), \\
+                \texttt{vAdj}(from, from), \texttt{vAdj}(to, to), \\
+                \texttt{hAdj}(from, from), \texttt{hAdj}(to, to), \\
+                \texttt{at}(from, to), \texttt{at}(to, from)
+            \end{gathered}
+        \right\}
+    \end{equation*}
+
+    \begin{equation*}
+        c^-(s_0) = \left\{
+            \begin{gathered}
+                \texttt{sokobanAt}(from), \\
+                \texttt{hAdj}(from, to), \texttt{hAdj}(to, from)
+            \end{gathered}
+        \right\}
+    \end{equation*}
+
+    Out of these, only \texttt{clear}$(to)$ is a precondition. If the agent has available the knowledge from Example \ref{ex:moveSucceeded}, it can remove $D^+$ from the positive candidates and $D^-$ from the negatives, while --- according to theorem \ref{th:invHolds} --- maintaining invariant \eqref{eq:inv}, yielding
+
+    \begin{equation}
+        c(s_0) \setminus d(s_0) = \left\{ \texttt{clear}(to) \right\}
+    \end{equation}
+
+    % \begin{equation*}
+    %     \left( c^+(s_0) \setminus d^+(s_0), c^-(s_0) \setminus d^-(s_0) \right)
+    %     = \left( \{\texttt{clear}(to) \}, \emptyset \right)
+    % \end{equation*}
+
+    Of all the predicates that could have caused $\texttt{move-h}(t_3, t_2)$ to fail if they had been preconditions, $\texttt{clear}(to)$ is the only one that has not been disproven to be one. Therefore, it must have been what caused the failure, and is proven to be a precondition.
+
+    \noindent\rule{\textwidth}{1pt}
+\end{example}
+
+While predicates disproven to be preconditions can sefely be removed from the candidate sets, the same does not hold for predicates \emph{proven} to be preconditions:
+If a predicate $p \in c(s)$ is \textit{proven} to be a precondition, then its removal could violate \eqref{eq:inv}: If $p$ is the only predicate in $c(s)$ that is a precondition, (such that $c(s) \cap P = \{ p \}$), then
+\begin{equation*}
+    \left| c(s) \cap P \right| = 0
+\end{equation*}
+
+As a consequence, if $c(s)$ contains more than one precondition, ie. if
+
+\begin{equation*}
+    \left| c(s) \cap P \right| > 1,
+\end{equation*}
+
+then $c(s)$ can never be reduced to a singleton set without violating \eqref{eq:inv}. Furthermore, a candidate set containing a predicate proven to be a precondition can never yield more knowledge: If $p$ is retained in $c$, then one of the following cases apply:
+\begin{itemize}
+    \item $c \cap P = \{ p \}$, ie. $p$ is the only predicate in $c$ that is a precondition. Then $c$ could eventually be reduced to the singleton set $\{ p \}$, which does not produce any new knowledge, since $p$ is already known to be a precondition.
+
+    \item $c \cap P > 1$, ie. more than two predicates in $c$ are preconditions of $A$. As mentioned above, $c$ can never be reduced to the singleton set, and no more knowledge can be gained from it.
+\end{itemize}
+In both cases, retaining the set $c$ as it is will not provide any new knowledge. Thus, a candidate set can be discarded when one of its members are proven to be present in $P^{\pm}$. See example \ref{ex:undisc} for an illustration of this problem.
+
+\begin{example}[Undiscoverable knowledge] \label{ex:undisc}
+    We will now illustrate how the precondition specifying that two tiles must be adjacent for the sokoban to move between them can never be dsicovered.
+
+    If the agent tries to execute the action $\texttt{move-h}(t_3, t_1)$, it will once again find that the application was unsuccessful, since it is required that the destination tile is horizontally adjacent to the source tile. In this case, the set of positive candidates $c^+$ will contain both $\texttt{hAdj}(from, to)$ and $\texttt{hAdj}(to, from)$. Since these are not in $D^+$ (from example \ref{ex:moveSucceeded}), the candidates can not be reduced to a singleton set. Furthermore, because of the symmetry of the two predicates, the one will never appear in a state without the other, and if one of them is absent from a state, so is the other. Although $P^+$ only contains $\texttt{hAdj}(to, from)$, $\texttt{hAdj}(from, to)$ is an implicit precondition; if is violated in a state, so is $\texttt{hAdj}(from, to)$.
+
+    A consequence of this is that when the adjacency precondition is violated, the candidate set will always contain at least two preconditions, and can as such never be reduced to a singleton set.
+
+    \noindent\rule{\textwidth}{1pt}
+\end{example}
+
+\end{document}
