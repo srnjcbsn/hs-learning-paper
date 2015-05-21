@@ -77,12 +77,12 @@ Since the action failed, it holds trivially that \textit{some} predicates in $c^
 
 This is an important invariant; if the sets $c^+$ and $c^-$ can be reduced such that only one predicate remain in $c^+ \cup c^-$ while \eqref{eq:inv} is maintained, then that predicate is proven to be a precondition (negative or positive, depending on whether it was a member of $c^+$ or $c^-$). Formally,
 
-\begin{theorem}
+\begin{proposition}
     If \eqref{eq:inv} holds for $c(s) = \{p\}$, then $p$ is a precondition.
-\end{theorem}
+\end{proposition}
 
 \begin{proof}
-    If invariant \eqref{eq:inv} holds for $c^+$ and $c^-$, then there is at least one predicate in $c^+$ that is a positive precondition, or at least one predicate in $c^-$ that is a negative precondition. If $c^+$ caontains only one predicate while $c^-$ contains none, then the single element in $c^+$ must be a positive precondition. A similar argument applies when $c^-$ is the singleton set and $c^+$ is empty.
+    If invariant \eqref{eq:inv} holds for $c^+$ and $c^-$, then there is at least one predicate in $c^+$ that is a positive precondition, or at least one predicate in $c^-$ that is a negative precondition. If $c^+$ contains only one predicate while $c^-$ contains none, then the single element in $c^+$ must be a positive precondition. A similar argument applies when $c^-$ is the singleton set and $c^+$ is empty.
 \end{proof}
 
 It is clear that if a predicate is disproven to be a precondition, then it can not be the precondition that was violated by $s$, and caused the action to fail. As such, it can safely be disregarded as a candidate:
