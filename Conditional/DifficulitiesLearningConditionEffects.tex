@@ -20,7 +20,7 @@ In order to simplify the problem we have made the following restrictions on cond
 	
 		  I.E. the effect $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
 		  
-	\item No disjoint preconditions. 
+	\item \label{enum:nodisjointpreconditions} No disjoint preconditions. 
 	
 		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
 		  I.E. If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
@@ -298,8 +298,20 @@ This will unlike Equation \ref{eq:unknownpredcondset} correctly ignore variable 
 \subsubsection{Proving preconditions}
 Up until now we have only discussed limiting the number of possible preconditions (Unknown set) , however another aspect of learning is to determine what the actual preconditions are. 
 For non-conditional actions proving the preconditions of an action was a matter of using failed actions to make a list of candidate predicates that through elimination eventually got down to just one predicate which is then proclaimed proven. The approach is similar for conditional actions however instead of having candidates of predicates; conditional actions must maintain a candidate set for the bindings instead of entire predicates, and thus is only capable of proving a single binding at a time. 
-Lets assume that we have binding set $B_u$, which are our set of unproven preconditions for effect that occurred. 
-If we then see that an effect does not occur in the state, the bindings in the prior state that did not produce that effect becomes the candidates of possible bindings $B_c$. For this set the following invariant holds
+
+\newtheorem{thm-minimum-one-binding}{Theorem}
+\begin{thm-minimum-one-binding}\label{thm:minimum-one-binding}
+	If an action has been observed to produces an effect $E$, then if that effect does not occur in future transitions; 
+	a minimum of one binding in a predicate must be a precondition for that condition effect. Assuming restriction \ref{enum:nodisjointpreconditions} holds.
+	
+	\begin{proof}[\textbf{Proof by contradiction}] If there is less than one binding in the preconditions then that means there are zero bindings, if restriction \ref{enum:nodisjointpreconditions} holds then zero bindings means zero precondition. If there are zero preconditions then the effect would not have failed. Therefore there must be a minimum of one binding. \qedhere
+	\end{proof}
+\end{thm-minimum-one-binding}
+
+Initially we have a binding set $B_u$, which is our set of unproven preconditions for the effect of an action. 
+If we then see that an effect does not occur in the state, the bindings in the prior state that did not produce that effect becomes the candidates of possible bindings $B_c$. 
+
+Because of Theorm \ref{thm:minimum-one-binding} the following invariant holds:
 \begin{equation} \label{eq:binding_invariant}
 \left| \{b  |  b \in B_c \land b \in preconds_{bindings}(A)\} \right|  \ge 1
 \end{equation}
