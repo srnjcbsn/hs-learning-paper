@@ -67,7 +67,8 @@ $\{ p(\delta(Object_1)), p(\delta(Object_2)),..,p(\delta(Object_n))\} = \{ p(x),
 \begin{theorem}\label{thm:precondition-state}
 If an action produces one or more effects $E$, then all predicates in the prior state are the maximum number of positive preconditions to those exact effects.
 
-	If $\gamma (S,a) \neq S = S'$ and objects are interpreted as variables then $preconds(a) \subseteq S$  for effects $E$.
+If $\gamma (S,a) \neq S$ and objects are interpreted as variables then $preconds(a) \subseteq S$  for effects $E$.
+
 \begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in S for the effects E.
 	In this case the effects would not occur as their required preconditions are missing, thus the preconditions must be satisfied in S.
 	As such we can conclude S contains at least all precondition predicates.    \qedhere
