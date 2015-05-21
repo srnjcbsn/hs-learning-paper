@@ -15,18 +15,18 @@ In order to simplify the problem we have made the following restrictions on cond
 \begin{enumerate}
 	\item Environment must be fully observable.
 	\item Environment must contain a finite number of objects.
-	\item \label{enum:nodisjuntiveconditionals} No disjunctive preconditions or effects.
-	\item \label{enum:nomultipleeffect} No multiples of the same effect.
+	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects.
+	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect.
 
 		  I.E. the effect $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
 
-	\item \label{enum:nodisjointpreconditions} No disjoint preconditions.
+	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
 
 		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
 		  I.E. If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
 \end{enumerate}
 
-Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction \ref{enum:nodisjuntiveconditionals}; which it does if two conditional effects have the same effect, as that is equivalent to an disjunctive precondition.
+Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction \ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditional effects have the same effect, as that is equivalent to an disjunctive precondition.
 
 In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using prior models and what changes to the models are necessary in order to find proper solutions.
 
@@ -35,14 +35,14 @@ In this section we will show how to approach the concept of learning conditional
 
 	\centering{
 	\includegraphics[width=0.5\textwidth]{../Graphics/house_conditional_knowledge.png}}
-	\caption{\label{fig:House-example}Three states of light problem for Example \ref{thm:house-example}}
+	\caption{\label{fig:ca:house-example}Three states of light problem for Example \ref{ex:ca:light-on}}
 
 
 
 \end{figure}
 
-\begin{example}\label{thm:house-example}
-Consider the problem of turning on light as shown in \figref{fig:House-example}.
+\begin{example}\label{ex:ca:light-on}
+Consider the problem of turning on light as shown in \figref{fig:ca:house-example}.
 In the figure there are three different cases of a person learning how to turn on the
 light. In the first two cases the agent successfully turns on the light while in the last nothing occurs.
 
@@ -64,7 +64,7 @@ where $(x, y..)$ are variables for the quantifier of the conditional effect; Int
 
 $\{ p(\delta(Object_1)), p(\delta(Object_2)),..,p(\delta(Object_n))\} = \{ p(x), p(y),..\}$
 
-\begin{theorem}\label{thm:precondition-state}
+\begin{theorem}\label{thm:ca:precondition-state}
 If an action produces one or more effects $E$, then all predicates in the prior state are the maximum number of positive preconditions to those exact effects.
 
 If $\gamma (S,a) \neq S$ and objects are interpreted as variables then $preconds(a) \subseteq S$  for effects $E$.
@@ -82,12 +82,12 @@ Thus if both negative and positive preconditions are allowed a the same time use
 	\centering
 	\includegraphics[width=0.2\textwidth]{../Graphics/soko_cond_example.png}
 
-	\caption{\label{fig:soko-conditional}\texttt{MoveLeft} action being used in a sokoban world for Example \ref{thm:sokoban-example-initial-precond} }
+	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for Example \ref{ex:ca:sokoban-moveleft-action} }
 
 \end{figure}
 
-\begin{example}\label{thm:sokoban-example-initial-precond}
-Let us consider an example of acquiring preconditions from a state modelled with predicates. In \figref{fig:soko-conditional} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
+\begin{example}\label{ex:ca:sokoban-moveleft-action}
+Let us consider an example of acquiring preconditions from a state modelled with predicates. In \figref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
 
 The action schema that produced the effect is:
 \begin{align*}
@@ -217,7 +217,7 @@ Therefore our hypothesis of the action scheme is:
 		\right]&
 \end{align*}
 
-According to theorem \ref{thm:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
+According to theorem \ref{thm:ca:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
 \begin{align*}
 &\gamma(S_{before},MoveLeft_{hyp}) =
 	\left\{
@@ -265,8 +265,8 @@ This will work for removing entire predicates and only if the two sets use exact
 \end{definition}
 Thus this approach to modelling the unknown preconditions, which we used for non-conditional actions is incorrect.
 
-\begin{example}\label{thm:house-example-2}
-Following from Example \ref{thm:house-example} we come to the second case in \figref{fig:House-example}
+\begin{example}\label{ex:ca:light-on-2}
+Following from Example \ref{ex:ca:light-on} we come to the second case in \figref{fig:ca:house-example}
 we see that we can turn on the light again but this time the sofa and the lamp has changed location and
 there is no table. From this we expand our knowledge by learning:
 \begin{itemize}
@@ -276,7 +276,7 @@ there is no table. From this we expand our knowledge by learning:
 Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
 \end{example}
 
-\begin{example}\label{thm:sokoban-2}
+\begin{example}\label{ex:ca:nonbinding-intersection-model}
 To elucidate the problem of bindings further, imagine that we have two different $U_p$
 \begin{align*}
 &U_p1 = \{ \texttt{p}(x, x, x) \}
@@ -295,11 +295,11 @@ And if we were to take the intersection between the two sets then the resulting 
 \subsubsection{A new model: Binding sets}
 As is evident our model of using set of predicates, that was used for modelling non-conditional effects, is not suitable when discussing conditional effects. As such we propose using Binding sets when modelling preconditions and effects for a conditional effect.
 
-\begin{definition}\label{thm:binding-set}
+\begin{definition}\label{thm:ca:binding-set}
 	Binding set $B$ is a theoretical set of all bindings which differentiate between bindings from different predicates, such that the name of predicates also determines whether or not two bindings are equal. Information pertaining to the name of the variable from which the binding exists does not conflict, therefore if two $B$ sets intersected but they had completely different naming of variables then the resulting set would still be as though their name matched.
 	For instance $\{p(x,x), q(x,y)\} \cap \{p(y,x), q(y,x)\} = \{p(x,y), q(x,z)\}$, notice that in both they have a binding on the first argument, and that binding is kept when they are intersected, even though the naming of the binding was different.
 \end{definition}
-The problem with binding sets is that they are difficult to model if there are multiples of the same predicate. As we have restriction \ref{enum:nomultipleeffect} this is not a problem for effects, but for preconditions this proves to be a major problem. However, as we only intend to use binding sets to explain the problems we will assume that ambiguous predicates are always correctly handled when a set operation is used.
+The problem with binding sets is that they are difficult to model if there are multiples of the same predicate. As we have restriction \ref{rst:ca:no-multiple-effect} this is not a problem for effects, but for preconditions this proves to be a major problem. However, as we only intend to use binding sets to explain the problems we will assume that ambiguous predicates are always correctly handled when a set operation is used.
 
 Using binding sets we are now capable of getting a correct intersection of two possible precondition sets and get their common possible preconditions. The possible preconditions also known as the unknown set $U_p$, can always be turned into a binding set $B_p$.
 And to get the remaining possible bindings between $B_p1$ and $B_p2$ and disproves all other bindings:
@@ -307,7 +307,7 @@ And to get the remaining possible bindings between $B_p1$ and $B_p2$ and disprov
 \begin{equation}
 B_p' = B_p1 \cap B_p2
 \end{equation}
-This will unlike Equation \ref{eq:unknownpredcondset} correctly ignore variable naming, and be able to partially remove some of the restrictions on the predicate I.E. removing bindings, solving the problem demonstrated in Example \ref{thm:sokoban-2}.
+This will unlike Equation \ref{eq:unknownpredcondset} correctly ignore variable naming, and be able to partially remove some of the restrictions on the predicate I.E. removing bindings, solving the problem demonstrated in Example \ref{ex:ca:nonbinding-intersection-model}.
 
 \subsubsection{Proving preconditions}
 Up until now we have only discussed limiting the number of possible preconditions (Unknown set) , however another aspect of learning is to determine what the actual preconditions are.
@@ -315,16 +315,16 @@ For non-conditional actions proving the preconditions of an action was a matter 
 
 \begin{theorem}\label{thm:minimum-one-binding}
 	If an action has been observed to produces an effect $E$, then if that effect does not occur in future transitions;
-	a minimum of one binding in a predicate must be a precondition for that condition effect. Assuming restriction \ref{enum:nodisjointpreconditions} holds.
+	a minimum of one binding in a predicate must be a precondition for that condition effect. Assuming restriction \ref{rst:ca:no-disjoint-preconditions} holds.
 
-	\begin{proof}[\textbf{Proof by contradiction}] If there is less than one binding in the preconditions then that means there are zero bindings, if restriction \ref{enum:nodisjointpreconditions} holds then zero bindings means zero precondition. If there are zero preconditions then the effect would not have failed. Therefore there must be a minimum of one binding. \qedhere
+	\begin{proof}[\textbf{Proof by contradiction}] If there is less than one binding in the preconditions then that means there are zero bindings, if restriction \ref{rst:ca:no-disjoint-preconditions} holds then zero bindings means zero precondition. If there are zero preconditions then the effect would not have failed. Therefore there must be a minimum of one binding. \qedhere
 	\end{proof}
 \end{theorem}
 
 Initially we have a binding set $B_u$, which is our set of unproven preconditions for the effect of an action.
 If we then see that an effect does not occur in the state, the bindings in the prior state that did not produce that effect becomes the candidates of possible bindings $B_c$.
 
-Because of Theorm \ref{thm:minimum-one-binding} the following invariant holds:
+Because of Theorem \ref{thm:minimum-one-binding} the following invariant holds:
 \begin{equation} \label{eq:binding_invariant}
 \left| \{b  |  b \in B_c \land b \in preconds_{bindings}(A)\} \right|  \ge 1
 \end{equation}
@@ -336,8 +336,8 @@ B_c' = B_c \cap B_u
 \end{equation}
 And thus if ever $|B_c| = 1$ then we know that it is a correct binding because of our Invariant \ref{eq:binding_invariant} and thus it is proven.
 
- \begin{example}\label{thm:house-example-3}
- Consider the last case on \figref{fig:House-example}. This case is identical
+ \begin{example}\label{ex:ca:light-on-3}
+ Consider the last case on \figref{fig:ca:house-example}. This case is identical
 to the first case except it does not have a lamp, thus we learn that:
 \begin{itemize}
 	\item A lamp is required for the effect to occur.
