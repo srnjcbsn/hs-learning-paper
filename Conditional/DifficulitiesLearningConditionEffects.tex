@@ -92,12 +92,23 @@ Let us consider an example of acquiring preconditions from a state modelled with
 The action schema that produced the effect is:
 \begin{align*}
 &MoveLeft():&  \\
-&\quad \forall_{x, y}  \neg\texttt{sokobanAt}(y) \land \texttt{sokobanAt}(x) \quad when \quad \texttt{adj-h}(x,y) \land \texttt{sokobanAt}(y)& \\
-&\quad \forall_{x, y, z, b} \neg\texttt{at}(b,y) \land \texttt{at}(b,x) \quad when
+&\quad
+	\forall_{x, y}
+		\left[
+			\neg\texttt{sokobanAt}(y) \land \texttt{sokobanAt}(x)
+		\right]
+		\quad when \quad
+		\left[ \texttt{adj-h}(x,y) \land \texttt{sokobanAt}(y) \right]& \\
+&\quad
+	\forall_{x, y, z, b}
+		\left[ \neg\texttt{at}(b,y) \land \texttt{at}(b,x) \right]
+		\quad when \quad
+		\left[
 			\begin{gathered}
-				\quad \texttt{adj-h}(x,y) \land \texttt{adj-h}(y,z) \land \\
-					  \texttt{sokobanAt}(z) \land \texttt{at}(y)
-			\end{gathered}&
+				 \texttt{adj-h}(x,y) \land \texttt{adj-h}(y,z) \land \\
+					  \texttt{sokobanAt}(z) \land \texttt{at}(b, y)
+			\end{gathered}
+		\right] &
 \end{align*}
 
 The state transition that occurred:
@@ -125,7 +136,7 @@ The effects of the state transition we calculate:
 \Delta S =
 	\left\{
 		\begin{gathered}
-			\texttt{at}(t1), \texttt{sokobanAt}(t2), \\
+			\texttt{at}(box, t1), \texttt{sokobanAt}(t2), \\
 			\neg\texttt{at}(box,t2), \neg\texttt{sokobanAt}(t3)
 		\end{gathered}
 	\right\}
@@ -191,14 +202,19 @@ The resulting fluent predicates are the preconditions and effects
 Therefore our hypothesis of the action scheme is:
 \begin{align*}
 &MoveLeft_{hyp}():&  \\
-&\quad \forall_{x, y, z, b}
-	\begin{gathered}
-		\texttt{at}(b, x) \land \texttt{sokobanAt}(y) \land \\ \neg\texttt{at}(b,y) \land \neg\texttt{sokobanAt}(z) \quad
-	\end{gathered}
+&\quad
+	\forall_{x, y, z, b}
+		\left[
+		\begin{gathered}
+			\texttt{at}(b, x) \land \texttt{sokobanAt}(y) \land \\ \neg\texttt{at}(b,y) \land \neg\texttt{sokobanAt}(z) \quad
+		\end{gathered}
+		\right]
 	when
-	\begin{gathered}
-	\quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{at}(b,y) \land \texttt{sokobanAt}(z)
-	\end{gathered}&
+		\left[
+		\begin{gathered}
+		\quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{at}(b,y) \land \texttt{sokobanAt}(z)
+		\end{gathered}
+		\right]&
 \end{align*}
 
 According to theorem \ref{thm:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
@@ -223,14 +239,17 @@ We observe that this is indeed correct.
 
 
 \subsubsection{Initial approach to reducing preconditions}
-As different scenarios are explored the unknown set $U_p$ of preconditions can be reduced.
+As different scenarios are explored the unproven set $U_p$ of preconditions can be reduced.
 \newtheorem{thm-unknown-set}{Definition}
 \begin{thm-unknown-set}
-The unknown set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  predicates $\mathbb{CP}$.
+The unproven set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  predicates $\mathbb{CP}$.
 \end{thm-unknown-set}
-Provided that we have the unknown preconditions $U_p$ of another state transition we can compare them and remove discrepancies.
 
-For two unknown precondition sets $U_p1$ and $U_p2$:
+If we have the sets of unproven preconditions $U_p1$ and $U_p1$ from two different state transitions, we can compare them and remove discrepancies by intersection:
+
+% Provided that we have the unknown preconditions $U_p$ of another state transition we can compare them and remove discrepancies.
+%
+% For two unknown precondition sets $U_p1$ and $U_p2$:
 
 \begin{equation}
 \label{eq:unknownpredcondset}
@@ -242,9 +261,9 @@ This will work for removing entire predicates and only if the two sets use exact
 	A binding between variables, means that variables between predicates are the same.
 	Bindings that contain only one variable are free and means that no binding exists.
 	It is important to note that a predicate with multiple variables can have bindings with itself.
-	For instance $Q(x)$ and $P(x,y)$ has a binding on their first argument as they both refer to the same variable, and y is a free variable as no other predicates with y exists.
+	For instance $q(x)$ and $p(x,y)$ has a binding on their first argument as they both refer to the same variable, and $y$ is a free variable as no other predicates with $y$ exists.
 \end{definition}
-Thus this approach to modelling the unknown preconditions, which we used for non-conditional actions is ineffective.
+Thus this approach to modelling the unknown preconditions, which we used for non-conditional actions is incorrect.
 
 \begin{example}\label{thm:house-example-2}
 Following from Example \ref{thm:house-example} we come to the second case in \figref{fig:House-example}
@@ -267,14 +286,14 @@ To elucidate the problem of bindings further, imagine that we have two different
 \end{align*}
 We see that $U_p1$ has a stronger precondition, meaning that if $U_p1$ holds then so does $U_p2$ but not oppositely. I.E.
 \begin{align*}
-&\forall_{x} \texttt{p}(x, x, x) \vDash \forall_{x, y} \texttt{p}(x, x, y)  \quad and \quad
- \forall_{x, y} \texttt{p}(x, x, y) \nvDash \forall_{x} \texttt{p}(x, x, x)  &
+&\forall_{x} \texttt{p}(x, x, x) \nvDash \forall_{x, y} \texttt{p}(x, x, y)  \quad and \quad
+ \forall_{x, y} \texttt{p}(x, x, y) \vDash \forall_{x} \texttt{p}(x, x, x)  &
 \end{align*}
 And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect. As they have the similarity of having the same binding between the first and second argument. What we actually need is to have a set of bindings and take the intersection of that.
 \end{example}
 
 \subsubsection{A new model: Binding sets}
-As is evident our model of using set of predicates; that was used for modelling non-conditional effects, is not suitable when discussing conditional effects. As such we propose using Binding sets when modelling preconditions and effects for a conditional effect.
+As is evident our model of using set of predicates, that was used for modelling non-conditional effects, is not suitable when discussing conditional effects. As such we propose using Binding sets when modelling preconditions and effects for a conditional effect.
 
 \begin{definition}\label{thm:binding-set}
 	Binding set $B$ is a theoretical set of all bindings which differentiate between bindings from different predicates, such that the name of predicates also determines whether or not two bindings are equal. Information pertaining to the name of the variable from which the binding exists does not conflict, therefore if two $B$ sets intersected but they had completely different naming of variables then the resulting set would still be as though their name matched.

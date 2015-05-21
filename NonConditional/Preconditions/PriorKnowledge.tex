@@ -1,6 +1,6 @@
 \documentclass[../../Master.tex]{subfiles}
 \begin{document}
-    
+
 We will now present an algorithm (see algorithm \ref{algo:precondLearn}) for obtaining knowledge about preconditions from a series of state transitions. The algorithm takes as input a state transition $(s, a, s')$ as well as prior knowledge about the action schema for $a$, consisting of the following:
 
 \begin{itemize}
@@ -15,14 +15,6 @@ On action success, the sets of predicates that can be disproven to be preconditi
     D = D \cup d^+(s)\}
 \end{equation*}
 
-% \begin{equation*}
-%     D_t^+ = D_{t-1}^+ \cup \left\{ x \; | \; x \in \mathbb{P} \land g(x) \notin s_t \right\}
-% \end{equation*}
-%
-% \begin{equation*}
-%     D_t^- = D_{t-1}^- \cup \left\{ x \; | \; x \in \mathbb{P} \land g(x) \in s_t \right\}
-% \end{equation*}
-
 On action failure, the candidate sets are determined using \eqref{eq:cPlus} and \eqref{eq:cMinus}, and are added to the set $C$.
 
 It now holds that either more predicates have been disproven, or one more candidate set have been added to $C$. According to theorem \ref{th:invHolds}, each candidate set in $C$ can now be reduced by removing disproven predicates, while maintaining invariant \eqref{eq:inv}:
@@ -31,26 +23,11 @@ It now holds that either more predicates have been disproven, or one more candid
     C = \left\{ c \setminus D \; | \; c \in C \right\}
 \end{equation}
 
-% \begin{equation}
-%     C = \left\{ \left( x^+ \setminus D^+, c^- \setminus D^- \right)
-%             \; | \; \left( x^+, x^- \right) \in C
-%         \right\}
-% \end{equation}
-
-By theorem \ref{th:precondProof}, members of any singleton candidate set can now be added to the proven knowledge:
+By Proposition \ref{prop:ncp:precond-holds}, members of any singleton candidate set can now be added to the proven knowledge:
 
 \begin{equation} \label{eq:extractKnown}
-    K = K \cup \left\{ c \; | \; \{ c \} \in C \right\}
+    K = K \cup \left\{ p \; | \; \{ p \} \in C \right\}
 \end{equation}
-
-% \begin{equation}
-%     K^{\pm} = \left\{
-%         x^{\pm} \; | \; \left( x^+, x^- \right) \in C \land
-%         \left| x^{\pm} \right| = 1 \land
-%         \left|  x^+ \right| + \left| x^- \right| = 1
-%     \right\}
-%     \cup K^{\pm}
-% \end{equation}
 
 As discussed previously, any candidate set containing a predicate which have already been proven to be a precondition can be safely removed from $C$, as no more knowledge can be obtained from it, formally:
 
@@ -58,43 +35,34 @@ As discussed previously, any candidate set containing a predicate which have alr
     C = \left\{ c \; | \; c \in C \land c \cap K \neq \emptyset \right\}
 \end{equation}
 
-% \begin{equation}
-%     C = \left\{
-%         \left( x^+, x^- \right) \; | \;
-%         \left( x^+, x^- \right) \in C \land
-%         \left(
-%             x^+ \cap K^+ \neq \emptyset \lor x^- \cap K^- \neq \emptyset
-%         \right)
-%     \right\}
-% \end{equation}
-
 \begin{algorithm}
     \caption{Algorithm for learning preconditions}
     \label{algo:precondLearn}
 
     \begin{algorithmic}
-        \Function {$\textsc{Precond-learn}$} {$\left( s, a, s'\right), K^\pm$, $U^\pm$, $C$}
+        \Function {$\textsc{Precond-learn}$} {$\left( s, a, s'\right)$, $D$, $K$, $C$}
+            \State \Require <Write arguments>
             \If {$s' \neq s$}
-                \State $C \gets C \cup c(s)$
+                \State $C \gets C \cup \{ c(s) \}$
             \ElsIf {$s' = s$}
                 \State $D \gets D \cup d(s)$
             \EndIf
 
             \State Reduce candidate sets by removing predicates disproven to preconditions:
-            \State $C \gets \left\{ c \setminus D \; | \; c \in C \right\}$
+            \State $C' \gets \left\{ c \setminus D \; | \; c \in C' \right\}$
 
             \State Set s
-            \State $K \gets K \cup \left\{ c \; | \; \{c\} \in C \right\}$
+            \State $K' \gets K \cup \left\{ p \; | \; \{ p \} \in C' \right\}$
 
             \State Remove candidate sets containing predicates proven to be preconditions:
-            \State $C \gets \left\{ c \; | \; c \in C \land c \cap K \neq \emptyset \right\}$
+            \State $C' \gets \left\{ c \; | \; c \in C' \land c \cap K \neq \emptyset \right\}$
             % \State Remove disproven predicates from candidates
             % \Comment \emph{see \eqref{reduceCands}}
             % \State $K^\pm \gets \left\{ \textnormal{singleton sets from } C\right\}$ $\cup K^\pm$
             % \Comment \emph{see \eqref{eq:extractKnown}}
             % \State Remove candidate sets from $C$ which contain a predicate in $K^\pm$
             % \Comment \emph{see \eqref{eq:removeKnown}}
-            \State \Return $(K^\pm, D^\pm, C)$
+            \State \Return $(K', D', C')$
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
