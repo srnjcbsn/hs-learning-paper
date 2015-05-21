@@ -1,6 +1,42 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
+\begin{equation}
+    u^+ = \left\{
+        p \; | \; p \in \mathbb{P} \land g(p) \in s \cap s'
+    \right\}
+\end{equation}
+
+\begin{equation}
+    u^- = \left\{
+        p \; | \; p \in \mathbb{P} \land g(p) \notin s \cup s'
+    \right\}
+\end{equation}
+
+\begin{equation}
+    d^+ = \left\{
+        p \; | \; p \in \mathbb{P} \land g(p) \notin s'
+    \right\}
+\end{equation}
+
+\begin{equation}
+    d^- = \left\{
+        p \; | \; p \in \mathbb{P} \land g(p) \in s'
+    \right\}
+\end{equation}
+
+\begin{equation}
+    k^+ = \left\{
+        p \; | \; q \in a^+ \land ug(q) = \{ p \}
+    \right\}
+\end{equation}
+
+\begin{equation}
+    k^- = \left\{
+        p \; | \; q \in a^- \land ug(q) = \{ p \}
+    \right\}
+\end{equation}
+
     Consider a state transition $\left(s,a,s'\right)$ where $s$ is a
 state consisting of grounded predicates, $a$ is a $k$-ary action
 application with arguments $a_{1},\dots,a_{k}$, and $s'$ is the
