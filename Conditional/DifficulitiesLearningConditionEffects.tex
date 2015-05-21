@@ -2,19 +2,33 @@
 \begin{document}
 
 
+In STRIPS-Style actions the objects $A(O_1,O_2,..,O_{n-1},O_n)$ are the only objects affected by the action. 
+Thus any predicate that contains objects other than $O_1,O_2,...,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
+However as actions with conditional effects support the use of quantifiers this claim no longer holds. 
+Therefore the universe $\mathbb{CP}$ for conditional effects of possible predicates is infinite as quantifiers can have an infinite number of variables.
+However if the environment is \textbf{fully observable} and has a finite number of objects, 
+we can limit the variables of the quantifier to be equal to the number of objects; This means that we can limit $\mathbb{CP}$ to a finite set.
+This is important as we now have an initial assumption of possible predicates for both the preconditions and the effects. 
 
+%\subsubsection{Limitations}
+In order to simplify the problem we have made the following restrictions on conditional effects we can learn:
+\begin{enumerate}
+	\item Environment must be fully observable.
+	\item Environment must contain a finite number of objects.
+	\item \label{enum:nodisjuntiveconditionals} No disjunctive preconditions or effects.
+	\item \label{enum:nomultipleeffect} No multiples of the same effect. 
+	
+		  I.E. the effect $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
+		  
+	\item No disjoint preconditions. 
+	
+		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
+		  I.E. If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
+\end{enumerate}
 
-Inductive learning of STRIPS-Style actions are simple compared to actions
-with conditional effect, as only objects referred to in the action parameters can be a precondition
-to the effects of the action itself. However when you introduce quantifiers
-then literally every object can have an effect on the outcome. Thus
-our initial assumption must be that all objects in the world are 
-necessary for the preconditions to be satisfied. This means for the conditional effects its quantifiers initially contains number of
-variables equal to objects in the world. However by 
-experiencing and seeing many different cases can we reduce it to what 
-the actual number of variables and preconditions
-for the conditional effects of an action are. 
-
+Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction \ref{enum:nodisjuntiveconditionals}; which it does if two conditional effects have the same effect, as that is equivalent to an disjunctive precondition.
+ 
+In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using prior models and what changes to the models are necessary in order to find proper solutions.  
 
 \begin{figure}
 	
@@ -29,26 +43,32 @@ for the conditional effects of an action are.
 
 \newtheorem{thm-house-example}{Example}[section]
 \begin{thm-house-example}\label{thm:house-example}
-Consider the problem of turning on light as shown in \figref{fig:House-example}
-There in the figure there are three different cases of a person learning how to turn on the
+Consider the problem of turning on light as shown in \figref{fig:House-example}.
+In the figure there are three different cases of a person learning how to turn on the
 light. In the first two cases the agent successfully turns on the light while in the last nothing occurs.
 
-In the first case we learn the following:
+In the first case we learn that to turn on the light there are these possible precondition:
 \begin{itemize}
-	\item A sofa in the north-east corner.
-	\item A lamp in the north-west corner. With an agent on the same spot.
-	\item A table in the middle.
+	\item There must be a sofa in the north-east corner.
+	\item There must be a lamp in the north-west corner. With an agent on the same spot.
+	\item There must be a table in the middle.
 \end{itemize}
-Even though we intuitively know that it is only the lamp is the only required object in this room for the light to turn on, we cannot disprove any of the other objects presence as not being a precondition. 
+Even though we intuitively know that it is only the lamp which is the only required object in this room for the light to turn on, we cannot discard any of the other objects present as not being a precondition. 
 \end{thm-house-example}
 
 \subsubsection{Preconditions from states}
-Objects are defined by the predicates which they satisfy. As such when we say that all objects are assumed to be required for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
-This means that if instead see the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state S which led to the effects.
+Objects are defined by the predicates which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
+This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state S which led to the effects. In real terms interpreting objects as variables means mapping each object to a to different variable. For instance for the state 
+$\{ p(Object_1), p(Object_2),..,p(Object_n)\}$ using a mapping 
+$\delta = \{Object_1 \mapsto x, Object_2 \mapsto y...\}$ 
+where $(x, y..)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects 
+
+$\{ p(\delta(Object_1)), p(\delta(Object_2)),..,p(\delta(Object_n))\} = \{ p(x), p(y),..\}$
+
 
 \newtheorem{thm-precondition-state}{Theorem}
 \begin{thm-precondition-state}\label{thm:precondition-state}
-If an action produces one or more effects $E$, than predicates in the prior state are the maximum number preconditions to those exact effects.	
+If an action produces one or more effects $E$, then all predicates in the prior state are the maximum number of positive preconditions to those exact effects.	
 
 	If $\gamma (S,a) \neq S = S'$ and objects are interpreted as variables then $preconds(a) \subseteq S$  for effects $E$.
 \begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in S for the effects E.
@@ -75,11 +95,11 @@ Let us consider an example of acquiring preconditions from a state modelled with
 The action schema that produced the effect is:
 \begin{align*}
 &MoveLeft():&  \\
-&\quad \forall_{x, y}  \neg\texttt{at}(y) \land \texttt{at}(x) \quad when \quad \texttt{adj-h}(x,y) \land \texttt{at}(y)& \\
-&\quad \forall_{x, y, z} \neg\texttt{box}(y) \land \texttt{box}(x) \quad when 
+&\quad \forall_{x, y}  \neg\texttt{sokobanAt}(y) \land \texttt{sokobanAt}(x) \quad when \quad \texttt{adj-h}(x,y) \land \texttt{sokobanAt}(y)& \\
+&\quad \forall_{x, y, z, b} \neg\texttt{at}(b,y) \land \texttt{at}(b,x) \quad when 
 			\begin{gathered} 
 				\quad \texttt{adj-h}(x,y) \land \texttt{adj-h}(y,z) \land \\ 
-					  \texttt{at}(z) \land \texttt{box}(y) 
+					  \texttt{sokobanAt}(z) \land \texttt{at}(y) 
 			\end{gathered}&
 \end{align*}
 
@@ -90,7 +110,7 @@ S_{before} =
 	\left\{
 		\begin{gathered}
 			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-			\texttt{box}(t2), \texttt{at}(t3)
+			\texttt{at}(box,t2), \texttt{sokobanAt}(t3)
 		\end{gathered}
 	\right\}
 \end{equation*}
@@ -99,7 +119,7 @@ S_{after} =
 	\left\{
 		\begin{gathered}
 			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-			\texttt{box}(t1), \texttt{at}(t2)
+			\texttt{at}(box,t1), \texttt{sokobanAt}(t2)
 		\end{gathered}
 	\right\}
 \end{equation*}
@@ -108,8 +128,8 @@ The effects of the state transition we calculate:
 \Delta S =
 	\left\{
 		\begin{gathered}
-			\texttt{box}(t1), \texttt{at}(t2), \\
-			\neg\texttt{box}(t2), \neg\texttt{at}(t3)
+			\texttt{at}(t1), \texttt{sokobanAt}(t2), \\
+			\neg\texttt{at}(box,t2), \neg\texttt{sokobanAt}(t3)
 		\end{gathered}
 	\right\}
 \end{equation*}
@@ -120,73 +140,85 @@ To interpret the objects as variables we provide some mapping of objects to vari
 		\begin{gathered}
 			t1 \mapsto x \\
 			t2 \mapsto y \\
-			t3 \mapsto z
+			t3 \mapsto z \\
+			box \mapsto b
 		\end{gathered}
 	\right ]
 \end{equation*}
 We apply the mapping to the objects of $S_{before}$:
 \begin{equation*}
+	S_{before} = 
 	\begin{gathered}
 		\left\{
 			\begin{gathered}
-				\texttt{adj-h}(\delta (t1), \delta (t2), \texttt{adj-h}(\delta (t2), \delta (t3)), \\
-				\texttt{box}(\delta (t2)), \texttt{at}(\delta (t3))
+				\texttt{adj-h}(\delta (t1), \delta (t2)), \\
+				\texttt{adj-h}(\delta (t2), \delta (t3)), \\
+				\texttt{at}(\delta (box),\delta (t2)), \\
+				 \texttt{sokobanAt}(\delta (t3))
 			\end{gathered}
-		\right\} \\
-		\downarrow \\
+		\right\} 
+		=
 		\left\{
 			\begin{gathered}
-				\texttt{adj-h}(x, y), \texttt{adj-h}(y, z), \\
-				\texttt{box}(y), \texttt{at}(z)
+				\texttt{adj-h}(x, y), \\
+				 \texttt{adj-h}(y, z), \\
+				\texttt{at}(y), \\
+				\texttt{sokobanAt}(z)
 			\end{gathered}
 		\right\}
 	\end{gathered}
 \end{equation*}
 We also apply the mapping to the effects $\Delta S$
 \begin{equation*}
-	\begin{gathered}
+	\Delta S =
 		\left\{
 			\begin{gathered}
-				\texttt{box}(\delta (t1)), \texttt{at}(\delta (t2)), \\
-				\neg\texttt{box}(\delta (t2)), \neg\texttt{at}(\delta (t3))
+				\texttt{at}(\delta (box),\delta (t1)), \\
+				\texttt{sokobanAt}(\delta (t2)), \\
+				\neg\texttt{at}(\delta (box),\delta (t2)), \\
+				 \neg\texttt{sokobanAt}(\delta (t3))
 			\end{gathered}
-		\right\} \\
-	\downarrow \\
-	\left\{
-		\begin{gathered}
-			\texttt{box}(x), \texttt{at}(y), \\
-			\neg\texttt{box}(y), \neg\texttt{at}(z)
-		\end{gathered}
-	\right\}
-	\end{gathered}
+		\right\} 
+		=
+		\left\{
+			\begin{gathered}
+				\texttt{at}(b,x),
+				\texttt{sokobanAt}(y), \\
+				\neg\texttt{at}(b,y), 
+				\neg\texttt{sokobanAt}(z)
+			\end{gathered}
+		\right\}
 \end{equation*}
 
 The resulting fluent predicates are the preconditions and effects 
 Therefore our hypothesis of the action scheme is:
 \begin{align*}
 &MoveLeft_{hyp}():&  \\
-&\quad \forall_{x, y, z} 
+&\quad \forall_{x, y, z, b} 
 	\begin{gathered} 
-		\texttt{box}(x) \land \texttt{at}(y) \land \\ \neg\texttt{box}(y) \land \neg\texttt{at}(z) \quad 
+		\texttt{at}(b, x) \land \texttt{sokobanAt}(y) \land \\ \neg\texttt{at}(b,y) \land \neg\texttt{sokobanAt}(z) \quad 
 	\end{gathered}
 	when 
 	\begin{gathered} 
-	\quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{box}(y) \land \texttt{at}(z) 
+	\quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{at}(b,y) \land \texttt{sokobanAt}(z) 
 	\end{gathered}&
 \end{align*}
 
-If our theorem is correct we should be able to use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
+According to theorem \ref{thm:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
 \begin{align*}
 &\gamma(S_{before},MoveLeft_{hyp}) = 
 	\left\{
 		\begin{gathered}
 			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-			\texttt{box}(t1), \texttt{at}(t2)
+			\texttt{at}(box,t1), \texttt{sokobanAt}(t2)
 		\end{gathered}
 	\right\} 
 	= S_{after}
 &
 \end{align*}
+
+We observe that this is indeed correct.
+
 
 \end{thm-sokoban-example-initial-precond}
 
@@ -197,13 +229,14 @@ If our theorem is correct we should be able to use $MoveLeft_{hyp}$ on $S_{befor
 As different scenarios are explored the unknown set $U_p$ of preconditions can be reduced.
 \newtheorem{thm-unknown-set}{Definition}
 \begin{thm-unknown-set}
-The unknown set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  preconditions(universe). If an effect has been seen the $U_p$ of that is effect is equal to the state S it occurred from\footnote{Provided objects are seen as variables.} as proved in Theorem \ref{thm:precondition-state}.
+The unknown set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  predicates $\mathbb{CP}$.
 \end{thm-unknown-set}
-Provided that we have the $U_p$ of another state transition we can compare the two and remove discrepancies. 
+Provided that we have the unknown preconditions $U_p$ of another state transition we can compare them and remove discrepancies. 
 
-As shown:
+For two unknown precondition sets $U_p1$ and $U_p2$:
 
 \begin{equation}
+\label{eq:unknownpredcondset}
 	U_p' = U_p1 \cap U_p2
 \end{equation}
 
@@ -211,7 +244,7 @@ This will work for removing entire predicates and only if the two sets use exact
 \newtheorem{thm-binding}{Definition}
 \begin{thm-binding}
 	A binding between variables, means that variables between predicates are the same. 
-	Bindings that contain only one variable is free and means that no binding exists. 
+	Bindings that contain only one variable are free and means that no binding exists. 
 	It is important to note that a predicate with multiple variables can have bindings with itself.
 	For instance $Q(x)$ and $P(x,y)$ has a binding on their first argument as they both refer to the same variable, and y is a free variable as no other predicates with y exists.
 \end{thm-binding} 
@@ -233,41 +266,50 @@ Its important to note that since we have not seen an absence of a sofa we cannot
 \begin{thm-sokoban-2}\label{thm:sokoban-2}
 To elucidate the problem of bindings further, imagine that we have two different $U_p$
 \begin{align*}
-&U_p1 = \{ \texttt{p}(x, x) \} 
+&U_p1 = \{ \texttt{p}(x, x, x) \} 
 \end{align*}
 \begin{align*}
-&U_p2 = \{ \texttt{p}(x, y) \} 
+&U_p2 = \{ \texttt{p}(x, x, y) \} 
 \end{align*}
-We see that $U_p1$ has a stronger precondition as 
+We see that $U_p1$ has a stronger precondition, meaning that if $U_p1$ holds then so does $U_p2$ but not oppositely. I.E.
 \begin{align*}
-&\forall_{x} \texttt{p}(x, x) \subset \forall_{x, y} \texttt{p}(x, y)  & 
+&\forall_{x} \texttt{p}(x, x, x) \vDash \forall_{x, y} \texttt{p}(x, x, y)  \quad and \quad
+ \forall_{x, y} \texttt{p}(x, x, y) \nvDash \forall_{x} \texttt{p}(x, x, x)  &
 \end{align*}
-But if we were to take the intersection then the resulting set would be incorrect. What we actually need is to have a set of bindings and take the intersection of that.
+And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect. As they have the similarity of having the same binding between the first and second argument. What we actually need is to have a set of bindings and take the intersection of that.
 \end{thm-sokoban-2}
-
-\subsubsection{Idea behind proving preconditions}
-Up until now we have only discussed limiting the number of possible preconditions (Unknown set) , however another aspect of learning is to determine what the actual preconditions are. 
-For non-conditional actions proving the preconditions of an action was a matter of using failed actions to make a list of candidate predicates that through elimination eventually got down to just one predicate which is then proclaimed an proven precondition. The approach is similar for conditional actions however instead of having candidates of predicates conditional actions must maintain a candidate set for the bindings, and is only capable of proving a single binding at a time. 
-Lets assume that we have binding set $B$
+\subsubsection{A new model: Binding sets}
+As is evident our model of using set of predicates; that was used for modelling non-conditional effects, is not suitable when discussing conditional effects. As such we propose using Binding sets when modelling preconditions and effects for a conditional effect.
 \newtheorem{thm-binding-set}{Definition}
 \begin{thm-binding-set}\label{thm:binding-set}
-	Binding set $B$ is a theoretical set of all bindings which differentiate between bindings from different predicates, such that the name of predicates also determines whether or not two bindings are equal. Information pertaining to the name of the variable from which the binding exists does not conflict, therefore if two $B$ sets intersected but they had completely different naming of variables than the resulting set would still be as though their name matched.
-	For instance $\{p(x,x), q(x,y)\} \cap \{p(y,x), q(y,x)\} = \{p(x,y), q(x,z)\}$, notice that in they both have a binding on 
+	Binding set $B$ is a theoretical set of all bindings which differentiate between bindings from different predicates, such that the name of predicates also determines whether or not two bindings are equal. Information pertaining to the name of the variable from which the binding exists does not conflict, therefore if two $B$ sets intersected but they had completely different naming of variables then the resulting set would still be as though their name matched.
+	For instance $\{p(x,x), q(x,y)\} \cap \{p(y,x), q(y,x)\} = \{p(x,y), q(x,z)\}$, notice that in both they have a binding on the first argument, and that binding is kept when they are intersected, even though the naming of the binding was different.
 \end{thm-binding-set}
-For effects that did happen in the state, the preconditions binding of shown by its prior state is then the unknown set $B_u$.
-To calculate the difference between two unknown sets. Like with non-conditional effects it is:
+The problem with binding sets is that they are difficult to model if there are multiples of the same predicate. As we have restriction \ref{enum:nomultipleeffect} this is not a problem for effects, but for preconditions this proves to be a major problem. However, as we only intend to use binding sets to explain the problems we will assume that ambiguous predicates are always correctly handled when a set operation is used.
+
+Using binding sets we are now capable of getting a correct intersection of two possible precondition sets and get their common possible preconditions. The possible preconditions also known as the unknown set $U_p$, can always be turned into a binding set $B_p$. 
+And to get the remaining possible bindings between $B_p1$ and $B_p2$ and disproves all other bindings:
+ 
 \begin{equation}
-	B_u' = B_u1 \cap B_u2
+B_p' = B_p1 \cap B_p2
 \end{equation}
-If an effect did not occur in the state, the bindings in the prior state that did not produce an effect becomes the candidates $B_c$. For this set the following invariant holds
-\begin{equation}
-\left| \{b  |  b \in B_c \land b \in preconds_{bindings}(a)\} \right|  \ge 1
+This will unlike Equation \ref{eq:unknownpredcondset} correctly ignore variable naming, and be able to partially remove some of the restrictions on the predicate I.E. removing bindings, solving the problem demonstrated in Example \ref{thm:sokoban-2}.
+
+\subsubsection{Proving preconditions}
+Up until now we have only discussed limiting the number of possible preconditions (Unknown set) , however another aspect of learning is to determine what the actual preconditions are. 
+For non-conditional actions proving the preconditions of an action was a matter of using failed actions to make a list of candidate predicates that through elimination eventually got down to just one predicate which is then proclaimed proven. The approach is similar for conditional actions however instead of having candidates of predicates; conditional actions must maintain a candidate set for the bindings instead of entire predicates, and thus is only capable of proving a single binding at a time. 
+Lets assume that we have binding set $B_u$, which are our set of unproven preconditions for effect that occurred. 
+If we then see that an effect does not occur in the state, the bindings in the prior state that did not produce that effect becomes the candidates of possible bindings $B_c$. For this set the following invariant holds
+\begin{equation} \label{eq:binding_invariant}
+\left| \{b  |  b \in B_c \land b \in preconds_{bindings}(A)\} \right|  \ge 1
 \end{equation}
-Meaning that at least one of the bindings in this set is part of the bindings in the preconditions for the action $a$. As bindings that are not contained in $B_u$ is disproven to remove candidate is the same as:
+
+
+Meaning that at least one of the bindings in this set is part of the bindings in the preconditions for the action $A$. As bindings that are not contained in $B_u$ is disproven, we can filter disproven candidates by:
 \begin{equation}
 B_c' = B_c \cap B_u
 \end{equation}
-If $|B_c| = 1$ occurs then we know that it is a correct binding and thus it is proven.
+And thus if ever $|B_c| = 1$ then we know that it is a correct binding because of our Invariant \ref{eq:binding_invariant} and thus it is proven.
 
  \newtheorem{thm-house-example-3}{Example}[section]
  \begin{thm-house-example-3}\label{thm:house-example-3}
