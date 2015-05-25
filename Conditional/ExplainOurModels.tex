@@ -2,15 +2,17 @@
 \begin{document}
 
 
-For theoretical modelling of bindings; binding sets are a great way to represent them. 
-However once we move into practical modelling to be used for algorithms, then binding sets become problematic to specify. 
+Formerly we defined binding sets as a theoretical set, however for practical application we require an exact model.
+There are 
+
+ 
 For instance, earlier we made the assumption that ambiguous predicates would always match correctly, to get an idea of this problem 
 assume we have a precondition \{$p(x,y), p(z,x)$\}, if we designed the bindings as tuples $(p,(1,2),p)$ which is (predicate A, (variable position of A, variable position of B), predicate B). 
 Then as is evident this model will have two different interpretations either that there are two predicates like in our example or that there is one predicate with two bindings I.E. \{$p(x,x)$\}.
-This could be solved by labelling each predicate with a number in no particular order  to indicate the origin predicate, thus $(p,(1,2),p)$ would become  $(p1,(1,2),p2)$ which would remove the dual interpretation.
+This could be solved by labeling each predicate with a number in no particular order  to indicate the origin predicate, thus $(p,(1,2),p)$ would become  $(p1,(1,2),p2)$ which would remove the dual interpretation.
 However this creates a new issue: Since the numbering is non-deterministic another binding set might have used a different numbering for the predicates; 
-therefore without the assumption that the predicates always correctly match, meaning same numbering, two bindings that was equal could become be unequal.
-It should be noted that ambiguous predicates can be solved for binding sets, but all solutions we have found are intractable.
+therefore without the assumption that the predicates always correctly match, meaning same numbering, two bindings that was equal could become be unequal. This becomes an issue with set intersection thus requiring us to redefine it. 
+
 
 This section will detail a new model for representing condition effects and bindings in particular, and it will explain how to utilize it for practical application of the theory.
 
