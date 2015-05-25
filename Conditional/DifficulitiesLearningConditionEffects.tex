@@ -57,7 +57,17 @@ Even though we intuitively know that it is only the lamp which is the only requi
 
 \subsubsection{Preconditions from states}
 Objects are defined by the predicates which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
-This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state S which led to the effects. In real terms interpreting objects as variables means mapping each object to a to different variable. For instance for the state
+
+
+This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state S which led to the effects. In real terms interpreting objects as variables means mapping each object 
+to a to different variable.
+\begin{align}
+	&\sigma : P, \delta \leftarrow \left\{p\left(\delta(O_1),..,\delta(O_n) \right) \mid p(O_1,..,O_n) \in P  \right\}  &
+\end{align}
+
+
+
+For instance for the state
 $\{ p(Object_1), p(Object_2),..,p(Object_n)\}$ using a mapping
 $\delta = \{Object_1 \mapsto x, Object_2 \mapsto y...\}$
 where $(x, y..)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects
@@ -155,7 +165,7 @@ To interpret the objects as variables we provide some mapping of objects to vari
 \end{equation*}
 We apply the mapping to the objects of $S_{before}$:
 \begin{equation*}
-	S_{before} =
+	\sigma(S_{before}, \delta) =
 	\begin{gathered}
 		\left\{
 			\begin{gathered}
