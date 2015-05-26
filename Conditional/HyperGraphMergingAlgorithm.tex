@@ -1,4 +1,6 @@
 \documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
+
 \begin{document}
 
 Given two hypergraphs $H_1$ and $H_2$ describing the same conditional effect $q$:
@@ -19,7 +21,7 @@ Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in 
 \end{proposition}
 
 \begin{equation}
-    e \sqcap f = 
+    e \sqcap f =
 \end{equation}
 
 \begin{example} \label{ex:ca:hgma:disconnected}
@@ -63,8 +65,21 @@ If, on the other hand, $v_j$ does exist in $e_2(q_i)$, then it cannot be discard
     \end{equation*}
 
     \begin{figure}
-        <placeholder>
-        \caption{\label{fig:ex:ca:hgma:ex:generalization} Figure of hypergraphs for example \ref{ex:ca:hgma:generalization}.}
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \scalebox{1}{\input{\master/Graphics/hgEx2_1.pgf}}
+            \caption{}
+            \label{fig:ex:ca:hgma:ex:generalization1}
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \scalebox{0.75}{\input{\master/Graphics/hgEx2_2.pgf}}
+            \caption{}
+            \label{fig:ex:ca:hgma:ex:generalization1}
+        \end{subfigure}
+        \caption{} Figure of hypergraphs for example
     \end{figure}
 
 \end{example}
