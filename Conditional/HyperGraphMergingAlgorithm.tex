@@ -28,6 +28,7 @@ Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in 
 \begin{definition}
     Given two vertices with the same name, ie $v = \left(n, p_i \right)$ and $t = \left( m, p_i \right)$, $f(v,t)$ yields a new vertex with that name and an identifier based on $v$'s and $t$'s. $f$ must be injective, such that $f^{-1}(f(v,t)) = (v,t)$. In the following, we will use the shorthands $f^{-1}_1(f(v,t)) = v$ and $f^{-1}_2(f(v,t)) = t$.
 \end{definition}
+
  A simple implementation of $f$ is tupling the identifiers of the arguement, ie:
 
 \begin{equation*}
@@ -36,6 +37,9 @@ Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in 
 \end{equation*}
 Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by decomposing the tuple. Note that with this implementation, repeated application of $f$ requires linear space.
 
+\begin{proposition}
+    If
+\end{proposition}
 
 \begin{proposition}
     Given two binding edges $e_1$ and $e_2$ from hypergraphs $H_1$ and $H_2$, respectively; any node $v$ that only exists in \emph{either} $e_1$ or $e_2$ is discarded as a precondition, formally:
@@ -56,19 +60,21 @@ Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by decomposing the
 
     \begin{figure}
         \centering
+        \hfill
         \begin{subfigure}[b]{0.4\textwidth}
             \centering
-            \resizebox{\linewidth}{!}{\input{\master/Graphics/isomorphic.pgf}}
+            \resizebox{0.7\linewidth}{!}{\input{\master/Graphics/isomorphic.pgf}}
             \caption{}
             \label{fig:ex:ca:hgma:ex:isomorphic}
         \end{subfigure}%
         \hfill%
         \begin{subfigure}[b]{0.4\textwidth}
             \centering
-            \resizebox{0.8\linewidth}{!}{\input{\master/Graphics/isomorphicReduced.pgf}}
+            \resizebox{0.75\linewidth}{!}{\input{\master/Graphics/isomorphicReduced.pgf}}
             \caption{}
             \label{fig:ex:ca:hgma:ex:isomorphic_reduced}
         \end{subfigure}
+        \hfill
     \end{figure}
 \end{example}
 
