@@ -1,5 +1,189 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
+\begin{itemize}
+	\item Introduction (forklar hvorfor det er en hypothesis og forklar hvad forskellige preconditions og effecter gør, og hvad strategy betyder)
+	\item Pessimistic hypothesis (skal bruge teacher)
+	\item optimistic hypothesis (forklar problemerne med at)		
+	\item Confident
+\end{itemize}
+	
+	Up until now we have only discussed how to acquire knowledge about the action schemas, but it is equally important to discuss how to utilize the knowledge when construction an hypothetical action schema.
+	We refer to this as hypothesis construction of the domain as we are making assumptions about the domain could be, being certain and only through testing the hypothesis can we prove it.
+	The design of the hypothesis determines the strategy of an agent, which impacts what it is capable of learning in the future. 
+	For instance if the hypothesis is based only on proven knowledge(\texttt{Pessimistic}), the agent will never experience an unfamiliar situation and thus will never learn something new.
+	
+	In Chapter \ref{sec:Learning} we went through examples of different strategies in this section we will show how that can be put to practice for STRIPS-style action schema, and what it means to the action schema itself.
+	Furthermore, this section will also show the dichotomy between using unproven preconditions and unproven effects and how to manipulate the traits of the strategy by changing these.
+	
+	The knowledge we can construct these hypothetical action schemas from; for precondition construction is:
+	
+	\begin{itemize}		
+		\item Disproven preconditions $D_P$
+		\item Proven preconditions $K_P$
+		\item Unproven preconditions $U_P$ as $U_P = \mathbb{P} \setminus (K_P \cup D_P)$
+		\item Candidates preconditions $C_P$
+	\end{itemize}
 
-\end{document}
+	and for effect construction we have:
+	
+	\begin{itemize}		
+		\item Disproven effects $D_E$
+		\item Proven effects $K_E$
+		\item Unproven effects $U_E$ as $U_E = \mathbb{P} \setminus (K_E \cup D_E)$
+	\end{itemize}
+	
+\subsubsection{Trait: Explorative/Exploitative}
+	
+	The explorative trait defines that the agent will prefer the shortest possible plan for achieving its goal, 
+	at the cost of doing something wrong. 
+	In STRIPS-style planning terms this means the strategy will use unproven effects in its hypothesis.
+	It is explorative because it increases the probability of finding the most optimal plan to solve the problem, 
+	but in doing so increases the risk of making plan-prediction mistakes(PPM).
+	\begin{quotation}
+				A plan-prediction mistake occurs when an
+				agent chooses a plan for a given episode that will not reach
+				the goal, or asserts “no plan” when the goal is reachable. \cite{Walsh2008}
+	\end{quotation}
+
+	An exploitative strategy means the agent will prefer to trying new actions as much as possible.
+	In action schema terms this means the strategy will focus mainly on using unproven preconditions.
+	This is because if a precondition is unproven, then it means that a state transition involving that precondition has never been experienced by the agent.
+	Thus by using them in a hypothesis the agent can avoid ever testing those state transitions.
+	
+
+
+
+\subsubsection{Trait: Self-sufficient/Help-seeking}
+
+	For explorative/exploitative strategies the difference was in whether the agent accepted the risk of making PPMs.
+	Self-sufficient/Help-seeking strategies are determined on whether the agent accepts being incapable of finding a plan.
+	
+	As a strategy becomes more self-sufficient the risk of the hypothesis producing "no plan" diminishes, provided that the problem is solvable. 
+	Oppositely as the agent becomes more help-seeking the risk of the hypothesis producing "no plan" increases.
+	
+	The help itself may come in a variety  of different mechanism. 
+	For instance, in \cite{Walsh2008} they proposed a teacher that for the an initial state $S_0$ and a goal $\mathcal{G}$ provides all the transitions $(s,a,s') \in T$, where $T$ is a trace, which leads to the solution of $\mathcal{G}$,
+	 thereby solving the problem for the agent when the it is incapable. 
+	The agent can then use this information to learn enough about the action schema, such that it can solve this exact goal in the future.
+	As we primarily focus on learning through experience rather than through a outside influence, we will assume that there exists such a mechanism that can teach a help-seeking agent; 
+	provided that the hypothesis gives "no plan" when help is required.
+	
+\subsubsection{Strategy: Pessimistic}
+
+	A pessimistic strategy as we defined in \ref{sec:Learning} has the traits always \texttt{Exploitative} and always \texttt{Help-seeking}, 
+	meaning the hypothetical action schema should never make PPMs and claim "no plan" if cannot guarantee the solution.
+	
+	In \cite{Walsh2008} they 
+	
+\subsubsection{Strategy: Optimistic}
+
+	An optimistic strategy has the traits always \texttt{Explorative} and always \texttt{Self-sufficient}, 
+	this means the hypothetical action schema is allowed to make PPMs but never allowed to claim "no plan" if a plan exists.
+	
+	In \cite{Walsh2008} they constructed the action schema's preconditions by iterating through all subset of unproven preconditions. 
+	This is accomplished by selecting one subset of the unproven preconditions and use that until the planner returns "no plan" and thereafter discarding it along with precondition subsets that satisfied it.
+
+	We propose that preconditions are constructed based on our knowledge instead. 
+	The candidates $C$ contain information about single instances of precondition combinations that has been shown to give a failure;
+	thus by placing them in CNF in the action schema we guarantee that states which contain those specific predicate combination cannot have the action applied to it.
+	Furthermore, we have the $K_P$ that contain the proven preconditions, as such combining the two we get:
+	
+	\begin{equation}
+		preconditions = \bigwedge\limits_{k \in K_P} k \quad \land \quad  \bigwedge \limits_{c \in C_P} \left( \bigvee \limits_{p \in c} p\right)
+	\end{equation}
+	
+	Notice that this requires the planner to support disjunctive preconditions.
+	
+	For effects \cite{Walsh2008} proposed to use unproven and proven positive effect when constructing the action schema. This approach will only allow the agent to solve positive goals.
+	To allow both positive and negative goals to be solved, we propose to use both the negative unproven/proven effects when constructing the action schema.
+		
+	\begin{equation}
+		effects = \bigwedge\limits_{k \in K_E} k \quad \land \quad \bigwedge\limits_{u \in U_E} u
+	\end{equation}
+	
+	In order for this to work the planner must support three valued logic planning, or planning with spurious actions. 
+	Such a planner would, when encountering an effect $p$ in an effect set $E$ that is to be added and deleted (is spurious), add it to a special undefined set $\mathcal{X}$.
+	If however the effect is not spurious meaning it is either positive or negative then it is removed from $\mathcal{X}$.
+	
+			\begin{equation} 
+				\begin{split}
+					Spurious~E_S &= \{ p \mid p \in E \land \neg p \in E \} \\
+					Non\text{-}Spurious~E_{NS} &= \{ p \mid (p \in E \land \neg p \notin E ) \lor (p \notin E \land \neg p \in E )  \}\\
+					Undefined ~ set ~ X' &= X \cup E_S \setminus E_{NS}
+				\end{split}	
+			\end{equation}
+	The undefined set then counts the predicate as solving both positive and negative goals for the state. 
+	For instance if the goal is $\mathcal{G} = \{at(t1), \neg at(t2)\}$ and $\mathcal{X} = \{at(t1), at(t2)\}$ then that goal is deemed solved by the planner.
+	
+	\begin{example}
+		This example will show how to construct an optimistic hypothesis, using knowledge from a sokoban domain.
+		Assume we have the following knowledge for action an \texttt{move-h}:
+		 	\begin{equation*}
+			 	\begin{split}
+				 	K_P & = \left\{\texttt{hAdj}(from, to) \right\} \\
+					C_P& =	\left\{
+							\begin{gathered}
+								\left\{
+								\begin{gathered}
+									\texttt{hAdj}(to, from), \\
+									\neg\texttt{hAdj}(from, from), \neg\texttt{hAdj}(to, to)
+								\end{gathered}
+								\right\},	\\ \left\{
+								\begin{gathered}
+									\texttt{sokobanAt}(from), \texttt{clear}(to)
+								\end{gathered}
+								\right\}
+							\end{gathered}
+							\right\}				
+				 	\\
+				 	K_E& = 
+						 	\left\{
+						 	\begin{gathered}
+							 	\neg\texttt{sokobanAt}(from)
+						 	\end{gathered}
+						 	\right\}
+					\\
+				 	U_E& = 
+					 	\left\{
+					 	\begin{gathered}
+						 	\texttt{sokobanAt}(to),
+						 	\texttt{clear}(to)
+					 	\end{gathered}
+					 	\right\}
+				\end{split}		
+		 	\end{equation*}
+		 	
+		The optimistic hypothesis for $\texttt{move-h}$ would thus be:
+			\begin{equation*}
+				\begin{split}
+					Preconds& :\left(
+									 \begin{gathered} 
+									   \texttt{hAdj}(to, from) ~ \lor \\
+									  \neg\texttt{hAdj}(from, from) ~ \lor \\ \neg\texttt{hAdj}(to, to) 
+									 \end{gathered}
+								  \right) \land
+								  \left(
+									  \begin{gathered}
+										  \texttt{sokobanAt}(from) ~ \lor \\ \texttt{clear}(to)
+									  \end{gathered}
+								  \right) \land \texttt{hAdj}(from, to) \\
+					Effects &: 	\left\{
+									\begin{gathered}
+										\neg\texttt{sokobanAt}(from),
+										\texttt{sokobanAt}(to),
+										\texttt{clear}(to)
+									\end{gathered}
+								\right\} 				
+				\end{split}				
+			\end{equation*}
+	\end{example}	
+
+\subsubsection{Strategy: Confident}
+
+
+\end{document}	
+	
+	
+ 
+	

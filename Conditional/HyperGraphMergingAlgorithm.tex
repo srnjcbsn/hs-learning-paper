@@ -1,5 +1,125 @@
 \documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
+
 \begin{document}
 
+Given two hypergraphs $H_1$ and $H_2$ describing the same conditional effect $q$:
+
+Starting with the hyperedge describing the effect $q$, ie. $\left\{ q_1, \dots, q_{|q|}  \right\}$:
+
+Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in  both $H_1$ and $H_2$, denoted $e_1(q_i)$ and $e_2(q_i)$. For all nodes $v_j \in e_1(q_i)$, it holds that  if $v_j$ does not exist in $e_2(q_i)$, then it is not a precondition that the $i$'th argument of $q$ is the same as the $j$'th argument of $v$.
+
+\begin{proposition}
+    Given two binding edges $e_1$ and $e_2$ from hypergraphs $H_1$ and $H_2$, respectively; any node $v$ that only exists in \emph{either} $e_1$ or $e_2$ is discarded as a precondition, formally:
+    \begin{equation*}
+        v \notin e_1 \lor v \notin e_2 \rightarrow v \notin e_1 \sqcap e_2
+    \end{equation*}
+\end{proposition}
+
+\begin{proposition}
+    Given two binding edges $e_1$ and $e_2$,
+\end{proposition}
+
+\begin{equation}
+    e \sqcap f =
+\end{equation}
+
+\begin{example} \label{ex:ca:hgma:disconnected}
+    \begin{equation*}
+        H_1 = \forall x, y, z : q(x) \quad \text{when} \quad
+            p(x,y) \land p(y, z)
+    \end{equation*}
+
+    \begin{equation*}
+        H_2 = \forall \alpha, \beta, \gamma : q(\alpha) \quad \text{when} \quad
+            p(\alpha, \beta) \land p(\gamma, \delta)
+    \end{equation*}
+
+    \begin{equation*}
+        H_1 \sqcap H_2 = \forall x, y : q(x) \quad \text{when} \quad p(x, y)
+    \end{equation*}
+
+    \begin{figure}
+        <placeholder>
+        \caption{\label{fig:ex:ca:hgma:ex:disconnected} Figure of hypergraphs for example \ref{ex:ca:hgma:disconnected}.}
+    \end{figure}
+
+    Note that the precondition decribed by $H_1$ is more restrictive than that of $H_2$. Consequentially, if $H_1$ was the real precondition, the conditional effect would not have succeeded for $H_2$.
+\end{example}
+
+If, on the other hand, $v_j$ does exist in $e_2(q_i)$, then it cannot be discarded as a precondition. Furthermore, if there exists several nodes with name $v_j$ in $e_2(q_i)$, then it may be the case that
+
+\begin{example} \label{ex:ca:hgma:generalization}
+    \begin{equation*}
+        H_1 = \forall x, y : q(x) \quad \text{when} \quad
+            p(x,y) \land f(y) \land g(y)
+    \end{equation*}
+
+    \begin{equation*}
+        H_2 = \forall x, y, z : q(x) \quad \text{when} \quad
+            p(x, y) \land p(x,z) \land f(y) \land g(z)
+    \end{equation*}
+
+    \begin{equation*}
+        H_1 \sqcap H_2 = H_2
+    \end{equation*}
+
+    \begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \scalebox{1}{\input{\master/Graphics/hgEx2_1.pgf}}
+            \caption{}
+            \label{fig:ex:ca:hgma:ex:generalization1}
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}[b]{0.3\textwidth}
+            \centering
+            \scalebox{0.75}{\input{\master/Graphics/hgEx2_2.pgf}}
+            \caption{}
+            \label{fig:ex:ca:hgma:ex:generalization1}
+        \end{subfigure}
+        \caption{} Figure of hypergraphs for example
+    \end{figure}
+
+\end{example}
+
+
+
+it now holds that if there does not exist a node with the same name in $e_2(q_i)$, then it is
+
+Define hyperedge intersection ($e_1 \sqcap e_2$) as follows:
+\begin{equation}
+    \left\{
+        p \; | \; v \in e_1 \land t \in e_2 \land name(v) = name(t)
+    \right\}
+\end{equation}
+
+For each predicate $p$ in $H_1$ whose $k$'th argument is identical to the $i$'th argument of $q$
+
+\begin{easylist}[itemize]
+    \ListProperties(Progressive=3ex)
+    & For each $p(x_1, x_2, \dots, x_{|p|}) \in H_1$:
+    && For each $x \in (x_1, x_2, \dots, x_|p|)$:
+    &&& Collect all predicates $q$ in $H_1$ which has $x$ as argument.
+    &&& For each $q$:
+    &&&& Let $k$ be the argument places in $q$ which equals $x$
+    &&&& For each $k$:
+    &&&&& For each predicate $f$ with the same name as $q$ in $H_2$ for which $args(f)[k] = x$:
+    &&&&&&
+\end{easylist}
+
+\begin{equation}
+    c(x,k) =
+    \left\{
+        p \; | \; p \in H_2 \land name(p) \land args(p)[k] = x
+    \right\}
+\end{equation}
+
+\begin{equation}
+    \left\{
+        q \; | \; args(p) \cap args(q) \neq \emptyset
+    \right\}
+\end{equation}
 
 \end{document}
