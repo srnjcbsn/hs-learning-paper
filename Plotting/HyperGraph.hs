@@ -10,6 +10,7 @@ import Control.Arrow ((***))
 type Vert = (String, Int, Int) -- (predName, argIdx, id)
 type Pos = (Double, Double)
 
+blobLW, blobR :: Double
 blobLW = 0.02
 blobR = 0.4
 
@@ -110,3 +111,33 @@ hgEx2_2 = HyperGraph
           p2_2 = ("p", 2, 5)
           g1   = ("g", 1, 6)
           f1   = ("f", 1, 7)
+
+isomorphic :: HyperGraph
+isomorphic = HyperGraph
+    { verts = fromList [ (q1,   (1, 2))
+                       , (p1_1, (2, 2))
+                       , (p2_1, (3, 2))
+                       , (p1_2, (1, 1))
+                       , (p2_2, (1, 0))
+                       ]
+    , pSets = [[q1], [p1_1, p2_1], [p1_2, p2_2]]
+    , bSets = [[p1_2, q1, p1_1], [p2_1], [p2_2]]
+    }
+    where q1   = ("q", 1, 1)
+          p1_1 = ("p", 1, 2)
+          p2_1 = ("p", 2, 3)
+          p1_2 = ("p", 1, 4)
+          p2_2 = ("p", 2, 5)
+
+isomorphicReduced :: HyperGraph
+isomorphicReduced = HyperGraph
+    { verts = fromList [ (q1, (1, 2))
+                       , (p1, (2, 2))
+                       , (p2, (3, 2))
+                       ]
+    , pSets = [[q1], [p1, p2]]
+    , bSets = [[q1, p1], [p2]]
+    }
+    where q1 = ("q", 1, 1)
+          p1 = ("p", 1, 2)
+          p2 = ("p", 2, 3)

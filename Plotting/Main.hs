@@ -15,3 +15,5 @@ main = do
     renderPGF "output/hg1.pgf" (dims2D 200 200) (drawHg hg1)
     renderPGF "output/hgEx2_1.pgf" (dims2D 200 200) (drawHg hgEx2_1)
     renderPGF "output/hgEx2_2.pgf" (dims2D 200 200) (drawHg hgEx2_2)
+    renderPGF "output/isomorphic.pgf" (dims2D 200 200) (drawHg isomorphic)
+    renderPGF "output/isomorphicReduced.pgf" (dims2D 200 200) (drawHg isomorphicReduced)
