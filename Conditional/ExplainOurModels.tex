@@ -3,8 +3,6 @@
 
 
 Formerly we defined binding sets as a theoretical set, however for practical application we require an exact model.
-There are
-
 
 For instance, earlier we made the assumption that ambiguous predicates would always match correctly, to get an idea of this problem
 assume we have a precondition \{$p(x,y), p(z,x)$\}, if we designed the bindings as tuples $(p,(1,2),p)$ which is (predicate A, (variable position of A, variable position of B), predicate B).
@@ -78,7 +76,7 @@ To summarize the our prior model for preconditions and effects we have the four 
 		choose to visualize this using normal cloud notation around them.\\
 		\begin{tabular}{c  c}
 
-			p(x) $\land$q(x) becomes &
+			$p(x) \land q(x)$ becomes &
 			\raisebox{-.5\height}{
 
 				\begin{tikzpicture}[node distance=2cm, on grid]
@@ -224,5 +222,9 @@ To summarize the our prior model for preconditions and effects we have the four 
 	Furthermore, in this model the notion of disjoint predicates (Restriction \ref{rst:ca:no-disjuntive-conditionals}) is shown by the nodes not being connected through any type of edge.
 \end{example}
 
+
+\begin{proposition}
+    All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
+\end{proposition}
 
 \end{document}

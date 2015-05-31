@@ -1,5 +1,34 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
+\begin{example}
+    \begin{equation*}
+        H = \forall x, y, z : q(x) \quad \textit{when} \quad
+            p(x,y) \land p(x,z)
+    \end{equation*}
+
+    \begin{equation}
+        \forall x, y : q(x) \quad \textit{when} \quad p(x,y)
+    \end{equation}
+
+    \begin{figure}
+        \centering
+        \hfill
+        \begin{subfigure}[b]{0.4\textwidth}
+            \centering
+            \resizebox{0.7\linewidth}{!}{\input{\master/Graphics/isomorphic.pgf}}
+            \caption{test2}
+            \label{fig:ex:ca:hgma:ex:isomorphic}
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}[b]{0.4\textwidth}
+            \centering
+            \resizebox{0.75\linewidth}{!}{\input{\master/Graphics/isomorphicReduced.pgf}}
+            \caption{}
+            \label{fig:ex:ca:hgma:ex:isomorphic_reduced}
+        \end{subfigure}
+        \hfill
+    \end{figure}
+\end{example}
 
 \end{document}

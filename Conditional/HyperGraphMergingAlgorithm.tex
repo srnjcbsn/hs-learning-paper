@@ -3,17 +3,17 @@
 
 \begin{document}
 
-Formally, a vertex in a such a hypergraph is a pair $\left(n,p_i \right)$
+We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As before <binding section ref>, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this
+
+If a vertex with name $p_i$ exists in only one of the binding edges, then the action have been applied successfully without the binding present, and it is as such disproven to be a precondition. It now holds that if removal of
+
+Conversely, if a vertex with name $p_i$ exists in both binding sets, then it can neither be proven nor disproven that it is a precondition. Additionally, if multiple vertices named $p_i$ exists in one of th binding sets, then it is unknown which
 
 Given two hypergraphs $H_1$ and $H_2$ describing the same conditional effect $q$:
 
 Starting with the hyperedge describing the effect $q$, ie. $\left\{ q_1, \dots, q_{|q|}  \right\}$:
 
 Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in  both $H_1$ and $H_2$, denoted $e_1(q_i)$ and $e_2(q_i)$. For all nodes $v_j \in e_1(q_i)$, it holds that  if $v_j$ does not exist in $e_2(q_i)$, then it is not a precondition that the $i$'th argument of $q$ is the same as the $j$'th argument of $v$.
-
-\begin{proposition}
-    All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
-\end{proposition}
 
 \begin{definition}[Hyper edge intersection]
     The intersection of two hyper edges $e_1$ and $e_2$ is a new hyperedge where the number of vertices with name $v_i$ is equal to the number of vertices with name $v_i$ in $e_1$ and $e_2$, multiplied. Formally:
@@ -23,10 +23,12 @@ Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in 
                 v \in e_1 \land t \in e_2 \land v \approx t
         \right\}
     \end{equation*}
+
+    Here, $v \approx t$ is a special equality operator whih ignores vertex labels, such that $\left( n, p_i \right) \approx \left( m, q_i \right)$ iff $p_i = q_i$. $f$ is a function responsible for ass
 \end{definition}
 
 \begin{definition}
-    Given two vertices with the same name, ie $v = \left(n, p_i \right)$ and $t = \left( m, p_i \right)$, $f(v,t)$ yields a new vertex with that name and an identifier based on $v$'s and $t$'s. $f$ must be injective, such that $f^{-1}(f(v,t)) = (v,t)$. In the following, we will use the shorthands $f^{-1}_1(f(v,t)) = v$ and $f^{-1}_2(f(v,t)) = t$.
+    Given two vertices with the same name, ie $v = \left(n, p_i \right)$ and $t = \left( m, p_i \right)$, $f(v,t)$ yields a new vertex with that name and an identifier based on $v$'s and $t$'s. $f$ must be injective, such that $f^{-1}(f(v,t)) = (v,t)$.
 \end{definition}
 
  A simple implementation of $f$ is tupling the identifiers of the arguement, ie:
@@ -35,11 +37,9 @@ Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in 
     f\left( \left(n, p_i \right), \left(m, p_i \right) \right) =
         \left( (n,m), p_i \right)
 \end{equation*}
-Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by decomposing the tuple. Note that with this implementation, repeated application of $f$ requires linear space.
+Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by tuple decomposition.
 
-\begin{proposition}
-    If
-\end{proposition}
+
 
 \begin{proposition}
     Given two binding edges $e_1$ and $e_2$ from hypergraphs $H_1$ and $H_2$, respectively; any node $v$ that only exists in \emph{either} $e_1$ or $e_2$ is discarded as a precondition, formally:
@@ -48,35 +48,7 @@ Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by decomposing the
     \end{equation*}
 \end{proposition}
 
-\begin{example}
-    \begin{equation*}
-        H = \forall x, y, z : q(x) \quad \textit{when} \quad
-            p(x,y) \land p(x,z)
-    \end{equation*}
 
-    \begin{equation}
-        \forall x, y : q(x) \quad \textit{when} \quad p(x,y)
-    \end{equation}
-
-    \begin{figure}
-        \centering
-        \hfill
-        \begin{subfigure}[b]{0.4\textwidth}
-            \centering
-            \resizebox{0.7\linewidth}{!}{\input{\master/Graphics/isomorphic.pgf}}
-            \caption{}
-            \label{fig:ex:ca:hgma:ex:isomorphic}
-        \end{subfigure}%
-        \hfill%
-        \begin{subfigure}[b]{0.4\textwidth}
-            \centering
-            \resizebox{0.75\linewidth}{!}{\input{\master/Graphics/isomorphicReduced.pgf}}
-            \caption{}
-            \label{fig:ex:ca:hgma:ex:isomorphic_reduced}
-        \end{subfigure}
-        \hfill
-    \end{figure}
-\end{example}
 
 \begin{algorithm}
     \caption{Binding edge merging algorithm}
@@ -108,8 +80,14 @@ Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by decomposing the
             \State $H' \gets H' \cup p'$
             \ForAll {vertices $v \in p'$}
                 \If {there is no binding edge in $H'$ containing $v$}
-                    \State $b_1 \gets$ the binding edge in $H_1$ containing $f_1^{-1}(v)$
-                    \State $b_2 \gets$ the binding edge in $H_2$ containing $f_2^{-1}(v)$
+                    \State $\left( v_1, v_2 \right) \gets f^-\left( v \right)$
+                    % \State $\left( b_1, b_2 \right) \gets
+                    %             \left(
+                    %                 g\left( v_1, H_1 \right),
+                    %                 g(\left( v_2, H_2 \right)
+                    %             \right) $
+                    \State $b_1 \gets$ the binding edge in $H_1$ containing $v_1$
+                    \State $b_2 \gets$ the binding edge in $H_2$ containing $v_2$
                     \State $H' \gets \textsc{MergeBindingEdges}
                         \left( H_1, H_2, H', b_1, b_2 \right)$
                 \EndIf
@@ -178,7 +156,7 @@ If, on the other hand, $v_j$ does exist in $e_2(q_i)$, then it cannot be discard
         \begin{subfigure}[b]{0.4\textwidth}
             \centering
             \resizebox{\linewidth}{!}{\input{\master/Graphics/hgEx2_1.pgf}}
-            \caption{}
+            \caption{test}
             \label{fig:ex:ca:hgma:ex:generalization1}
         \end{subfigure}%
         \hfill%
