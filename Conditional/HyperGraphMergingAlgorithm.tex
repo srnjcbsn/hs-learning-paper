@@ -3,17 +3,93 @@
 
 \begin{document}
 
-We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As before <binding section ref>, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this
+We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As before <binding section ref>, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this corresponds to removing vertices from binding edges
 
-If a vertex with name $p_i$ exists in only one of the binding edges, then the action have been applied successfully without the binding present, and it is as such disproven to be a precondition. It now holds that if removal of
+: Given two hyper graphs describing the same effect then  
+If a vertex with name $p_i$ exists in only one of the binding edges, then the action have been applied successfully without the binding present, and it is as such disproven to be a precondition. It now holds that if removal of such a vertex causes the hyper graph to be disconnected, then components not connected to the hyper edge describing the effect can be disproven to be preconditions (by restriction~\ref{rst:ca:no-disjoint-preconditions}).
 
-Conversely, if a vertex with name $p_i$ exists in both binding sets, then it can neither be proven nor disproven that it is a precondition. Additionally, if multiple vertices named $p_i$ exists in one of th binding sets, then it is unknown which
+\begin{example} \label{ex:ca:hgma:disconnected}
+	As an example of applying the hypergraph merging method described above, consider the following two patterns, described by hypergraphs $H_1$ and $H_2$, respectively (see \figref{fig:ex:ca:hgma:ex:disconnected}).
+    \begin{equation*}
+        H_1 = \forall x, y, z : q(x) \quad \text{when} \quad
+            p(x,y) \land g(x, z)
+    \end{equation*}
 
-Given two hypergraphs $H_1$ and $H_2$ describing the same conditional effect $q$:
+    \begin{equation*}
+        H_2 = \forall \alpha, \beta : q(\alpha) \quad \text{when} \quad
+            p(\alpha, \beta)
+    \end{equation*}
 
-Starting with the hyperedge describing the effect $q$, ie. $\left\{ q_1, \dots, q_{|q|}  \right\}$:
+	In this simple example, the first argument of predicate $g$ is bound to the first argument of the effect, but such a binding does not exist in $H_2$. Since the action succeeded without the binding, it can safely be discarded as a precondition and the merged hypergraph is now:
 
-Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in  both $H_1$ and $H_2$, denoted $e_1(q_i)$ and $e_2(q_i)$. For all nodes $v_j \in e_1(q_i)$, it holds that  if $v_j$ does not exist in $e_2(q_i)$, then it is not a precondition that the $i$'th argument of $q$ is the same as the $j$'th argument of $v$.
+    \begin{equation*}
+        H' = \forall x, y : q(x) \quad \text{when} \quad p(x, y)
+    \end{equation*}
+
+    \begin{figure}
+        <placeholder>
+        \caption{\label{fig:ex:ca:hgma:ex:disconnected} Figure of hypergraphs for example~\ref{ex:ca:hgma:disconnected}.}
+    \end{figure}
+
+    Note that the precondition decribed by $H_1$ is more restrictive than that of $H_2$. Consequentially, if $H_1$ was the real precondition, the conditional effect would not have succeeded for $H_2$.
+\end{example}
+
+The method of binding edge intersection described above can be applied recursively, starting with the binding edges containing the effects, continuing with binding edges connected by predicate edges to those vertices not removed not removed, and so on.
+
+Although intersecting binding edges by vertex names is an appealing method, it is not always sufficient; if one of the hyper edges in question contains multiple vertices with the same name $p_i$ while the other contains one or more vertices with name $p_i$, then their intersection will yield a single vertex with that name. This is not always desirable, as bindings might be shadowed 
+
+\begin{example} \label{ex:ca:hgma:generalization}
+	Consider the application of an action $a$ in state $s_0$, producing the state $s_1$.
+
+	\begin{equation*}
+		s_0 = \left\{
+			\begin{gathered}
+				p(o_1, o_2), g(o_2), f(o_2), \\
+				p(o_3, o_4), g(o_4), p(o_3, o_5), f(o_5)
+			\end{gathered}
+		\right\}
+	\end{equation*}
+
+	\begin{equation*}
+		s_1 = s_0 \cup \left\{ q\left( o_1 \right), q \left( o_3 \right) \right\}
+	\end{equation*}
+
+	From inspecting the state transition, the following two patterns can be found:
+
+    \begin{equation*}
+        H_1 = \forall x, y : q(x) \quad \text{when} \quad
+            p(x,y) \land f(y) \land g(y)
+    \end{equation*}
+
+    \begin{equation*}
+        H_2 = \forall x, y, z : q(x) \quad \text{when} \quad
+            p(x, y) \land p(x,z) \land f(y) \land g(z)
+    \end{equation*}
+
+	From these patterns, it is clear that $H_1$ is not the correct precondition, as it would have prevented the effect $q\left(o_3\right)$. However, $H_2$ is flexible enough to allow the effect $q\left(o_1\right)$ under the interpretation 
+	\begin{equation*}
+		x = o_1, y = z = o_2
+	\end{equation*}
+
+    \begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.4\textwidth}
+            \centering
+            \resizebox{\linewidth}{!}{\input{\master/Graphics/hgEx2_1.pgf}}
+			\caption{$H_1$}
+            \label{fig:ex:ca:hgma:ex:generalization1}
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}[b]{0.4\textwidth}
+            \centering
+            \resizebox{0.8\linewidth}{!}{\input{\master/Graphics/hgEx2_2.pgf}}
+            \caption{$H_2$}
+            \label{fig:ex:ca:hgma:ex:generalization1}
+        \end{subfigure}
+		\caption{Hypergraphs for example~\ref{ex:ca:hgma:generalization}} 
+    \end{figure}
+
+\end{example}
 
 \begin{definition}[Hyper edge intersection]
     The intersection of two hyper edges $e_1$ and $e_2$ is a new hyperedge where the number of vertices with name $v_i$ is equal to the number of vertices with name $v_i$ in $e_1$ and $e_2$, multiplied. Formally:
@@ -38,17 +114,6 @@ Each argument $q_i$ of $q$ is now member of exactly one \emph{arg}-hyperedge in 
         \left( (n,m), p_i \right)
 \end{equation*}
 Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by tuple decomposition.
-
-
-
-\begin{proposition}
-    Given two binding edges $e_1$ and $e_2$ from hypergraphs $H_1$ and $H_2$, respectively; any node $v$ that only exists in \emph{either} $e_1$ or $e_2$ is discarded as a precondition, formally:
-    \begin{equation*}
-        v \notin e_1 \lor v \notin e_2 \rightarrow v \notin e_1 \sqcap e_2
-    \end{equation*}
-\end{proposition}
-
-
 
 \begin{algorithm}
     \caption{Binding edge merging algorithm}
@@ -110,65 +175,5 @@ Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by tuple decomposi
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
-
-\begin{example} \label{ex:ca:hgma:disconnected}
-    \begin{equation*}
-        H_1 = \forall x, y, z : q(x) \quad \text{when} \quad
-            p(x,y) \land p(y, z)
-    \end{equation*}
-
-    \begin{equation*}
-        H_2 = \forall \alpha, \beta, \gamma : q(\alpha) \quad \text{when} \quad
-            p(\alpha, \beta) \land p(\gamma, \delta)
-    \end{equation*}
-
-    \begin{equation*}
-        H_1 \sqcap H_2 = \forall x, y : q(x) \quad \text{when} \quad p(x, y)
-    \end{equation*}
-
-    \begin{figure}
-        <placeholder>
-        \caption{\label{fig:ex:ca:hgma:ex:disconnected} Figure of hypergraphs for example \ref{ex:ca:hgma:disconnected}.}
-    \end{figure}
-
-    Note that the precondition decribed by $H_1$ is more restrictive than that of $H_2$. Consequentially, if $H_1$ was the real precondition, the conditional effect would not have succeeded for $H_2$.
-\end{example}
-
-If, on the other hand, $v_j$ does exist in $e_2(q_i)$, then it cannot be discarded as a precondition. Furthermore, if there exists several nodes with name $v_j$ in $e_2(q_i)$, then it may be the case that
-
-\begin{example} \label{ex:ca:hgma:generalization}
-    \begin{equation*}
-        H_1 = \forall x, y : q(x) \quad \text{when} \quad
-            p(x,y) \land f(y) \land g(y)
-    \end{equation*}
-
-    \begin{equation*}
-        H_2 = \forall x, y, z : q(x) \quad \text{when} \quad
-            p(x, y) \land p(x,z) \land f(y) \land g(z)
-    \end{equation*}
-
-    \begin{equation*}
-        H_1 \sqcap H_2 = H_2
-    \end{equation*}
-
-    \begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.4\textwidth}
-            \centering
-            \resizebox{\linewidth}{!}{\input{\master/Graphics/hgEx2_1.pgf}}
-            \caption{test}
-            \label{fig:ex:ca:hgma:ex:generalization1}
-        \end{subfigure}%
-        \hfill%
-        \begin{subfigure}[b]{0.4\textwidth}
-            \centering
-            \resizebox{0.8\linewidth}{!}{\input{\master/Graphics/hgEx2_2.pgf}}
-            \caption{}
-            \label{fig:ex:ca:hgma:ex:generalization1}
-        \end{subfigure}
-        \caption{} Figure of hypergraphs for example
-    \end{figure}
-
-\end{example}
 
 \end{document}

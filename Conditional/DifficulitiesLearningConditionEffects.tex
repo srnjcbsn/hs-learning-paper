@@ -1,9 +1,10 @@
 \documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
+
 \begin{document}
 
-
-In STRIPS-Style actions the objects $A(O_1,O_2,..,O_{n-1},O_n)$ are the only objects affected by the action.
-Thus any predicate that contains objects other than $O_1,O_2,...,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
+In STRIPS-Style actions the objects $A(O_1,O_2,\ldots,O_{n-1},O_n)$ are the only objects affected by the action.
+Thus any predicate that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
 However as actions with conditional effects support the use of quantifiers this claim no longer holds.
 Therefore the universe $\mathbb{CP}$ for conditional effects of possible predicates is infinite as quantifiers can have an infinite number of variables.
 However if the environment is \textbf{fully observable} and has a finite number of objects,
@@ -26,19 +27,14 @@ In order to simplify the problem we have made the following restrictions on cond
 		  I.E. If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
 \end{enumerate}
 
-Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction \ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditional effects have the same effect, as that is equivalent to an disjunctive precondition.
+Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditional effects have the same effect, as that is equivalent to an disjunctive precondition.
 
 In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using prior models and what changes to the models are necessary in order to find proper solutions.
 
 \begin{figure}
-
-
-	\centering{
-	\includegraphics[width=0.5\textwidth]{../Graphics/house_conditional_knowledge.png}}
-	\caption{\label{fig:ca:house-example}Three states of light problem for Example \ref{ex:ca:light-on}}
-
-
-
+	\centering{%
+	\includegraphics[width=0.5\textwidth]{\master/Graphics/house_conditional_knowledge.png}}
+	\caption{\label{fig:ca:house-example}Three states of light problem for Example~\ref{ex:ca:light-on}}
 \end{figure}
 
 \begin{example}\label{ex:ca:light-on}
@@ -62,17 +58,17 @@ Objects are defined by the predicates which they satisfy. As such when we say th
 This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state S which led to the effects. In real terms interpreting objects as variables means mapping each object 
 to a to different variable.
 \begin{align}
-	&\sigma : P, \delta \leftarrow \left\{p\left(\delta(O_1),..,\delta(O_n) \right) \mid p(O_1,..,O_n) \in P  \right\}  &
+	&\sigma : P, \delta \leftarrow \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}  &
 \end{align}
 
 
 
 For instance for the state
-$\{ p(Object_1), p(Object_2),..,p(Object_n)\}$ using a mapping
-$\delta = \{Object_1 \mapsto x, Object_2 \mapsto y...\}$
+$\{ p(Object_1), p(Object_2),\ldots,p(Object_n)\}$ using a mapping
+$\delta = \{Object_1 \mapsto x, Object_2 \mapsto y \ldots\}$
 where $(x, y..)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects
 
-$\{ p(\delta(Object_1)), p(\delta(Object_2)),..,p(\delta(Object_n))\} = \{ p(x), p(y),..\}$
+$\{ p(\delta(Object_1)), p(\delta(Object_2)),\ldots,p(\delta(Object_n))\} = \{ p(x), p(y),\ldots\}$
 
 \begin{theorem}\label{thm:ca:precondition-state}
 If an action produces one or more effects $E$, then all predicates in the prior state are the maximum number of positive preconditions to those exact effects.
@@ -92,7 +88,7 @@ Thus if both negative and positive preconditions are allowed a the same time use
 	\centering
 	\includegraphics[width=0.2\textwidth]{../Graphics/soko_cond_example.png}
 
-	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for Example \ref{ex:ca:sokoban-moveleft-action} }
+	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for Example~\ref{ex:ca:sokoban-moveleft-action} }
 
 \end{figure}
 
