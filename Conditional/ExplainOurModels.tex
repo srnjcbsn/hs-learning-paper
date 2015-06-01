@@ -21,7 +21,7 @@ To summarize the our prior model for preconditions and effects we have the four 
 	\item [{Proven~$B_k$}] The set of all bindings which has been
 	proven.
 	\item [{Disproven~$B_d$}] Is the set of bindings and predicates which have
-	been disproven, it can be derived from $B_d=\left(B_u\cup B_k\right)^{c}$.
+	been disproven, it can be derived from $B_d={\left( B_u \cup B_k \right)}^c$.
 	\item [{Candidates~$B_c$}] Is a set of bindings where at least one of the bindings is an actual binding.
 	This set like for non-conditional actions are used to prove bindings,
 	which is accomplished through disproving the other candidates in the set.
@@ -35,11 +35,12 @@ To summarize the our prior model for preconditions and effects we have the four 
 	For these reason we have designed a model for predicate bindings using hypergraphs;
 	in this	model a node is a single predicate's variable position.
 	For instance, if we modelled the following predicate $p(x,x)$ its nodes would be $p1$ and $p2$ because it contains two variables.
-	The variables position is enumerated in sequence $1..n$.
+	The variables position is enumerated in sequence $1\ldots |p|$.
+
+	<\texttt{TODO:} introduction to hypergraphs, edges are sets of vertices>
 
 	In hypergraphs edges can be between more than 2 nodes, we use this to our advantage when modelling bindings.
-	In our model we define that there are two different kinds of edges, the first edge is for binding a single predicate together,
-	are two kinds of edges, one to combine predicate nodes into a single predicate and one to represent bindings.
+	We can define two kinds of edges: one to combine predicate nodes into a single predicate and one to represent bindings.
 
 	The two kinds of edges are defined as follows:
 
@@ -52,10 +53,7 @@ To summarize the our prior model for preconditions and effects we have the four 
 		\begin{tabular}{c  c}
 
 			$p(\bot,\bot)$ becomes &
-			\raisebox{-.5\height}{
-
-%				\includegraphics[width=3cm]{../Graphics/connected_nodes}
-
+			\raisebox{-.5\height}{%
 					\begin{tikzpicture}[node distance=2cm, on grid]
 						\node (p1) at (0,0) {};
 						\node (p2) [right of = p1] {};
@@ -69,15 +67,15 @@ To summarize the our prior model for preconditions and effects we have the four 
 
 					\end{tikzpicture}
 
-				}	\tabularnewline
-
+				}	
+				\tabularnewline%
 		\end{tabular}
-		\item[{Binding edge}] To represent variables bound together through a common variable(Bindings) we
+		\item[{Binding edge}] To represent variables bound together through a common variable (Bindings) we
 		choose to visualize this using normal cloud notation around them.\\
 		\begin{tabular}{c  c}
 
 			$p(x) \land q(x)$ becomes &
-			\raisebox{-.5\height}{
+			\raisebox{-.5\height}{%
 
 				\begin{tikzpicture}[node distance=2cm, on grid]
 				\node (p1) at (0,0) {};
@@ -101,10 +99,20 @@ To summarize the our prior model for preconditions and effects we have the four 
 				\end{tikzpicture}
 
 				}
-				\tabularnewline
-
+				\tabularnewline%
 		\end{tabular}
 	\end{description}
+
+In the following sections, we will assume that binding edges can be discerned from predicate edges, eg.\ by labelling.
+
+In addition to the above, a hypergraph also contains exactly one predicate edge which is labelled as the effect of the pattern the hypergraph describes.
+
+Note that a predicate edge will always contain a number of vertices equal to the arity of the predicate, while a binding edge can contain any number of vertices. Furthermore, a binding set can contain several vertices describing the same argument place of the same predicate. To discern vertices, we define them as a tuple containing a name denoting the predicate and the argument place it represents (such as $p_3$), as well as a unique identifier. 
+
+\begin{proposition}
+    All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
+\end{proposition}
+
 	\begin{figure}
 		\centering
 		\begin{tikzpicture}[node distance=2cm, on grid]
@@ -193,7 +201,7 @@ To summarize the our prior model for preconditions and effects we have the four 
 		\node at (2.3,6.3) {$b$};
 		\end{tikzpicture}
 
-		\caption{\label{fig:ca:sokoban-hypergraph}Sokoban as hypergraph for Example \ref{ex:ca:sokoban-hypergraph}}
+		\caption{\label{fig:ca:sokoban-hypergraph}Sokoban as hypergraph for Example~\ref{ex:ca:sokoban-hypergraph}}
 
 	\end{figure}
 
@@ -203,7 +211,7 @@ To summarize the our prior model for preconditions and effects we have the four 
 
 
 \begin{example}\label{ex:ca:sokoban-hypergraph}
-	Consider Example \ref{ex:ca:sokoban-moveleft-action}. In this we had
+	Consider Example~\ref{ex:ca:sokoban-moveleft-action}. In this we had
 	\begin{align*}
 		\sigma(S_{before}, \delta) =
 			\left\{
@@ -219,12 +227,10 @@ To summarize the our prior model for preconditions and effects we have the four 
 	we see that each binding is clearly visualized and that two of the same predicate (\texttt{adj-h}) can be in the same graph.
 	Also by modelling this as a graph the idea of disproving bindings also
 	becomes explicit as it literally means to remove a node from a binding edge.
-	Furthermore, in this model the notion of disjoint predicates (Restriction \ref{rst:ca:no-disjuntive-conditionals}) is shown by the nodes not being connected through any type of edge.
+	Furthermore, in this model the notion of disjoint predicates (Restriction~\ref{rst:ca:no-disjuntive-conditionals}) is shown by the nodes not being connected through any type of edge.
 \end{example}
 
 
-\begin{proposition}
-    All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
-\end{proposition}
+
 
 \end{document}
