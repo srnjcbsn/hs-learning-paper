@@ -1,13 +1,6 @@
 \documentclass[../Master.tex]{subfiles}
 \providecommand{\master}{..}
 \begin{document}
-For an action schema $A$, $\mathbb{P}_A$ is the set of all fluent predicates in the domain that can be applied with the arguments of $A$.
-\[
-    \mathbb{P}_A = \left\{
-        p \left( x_1, \dots, x_{|p|} \right)
-        \; | \; \left\{ x_1, \dots, x_{|p|} \right\} \subseteq params(A)
-    \right\}
-\]
 
 \begin{figure}
     \centering
@@ -46,10 +39,10 @@ In the following we will analyse how the aforementioned predicate sets can be de
     From this state, we will analyse the outcomes of different applications of the \texttt{move-h} action (presented in Section~\ref{sec:nc:sokobanExample}), whose preconditions are reprinted below:
 
     \begin{align*}
-        P_{\texttt{move-h}}^+ &= \left\{
+        Pre_{\texttt{move-h}}^+ &= \left\{
             \texttt{sokobanAt}(from), \texttt{clear}(to), \texttt{hAdj}(from, to)
             \right\} \\
-        P_{\texttt{move-h}}^- &= \emptyset
+        Pre_{\texttt{move-h}}^- &= \emptyset
     \end{align*}
 
     As can be seen, there is only one applicable \texttt{move-h} action in state $s_0$, namely $\texttt{move-h}(t_3,t_4)$. As the agent is unaware of this fact, it may apply other $\texttt{move-h}$ actions, which will all fail. The only information available to it is that both the positive and negative preconditions are subsets of $\mathbb{P}_{\texttt{move-h}}$, since no other predicate can be a precondition due to the scoping rule.
