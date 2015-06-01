@@ -8,7 +8,7 @@
 	For instance if the hypothesis is based mostly on proven knowledge, the agent will never experience an unfamiliar situation and thus will never learn something new.
 
 	In Chapter \ref{sec:Learning} we went through examples of different strategies in this section we will show how that can be put to practice for STRIPS-style action schema, and what it means to the action schema itself.
-	Furthermore, this section will also show the dichotomy between using unproven preconditions and unproven effects and how to manipulate the traits of the strategy by changing these.
+	Furthermore, this section will also show the dichotomy between using unproven preconditions and unproven effects and how to manipulate the traits of a given strategy by changing these.
 
 	The knowledge we can construct these hypothetical action schemas from are the following: 
 	For precondition construction:
@@ -84,9 +84,8 @@
 		evinced.
 	\end{quotation}
 	 
-	They do this under the assumption that negative preconditions cannot occur and that negative goals are not present. 
-	A problem with this which we were unable to find an answer to is if we assume that "evinced" means proven, and not merely observed with ambiguity.
-	Then an agent can come in a state where a teacher shows a full trace but because certain effects was not proven, due to ambiguity, the agent would be incapable of reproducing the plan.
+	They do this under the assumption that negative preconditions cannot occur and that negative goals are not present. As we do not have these restrictions, an identical implementation of their method would not suffice, as it could introduce F-PPMs. For instance, planning with an action which is incorrectly believed to have a negative effect can cause another action with negative preconditions to be perceived as applicable by the planner.
+	Additionally, a problem with their strategy, which we were unable to find an answer to, is the following: If we assume that "evinced" means proven, and not merely observed with ambiguity, then an agent can come in a state where a teacher shows a full trace but because certain effects was not proven, due to ambiguity, the agent would be incapable of reproducing the plan.
 	
 	\begin{example}
 		To show how an agent cannot reproduce a plan, if it only uses proven effects.
