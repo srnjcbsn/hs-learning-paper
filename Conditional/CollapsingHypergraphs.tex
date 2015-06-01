@@ -1,0 +1,61 @@
+\documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
+\begin{document}
+Some conditional effects can be reduced to a smaller expression that is equally restrictive.
+
+For all binding sets $b$ of a hypergraph $H$, the following holds:
+
+For any two subsets $b_1$ and $b_2$ of $b$ it holds that: If there exists a vertex transformation function $t$ such that $t\left[b_1\right] \subseteq b_2$, then $b_1$ is redundant, ie. $H$ is equally expressive with or withouth the subgraph described by $b_1$.
+
+\begin{example}\label{fig:ex:ca:hgma:ex:collapsing}
+
+	Consider an action $a$ applied in state $s_0$, resulting in state $s_1$:
+	\begin{equation*}
+		s_0 = \left\{ 
+			p\left(o_1, o_2\right), p\left(o_1, o_3\right)
+		\right\}
+	\end{equation*}
+
+	\begin{equation*}
+		s_1 = s_0 \cup \left\{
+			q\left( o_1 \right)
+		\right\}
+	\end{equation*}
+
+	Inspecting this state transition will reveal a single pattern $H$ for the effect $q$ (disregarding negative preconditions), visualized in~\figref{fig:ex:ca:hgma:ex:isomorphic}.
+
+    \begin{equation*}
+        H = \forall x, y, z : q(x) \quad \textit{when} \quad
+            p(x,y) \land p(x,z)
+    \end{equation*}
+
+	As the variables $y$ and $z$ are both leaves, and are bound to the effect in the same manner, the subgraphs $p(x,y)$ and $p(x,z)$ are isomorphic, ie.\ identical under identifier renaming. Collapsing the two subgraphs results in the hypergraph $H'$ (visualized in~\figref{fig:ex:ca:hgma:ex:isomorphicReduced}).
+	
+    \begin{equation*}
+        H' = \forall x, y : q(x) \quad \textit{when} \quad p(x,y)
+    \end{equation*}
+
+	Notice that $H$ and $H'$ are equally restrictive: If, for a given set of objects $O$, and a state $s$, there exists a substitution $\delta_1 : \left\{x, y, z\right\} \rightarrow O$ such that $\delta\left[p(x,y), p(x,z)\right] \vdash s$, then there also exists a substitution $\delta_1 : \left\{x, y\right\} \rightarrow O$ such that $\delta_2\left[p(x,y)\right] \vdash s$
+
+	\begin{figure}\label{fig:ex:ca:hgma:ex:collapsing}
+        \centering
+        \hfill
+        \begin{subfigure}[b]{0.4\textwidth}
+            \centering
+            \resizebox{0.7\linewidth}{!}{\input{\master/Graphics/isomorphic.pgf}}
+            \caption{Hypergraph $H$ before collapsing}
+            \label{fig:ex:ca:hgma:ex:isomorphic}
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}[b]{0.4\textwidth}
+            \centering
+            \resizebox{0.75\linewidth}{!}{\input{\master/Graphics/isomorphicReduced.pgf}}
+            \caption{Hypergraph $H$ after collapsing.}
+            \label{fig:ex:ca:hgma:ex:isomorphicReduced}
+        \end{subfigure}
+		\caption{Hyperrgaphs for example~\ref{fig:ex:ca:hgma:ex:collapsing}}
+        \hfill
+    \end{figure}
+\end{example}
+
+\end{document}
