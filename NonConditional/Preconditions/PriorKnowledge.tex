@@ -1,7 +1,7 @@
 \documentclass[../../Master.tex]{subfiles}
 \begin{document}
 
-We will now present an algorithm (see algorithm~\ref{algo:precondLearn}) for obtaining knowledge about preconditions from a series of state transitions. The algorithm takes as input a state transition $(s, a, s')$ as well as prior knowledge about the action schema for $a$, consisting of the following:
+We will now present an algorithm (see Algorithm~\ref{algo:precondLearn}) for obtaining knowledge about preconditions from a series of state transitions. The algorithm takes as input a state transition $(s, a, s')$ as well as prior knowledge about the action schema for $a$, consisting of the following:
 
 \begin{itemize}
     \item A set $K$ containing fluent predicates proven to be prconditions.
@@ -35,9 +35,8 @@ As discussed previously, any candidate set containing a predicate which have alr
     C = \left\{ c \; | \; c \in C \land c \cap K \neq \emptyset \right\}
 \end{equation}
 
-\begin{algorithm}\label{algo:precondLearn}
-    \caption{Algorithm for learning preconditions}
-
+\begin{algorithm}
+    \caption{Algorithm for learning preconditions}\label{algo:precondLearn}
     \begin{algorithmic}
         \Function {$\textsc{Precond-learn}$} {$\left( s, a, s'\right)$, $D$, $K$, $C$}
             \If {$s' \neq s$}
