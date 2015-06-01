@@ -3,10 +3,85 @@
 
 \begin{document}
 
-We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As before <binding section ref>, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this corresponds to removing vertices from binding edges
+We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As before <binding section ref>, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this corresponds to removing vertices from binding edges, which can be accomplished as follows:
 
-: Given two hyper graphs describing the same effect then  
-If a vertex with name $p_i$ exists in only one of the binding edges, then the action have been applied successfully without the binding present, and it is as such disproven to be a precondition. It now holds that if removal of such a vertex causes the hyper graph to be disconnected, then components not connected to the hyper edge describing the effect can be disproven to be preconditions (by restriction~\ref{rst:ca:no-disjoint-preconditions}).
+Given two hypergraphs describing the same effect $q$, each will contain a predicate edge marked as an effect, containing vertices with distinct names $q_1, \ldots, q_{|q|}$. Each of these vertices will be part of exactly one binding edge in both hypergraphs. We now wish to merge these binding edges pairwise (such that the binding edge from $H_1$ containing the vertex with name $q_1$ is merged with the corresponding edge from $H_2$ etc), such that the maximum amount of knowledge about the bindings is retained, and bindings that the two edges do not have in common are removed. Additionally, each of the vertices resulting from a merge must have a unique label, based on the labels of the two vertices it was created from. For this purpose, we define the function $f$ which transforms two equally-named vertices to a new vertex with the same name and a unique label:
+
+\begin{definition}
+    Given two vertices with the same name, ie $v = \left(n, p_i \right)$ and $t = \left( m, p_i \right)$, $f(v,t)$ yields a new vertex with that name and an identifier based on $v$'s and $t$'s. $f$ must be injective, such that $f^{-1}(f(v,t)) = (v,t)$.
+\end{definition}
+
+A simple implementation of $f$ is tupling the identifiers of the arguement, ie:
+
+\begin{equation*}
+   f\left( \left(n, p_i \right), \left(m, p_i \right) \right) =
+       \left( (n,m), p_i \right)
+\end{equation*}
+Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by tuple decomposition.
+
+Once a new binding edge have been computed for an effect vertex $v$, the same method can be applied to the remaining bindings that were not removed by the merging, as each of them will be part of one predicate edge in $H_1$ and one predicate edge in $H_2$. To find the correct predicate edges for such a vertex $u$, the vertices from $H_1$ and $H_2$ that created it can be found as the first and second component of $f^{-1}(u)$, respectively, and the predicate edges they are part of can be looked up in the two hypergraphs. Note that as the hypergraph may contain cycles, it is important to check whether vertices arising from merging of hyperedges have already been discovered.
+
+The method described above is formalized in Algorithm~\ref{algo:hypergraphmerge}.
+
+
+\begin{algorithm}
+    \caption{Hyper graph merging algorithm}
+    \label{algo:hypergraphmerge}
+    \begin{algorithmic}
+        \Function {$\textsc{MergeBindingEdges}$} {$H_1, H_2, H', b_1, b_2$}
+		\State $b' \gets b_1 \sqcap b_2$
+            \State $H' \gets H' \cup b'$
+            \ForAll {vertices $v \in b'$}
+                \If {there is no predicate edge in $H'$ containing $v$}
+                    \State $\left( v_1, v_2 \right) \gets f^-(v)$
+                    \State $p_1 \gets$ predicate set in $H_1$ containing $v_1$
+                    \State $p_2 \gets$ predicate set in $H_2$ containing $v_2$
+                    \State $H' \gets \textsc{MergePredicateEdges}
+                                        \left( H_1, H_2, H', p_1, p_2 \right)$
+                \EndIf
+            \EndFor
+            \State \Return $H'$
+        \EndFunction
+
+        \Function {$\textsc{MergePredicateEdges}$} {$H_1, H_2, H', p_1, p_2$}
+            \State $p' \gets p_1 \sqcap p_2$
+            \State $H' \gets H' \cup p'$
+            \ForAll {vertices $v \in p'$}
+                \If {there is no binding edge in $H'$ containing $v$}
+                    \State $\left( v_1, v_2 \right) \gets f^-\left( v \right)$
+                    % \State $\left( b_1, b_2 \right) \gets
+                    %             \left(
+                    %                 g\left( v_1, H_1 \right),
+                    %                 g(\left( v_2, H_2 \right)
+                    %             \right) $
+                    \State $b_1 \gets$ the binding edge in $H_1$ containing $v_1$
+                    \State $b_2 \gets$ the binding edge in $H_2$ containing $v_2$
+                    \State $H' \gets \textsc{MergeBindingEdges}
+                        \left( H_1, H_2, H', b_1, b_2 \right)$
+                \EndIf
+            \EndFor
+            \State \Return $H'$
+        \EndFunction
+
+        \Function {$\textsc{MergeHyperGraphs}$} {$H_1$, $H_2$}
+            \State Let $q_1$ and $q_2$ denote the predicate hyper edges describing the effect in $H_1$ and $H_2$, respectively
+            \State Let $H' = \emptyset$ be a new, empty hyper graph
+            \State $H' \gets \textsc{MergePredicateEdges}(H_1,H_2,H',q_1,q_2)$
+            \State $H' \gets \textsc{CollapseHyperGraph}(H')$
+            \State \Return $H'$
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+We will now turn our attention to the merging of edges. The intuitive approach (as described in <binding section ref>) is to use resular set intersection. However, as each vertex in the hyper graph is tuple with a unique identifier as the first component, set intersection will always yield the empty set. Instead, we wish to intersect based on name only. For this purpose, we define the special equality operator $\approx$ which ignores vertex labels, such that $\left(n,p_i\right) \approx \left(m, q_i\right)$ iff $p_i = q_i$. As a first approach to defining the merge operation, we require that it removes vertices that are only present in one of the edges:
+
+\begin{proposition}
+	Given two edges $e_1$ and $e_2$, it must hold for all vertices in $e_1 \sqcap e_2$ that a vertex with the same name is present in both $e_1$ and $e_2$, formally:
+	\begin{equation*}
+		\forall \left(l, p_i\right) \in e_1 \sqcap e_2 : 
+		\exists n,m : \left(n, p_i\right) \in e_1 \land \left(m, p_i\right) \in e_2
+	\end{equation*}
+\end{proposition}
 
 \begin{example} \label{ex:ca:hgma:disconnected}
 	As an example of applying the hypergraph merging method described above, consider the following two patterns, described by hypergraphs $H_1$ and $H_2$, respectively (see \figref{fig:ex:ca:hgma:ex:disconnected}).
@@ -34,9 +109,7 @@ If a vertex with name $p_i$ exists in only one of the binding edges, then the ac
     Note that the precondition decribed by $H_1$ is more restrictive than that of $H_2$. Consequentially, if $H_1$ was the real precondition, the conditional effect would not have succeeded for $H_2$.
 \end{example}
 
-The method of binding edge intersection described above can be applied recursively, starting with the binding edges containing the effects, continuing with binding edges connected by predicate edges to those vertices not removed not removed, and so on.
-
-Although intersecting binding edges by vertex names is an appealing method, it is not always sufficient; if one of the hyper edges in question contains multiple vertices with the same name $p_i$ while the other contains one or more vertices with name $p_i$, then their intersection will yield a single vertex with that name. This is not always desirable, as bindings might be shadowed 
+Although intersecting binding edges by vertex names is an appealing method, it is not always sufficient; if one of the hyper edges in question contains multiple vertices with the same name $p_i$ while the other contains one or more vertices with name $p_i$, then their intersection will yield a single vertex with that name. This is not always desirable, as illustrated by the following example.
 
 \begin{example} \label{ex:ca:hgma:generalization}
 	Consider the application of an action $a$ in state $s_0$, producing the state $s_1$.
@@ -54,7 +127,7 @@ Although intersecting binding edges by vertex names is an appealing method, it i
 		s_1 = s_0 \cup \left\{ q\left( o_1 \right), q \left( o_3 \right) \right\}
 	\end{equation*}
 
-	From inspecting the state transition, the following two patterns can be found:
+	From inspecting the state transition $\left( s_0, a, s_1 \right)$, the following two patterns can be found (illustrated in \figref{fig:ex:ca:hgma:ex:generalization}):
 
     \begin{equation*}
         H_1 = \forall x, y : q(x) \quad \text{when} \quad
@@ -66,12 +139,9 @@ Although intersecting binding edges by vertex names is an appealing method, it i
             p(x, y) \land p(x,z) \land f(y) \land g(z)
     \end{equation*}
 
-	From these patterns, it is clear that $H_1$ is not the correct precondition, as it would have prevented the effect $q\left(o_3\right)$. However, $H_2$ is flexible enough to allow the effect $q\left(o_1\right)$ under the interpretation 
-	\begin{equation*}
-		x = o_1, y = z = o_2
-	\end{equation*}
+	From these patterns, it is clear that $H_1$ is not the correct precondition, as it would have prevented the effect $q\left(o_3\right)$. However, $H_2$ is flexible enough to allow the effect $q\left(o_1\right)$ under the interpretation $\left\{ x = o_1, y = z = o_2 \right\}$. In other words, it might be the case that the effect $q(x)$ requires to be connected to two $p$-predicates, although this was not visible for $H_1$ as the $p$-predicates happened to be identical.
 
-    \begin{figure}
+    \begin{figure} \label{fig:ex:ca:hgma:ex:generalization}
         \centering
         \begin{subfigure}[b]{0.4\textwidth}
             \centering
@@ -84,12 +154,14 @@ Although intersecting binding edges by vertex names is an appealing method, it i
             \centering
             \resizebox{0.8\linewidth}{!}{\input{\master/Graphics/hgEx2_2.pgf}}
             \caption{$H_2$}
-            \label{fig:ex:ca:hgma:ex:generalization1}
+            \label{fig:ex:ca:hgma:ex:generalization2}
         \end{subfigure}
-		\caption{Hypergraphs for example~\ref{ex:ca:hgma:generalization}} 
+		\caption{Hypergraphs for example~\ref{ex:ca:hgma:generalization}}
     \end{figure}
 
 \end{example}
+
+As is evident in the above example, merging binding sets by set intersection (while ignoring labels) leads to loss of information. To avoid this, the merging of two binding edges must include all possible combinations of vertices with the same name, such that if a binding edge $e_1$ contains vertices $v_1$ and $v_2$, and binding edge $e_2$ contains vertices $v_3$ and $v_4$, where $v_1$, $v_2$, $v_3$, $v_4$ all have the same name, then the merged edge must contain a total of four vertices with that name. Each of these new vertices should represent a combination of a vertex from $e_1$ and a vertex from $e_2$, and it should be possible to determine the combination in order to recursively merge the subgraph they represent.
 
 \begin{definition}[Hyper edge intersection]
     The intersection of two hyper edges $e_1$ and $e_2$ is a new hyperedge where the number of vertices with name $v_i$ is equal to the number of vertices with name $v_i$ in $e_1$ and $e_2$, multiplied. Formally:
@@ -100,80 +172,6 @@ Although intersecting binding edges by vertex names is an appealing method, it i
         \right\}
     \end{equation*}
 
-    Here, $v \approx t$ is a special equality operator whih ignores vertex labels, such that $\left( n, p_i \right) \approx \left( m, q_i \right)$ iff $p_i = q_i$. $f$ is a function responsible for ass
 \end{definition}
-
-\begin{definition}
-    Given two vertices with the same name, ie $v = \left(n, p_i \right)$ and $t = \left( m, p_i \right)$, $f(v,t)$ yields a new vertex with that name and an identifier based on $v$'s and $t$'s. $f$ must be injective, such that $f^{-1}(f(v,t)) = (v,t)$.
-\end{definition}
-
- A simple implementation of $f$ is tupling the identifiers of the arguement, ie:
-
-\begin{equation*}
-    f\left( \left(n, p_i \right), \left(m, p_i \right) \right) =
-        \left( (n,m), p_i \right)
-\end{equation*}
-Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by tuple decomposition.
-
-\begin{algorithm}
-    \caption{Binding edge merging algorithm}
-    \label{algo:bindingedgemerge}
-    \begin{algorithmic}
-        \Function {$\textsc{MergeBindingEdges}$} {$H_1, H_2, H', b_1, b_2$}
-            \State $b' \gets b_1 \sqcap b_2$
-            \State $H' \gets H' \cup b'$
-            \ForAll {vertices $v \in b'$}
-                \If {there is no predicate edge in $H'$ containing $v$}
-                    \State $p_1 \gets$ predicate set in $H_1$ containing $f_1^{-1}(v)$
-                    \State $p_2 \gets$ predicate set in $H_2$ containing $f_2^{-1}(v)$
-                    \State $H' \gets \textsc{MergePredicateEdges}
-                                        \left( H_1, H_2, H', p_1, p_2 \right)$
-                \EndIf
-            \EndFor
-            \State \Return $H'$
-        \EndFunction
-    \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-    \caption{Predicate edge merging algorithm}
-    \label{algo:prededgemerge}
-
-    \begin{algorithmic}
-        \Function {$\textsc{MergePredicateEdges}$} {$H_1, H_2, H', p_1, p_2$}
-            \State $p' \gets p_1 \sqcap p_2$
-            \State $H' \gets H' \cup p'$
-            \ForAll {vertices $v \in p'$}
-                \If {there is no binding edge in $H'$ containing $v$}
-                    \State $\left( v_1, v_2 \right) \gets f^-\left( v \right)$
-                    % \State $\left( b_1, b_2 \right) \gets
-                    %             \left(
-                    %                 g\left( v_1, H_1 \right),
-                    %                 g(\left( v_2, H_2 \right)
-                    %             \right) $
-                    \State $b_1 \gets$ the binding edge in $H_1$ containing $v_1$
-                    \State $b_2 \gets$ the binding edge in $H_2$ containing $v_2$
-                    \State $H' \gets \textsc{MergeBindingEdges}
-                        \left( H_1, H_2, H', b_1, b_2 \right)$
-                \EndIf
-            \EndFor
-            \State \Return $H'$
-        \EndFunction
-    \end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}
-    \caption{Hyper graph merging algorithm}
-    \label{algo:hypergraphmerge}
-    \begin{algorithmic}
-        \Function {$\textsc{MergeHyperGraphs}$} {$H_1$, $H_2$}
-            \State Let $q_1$ and $q_2$ denote the predicate hyper edges describing the effect in $H_1$ and $H_2$, respectively
-            \State Let $H' = \emptyset$ be a new, empty hyper graph
-            \State $H' \gets \textsc{MergePredicateEdges}(H_1,H_2,H',q_1,q_2)$
-            \State $H' \gets \textsc{CollapseHyperGraph}(H')$
-            \State \Return $H'$
-        \EndFunction
-    \end{algorithmic}
-\end{algorithm}
 
 \end{document}

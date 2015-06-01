@@ -11,13 +11,13 @@ For an action schema $A$, $\mathbb{P}_A$ is the set of all fluent predicates in 
 
 \begin{figure}
     \centering
-    \includegraphics[scale=0.7]{../Graphics/sokoSmall}
+    \includegraphics[scale=0.7]{\master/Graphics/sokoSmall}
     \caption{\label{fig:sokoSmall} Sokoban state with only one applicable \texttt{move-h} action. The tiles are named $t_1 \dots t_4$, from left to right. The crate object is named $c$.}
 \end{figure}
 
 We will now consider the problem of learning the preconditions of an action schema $A$.
 
-In \cite{Walsh2008}, the authors suggest maintaining a set of all possible conjunctions of $k$ or less predicates (where $k$ is the maximal number of predicates allowed in action schema preconditions), and --- on action failure --- marking the conjunctions predicting that the action would have succeeded as disproven.
+In~\cite{Walsh2008}, the authors suggest maintaining a set of all possible conjunctions of $k$ or less predicates (where $k$ is the maximal number of predicates allowed in action schema preconditions), and --- on action failure --- marking the conjunctions predicting that the action would have succeeded as disproven.
 
 We propose a solution where individual predicates are proven and disproven to be preconditions based on the following observations:
 \begin{itemize}
@@ -27,8 +27,8 @@ We propose a solution where individual predicates are proven and disproven to be
 
 In the following we will analyse how the aforementioned predicate sets can be deduced from a single state transition, and later discuss how knowledge obtained from earlier state transitions can be used to prove predicates to be preconditions.
 
-\begin{example}[Sokoban example] \label{ex:ncp:sokobanSetup}
-    As a running example, we will once again use the sokoban domain, where the environment starts in the following state (visualized in figure \ref{fig:sokoSmall}):
+\begin{example}[Sokoban example]\label{ex:ncp:sokobanSetup}
+    As a running example, we will once again use the sokoban domain, where the environment starts in the following state (visualized in figure~\ref{fig:sokoSmall}):
     \begin{equation*}
         s_0 =
         \left\{
@@ -43,7 +43,7 @@ In the following we will analyse how the aforementioned predicate sets can be de
         \right\}
     \end{equation*}
 
-    From this state, we will analyse the outcomes of different applications of the \texttt{move-h} action (presented in section \ref{sec:nc:sokobanExample}), whose preconditions are reprinted below:
+    From this state, we will analyse the outcomes of different applications of the \texttt{move-h} action (presented in Section~\ref{sec:nc:sokobanExample}), whose preconditions are reprinted below:
 
     \begin{align*}
         P_{\texttt{move-h}}^+ &= \left\{
