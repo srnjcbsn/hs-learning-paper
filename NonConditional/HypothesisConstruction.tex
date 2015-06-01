@@ -10,7 +10,8 @@
 	In Chapter \ref{sec:Learning} we went through examples of different strategies in this section we will show how that can be put to practice for STRIPS-style action schema, and what it means to the action schema itself.
 	Furthermore, this section will also show the dichotomy between using unproven preconditions and unproven effects and how to manipulate the traits of the strategy by changing these.
 
-	The knowledge we can construct these hypothetical action schemas from; for precondition construction is:
+	The knowledge we can construct these hypothetical action schemas from are the following: 
+	For precondition construction:
 
 	\begin{itemize}
 		\item Disproven preconditions $D_P$
@@ -19,7 +20,7 @@
 		\item Candidates preconditions $C_P$
 	\end{itemize}
 
-	and for effect construction is:
+	and for effect construction:
 
 	\begin{itemize}
 		\item Disproven effects $D_E$
@@ -133,8 +134,8 @@
 				effects&=  K_E \cup U_E
 			\end{split}
 		\end{equation}
-	This approach will allow of negative goals along with negative preconditions. 
-	However because this hypothesis uses unproven effects, there is a chance that if certain preconditions are disproved, that would allow it to be applied where the unproven effects actually does change the outcome.
+	This approach will allow negative goals along with negative preconditions. 
+	However because this hypothesis uses unproven effects, there is a chance that if certain preconditions are disproven, that would allow it to be applied where the unproven effects actually does change the outcome.
 	As such it could make a F-PPM, but it is necessary if we want it to be able to reproduce plans. 
 	Therefore in conclusion this action schema hypothesis would be mostly \texttt{Exploitative} and mostly \texttt{Help-seeking}.
 	
@@ -249,14 +250,14 @@
 A Confident strategy, as we have defined it, have the traits \texttt{Exploitative} and \texttt{Self-sufficient},
 this means the hypothetical action schema will avoid both making F-PPMs and N-PPMs. 
 
-To accomplish this our hypothesis of the action schema will use the fewest number of preconditions.
-For effect construction it will initially use many when the agent is ignorant, and fewer as it becomes more knowledgeable. 
+To accomplish this, our hypothesis will only use preconditions that have been proven.
+For effect construction, it will initially use many predicates while the agent is ignorant, and fewer as it becomes more knowledgeable. 
 
-The preconditions (\ref{eq:nca:opt-preconds}) from the optimistic strategy will suffice for this purpose, and obviously the requirements for the planner will remain the same.
+The preconditions \eqref{eq:nca:opt-preconds} from the optimistic strategy will suffice for this purpose, and obviously the requirements for the planner will remain the same.
 
 For the effects we propose to use unproven and proven effects for an action with the removal of proven effects from other actions. 
 As such this strategy unlike the other strategies takes into account all actions of the agent.
-Let $K_{E_1},K_{E_2},...,K_{E_n}$ be the proven effects of the other actions, thus the effects of the action in question would be.
+Let $K_{E_1},K_{E_2},\ldots,K_{E_n}$ be the proven effects of the other actions, thus the effects of the action in question would be.
 
 \begin{equation}
 		effects = \left( U_E \setminus \bigcup \limits_{i = 1} ^n K_{E_i} \right) \cup K_E
