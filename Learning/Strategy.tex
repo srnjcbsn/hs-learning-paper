@@ -36,45 +36,62 @@
     \end{itemize}
     Both of these strategies are equally valid approaches to learning.
     However they show two different traits which we will define and analyse.
-    \begin{description}
-    \item [{Explorative/Exploitative}] An explorative strategy, like an explorative graph search will prefer to try and test unknown territory in the hopes that it will provide it with a better solution, but only in cases where there is no upside decide not to explore.
+    \begin{definition}
+    [{Explorative/Exploitative}] An explorative strategy, like an explorative graph search will prefer to try and test unknown territory in the hopes that it will provide it with a better solution, but only in cases where there is no upside decide not to explore.
     An exploitative strategy however will avoid the unexplored and only learn something when necessary otherwise it will use what it has already learned. Much akin to how the dynamic between a Breath-First-Search and a Depth-First-Search works. The advantage of a Explorative strategy is that once it has learned something, it will be very efficient at doing that thing, however for it to get to that point it will spend a long time learning. Opposite an exploitative strategy will be very fast to learn something but it will very likely be an inefficent way.
-
-    For instance imagine an agent trying to learn how to sail a ship around an island, in the beginning it can either sail clockwise and counter-clockwise, because it is new and inexperianced it does not know what the outcome of either of these actions will be. Lets assume that the agent was given an task to bring the boat to location $ E $, because it does not no anything, both the clockwise and the counter-clockwise option is equally good to it. If it went with the counter-clockwise option then a strategy based on exploitativity would deem the problem solvable and no longer in need of learning, as the agent can simply sick to counter-clockwise moves around the island until it reaches its destination. However if it used a strategy based explorativity then it demand both options to be tested and thus the agent would do a clockwise afterwards learning that the problem can be easily solved using two clockwise moves instead of six counter-clockwise moves. If however the agent had went clockwise to begin with then it would have been wasting its time learning to move counter-clockwise as it is the inferior solution in this case.
-    \item [{Self-sufficient/Help-seeking}] We define a strategy which favors
+	\end{definition}
+	\begin{example}
+		Imagine an agent trying to learn how to sail a ship around an island.
+		
+		In the beginning it can either sail clockwise and counter-clockwise, because it is new and inexperianced it does not know what the outcome of either of these actions will be. 
+		Lets assume that it takes seven counter-clockwise moves to reach its destination but only one clockwise move.
+		Because the agent does not know anything, both the clockwise and the counter-clockwise option is initially equally good to it. If it went with the counter-clockwise option then a strategy based on exploitativity would deem the problem solvable and no longer in need of learning, as the agent can simply sick to counter-clockwise moves around the island until it reaches its destination. However if it used a strategy based explorativity then it demand both options to be tested and thus the agent would do a clockwise afterwards learning that the problem can be easily solved using two clockwise moves instead of six further counter-clockwise moves that would be required. If however the agent had went clockwise to begin with then it would have been wasting its time learning to move counter-clockwise as it is the inferior solution in this case.
+		
+		Thus we see that both extremes have advantages and disadvantages.
+		
+	\end{example}
+	
+	\begin{definition}
+    [{Self-sufficient/Help-seeking}] We define a strategy which favors
     or completely relies on a teacher assisting it as a Help-seeking strategy
     and a strategy which does not as a self-sufficient strategy. While
     the term Help-seeking carry a negative connotation, it is not necessarily
     a bad strategy, for instance if the agent operates in an environment
-    which is irreversible or dangerous, then getting assistence would
-    be preferable over trying things out for itself. For instance imagine
-    a person that is put into a control room of nuclear powerplant, his
-    learning strategy would not be to press the buttons until he figured
-    out the system, but rather look through the manuals.
+    which is irreversible or dangerous, then getting assistance would
+    be preferable over trying things out for itself. 
 
-    \end{description}
+    \end{definition}
+    
+    \begin{example}
+    	Imagine an agent that is put into a control room of nuclear powerplant.
+    	 If the agent approached the problem of learning the environment in a self-sufficient manor, 
+    	 this would result in the agent pressing the buttons until he figured out the system.
+    	 Obviously this is a dangerous and is inadvisable. 
+    	 A more preferable approach would be to look through the manuals or receive guidance.
+    \end{example}
 	By labelling the traits unique to learning strategies we can now apply them to the learning strategies which are provided in {[}Walsh paper{]} as part of the algorithm. Furthermore we can also define new strategies which use a different mixture of the traits:
-    \begin{description}
-    \item [{Example: Optimisic}] The \emph{optimistic} strategy as described in {[}Walsh paper{]} assumes that actions
-    can always be applied (unless proven otherwise) and contain \emph{all}
-    positive effects (unless proven otherwise). Using this strategy, a
-    plan can always be found (unless action schemas or goals have negative
-    predicates). As described the algorithm and strategy is purely based on the explorative trait, and has no mentions of reliance on a teacher or other external entity.\end{description}
-    \begin{itemize}
-    \item Explorative\\
-    The strategy is using a explorative approach because the that actions
-    which are unknown or have not been tested will always be chosen over
-    actions that has as these actions are assumed to do more than they
-    are supposed to.
-    \item Self-sufficient\\
-    The strategy always assumes it can solve all problems even if that
-    is not the case, thus it will never ask a teacher unless the problem
-    is actually unsolvable.
-    \end{itemize}
-    \begin{description}
-    \item [{Example: Pessimistic}] A \emph{pessimistic} strategy assumes that actions
+    \begin{example}
+	    [{Optimisic}] The \emph{optimistic} strategy as described in {[}Walsh paper{]} assumes that actions
+	    can always be applied (unless proven otherwise) and contain \emph{all}
+	    positive effects (unless proven otherwise). Using this strategy, a
+	    plan can always be found (unless action schemas or goals have negative
+	    predicates). As described the algorithm and strategy is purely based on the explorative trait, and has no mentions of reliance on a teacher or other external entity.
+	    \begin{itemize}
+	    \item Explorative\\
+	    The strategy is using a explorative approach because the that actions
+	    which are unknown or have not been tested will always be chosen over
+	    actions that has as these actions are assumed to do more than they
+	    are supposed to.
+	    \item Self-sufficient\\
+	    The strategy always assumes it can solve all problems even if that
+	    is not the case, thus it will never ask a teacher unless the problem
+	    is actually unsolvable.
+	    \end{itemize}
+	\end{example}
+    \begin{example}
+    [{Pessimistic}] A \emph{pessimistic} strategy assumes that actions
     can \emph{never} be applied (unless proven otherwise), and that they
-    have all \emph{negative} effects (unless proven otherwise). \end{description}
+    have all \emph{negative} effects (unless proven otherwise).
     \begin{itemize}
     \item Exploitative\\
     The strategy used will purposely assume that things that it does not
@@ -85,13 +102,14 @@
     if it is only one action it does not know about. It will ask a teacher
     to explain what it does over trying it out for itself.
     \end{itemize}
+    \end{example}
     As we can see both of these strategies are extremes of the different
     traits, thus by changing the traits we can define new strategies.
-    \begin{description}
-    \item [{Example: Confident}] This strategy about learning only
+    \begin{example}
+    [{Confident}] This strategy about learning only
     what is necessary to complete a task and learn it as quickly as possible,
     it also needs to be self-reliant and simply test things for itself. We have chosen to name this an confident strategy, as these are the traits of a confident person. It also shows that there is a gradiant for instance if it is only self-sufficient and it never explores, would be an arrogant agent. However if it was overly help-seeking and explorative then would be an insecure agent, which doubt everything it has learned.
-    \end{description}
+    
     \begin{itemize}
     \item Mostly exploitative\\
     The strategy relies on being confident in what it has learned and
@@ -100,7 +118,7 @@
     It believes that the agent is capable of learning on its own and thus avoids seeking help.
     \end{itemize}
 
-
+	\end{example}
 
 
 
