@@ -1,12 +1,26 @@
 \documentclass[../Master.tex]{subfiles}
 \providecommand{\master}{..}
 \begin{document}
+\textsc{\texttt{Work in progress}}
+
+
+Given a state transition $(s,a,s')$:
+
+find all predicates in $\Delta s = s \setminus s'$. For each effect predicate, find predicates that are connected to it, and build a hypergraph from this information (after applying a substitution to reduce it to variable form). 
+
+For each effect with the same predicate form (ie. $p(x,y)$ has the same form as $p(y,x)$, but not the same form as $p(x,x)$ or $q(x,y)$), merge their hyper graphs as described in the next section. 
+
+Then merge the resulting hypergraphs with prior knowledge (which is also a hypergraph).
 
 \subsection{Collapsing hypergraphs}
 
+Some conditional effects can be reduced to a smaller expression that is equally restrictive.
 
+For all binding sets $b$ of a hypergraph $H$, the following holds:
 
-\begin{example}
+For any two subsets $b_1$ and $b_2$ of $b$ it holds that: If there exists a vertex transformation function $t$ such that $t\left[b_1\right] \subseteq b_2$, then $b_1$ is redundant, ie. $H$ is equally expressive with or withouth the subgraph described by $b_1$.
+
+\begin{example}\label{fig:ex:ca:hgma:ex:collapsing}
 
 	Consider an action $a$ applied in state $s_0$, resulting in state $s_1$:
 	\begin{equation*}
@@ -52,6 +66,7 @@
             \caption{Hypergraph $H$ after collapsing.}
             \label{fig:ex:ca:hgma:ex:isomorphicReduced}
         \end{subfigure}
+		\caption{Hyperrgaphs for example~\ref{fig:ex:ca:hgma:ex:collapsing}}
         \hfill
     \end{figure}
 \end{example}

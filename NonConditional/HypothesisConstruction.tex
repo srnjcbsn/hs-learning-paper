@@ -7,10 +7,11 @@
 	The design of the hypothesis determines the strategy of an agent, which impacts what it is capable of learning in the future.
 	For instance if the hypothesis is based mostly on proven knowledge, the agent will never experience an unfamiliar situation and thus will never learn something new.
 
-	In Chapter \ref{sec:Learning} we went through examples of different strategies in this section we will show how that can be put to practice for STRIPS-style action schema, and what it means to the action schema itself.
-	Furthermore, this section will also show the dichotomy between using unproven preconditions and unproven effects and how to manipulate the traits of the strategy by changing these.
+	In Chapter~\ref{sec:Learning} we went through examples of different strategies in this section we will show how that can be put to practice for STRIPS-style action schema, and what it means to the action schema itself.
+	Furthermore, this section will also show the dichotomy between using unproven preconditions and unproven effects and how to manipulate the traits of a given strategy by changing these.
 
-	The knowledge we can construct these hypothetical action schemas from; for precondition construction is:
+	The knowledge we can construct these hypothetical action schemas from are the following: 
+	For precondition construction:
 
 	\begin{itemize}
 		\item Disproven preconditions $D_P$
@@ -19,7 +20,7 @@
 		\item Candidates preconditions $C_P$
 	\end{itemize}
 
-	and for effect construction is:
+	and for effect construction:
 
 	\begin{itemize}
 		\item Disproven effects $D_E$
@@ -70,7 +71,7 @@
 
 \subsubsection{Strategy: Pessimistic}
 
-	A pessimistic strategy as we defined in \ref{sec:Learning} has the traits always \texttt{Exploitative} and always \texttt{Help-seeking},
+	A pessimistic strategy as we defined in~\ref{sec:Learning} has the traits always \texttt{Exploitative} and always \texttt{Help-seeking},
 	meaning the hypothetical action schema should never make F-PPMs and claim "no plan" if it cannot guarantee the solution.
 
 	In \cite{Walsh2008} they suggest the following for a pessimistic learning strategy
@@ -83,9 +84,8 @@
 		evinced.
 	\end{quotation}
 	 
-	They do this under the assumption that negative preconditions cannot occur and that negative goals are not present. 
-	A problem with this which we were unable to find an answer to is if we assume that "evinced" means proven, and not merely observed with ambiguity.
-	Then an agent can come in a state where a teacher shows a full trace but because certain effects was not proven, due to ambiguity, the agent would be incapable of reproducing the plan.
+	They do this under the assumption that negative preconditions cannot occur and that negative goals are not present. As we do not have these restrictions, an identical implementation of their method would not suffice, as it could introduce F-PPMs. For instance, planning with an action which is incorrectly believed to have a negative effect can cause another action with negative preconditions to be perceived as applicable by the planner.
+	Additionally, a problem with their strategy, which we were unable to find an answer to, is the following: If we assume that "evinced" means proven, and not merely observed with ambiguity, then an agent can come in a state where a teacher shows a full trace but because certain effects was not proven, due to ambiguity, the agent would be incapable of reproducing the plan.
 	
 	\begin{example}
 		To show how an agent cannot reproduce a plan, if it only uses proven effects.
@@ -133,8 +133,8 @@
 				effects&=  K_E \cup U_E
 			\end{split}
 		\end{equation}
-	This approach will allow of negative goals along with negative preconditions. 
-	However because this hypothesis uses unproven effects, there is a chance that if certain preconditions are disproved, that would allow it to be applied where the unproven effects actually does change the outcome.
+	This approach will allow negative goals along with negative preconditions. 
+	However because this hypothesis uses unproven effects, there is a chance that if certain preconditions are disproven, that would allow it to be applied where the unproven effects actually does change the outcome.
 	As such it could make a F-PPM, but it is necessary if we want it to be able to reproduce plans. 
 	Therefore in conclusion this action schema hypothesis would be mostly \texttt{Exploitative} and mostly \texttt{Help-seeking}.
 	
@@ -249,14 +249,14 @@
 A Confident strategy, as we have defined it, have the traits \texttt{Exploitative} and \texttt{Self-sufficient},
 this means the hypothetical action schema will avoid both making F-PPMs and N-PPMs. 
 
-To accomplish this our hypothesis of the action schema will use the fewest number of preconditions.
-For effect construction it will initially use many when the agent is ignorant, and fewer as it becomes more knowledgeable. 
+To accomplish this, our hypothesis will only use preconditions that have been proven.
+For effect construction, it will initially use many predicates while the agent is ignorant, and fewer as it becomes more knowledgeable. 
 
-The preconditions (\ref{eq:nca:opt-preconds}) from the optimistic strategy will suffice for this purpose, and obviously the requirements for the planner will remain the same.
+The preconditions \eqref{eq:nca:opt-preconds} from the optimistic strategy will suffice for this purpose, and obviously the requirements for the planner will remain the same.
 
 For the effects we propose to use unproven and proven effects for an action with the removal of proven effects from other actions. 
 As such this strategy unlike the other strategies takes into account all actions of the agent.
-Let $K_{E_1},K_{E_2},...,K_{E_n}$ be the proven effects of the other actions, thus the effects of the action in question would be.
+Let $K_{E_1},K_{E_2},\ldots,K_{E_n}$ be the proven effects of the other actions, thus the effects of the action in question would be.
 
 \begin{equation}
 		effects = \left( U_E \setminus \bigcup \limits_{i = 1} ^n K_{E_i} \right) \cup K_E
