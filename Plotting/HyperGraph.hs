@@ -19,7 +19,7 @@ showName (name, n, _) = "$" ++ name ++ "_" ++ show n ++ "$"
 
 data HyperGraph = HyperGraph
     { verts :: Map Vert Pos
-    , pSets :: [[Vert]]
+	, pSets :: [[Vert]]
     , bSets :: [[Vert]]
     }
 
