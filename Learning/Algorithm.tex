@@ -12,40 +12,39 @@ In the following, we consider a general algorithm for learning in a virtual worl
     \item Repeat from step 2, taking into account the newly obtained knowledge
 \end{enumerate}
 
-Note that the above summation does not describe an algorithm, as there is no termination condition in the cycle formed by steps 2-6. [Delete]
+Note that the above summation does not describe an algorithm, as there is no termination condition in the cycle formed by steps 2--6. [Delete]
 
-The derived algorithm presented in figure \ref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2-6 in the summation given above, untill the question can be satisfactorily answered.
+The derived algorithm presented in figure~\ref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2--6 in the summation given above, untill the question can be satisfactorily answered.
 
 In the following we will elaborate on the types and functions used in the algorithmization of the scientific method, and their relevance to learning.
 
-\begin{algorithm}
+\begin{algorithm}\label{algo:science}
     \caption{Abstract learning algorithm based on the scientific method.}
-    \label{algo:science}
 
     \begin{algorithmic}
-        \Function {$\textsc{Learn}$} {\texttt{Question} $q$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
-            \While {$\neg canAnswer(q, k, w)$}
-                \State $k \gets k + inquire(w, q)$
-                \State \texttt{Hypothesis} $h \gets form(q, k, s)$
-                \State \texttt{Experiment} $e \gets design(w, h, s)$
-                \State $(\texttt{Result} \, r, w) \gets conduct(e, w)$
-                \State $k \gets k + analyse(r, k)$
-                \State $s \gets update(s, k)$
-            \EndWhile
-            \State \Return $k$
-        \EndFunction
+        \Function~{$\textsc{Learn}$} {\texttt{Question} $q$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
+            \While~{$\neg canAnswer(q, k, w)$}
+                \State~$k \gets k + inquire(w, q)$
+                \State~\texttt{Hypothesis} $h \gets form(q, k, s)$
+                \State~\texttt{Experiment} $e \gets design(w, h, s)$
+                \State~$(\texttt{Result} \, r, w) \gets conduct(e, w)$
+                \State~$k \gets k + analyse(r, k)$
+                \State~$s \gets update(s, k)$
+            \EndWhile%
+            \State~\Return~$k$
+        \EndFunction%
     \end{algorithmic}
 \end{algorithm}
 
 \paragraph*{World}
-In the context of this algorithm, it is assumed that the world is discrete and deterministic, ie. that it is only changed by the actions of the learning agent (specifically when the agent performs experiments).
+In the context of this algorithm, it is assumed that the world is discrete and deterministic, ie.\ that it is only changed by the actions of the learning agent (specifically when the agent performs experiments).
 
 \paragraph*{Question}
-In the context of learning, the formulation of the question depends on whether the agent is goal-driven or hypothesis-driven; in the first case, the question will typically be posed as a problem that must be solved ("How do we transition to state $t$?"). In the second case, it will take the more general form "How does this domain work?".
+In the context of learning, the formulation of the question depends on whether the agent is goal-driven or hypothesis-driven; in the first case, the question will typically be posed as a problem that must be solved (``How do we transition to state $t$?''). In the second case, it will take the more general form ``How does this domain work?''.
 For the goal-oriented agent, the question can typically be answered when the problem has been solved, as the agent then has the knowledge required to solve the problem given the same start state (or any state on the path to the solution). For the hypothesis-driven agent, the question can be answered when a predefined amount of knowledge has been obtained about the domain. Note that although a hypothesis answers the question, it is generally not a satisfactory answer untill it has been proven to be true.
 
 \paragraph*{Strategy}
-The strategy determines how the agent forms hypotheses and chooses experiments to perform, and is as such essential to how the agent learns. Different learning strategies and their traits are described in section \ref{sec:strats}.
+The strategy determines how the agent forms hypotheses and chooses experiments to perform, and is as such essential to how the agent learns. Different learning strategies and their traits are described in Section~\ref{sec:strats}.
 
 \paragraph*{Hypothesis}
 Hypotheses are created and discarded in an ad-hoc manner, since we are only interested in the knowledge they allowed us to obtain. It is therefore presumed that given the knowledge derived from performing experiments based on the hypothesis, the question can be answered satisfatorily without knowledge of the hypothesis.
