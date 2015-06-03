@@ -5,6 +5,7 @@
 *.toc
 *.log
 *.pdf
+*.dvi
 *.bbl
 *.blg
 *.svg
