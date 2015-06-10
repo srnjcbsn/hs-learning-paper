@@ -10,14 +10,17 @@ In such an environment, a number of actions that the agent can perform are avail
 
 It is assumed that the mechanics of the environment can be specified as a PDDL domain, but that this specification is only partially known (or entirely unknown) to the agent. Given a PDDL problem, it is then the agent's task to reach the goal specified by the problem by learning the effects and preconditions of the relevant actions. Thus, in this instance the \textit{question} from algorithm~\ref{algo:science} is a PDDL problem, and the $canAnswer$ function consists of checking whether the problem has been solved in the given state (denoted $isSolved$).
 
+The most basic form of knowledge relevant to the PDDL agent is statements of fact about different ungrounded predicates' inclusion or exclusion from actions' preconditions and effects (although other knowledge constructs are also relevant, as shown in Sections~\ref{sec:NC:Effects} and~\ref{sec:NC:Preconditions}). From this limited information, the agent can form a hypothetical domain specification based on a given strategy. For example, if a predicate $p$ have neither been proven nor disproven to be a precondition of action $A$, the pessimistic agent will include it in its hypothetical action specification for $A$, while the optimistic agent will choose to ignore it. Both strategies will fully include proven and disproven knowledge. This hypothetical domain constitutes the \texttt{Hypothesis} from Algorithm~\ref{algo:science}.
+
+Using a hypothetical domain (\texttt{Domain}) as described above, the agent can now form a plan for reaching the goal, by conventional PDDL planning mechanisms. 
+
 In order to learn the domain specification, the agent must carry out actions in the environment and observe their outcomes. By applying a given strategy, it can form a hypothetical domain specification based on its current knowledge, and construct a plan which would solve the problem in case the hypothesis is correct. Such a domain specification is analoguous to the \texttt{Hypothesis} from algorithm~\ref{algo:science}, while a plan is analoguous to an \texttt{Experiment}.
 
-Conducting an experiment means performing the actions in the plan until an action results in a state that does not match what the hypothesis predicted. In that case, the hypothesis has been disproven, which prompts the result of the experiment to be analysed and merged into the knowledge base.
+Conducting an experiment means performing the actions in the plan until an action results in a state that does not match what the hypothesis predicted. In that case, the hypothesis has been disproven, which prompts the result of the experiment to be analysed and merged into the knowledge base. If all actions in the plan succeeded, then the problem has been solved and the algorithm is terminated upon reentry in the loop.
 
 In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm from~\ref{algo:science} is presented.
 
 \begin{algorithm}
-    \caption{Scientific learning algorithm for the PDDL framework}\label{algo:PDDL}
     \begin{algorithmic}
         \Function {$\textsc{Learn-PDDL}$} {\texttt{Problem} $p$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
             \While {$\neg isSolved(p, w)$}
@@ -31,5 +34,6 @@ In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm fro
             \State \Return $k$
         \EndFunction
     \end{algorithmic}
+    \caption{Scientific learning algorithm for the PDDL framework}\label{algo:PDDL}
 \end{algorithm}
 \end{document}
