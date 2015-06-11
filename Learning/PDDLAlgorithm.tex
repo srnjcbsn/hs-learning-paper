@@ -1,22 +1,38 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
-<\texttt{TODO}: Better introduction to PDDL learning>
-
-<\texttt{TODO}: Correlate with Sokoban, give examples>
-
 In this report, the primary focus will be on agents learning PDDL action specifications in a static environment.
 
-In such an environment, a number of actions that the agent can perform are available, each accepting a fixed number of objects in the world as parameters. Upon execution of an action in the world, a new world is returned, reflecting the changes made by action execution. The configuration of the world can be observed as a PDDL state.
+In such an environment, a number of actions that the agent can perform are available, each accepting a fixed number of objects in the world as parameters. Upon execution of an action in the world, a new world is returned, reflecting the changes made by action execution. The configuration of the world can be observed as a PDDL state. It is assumed that the mechanics of the environment can be specified as a PDDL domain, but that this specification is only partially known (or entirely unknown) to the agent. 
 
-It is assumed that the mechanics of the environment can be specified as a PDDL domain, but that this specification is only partially known (or entirely unknown) to the agent. Given a PDDL problem, it is then the agent's task to reach the goal specified by the problem by learning the effects and preconditions of the relevant actions. Thus, in this instance the \textit{question} from algorithm~\ref{algo:science} is a PDDL problem, and the $canAnswer$ function consists of checking whether the problem has been solved in the given state (denoted $isSolved$).
+When learning a PDDL environment, the \texttt{World} from Algorithm~\ref{algo:science} consists of a PDDL domain as well as a state describing the current configuration of the world.
+
+Given a PDDL problem, it is then the agent's task to reach the goal specified by the problem by learning the effects and preconditions of the relevant actions. Thus, in this instance the \textit{question} from algorithm~\ref{algo:science} is a PDDL problem, and the $canAnswer$ function consists of checking whether the problem has been solved in the given state (denoted $isSolved$).
 
 The most basic form of knowledge relevant to the PDDL agent is statements of fact about different ungrounded predicates' inclusion or exclusion from actions' preconditions and effects (although other knowledge constructs are also relevant, as shown in Sections~\ref{sec:NC:Effects} and~\ref{sec:NC:Preconditions}). From this limited information, the agent can form a hypothetical domain specification based on a given strategy. For example, if a predicate $p$ have neither been proven nor disproven to be a precondition of action $A$, the pessimistic agent will include it in its hypothetical action specification for $A$, while the optimistic agent will choose to ignore it. Both strategies will fully include proven and disproven knowledge. This hypothetical domain constitutes the \texttt{Hypothesis} from Algorithm~\ref{algo:science}.
 
-Using a hypothetical domain (\texttt{Domain}) as described above, the agent can now form a plan for reaching the goal, by conventional PDDL planning mechanisms. 
+Using a hypothetical domain (\texttt{Domain}) as described above, the agent can now attempt to form a plan for reaching the goal by conventional PDDL planning mechanisms. Such a plan is analoguous to an \texttt{Experiment}: If every action in the plan succeeds when applied to the world, the hypothetical domain is sufficient for solving the problem from the given state. If, however, execution of an action in the plan yields a state different from what the hypothetical domain predicts, then the hypothesis is flawed. Thus, \emph{conducting} an experiment in PDDL means executing a plan, which yields a new state as well as a \texttt{Result} indicating whether it failed or succeeded, and --- in the first case --- which transition caused the failure. An algorithm for the PDDL specific \textit{conduct} function is presented in Algorithm~\ref{algo:PDDLConduct}. 
 
-In order to learn the domain specification, the agent must carry out actions in the environment and observe their outcomes. By applying a given strategy, it can form a hypothetical domain specification based on its current knowledge, and construct a plan which would solve the problem in case the hypothesis is correct. Such a domain specification is analoguous to the \texttt{Hypothesis} from algorithm~\ref{algo:science}, while a plan is analoguous to an \texttt{Experiment}.
+\begin{algorithm}
+    \begin{algorithmic}
+        \Function{$\textsc{conduct}$} {\texttt{Plan} $l$, \texttt{World} $w$, \texttt{Domain} $d_h$}
+        \State $s \gets w.state$
+        \State $d \gets w.domain$
+        \ForAll{grounded actions $a \in p$}
+            \State $s' \gets apply(d, s, a)$
+            \State $s'_{h} \gets apply(d_h, s, a)$
+            \If{$s' \neq s'_h$}
+                \State \Return $\left( \texttt{Failure} \left(s, a, s'\right), s\right)$
+            \EndIf
+            \State $s \gets s'$
+        \EndFor
+            \State \Return $\left(\texttt{Success}, s\right)$
+        \EndFunction
+    \end{algorithmic}
+    \caption{Conducting a PDDL experiment (executing a plan)}\label{algo:PDDLConduct}
+\end{algorithm}
 
-Conducting an experiment means performing the actions in the plan until an action results in a state that does not match what the hypothesis predicted. In that case, the hypothesis has been disproven, which prompts the result of the experiment to be analysed and merged into the knowledge base. If all actions in the plan succeeded, then the problem has been solved and the algorithm is terminated upon reentry in the loop.
+The \texttt{Result} returned by the \textit{conduct} function is used by the \textit{analyse} function to obtain new knowledge (as described in the following sections), which is then merged into the knowledge base.
+Note that the generated hypothetical domain may be too restrictive for the agent to find a plan. In that case, no new knowledge can be obtained and the agent can either choose a new strategy, or query the teacher upon loop reentry.
 
 In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm from~\ref{algo:science} is presented.
 
@@ -27,7 +43,7 @@ In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm fro
                 \State $k \gets k + query(p)$
                 \State \texttt{Domain} $d \gets form(p, k, s)$
                 \State \texttt{Plan} $l \gets design(w, d, s)$
-                \State $(\texttt{Result} \, r, w) \gets conduct(l, w)$
+                \State $(\texttt{Result} \, r, w) \gets conduct(l, w, d)$
                 \State $k \gets k + analyse(r, k)$
                 \State $s \gets update(s, k)$
             \EndWhile
