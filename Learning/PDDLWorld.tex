@@ -1,16 +1,20 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
-In order to discuss learning we must define a model for the domain which we operate within. Thus we choose to use the generally accepted PDDL or Planning Domain Definition Language[Cite missing]. 
+In order to discuss learning we must define a model for the domain which we operate within. Thus we choose to use the generally accepted PDDL or Planning Domain Definition Language (see~\cite{PDDL}). 
 
 This section will give a minimal definition of PDDL, and provide context for syntax used in later chapter. We will also explain functions used in state manipulation such as the grounding and state-transition functions.
 
 
-PDDL is based on set-theoretic planning[Cite missing] popularized by the STRIPS language[Cite missing]. By default states in PDDL are based on closed-world-assumption, meaning if something is not defined in the state it is assumed to be false. 
+PDDL is based on set-theoretic planning (see~\cite{ghallab2004a}) popularized by the STRIPS language (see~\cite{STRIPS}). By default states in PDDL are based on closed-world-assumption, meaning that if something is not defined in the state it is assumed to be false. 
 In PDDL and set-theoretic planning, a state is set of predicates defining the properties of the objects in an environment.
 
 \begin{definition} 
-	State $S$ in PDDL is a set of grounded predicates $\{p(o_1,\dots,o_n) \mid  p \in \mathbb{P} \land \{o_1,\dots,o_n\} \subseteq \mathcal{O} \land p(o_1,\dots,o_n) = \texttt{TRUE}\}$. Where $\mathcal{O}$ is the set of all objects in the world, and $\mathbb{P}$ is the set of all predicates that can be used to describe the objects in the world.
+	An intensional definition of a state $S$ in PDDL is a set of grounded predicates:
+    \begin{equation*}
+        S=\{p(o_1,\dots,o_n) \mid  p \in \mathbb{P} \land \{o_1,\dots,o_n\} \subseteq \mathcal{O} \land p(o_1,\dots,o_n) = \texttt{TRUE}\}
+    \end{equation*}
+    Where $\mathcal{O}$ is the set of all objects in the world, and $\mathbb{P}$ is the set of all predicates that can be used to describe the objects in the world.
 \end{definition}
 
 To change the state an agent must perform action on the state, in PDDL action schemas describes what changes the action will have to the state and under what conditions. 
@@ -21,7 +25,7 @@ To change the state an agent must perform action on the state, in PDDL action sc
 		
 		$
 		\begin{array}{ll}
-		Action ~ schema ~ A: & \\
+		Action~schema~A: & \\
 		
 		\begin{array}{ll}
 		Variables & = \{v_1,\dots,v_n\}			 \\  
@@ -56,7 +60,7 @@ In PDDL a set of action schemas, along with properties about always present obje
 	
 $
 \begin{array}{ll}
-Domain ~ D: & \\
+Domain~D: & \\
 
 \begin{array}{ll}
 Constants & = \{o_1,\dots,o_n\}			 \\  
