@@ -15,40 +15,46 @@ Using a hypothetical domain (\texttt{Domain}) as described above, the agent can 
 \begin{algorithm}
     \begin{algorithmic}
         \Function{$\textsc{conduct}$} {\texttt{Plan} $l$, \texttt{World} $w$, \texttt{Domain} $d_h$}
-        \State $s \gets w.state$
-        \State $d \gets w.domain$
+        \State{$s \gets w.state$}
+        \State{$d \gets w.domain$}
         \ForAll{grounded actions $a \in p$}
-            \State $s' \gets apply(d, s, a)$
-            \State $s'_{h} \gets apply(d_h, s, a)$
+            \State{$s' \gets apply(d, s, a)$}
+            \State{$s'_{h} \gets apply(d_h, s, a)$}
             \If{$s' \neq s'_h$}
-                \State \Return $\left( \texttt{Failure} \left(s, a, s'\right), s\right)$
-            \EndIf
-            \State $s \gets s'$
-        \EndFor
-            \State \Return $\left(\texttt{Success}, s\right)$
-        \EndFunction
+                \State{\Return{$\left( \texttt{Failure} \left(s, a, s'\right), s\right)$}}
+            \EndIf%
+            \State{$s \gets s'$}
+        \EndFor%
+            \State{\Return{$\left(\texttt{Success}, s\right)$}}
+        \EndFunction%
     \end{algorithmic}
     \caption{Conducting a PDDL experiment (executing a plan)}\label{algo:PDDLConduct}
 \end{algorithm}
 
-The \texttt{Result} returned by the \textit{conduct} function is used by the \textit{analyse} function to obtain new knowledge (as described in the following sections), which is then merged into the knowledge base.
-Note that the generated hypothetical domain may be too restrictive for the agent to find a plan. In that case, no new knowledge can be obtained and the agent can either choose a new strategy, or query the teacher upon loop reentry.
+The \texttt{Result} returned by \textit{conduct} is used by the \textit{analyse} function to obtain new knowledge (as described in the following sections), which is then merged into the knowledge base.
 
-In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm from~\ref{algo:science} is presented.
+If the generated hypothetical domain is too restrictive for the agent to find a plan, no new knowledge can be gained, and the agent has the option to instead seek guidance from external sources. For this purpose,~\cite{Walsh2008} introduces the concept of a \textit{teacher}, which has full knowledge of the domain and can thus be queried for the solution to a specific problem. This solution is returned as a list of state transitions (a \texttt{Trace}), of which each one is analysed and the resulting knowledge is combined. In this context, the teacher can be seen as part of the \texttt{World}, as this already contains the actual domain. Thus, the $query$ function is analoguous to $inquire$ from Algorithm~\ref{algo:science}.
+
+In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm from~\ref{algo:science} is presented. Note that since the optimistic algorithm from~\cite{Walsh2008} always finds a plan that might fail, and the pessimistic only finds successfull plans or none at all, both can be derived from Algorithm~\ref{algo:PDDL} by applying the correct strategies and setting $update$ to the identity function.
 
 \begin{algorithm}
     \begin{algorithmic}
-        \Function {$\textsc{Learn-PDDL}$} {\texttt{Problem} $p$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
-            \While {$\neg isSolved(p, w)$}
-                \State $k \gets k + query(p)$
-                \State \texttt{Domain} $d \gets form(p, k, s)$
-                \State \texttt{Plan} $l \gets design(w, d, s)$
-                \State $(\texttt{Result} \, r, w) \gets conduct(l, w, d)$
-                \State $k \gets k + analyse(r, k)$
-                \State $s \gets update(s, k)$
-            \EndWhile
-            \State \Return $k$
-        \EndFunction
+        \Function{$\textsc{Learn-PDDL}$} {\texttt{Problem} $p$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
+            \While{$\neg isSolved(p, w)$}
+                \State{\texttt{Domain} $d \gets form(p, k, s)$}
+                \State{\texttt{Plan} $l \gets design(w, d, s)$}
+                \If{a plan is found}
+                    \State{$(\texttt{Result} \, r, w) \gets conduct(l, w, d)$}
+                    \State{$k \gets k + analyse(k, r)$}
+                \Else%
+                    \State{\texttt{Trace} $t \gets query(w, p)$}
+                    \State{$k \gets fold \left( analyse, k, t \right)$}
+                    % \State{$k \gets k + query(w, p)$}
+                \EndIf%
+                \State{$s \gets update(s, k)$}
+            \EndWhile%
+            \State{\Return{$k$}}
+        \EndFunction%
     \end{algorithmic}
     \caption{Scientific learning algorithm for the PDDL framework}\label{algo:PDDL}
 \end{algorithm}

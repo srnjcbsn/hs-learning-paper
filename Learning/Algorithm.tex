@@ -23,13 +23,17 @@ In the following we will elaborate on the types and functions used in the algori
 
     \begin{algorithmic}
         \Function~{$\textsc{Learn}$} {\texttt{Question} $q$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
-            \While~{$\neg canAnswer(q, k, w)$}
-                \State~$k \gets k + inquire(w, q)$
-                \State~\texttt{Hypothesis} $h \gets form(q, k, s)$
-                \State~\texttt{Experiment} $e \gets design(w, h, s)$
-                \State~$(\texttt{Result} \, r, w) \gets conduct(e, w)$
-                \State~$k \gets k + analyse(r, k)$
-                \State~$s \gets update(s, k)$
+            \While{$\neg canAnswer(q, k, w)$}
+                \State{$k \gets k + inquire(w, q)$}
+                \State{\texttt{Hypothesis} $h \gets form(q, k, s)$}
+                \State{\texttt{Experiment} $e \gets design(w, h, s)$}
+                \If{an experiment could be found}
+                    \State{$(\texttt{Result} \, r, w) \gets conduct(e, w)$}
+                    \State{$k \gets k + analyse(r, k)$}
+                \Else%
+                    \State{$k \gets k + inquire(w, q)$}
+                \EndIf%
+                \State{$s \gets update(s, k)$}
             \EndWhile%
             \State~\Return~$k$
         \EndFunction%
