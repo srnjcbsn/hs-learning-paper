@@ -48,7 +48,10 @@ In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm fro
                     \State{$k \gets k + analyse(k, r)$}
                 \Else%
                     \State{\texttt{Trace} $t \gets query(w, p)$}
-                    \State{$k \gets fold \left( analyse, k, t \right)$}
+                    \ForAll{transitions $r \in t$}
+	                    \State{$k \gets k + analyse(k, r)$}
+                     \EndFor
+                    
                     % \State{$k \gets k + query(w, p)$}
                 \EndIf%
                 \State{$s \gets update(s, k)$}
