@@ -1,6 +1,6 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
-
+\providecommand{\master}{..}
 
 Formerly we defined binding sets as a theoretical set, however for practical application we require an exact model.
 
@@ -75,6 +75,7 @@ To summarize the our prior model for preconditions and effects we have the four 
 		\begin{tabular}{c  c}
 
 			$p(x) \land q(x)$ becomes &
+            % \input{\master/Graphics/predicateEdge.pgf}
 			\raisebox{-.5\height}{%
 
 				\begin{tikzpicture}[node distance=2cm, on grid]
@@ -112,6 +113,12 @@ Note that a predicate edge will always contain a number of vertices equal to the
 \begin{proposition}
     All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
 \end{proposition}
+
+    \begin{figure}
+        \centering
+            \input{\master/Graphics/sokobanHyperGraph.pgf}
+		\caption{Hypergraphs for example~\ref{ex:ca:hgma:generalization}}\label{fig:ex:ca:hgma:ex:generalization}
+    \end{figure}
 
 	\begin{figure}
 		\centering
