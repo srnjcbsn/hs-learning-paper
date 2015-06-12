@@ -27,19 +27,30 @@
 
 \captionsetup{justification=justified,singlelinecheck=false}
 \newcommand{\figref}[1]{\figurename~\ref{#1}}
+\newcommand\defeq{\stackrel{\mathclap{\normalfont\mbox{def}}}{=}}
 \usepackage{tikz}
 \usetikzlibrary{topaths,calc}
 \usetikzlibrary{positioning}
 
+\usepackage{listings}
+
+\lstset{
+	basicstyle=\itshape,
+	%xleftmargin=2em,
+	literate={->}{$\colon =$}{2}
+	{α}{$\alpha$}{1}
+	{δ}{$\delta$}{1}
+}
+
 \makeatletter
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
   \theoremstyle{definition}
-  \newtheorem{definition}{Definition}
+  \newtheorem{definition}{Definition}[chapter]
   \theoremstyle{plain}
   \newtheorem{example}{Example}[section]
-  \newtheorem{theorem}{Theorem}
-  \newtheorem{proposition}{Proposition}
-  \newtheorem{invariant}{Invariant}
+  \newtheorem{theorem}{Theorem}[chapter]
+  \newtheorem{proposition}{Proposition}[chapter]
+  \newtheorem{invariant}{Invariant}[chapter]
 \makeatother
 
 % \newtheoremstyle{examplestyle}% name of the style to be used
