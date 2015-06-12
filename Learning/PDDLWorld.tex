@@ -18,12 +18,11 @@ In PDDL and set-theoretic planning, a state is set of predicates defining the pr
 \end{definition}
 
 To change the state an agent must perform action on the state, in PDDL action schemas describes what changes the action will have to the state and under what conditions. 
-
 	
 \begin{definition} \label{def:lrn:action-spec-def}
-		An action definition or action schema, defines how and when an action is to be applied. 
+		An action definition or action schema defines when an action is to be applied, as well as the consequences of the application.
 		
-		$
+    \begin{equation*}
 		\begin{array}{ll}
 		Action~schema~A: & \\
 		
@@ -32,23 +31,24 @@ To change the state an agent must perform action on the state, in PDDL action sc
 		Pre	& = Goal Description(GD) \\
 		Eff & = Effect(EFF) 
 		\end{array}
-		\end{array}$
+		\end{array}
+    \end{equation*}
 		
 		The BNF for GD and EFF is as follows:
 		
 	%DONT USE TABS on the following listing as it is directly affected by it
 		\begin{lstlisting}
-	<GD> -> (and <GD>*) 
-	<GD> -> LITERAL
-	
-	<EFF> -> (and <EFF>*)
-	<EFF> -> LITERAL
-	
-	<LITERAL> -> <predicate name> (TERM*)
-	<LITERAL> -> (not <LITERAL>)
-	
-	<TERM> -> <object>
-	<TERM> -> <variable>
+            <GD> -> (and <GD>*) 
+            <GD> -> LITERAL
+            
+            <EFF> -> (and <EFF>*)
+            <EFF> -> LITERAL
+            
+            <LITERAL> -> <predicate name> (TERM*)
+            <LITERAL> -> (not <LITERAL>)
+            
+            <TERM> -> <object>
+            <TERM> -> <variable>
 		\end{lstlisting}
 		
 		The distinction between GD and EFF is important to PDDL action schemas to allow either to receive additional features without the other gaining the same.

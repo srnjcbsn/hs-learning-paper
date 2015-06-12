@@ -167,7 +167,7 @@
 		effects =  K_E \cup U_E
 	\end{equation}
 
-	In order for this to work the planner must support three valued logic \cite{putnam1957a}, or planning with spurious actions.
+    In order for this to work the planner must support three valued logic \cite{putnam1957a}, or planning with spurious actions (see~\cite{Russell}).
 	Such a planner would, when encountering an effect $p$ in an effect set $E$ that is to be added and deleted (is spurious), add it to a special undefined set $\mathcal{X}$.
 	If however the effect is not spurious meaning it is either positive or negative then it is removed from $\mathcal{X}$.
 
@@ -175,7 +175,7 @@
 				\begin{split}
 					Spurious~E_S &= \{ p \mid p \in E \land \neg p \in E \} \\
 					Non\text{-}Spurious~E_{NS} &= \{ p \mid (p \in E \land \neg p \notin E ) \lor (p \notin E \land \neg p \in E )  \}\\
-					Undefined ~ set ~ \mathcal{X}' &= \mathcal{X} \cup E_S \setminus E_{NS}
+					Undefined~set~\mathcal{X}' &= \mathcal{X} \cup E_S \setminus E_{NS}
 				\end{split}
 			\end{equation}
 	For the purposes of checking whether the goal is solved, each predicate in $\mathcal{X}$ is considered as both being positive and negative.
