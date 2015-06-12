@@ -1,7 +1,7 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
-In order to discuss learning we must define a model for the domain which we operate within. Thus we choose to use the generally accepted PDDL or Planning Domain Definition Language (see~\cite{PDDL}). 
+In order to discuss learning we must define a model for the domain which we operate within. We have chosen to use the generally accepted PDDL or Planning Domain Definition Language (see~\cite{PDDL}), as it is well researched.
 
 This section will give a minimal definition of PDDL, and provide context for syntax used in later chapter. We will also explain functions used in state manipulation such as the grounding and state-transition functions.
 
@@ -17,23 +17,28 @@ In PDDL and set-theoretic planning, a state is set of predicates defining the pr
     Where $\mathcal{O}$ is the set of all objects in the world, and $\mathbb{P}$ is the set of all predicates that can be used to describe the objects in the world.
 \end{definition}
 
-To change the state an agent must perform action on the state, in PDDL action schemas describes what changes the action will have to the state and under what conditions. 
+The ways an agent can change the state, and under which circumstances, is decribed by \textit{action schemas}. 
 	
 \begin{definition} \label{def:lrn:action-spec-def}
-		An action definition or action schema defines when an action is to be applied, as well as the consequences of the application.
-		
+		An action definition or action schema defines when an action is to be applied, as well as the consequences of the application. As such an action schema contains a logical formula specifying its preconditions, which must be satisfied for the action to be applied. If the preconditions are satisfied, the changes listed in the logic formula denoting the effects are applied. The structure of an action schema is the following:
+	\begin{itemize}
+        \item[Pre] A goal description (GD), explained below. : :
+    \end{itemize}
     \begin{equation*}
 		\begin{array}{ll}
 		Action~schema~A: & \\
 		
 		\begin{array}{ll}
-		Variables & = \{v_1,\dots,v_n\}			 \\  
-		Pre	& = Goal Description(GD) \\
-		Eff & = Effect(EFF) 
+		Parameters & : (v_1,\dots,v_n) \\  
+		Pre	& : Goal~Description \\
+		Eff & : Effect 
 		\end{array}
 		\end{array}
     \end{equation*}
-		
+
+	The parameters of an action schema is a list of variables used in the Pre and Eff. Pre is description of the action schema preconditions and Eff is a description of its effects. 
+    Goal Description or GD is specifically designed logic formula for describing preconditon. Effect or EFF is another logical construct for describing effects of an action.
+
 		The BNF for GD and EFF is as follows:
 		
 	%DONT USE TABS on the following listing as it is directly affected by it
