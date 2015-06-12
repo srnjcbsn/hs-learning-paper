@@ -2,7 +2,7 @@
 \providecommand{\master}{..}
 \begin{document}
 
-Given a state transition $\left( s, a ,s' \right)$
+We will now explore how knowledge about conditional effects for an action $a$ can be derived from a  state transition $\left( s, a ,s' \right)$. As explained previously, each grounded predicate $q$ in $\Delta s$ is the outcome of a conditional effect for which an interpretation of its preconditions was satisfied by $s$. As (by Restriction~\ref{rst:ca:no-multiple-effect}), each conditional effect can have only one effect, and that effect must be unique. Hence, each grounded predicate with the same shape
 
 % \begin{algorithm}
 %     \caption{Constructing hypergraphs from a state}\label{algo:HypGraphCtor}
@@ -21,30 +21,16 @@ Given a state transition $\left( s, a ,s' \right)$
     \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
     \begin{algorithmic}
         \Function{$\textsc{Conditional-Effect-Learn}$} {$\left( s, a, s'\right)$, \texttt{HyperGraph} $U$, $K$}
-            \If {$s' \neq s$}
-                \State $C \gets C \cup \{ c(s) \}$
-            \ElsIf {$s' = s$}
-                \State $D \gets D \cup d(s)$
-            \EndIf
-
-            \State Reduce candidate sets by removing predicates disproven to preconditions:
-            \State $C' \gets \left\{ c \setminus D \; | \; c \in C' \right\}$
-
-            \State Add singleton sets from $C$ to $K$:
-            \State $K' \gets K \cup \left\{ p \; | \; \{ p \} \in C' \right\}$
-
-            \State Remove candidate sets containing predicates proven to be preconditions:
-            \State $C' \gets \left\{ c \; | \; c \in C' \land c \cap K \neq \emptyset \right\}$
-            \State \Return $(K', D', C')$
+            \State{test}
         \EndFunction%
     \end{algorithmic}
 \end{algorithm}
 
 \textsc{\texttt{Work in progress}}
 
-<TODO: Include explanation of how proven effects are combined with the hypergraphs of the preconditions>
+<TODO:\@ Include explanation of how proven effects are combined with the hypergraphs of the preconditions>
 
-<TODO: Explain how there are many hypergraphs in one state, I.E. each effect contains its own hypergraph of preconditions>
+<TODO:\@ Explain how there are many hypergraphs in one state, I.E. each effect contains its own hypergraph of preconditions>
 
 Given a state transition $(s,a,s')$:
 
