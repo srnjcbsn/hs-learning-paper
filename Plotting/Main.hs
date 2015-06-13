@@ -2,7 +2,7 @@ module Main where
 
 import           Harbors
 import           HyperGraph
-import           Sokoban              (drawWorld, smallSokoWorld, sokoWorld1)
+import           Sokoban
 
 import           Diagrams.Backend.PGF
 import           Diagrams.Prelude
@@ -20,7 +20,13 @@ main = do
     -- renderSVG "output/soko1.svg" (dims2D 200 200) (drawWorld sokoWorld1)
     -- renderSVG "output/sokoSmall.svg" (dims2D 200 200) (drawWorld smallSokoWorld)
     -- renderSVG "output/plot.svg" (dims2D 200 200) (example1 <> square 3)
+    draw "sokoSmall"         smallSokoWorld
+    draw "moveLeftBefore"    moveLeftBefore
+    draw "moveLeftAfter"     moveLeftAfter
+
     draw "hg1"               (drawHg hg1)
+    draw "hgEx1_1"           (drawHg hgEx1_1)
+    draw "hgEx1_2"           (drawHg hgEx1_2)
     draw "hgEx2_1"           (drawHg hgEx2_1)
     draw "hgEx2_2"           (drawHg hgEx2_2)
     draw "isomorphic"        (drawHg isomorphic)

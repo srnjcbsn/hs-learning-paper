@@ -53,21 +53,22 @@ To summarize the our prior model for preconditions and effects we have the four 
 		\begin{tabular}{c  c}
 
 			$p(\bot,\bot)$ becomes &
-			\raisebox{-.5\height}{%
-					\begin{tikzpicture}[node distance=2cm, on grid]
-						\node (p1) at (0,0) {};
-						\node (p2) [right of = p1] {};
-
-						\path[every node/.style={font=\sffamily\small}]
-						(p1) edge node {} (p2);
-
-						\fill (p1) circle (0.1) node [left] {$p1$};
-						\fill (p2) circle (0.1) node [right] {$p2$};
-
-
-					\end{tikzpicture}
-
-				}	
+            \raisebox{-.5\height}{\resizebox{0.16\linewidth}{!}{\input{\master/Graphics/predicateEdge.pgf}}}
+			% \raisebox{-.5\height}{%
+			% 		\begin{tikzpicture}[node distance=2cm, on grid]
+			% 			\node (p1) at (0,0) {};
+			% 			\node (p2) [right of = p1] {};
+            %
+			% 			\path[every node/.style={font=\sffamily\small}]
+			% 			(p1) edge node {} (p2);
+            %
+			% 			\fill (p1) circle (0.1) node [left] {$p1$};
+			% 			\fill (p2) circle (0.1) node [right] {$p2$};
+            %
+            %
+			% 		\end{tikzpicture}
+            %
+			% 	}	
 				\tabularnewline%
 		\end{tabular}
 		\item[{Binding edge}] To represent variables bound together through a common variable (Bindings) we
@@ -75,32 +76,32 @@ To summarize the our prior model for preconditions and effects we have the four 
 		\begin{tabular}{c  c}
 
 			$p(x) \land q(x)$ becomes &
-            % \input{\master/Graphics/predicateEdge.pgf}
-			\raisebox{-.5\height}{%
-
-				\begin{tikzpicture}[node distance=2cm, on grid]
-				\node (p1) at (0,0) {};
-				\node (p2) [right of = p1] {};
-
-				\begin{scope}[fill opacity=0.8]
-				\filldraw[fill=white!70]
-				($(p1)+(-0.5,-0.5)$)
-				to($(p1)+(-0.5,0.5)$)
-				to($(p2)+(0.5,0.5)$)
-				to ($(p2)+(0.5,-0.5)$)
-				to ($(p2)+(0.5,-0.5)$)
-				to ($(p1)+(-0.5,-0.5)$)
-				;
-				\end{scope}
-
-
-				\fill (p1) circle (0.1) node [left] {$p1$};
-				\fill (p2) circle (0.1) node [right] {$q1$};
-
-				\end{tikzpicture}
-
-				}
-				\tabularnewline%
+            \raisebox{-.5\height}{\resizebox{0.2\linewidth}{!}{\input{\master/Graphics/bindingEdge.pgf}}}
+			% \raisebox{-.5\height}{%
+            %
+			% 	\begin{tikzpicture}[node distance=2cm, on grid]
+			% 	\node (p1) at (0,0) {};
+			% 	\node (p2) [right of = p1] {};
+            %
+			% 	\begin{scope}[fill opacity=0.8]
+			% 	\filldraw[fill=white!70]
+			% 	($(p1)+(-0.5,-0.5)$)
+			% 	to($(p1)+(-0.5,0.5)$)
+			% 	to($(p2)+(0.5,0.5)$)
+			% 	to ($(p2)+(0.5,-0.5)$)
+			% 	to ($(p2)+(0.5,-0.5)$)
+			% 	to ($(p1)+(-0.5,-0.5)$)
+			% 	;
+			% 	\end{scope}
+            %
+            %
+			% 	\fill (p1) circle (0.1) node [left] {$p1$};
+			% 	\fill (p2) circle (0.1) node [right] {$q1$};
+            %
+			% 	\end{tikzpicture}
+            %
+			% 	}
+			% 	\tabularnewline%
 		\end{tabular}
 	\end{description}
 
@@ -114,108 +115,11 @@ Note that a predicate edge will always contain a number of vertices equal to the
     All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
 \end{proposition}
 
-    \begin{figure}
-        \centering
-            \input{\master/Graphics/sokobanHyperGraph.pgf}
-		\caption{Hypergraphs for example~\ref{ex:ca:hgma:generalization}}\label{fig:ex:ca:hgma:ex:generalization}
-    \end{figure}
-
-	\begin{figure}
-		\centering
-		\begin{tikzpicture}[node distance=2cm, on grid]
-		\node (aA1) at (0,0) {};
-		\node (aA2) [right of = aA1] {};
-
-		\node (aB1) [above of = aA2] {};
-		\node (aB2) [right of = aB1] {};
-
-
-		\node (at2) [above of = aB1] {};
-		\node (at1) [above of = at2] {};
-
-		\node (sokoAt1) [above of = aB2] {};
-
-		\node (v1) at (1.5,3) {};
-		\node (v2) at (1.5,3) {};
-		\node (v3) at (4,2.5) {};
-		\node (v4) at (0,0) {};
-		\node (v5) at (2,0.5) {};
-		\node (v6) at (3.5,0) {};
-		\node (v7) at (2.5,-1) {};
-
-		\begin{scope}[fill opacity=0.8]
-		\filldraw[fill=red!70]
-			($(aA2)+(-0.5,-0.5)$)
-			to ($(at2)+(-0.5,0.5)$)
-			to ($(at2)+(0.5,0.5)$)
-			to ($(aA2)+(0.5,-0.5)$)
-			to ($(aA2)+(0.5,-0.5)$)
-			to ($(aA2)+(-0.5,-0.5)$)
-		;
-
-		\filldraw[fill=green!70]
-			($(aB2)+(-0.5,-0.5)$)
-			to($(sokoAt1)+(-0.5,0.5)$)
-			to($(sokoAt1)+(0.5,0.5)$)
-			to ($(aB2)+(0.5,-0.5)$)
-			to ($(aB2)+(0.5,-0.5)$)
-			to ($(aB2)+(-0.5,-0.5)$)
-		;
-
-		\filldraw[fill=blue!70]
-			($(aA1)+(-0.5,-0.5)$)
-			to($(aA1)+(-0.5,0.5)$)
-			to($(aA1)+(0.5,0.5)$)
-			to ($(aA1)+(0.5,-0.5)$)
-			to ($(aA1)+(0.5,-0.5)$)
-			to ($(aA1)+(-0.5,-0.5)$)
-		;
-
-		\filldraw[fill=yellow!70]
-			($(at1)+(-0.5,-0.5)$)
-			to($(at1)+(-0.5,0.5)$)
-			to($(at1)+(0.5,0.5)$)
-			to ($(at1)+(0.5,-0.5)$)
-			to ($(at1)+(0.5,-0.5)$)
-			to ($(at1)+(-0.5,-0.5)$)
-		;
-
-		\end{scope}
-
-
-		\path[every node/.style={font=\sffamily\small}]
-			(aA1) edge node {} (aA2)
-			(aB1) edge node {} (aB2)
-			(at1) edge node {} (at2);
-
-		\fill (aA1) circle (0.1) node [below] {$adj1$};
-		\fill (aA2) circle (0.1) node [below] {$adj2$};
-
-		\fill (aB1) circle (0.1) node [below] {$adj1$};
-		\fill (aB2) circle (0.1) node [below] {$adj2$};
-
-		\fill (at1) circle (0.1) node [below] {$at1$};
-		\fill (at2) circle (0.1) node [below] {$at2$};
-
-		\fill (sokoAt1) circle (0.1) node [below] {$soAt1$};
-
-
-
-		\node at (2.3,2.8) {$y$};
-		\node at (0.3,0.3) {$x$};
-		\node at (4.3,2.8) {$z$};
-
-		\node at (2.3,6.3) {$b$};
-		\end{tikzpicture}
-
-		\caption{\label{fig:ca:sokoban-hypergraph}Sokoban as hypergraph for Example~\ref{ex:ca:sokoban-hypergraph}}
-
-	\end{figure}
-
-
-
-
-
+\begin{figure}
+    \centering
+        \input{\master/Graphics/sokobanHyperGraph.pgf}
+        \caption{Sokoban as hypergraph for Example~\ref{ex:ca:sokoban-hypergraph}. Here, $s = \texttt{sokobanAt}$, $adj = \texttt{hAdj}$ and $at = \texttt{at}$}\label{fig:ca:sokoban-hypergraph}
+\end{figure}
 
 \begin{example}\label{ex:ca:sokoban-hypergraph}
 	Consider Example~\ref{ex:ca:sokoban-moveleft-action}. In this we had

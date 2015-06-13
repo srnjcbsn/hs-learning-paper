@@ -1,10 +1,10 @@
 module Sokoban where
 
-import Diagrams.Prelude
-import Diagrams.Backend.SVG
+import           Diagrams.Backend.PGF
+import           Diagrams.Prelude
 
 data Object = Sokoban
-            | Crate
+            | Crate String
 
 data Tile = Normal (Maybe Object)
           | Goal (Maybe Object)
@@ -13,9 +13,11 @@ data Tile = Normal (Maybe Object)
 type World = [[Tile]]
 
 drawObject :: Maybe Object -> Diagram B
-drawObject (Just Sokoban) = circle 0.3
-drawObject (Just Crate)   = square 0.6 # lw 2.0
-drawObject  Nothing       = mempty
+drawObject (Just Sokoban)   =  circle 0.3
+drawObject (Just (Crate n)) =  square 0.6 # lw 2.0
+                            <> baselineText ("$" ++ n ++ "$")
+                               # fontSize (local 0.2)
+drawObject  Nothing         =  mempty
 
 drawTile :: Tile -> Diagram B
 drawTile (Normal obj) =  square 1.0
@@ -28,19 +30,41 @@ drawTile  Wall        = mempty
 drawWorld :: World -> Diagram B
 drawWorld = vcat . (map (hcat . (map drawTile))) # lw 2.0
 
-w, g, c, e, s :: Tile
+tileLabels :: Int -> Int -> [Diagram B]
+tileLabels start stop = map (dia . label) [start .. stop]
+    where label n = "$t_{" ++ show n ++ "}$"
+          dia t = strut 1.0 <> baselineText t # fontSize (local 0.2)
+
+w, g, e, s :: Tile
 w = Wall
 g = Goal Nothing
-c = Normal (Just Crate)
 e = Normal Nothing
 s = Normal (Just Sokoban)
 
-sokoWorld1 :: World
-sokoWorld1 = [ [ s, c, e, g ]
-             , [ c, w, w, w ]
-             , [ e, w, w, w ]
-             , [ g, w, w, w ]
-             ]
+c :: String -> Tile
+c = Normal . Just . Crate
 
-smallSokoWorld :: World
-smallSokoWorld = [ [g, c, s, e] ]
+sokoWorld1 :: World
+sokoWorld1 = [ [ s,  c1, e, g ]
+             , [ c2, w,  w, w ]
+             , [ e,  w,  w, w ]
+             , [ g,  w,  w, w ]
+             ]
+             where c1 = c "c_1"
+                   c2 = c "c_2"
+
+smallSokoWorld :: Diagram B
+smallSokoWorld = drawWorld [ [g, c "c", s, e] ]
+                 ===
+                 hcat (tileLabels 1 4)
+
+moveLeftBefore :: Diagram B
+moveLeftBefore = drawWorld [ [e, c "c", s] ]
+                 ===
+                 hcat (tileLabels 1 3)
+
+moveLeftAfter :: Diagram B
+moveLeftAfter = drawWorld [ [c "c", s, e] ]
+                ===
+                hcat (tileLabels 1 3)
+
