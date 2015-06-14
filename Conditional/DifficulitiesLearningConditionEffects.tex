@@ -16,7 +16,7 @@ In order to simplify the problem we have made the following restrictions on cond
 \begin{enumerate}[label=R.\arabic*]
 	\item Environment must be fully observable.
 	\item Environment must contain a finite number of objects.
-	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects.
+	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
 	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect.
 
 		  I.E. the effect $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.

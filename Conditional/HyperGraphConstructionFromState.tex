@@ -2,7 +2,34 @@
 \providecommand{\master}{..}
 \begin{document}
 
-We will now explore how knowledge about conditional effects for an action $a$ can be derived from a  state transition $\left( s, a ,s' \right)$. As explained previously, each grounded predicate $q$ in $\Delta s$ is the outcome of a conditional effect for which an interpretation of its preconditions was satisfied by $s$. As (by Restriction~\ref{rst:ca:no-multiple-effect}), each conditional effect can have only one effect, and that effect must be unique. Hence, each grounded predicate with the same shape
+We will now explore how knowledge about conditional effects for an action schema $A$ can be derived from a  state transition $\left( s, a ,s' \right)$. As explained previously, each grounded predicate $q$ in $\Delta s$ is the outcome of a conditional effect for which an interpretation of its preconditions was satisfied by $s$. By Restriction~\ref{rst:ca:no-multiple-effect}, each conditional effect can have only one effect, and that effect must be unique. 
+
+\noindent\rule{\textwidth}{1pt}
+
+By Restrictions~\ref{rst:ca:no-disjuntive-conditionals} and~\ref{rst:ca:no-multiple-effect}, each predicate $p \in \Delta s$ is spawned by exactly one conditional. As such, it can be deduced that if a predicate $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \mathcal{O}$) occurs in $\Delta s$ after application of $a$, then $A$ contains a conditional of the form
+
+\begin{equation*}
+    \forall x_1, \dots, x_n 
+        \left[ p\left(\delta\left(u_1\right), \dots, \delta \left(u_{|p|}\right) \right) \right] \quad when \quad 
+        \left[ \left<unknown\right> \right]
+\end{equation*}
+where $\left\{\delta \left( u_1 \right), \dots, \delta \left(u_{|p|} \right) \right\} \subseteq \left\{ x_1, \dots, x_n \right\} \subseteq \delta [\mathcal{O}]$ and $\delta$ is a substitution function as explained in <ref>. Observe that once this conditional has been proven to exist, the problem of finding its preconditions is similar to finding the preconditions of a non-conditional action schema $A'$ accepting as many parameters as the number of objects in the world, ie. 
+
+\begin{align*}
+    \begin{split}
+        \textsc{Action} &\; \textit{A'}\left(\delta \left( o_1 \right), \ldots, \delta \left( o_{|\mathcal{O}|}\right)\right): \\
+        \textsc{Pre}: \; & \left< unknown \right> \\
+        \textsc{Eff}: \; & p\left( \delta \left(u_1\right), \dots, \delta \left( u_{|p|} \right)\right)
+    \end{split}
+\end{align*}
+
+in which case the grounding function becomes $\delta^{-1}$. Thus, the function $d(s)$ from Section~\ref{sec:NC:Preconditions} can be used to disprove preconditions, and the set of predicates neither proven nor disproven to be preconditions becomes $\mathbb{CP} \setminus d(s)$. Note that since $\mathbb{P}_{A'} = \mathbb{CP}_A$, $|d(s)| = |\mathbb{P}_{A'}|$, as each predicate is either present or absent from the state. 
+
+As all predicates in $\Delta s$ with the same name are effects of the same conditional, it is tempting to consider them different applications of $A'$ and prove knowledge about their preconditions as in Section~\ref{sec:NC:Preconditions}. However, the above only holds for a single grounded predicate observed to be the effect of the conditional; if a predicate with the same name but different arguments occurs in $\Delta s$, then it is the effect of another interpretation of the universal quantifier in the conditional, and the nonconditional action schema constructed for it will not equal $A'$.
+
+Consequently, the preconditions disproven by $d(s)$ for $A'$ are only applicable to the grounded predicate $A'$ was constructed for. To find the preconditions of the conditional, a method of combining the different disproven predicates is needed.
+
+\noindent\rule{\textwidth}{1pt}
 
 % \begin{algorithm}
 %     \caption{Constructing hypergraphs from a state}\label{algo:HypGraphCtor}
@@ -21,7 +48,9 @@ We will now explore how knowledge about conditional effects for an action $a$ ca
     \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
     \begin{algorithmic}
         \Function{$\textsc{Conditional-Effect-Learn}$} {$\left( s, a, s'\right)$, \texttt{HyperGraph} $U$, $K$}
-            \State{test}
+            \ForAll{predicates $p \in \Delta s$}
+                    
+            \EndFor
         \EndFunction%
     \end{algorithmic}
 \end{algorithm}
