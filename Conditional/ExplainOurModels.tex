@@ -33,43 +33,27 @@ To summarize the our prior model for preconditions and effects we have the four 
 	Furthermore, it must provide support for multiple of the same predicates.
 
 	For these reason we have designed a model for predicate bindings using hypergraphs;
-	in this	model a node is a single predicate's variable position.
-	For instance, if we modelled the following predicate $p(x,x)$ its nodes would be $p1$ and $p2$ because it contains two variables.
+	in this	model a vertex is a single predicate's variable position.
+	For instance, if we modelled the following predicate $p(x,x)$ its vertices would be $p1$ and $p2$ because it contains two variables.
 	The variables position is enumerated in sequence $1\ldots |p|$.
 
 	<\texttt{TODO:} introduction to hypergraphs, edges are sets of vertices>
 
-	In hypergraphs edges can be between more than 2 nodes, we use this to our advantage when modelling bindings.
-	We can define two kinds of edges: one to combine predicate nodes into a single predicate and one to represent bindings.
+	In hypergraphs edges can be between more than 2 vertices, we use this to our advantage when modelling bindings.
+	We can define two kinds of edges: one to combine predicate vertices into a single predicate and one to represent bindings.
 
 	The two kinds of edges are defined as follows:
 
 
 	\begin{description}
-		\item [{Predicate~edge}] As  single predicates are represented as several nodes one for each variable
+		\item [{Predicate~edge}] As  single predicates are represented as several vertices one for each variable
 		it has; a number is used to indicate the order of the variable's
-		positions. This number is appended to the label of the node. And an edge is used to connect these nodes together into a single predicate.
+		positions. This number is appended to the label of the vertex. And an edge is used to connect these vertices together into a single predicate.
 		We choose to visualize this type of edge with a line.\\
 		\begin{tabular}{c  c}
 
-			$p(\bot,\bot)$ becomes &
+			$p(x, y)$ becomes &
             \raisebox{-.5\height}{\resizebox{0.16\linewidth}{!}{\input{\master/Graphics/predicateEdge.pgf}}}
-			% \raisebox{-.5\height}{%
-			% 		\begin{tikzpicture}[node distance=2cm, on grid]
-			% 			\node (p1) at (0,0) {};
-			% 			\node (p2) [right of = p1] {};
-            %
-			% 			\path[every node/.style={font=\sffamily\small}]
-			% 			(p1) edge node {} (p2);
-            %
-			% 			\fill (p1) circle (0.1) node [left] {$p1$};
-			% 			\fill (p2) circle (0.1) node [right] {$p2$};
-            %
-            %
-			% 		\end{tikzpicture}
-            %
-			% 	}	
-				\tabularnewline%
 		\end{tabular}
 		\item[{Binding edge}] To represent variables bound together through a common variable (Bindings) we
 		choose to visualize this using normal cloud notation around them.\\
@@ -77,48 +61,23 @@ To summarize the our prior model for preconditions and effects we have the four 
 
 			$p(x) \land q(x)$ becomes &
             \raisebox{-.5\height}{\resizebox{0.2\linewidth}{!}{\input{\master/Graphics/bindingEdge.pgf}}}
-			% \raisebox{-.5\height}{%
-            %
-			% 	\begin{tikzpicture}[node distance=2cm, on grid]
-			% 	\node (p1) at (0,0) {};
-			% 	\node (p2) [right of = p1] {};
-            %
-			% 	\begin{scope}[fill opacity=0.8]
-			% 	\filldraw[fill=white!70]
-			% 	($(p1)+(-0.5,-0.5)$)
-			% 	to($(p1)+(-0.5,0.5)$)
-			% 	to($(p2)+(0.5,0.5)$)
-			% 	to ($(p2)+(0.5,-0.5)$)
-			% 	to ($(p2)+(0.5,-0.5)$)
-			% 	to ($(p1)+(-0.5,-0.5)$)
-			% 	;
-			% 	\end{scope}
-            %
-            %
-			% 	\fill (p1) circle (0.1) node [left] {$p1$};
-			% 	\fill (p2) circle (0.1) node [right] {$q1$};
-            %
-			% 	\end{tikzpicture}
-            %
-			% 	}
-			% 	\tabularnewline%
 		\end{tabular}
 	\end{description}
 
-In the following sections, we will assume that binding edges can be discerned from predicate edges, eg.\ by labelling.
+    A state can thus be represented as a hypergraph by converting each predicate to a set of vertices as described above, and collecting all vertices stemming from variables with the same name in binding edges. A detailed algorithm for this conversion is given in Section~\ref{sec:Impl:HGConstruction}, and an example is provided below.
 
-In addition to the above, a hypergraph also contains exactly one predicate edge which is labelled as the effect of the pattern the hypergraph describes (as a conditional effect can only have one effect, see~\ref{rst:ca:no-multiple-effect}).
-
-Note that a predicate edge will always contain a number of vertices equal to the arity of the predicate, while a binding edge can contain any number of vertices. Furthermore, a binding set can contain several vertices describing the same argument place of the same predicate. To discern vertices, we define them as a tuple containing a name denoting the predicate and the argument place it represents (such as $p_3$), as well as a unique identifier. 
-
-\begin{proposition}
-    All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
-\end{proposition}
+% In addition to the above, a hypergraph also contains exactly one predicate edge which is labelled as the effect of the pattern the hypergraph describes (as a conditional effect can only have one effect, see~\ref{rst:ca:no-multiple-effect}).
+%
+% Note that a predicate edge will always contain a number of vertices equal to the arity of the predicate, while a binding edge can contain any number of vertices. Furthermore, a binding set can contain several vertices describing the same argument place of the same predicate. To discern vertices, we define them as a tuple containing a name denoting the predicate and the argument place it represents (such as $p_3$), as well as a unique identifier. 
+%
+% \begin{proposition}
+%     All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
+% \end{proposition}
 
 \begin{figure}
     \centering
         \input{\master/Graphics/sokobanHyperGraph.pgf}
-        \caption{Sokoban as hypergraph for Example~\ref{ex:ca:sokoban-hypergraph}. Here, $s = \texttt{sokobanAt}$, $adj = \texttt{hAdj}$ and $at = \texttt{at}$}\label{fig:ca:sokoban-hypergraph}
+        \caption{Sokoban state from Example~\ref{ex:ca:sokoban-hypergraph} represented as a hypergraph. Here, $s = \texttt{sokobanAt}$, $adj = \texttt{hAdj}$ and $at = \texttt{at}$}\label{fig:ca:sokoban-hypergraph}
 \end{figure}
 
 \begin{example}\label{ex:ca:sokoban-hypergraph}
@@ -137,11 +96,12 @@ Note that a predicate edge will always contain a number of vertices equal to the
 	When represented as a hypergraph (see \figref{fig:ca:sokoban-hypergraph}),
 	we see that each binding is clearly visualized and that two of the same predicate (\texttt{adj-h}) can be in the same graph.
 	Also by modelling this as a graph the idea of disproving bindings also
-	becomes explicit as it literally means to remove a node from a binding edge.
-	Furthermore, in this model the notion of disjoint predicates (Restriction~\ref{rst:ca:no-disjuntive-conditionals}) is shown by the nodes not being connected through any type of edge.
+	becomes explicit as it literally means to remove a vertex from a binding edge.
+	Furthermore, in this model the notion of disjoint predicates (Restriction~\ref{rst:ca:no-disjuntive-conditionals}) is shown by the vertices not being connected through any type of edge.
 \end{example}
 
+Given a state transition $\left( s, a, s' \right)$, and a grounded predicate $p \in \Delta s$ a hypergraph for $s \cup \{p\}$ now describes 
 
-
+for any grounded predicate $p \in \Delta s$, a hypergraph can be constructed for $s \cup \{ p \}$ with the predicate edge describing $p$ labelled as an effect. 
 
 \end{document}
