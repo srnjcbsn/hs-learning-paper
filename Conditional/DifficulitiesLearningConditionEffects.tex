@@ -264,10 +264,6 @@ The unproven set $U_p$ is the preconditions which has neither been proven nor di
 
 If we have the sets of unproven preconditions $U_p1$ and $U_p1$ from two different state transitions, we can compare them and remove discrepancies by intersection:
 
-% Provided that we have the unknown preconditions $U_p$ of another state transition we can compare them and remove discrepancies.
-%
-% For two unknown precondition sets $U_p1$ and $U_p2$:
-
 \begin{equation}
 \label{eq:unknownpredcondset}
 	U_p' = U_p1 \cap U_p2
@@ -283,30 +279,28 @@ This will work for removing entire predicates and only if the two sets use exact
 Thus this approach to modelling the unknown preconditions, which we used for non-conditional actions is incorrect.
 
 \begin{example}\label{ex:ca:light-on-2}
-Following from Example \ref{ex:ca:light-on} we come to the second case in \figref{fig:ca:house-example}
-we see that we can turn on the light again but this time the sofa and the lamp has changed location and
-there is no table. From this we expand our knowledge by learning:
-\begin{itemize}
-	\item Sofa and lamp location does not matter
-	\item A table is not needed
-\end{itemize}
-Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
+    Following from Example \ref{ex:ca:light-on} we come to the second case in \figref{fig:ca:house-example}
+    we see that we can turn on the light again but this time the sofa and the lamp has changed location and
+    there is no table. From this we expand our knowledge by learning:
+    \begin{itemize}
+        \item Sofa and lamp location does not matter
+        \item A table is not needed
+    \end{itemize}
+    Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
 \end{example}
 
 \begin{example}\label{ex:ca:nonbinding-intersection-model}
-To elucidate the problem of bindings further, imagine that we have two different $U_p$
-\begin{align*}
-&U_p1 = \{ \texttt{p}(x, x, x) \}
-\end{align*}
-\begin{align*}
-&U_p2 = \{ \texttt{p}(x, x, y) \}
-\end{align*}
-We see that $U_p1$ has a stronger precondition, meaning that if $U_p1$ holds then so does $U_p2$ but not oppositely. I.E.
-\begin{align*}
-&\forall_{x} \texttt{p}(x, x, x) \nvDash \forall_{x, y} \texttt{p}(x, x, y)  \quad and \quad
- \forall_{x, y} \texttt{p}(x, x, y) \vDash \forall_{x} \texttt{p}(x, x, x)  &
-\end{align*}
-And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect. As they have the similarity of having the same binding between the first and second argument. What we actually need is to have a set of bindings and take the intersection of that.
+    To elucidate the problem of bindings further, imagine that we have two different $U_p$
+    \begin{align*}
+        U_p1 &= \{ \texttt{p}(x, x, x) \} \\
+        U_p2 &= \{ \texttt{p}(x, x, y) \}
+    \end{align*}
+    We see that $U_p1$ has a stronger precondition, meaning that if $U_p1$ holds then so does $U_p2$ but not oppositely. I.e.\ 
+    \begin{equation*}
+    \forall_{x} \texttt{p}(x, x, x) \nvDash \forall_{x, y} \texttt{p}(x, x, y)  \quad and \quad
+     \forall_{x, y} \texttt{p}(x, x, y) \vDash \forall_{x} \texttt{p}(x, x, x) 
+    \end{equation*}
+    And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect. As they have the similarity of having the same binding between the first and second argument. What we actually need is to have a set of bindings and take the intersection of that.
 \end{example}
 
 \subsubsection{A new model: Binding sets}

@@ -104,6 +104,10 @@ Consider again a state transition $\left( s, a, s' \right)$. The hypergraph cons
 
 Such a hypergraph describes which bindings were present in $\ts(s)$ when the effect $p$ occurred, and how $p$ is connected to them. In other words, it denotes the preconditions for the conditional that spawned $p$ which has not been disproven, and any binding \textit{not} in the hypergraph is disproven to be a precondition.
 
+\begin{definition}[Hypergraph bindings]
+    A binding in an hypergraph is a sequence of vertices connecting the head of the sequence $v$ to a vertex that is part of the predicate edge labelled as an effect. 
+\end{definition}
+
 \begin{proposition}\label{prop:ca:singleConditional}
     Consider a state transition $\left(S, a, S'\right)$ and a grounded predicate $p \in \Delta S$. By Restrictions~\ref{rst:ca:no-disjuntive-conditionals} and~\ref{rst:ca:no-multiple-effect}, there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two predicates in $\Delta s$ with the same name are effects of the same conditional.
 \end{proposition}
@@ -116,7 +120,9 @@ Such a hypergraph describes which bindings were present in $\ts(s)$ when the eff
     Consider a state transition $\left( S, a, S' \right)$, a predicate $p \left( o_1 \right) \in \Delta S$, and the hypergraph $H = hypergraph\left( p\left(o_1\right), X(S) \right)$. If a binding $(p_1, q_1)$ is not present in $H$ (meaning that there is no binding edge in $H$ containing $p_1$ and $q_1$), then that binding is not present in $X(S)$ (i.e.\ $q\left(o_1\right) \notin S$). Thus, if that binding was a precondition for the conditional that spawned $p\left(o_1\right)$, then that interpretation of the conditional would have failed, and $p\left( o_1 \right)$ would not have occurred in $\Delta S$. Additionally, by Proposition~\ref{prop:ca:singleConditional}, no other conditional in $A$ could have caused the effect $p \left(o_1\right)$.
 \end{proof}
 
-Recall that any two predicates $p$ and $q$ in $\Delta S$ with the same name are effects of the same conditional (by Proposition~\ref{prop:ca:singleConditional}), and that any bindings absent from \textit{either} of the hypergraphs $H_p = hypergraph(p, X(S))$ and $H_q = hypergraph(q, X(S))$ are disproven to be preconditions of that conditional (by Proposition~\ref{prop:ca:disprovenHg}). Consequently, if the two hypergraphs can be merged into one hypergraph $H'$, such that $H'$ only contains bindings that $H_p$ and $H_q$ has in common, then any binding absent from $H'$ can not be a precondition for the conditional either. Note that as vertices in the two hypergraphs have unique identifiers, the merging function c An algorithm for such a hypergraph merging algorithm (denoted $merge\left(H_1, H_2\right)$ in the following) is presented in Section~\ref{sec:C:HGMerging}, but it is 
+Recall that any two predicates $p$ and $q$ in $\Delta S$ with the same name are effects of the same conditional (by Proposition~\ref{prop:ca:singleConditional}), and that any bindings absent from \textit{either} of the hypergraphs $H_p = hypergraph(p, X(S))$ and $H_q = hypergraph(q, X(S))$ are disproven to be preconditions of that conditional (by Proposition~\ref{prop:ca:disprovenHg}). Consequently, if the two hypergraphs can be merged into one hypergraph $H'$, such that $H'$ only contains bindings that $H_p$ and $H_q$ has in common, then any binding absent from $H'$ can not be a precondition for the conditional either. 
+
+Note that as vertices in the two hypergraphs have unique identifiers, the merging function c An algorithm for such a hypergraph merging algorithm (denoted $merge\left(H_1, H_2\right)$ in the following) is presented in Section~\ref{sec:C:HGMerging}, but it is 
 
 In the following, we will assume availability of such a merging function (denoted $merge$), and a detailed algorithm can be found in Section~\ref{sec:C:HGMerging}.
 
