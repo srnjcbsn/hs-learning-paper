@@ -34,9 +34,8 @@
 
 \usepackage{listings}
 
-\lstset{
+\lstset{%
 	basicstyle=\itshape,
-	%xleftmargin=2em,
 	literate={->}{$\colon =$}{2}
 	{α}{$\alpha$}{1}
 	{δ}{$\delta$}{1}
@@ -63,12 +62,11 @@
 %   {}% space after theorem head; " " = normal interword space
 %   {}% Manually specify head
 
+\newcommand{\ts}{X}
 \renewcommand{\algorithmicrequire}{\textbf{input:}}
 \renewcommand{\algorithmicensure}{\textbf{output:}}
 
 \usepackage{babel}
-  \providecommand{\definitionname}{Definition}
-\providecommand{\corollaryname}{Corollary}
 
 \title {Automated Learning}
 \author {Søren Jacobsen \and Jannick Johnsen}
