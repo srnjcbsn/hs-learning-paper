@@ -2,17 +2,21 @@
 \begin{document}
 \providecommand{\master}{..}
 
-Formerly we defined binding sets as a theoretical set, however for practical application we require an exact model.
+<TODO: path sets are enormous, we need a more compact model>
 
-For instance, earlier we made the assumption that ambiguous predicates would always match correctly, to get an idea of this problem
-assume we have a precondition \{$p(x,y), p(z,x)$\}, if we designed the bindings as tuples $(p,(1,2),p)$ which is (predicate A, (variable position of A, variable position of B), predicate B).
-Then as is evident this model will have two different interpretations either that there are two predicates like in our example or that there is one predicate with two bindings I.E. \{$p(x,x)$\}.
-This could be solved by labeling each predicate with a number in no particular order  to indicate the origin predicate, thus $(p,(1,2),p)$ would become  $(p1,(1,2),p2)$ which would remove the dual interpretation.
-However this creates a new issue: Since the numbering is non-deterministic another binding set might have used a different numbering for the predicates;
-therefore without the assumption that the predicates always correctly match, meaning same numbering, two bindings that was equal could become be unequal. This becomes an issue with set intersection thus requiring us to redefine it.
+<TODO: a set of connecting paths can be seen as a tree with many duplicate subtrees, which can therefore be seen as a cyclic graph with edge labels denoting $\bc$ (binding edge) or $\pc$ (predicate edge). These will be in ``clusters'' of complete subgraphs, therefore path sets can be seen as hypergraphs>
 
-
-This section will detail a new model for representing condition effects and bindings in particular, and it will explain how to utilize it for practical application of the theory.
+% Formerly we defined binding sets as a theoretical set, however for practical application we require an exact model.
+%
+% For instance, earlier we made the assumption that ambiguous predicates would always match correctly, to get an idea of this problem
+% assume we have a precondition \{$p(x,y), p(z,x)$\}, if we designed the bindings as tuples $(p,(1,2),p)$ which is (predicate A, (variable position of A, variable position of B), predicate B).
+% Then as is evident this model will have two different interpretations either that there are two predicates like in our example or that there is one predicate with two bindings I.E. \{$p(x,x)$\}.
+% This could be solved by labeling each predicate with a number in no particular order  to indicate the origin predicate, thus $(p,(1,2),p)$ would become  $(p1,(1,2),p2)$ which would remove the dual interpretation.
+% However this creates a new issue: Since the numbering is non-deterministic another binding set might have used a different numbering for the predicates;
+% therefore without the assumption that the predicates always correctly match, meaning same numbering, two bindings that was equal could become be unequal. This becomes an issue with set intersection thus requiring us to redefine it.
+%
+%
+% This section will detail a new model for representing condition effects and bindings in particular, and it will explain how to utilize it for practical application of the theory.
 
 To summarize the our prior model for preconditions and effects we have the four following sets.
 \begin{description}
