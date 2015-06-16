@@ -14,9 +14,9 @@ This is important as we now have an initial assumption of possible predicates fo
 %\subsubsection{Limitations}
 In order to simplify the problem we have made the following restrictions on conditional effects we can learn:
 \begin{enumerate}[label=R.\arabic*]
-	\item Environment must be fully observable.
-	\item Environment must contain a finite number of objects.
-	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects.
+	\item The environment must be fully observable.
+	\item The environment must contain a finite number of objects.
+	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
 	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect.
 
 		  I.E. the effect $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
@@ -24,7 +24,7 @@ In order to simplify the problem we have made the following restrictions on cond
 	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
 
 		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
-		  I.E. If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
+		  I.e.\ If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
 \end{enumerate}
 
 Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditional effects have the same effect, as that is equivalent to an disjunctive precondition.
@@ -55,11 +55,11 @@ Even though we intuitively know that it is only the lamp which is the only requi
 Objects are defined by the predicates which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
 
 
-This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state S which led to the effects. In real terms interpreting objects as variables means mapping each object 
+This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
 to a to different variable.
-\begin{align}
-	&\sigma : P, \delta \leftarrow \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}  &
-\end{align}
+\begin{equation*}
+	\sigma : P, \delta \leftarrow \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}
+\end{equation*}
 
 
 
@@ -67,8 +67,9 @@ For instance for the state
 $\{ p(Object_1), p(Object_2),\ldots,p(Object_n)\}$ using a mapping
 $\delta = \{Object_1 \mapsto x, Object_2 \mapsto y \ldots\}$
 where $(x, y..)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects
-
-$\{ p(\delta(Object_1)), p(\delta(Object_2)),\ldots,p(\delta(Object_n))\} = \{ p(x), p(y),\ldots\}$
+\begin{equation*}
+\{ p(\delta(Object_1)), p(\delta(Object_2)),\ldots,p(\delta(Object_n))\} = \{ p(x), p(y),\ldots\}
+\end{equation*}
 
 \begin{theorem}\label{thm:ca:precondition-state}
 If an action produces one or more effects $E$, then all predicates in the prior state are the maximum number of positive preconditions to those exact effects.
@@ -85,9 +86,19 @@ If $\gamma (S,a) \neq S$ and objects are interpreted as variables then $preconds
 Thus if both negative and positive preconditions are allowed a the same time use  $S \cup \neg[S^c] $ for the preconditions.
 
 \begin{figure}
-	\centering
-	\includegraphics[width=0.2\textwidth]{\master/Graphics/soko_cond_example.png}
-
+    \hspace*{0.1\textwidth}%
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{\input{\master/Graphics/moveLeftBefore.pgf}}
+        \caption{Before execution of \texttt{MoveLeft}}
+    \end{subfigure}%
+    \hspace*{0.1\textwidth}%
+    \begin{subfigure}{0.35\textwidth}
+        \centering
+        \resizebox{\linewidth}{!}{\input{\master/Graphics/moveLeftAfter.pgf}}
+        \caption{After execution of \texttt{MoveLeft}}
+    \end{subfigure}
+    \hspace*{0.1\textwidth}
 	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for Example~\ref{ex:ca:sokoban-moveleft-action} }
 
 \end{figure}

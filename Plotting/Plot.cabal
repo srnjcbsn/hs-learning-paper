@@ -25,4 +25,5 @@ executable Plot
                , diagrams-pgf >= 0.1
                , diagrams-contrib >= 1.3
                , containers
+               , filepath
   default-language:    Haskell2010

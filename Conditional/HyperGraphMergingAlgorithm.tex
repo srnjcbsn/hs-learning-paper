@@ -102,8 +102,21 @@ We will now turn our attention to the merging of edges. The intuitive approach (
     \end{equation*}
 
     \begin{figure}
-        <placeholder>
-        \caption{\label{fig:ex:ca:hgma:ex:disconnected} Figure of hypergraphs for example~\ref{ex:ca:hgma:disconnected}.}
+        \centering
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \raisebox{-0.5\height}{\resizebox{\linewidth}{!}{\input{\master/Graphics/hgEx1_1.pgf}}}
+			\caption{$H_1$}
+            \label{fig:ex:ca:hgma:ex:generalization1}
+        \end{subfigure}%
+        \hfill%
+        \begin{subfigure}{0.4\textwidth}
+            \centering
+            \resizebox{0.65\linewidth}{!}{\raisebox{-0.5\height}{\input{\master/Graphics/hgEx1_2.pgf}}}
+            \caption{$H_2$}
+            \label{fig:ex:ca:hgma:ex:generalization2}
+        \end{subfigure}
+        \caption{Figure of hypergraphs for example~\ref{ex:ca:hgma:disconnected}.}\label{fig:ex:ca:hgma:ex:disconnected}
     \end{figure}
 
     Note that the precondition decribed by $H_1$ is more restrictive than that of $H_2$. Consequentially, if $H_1$ was the real precondition, the conditional effect would not have succeeded for $H_2$.

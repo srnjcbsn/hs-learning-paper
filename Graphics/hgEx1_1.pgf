@@ -41,11 +41,11 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{75.0000bp}{131.2500bp}
-    \pgfpathqcurveto{75.0000bp}{151.9607bp}{58.2107bp}{168.7500bp}{37.5000bp}{168.7500bp}
-    \pgfpathqcurveto{16.7893bp}{168.7500bp}{0.0000bp}{151.9607bp}{0.0000bp}{131.2500bp}
-    \pgfpathqcurveto{0.0000bp}{110.5393bp}{16.7893bp}{93.7500bp}{37.5000bp}{93.7500bp}
-    \pgfpathqcurveto{58.2107bp}{93.7500bp}{75.0000bp}{110.5393bp}{75.0000bp}{131.2500bp}
+    \pgfpathqmoveto{137.5000bp}{131.2500bp}
+    \pgfpathqcurveto{137.5000bp}{151.9607bp}{120.7107bp}{168.7500bp}{100.0000bp}{168.7500bp}
+    \pgfpathqcurveto{79.2893bp}{168.7500bp}{62.5000bp}{151.9607bp}{62.5000bp}{131.2500bp}
+    \pgfpathqcurveto{62.5000bp}{110.5393bp}{79.2893bp}{93.7500bp}{100.0000bp}{93.7500bp}
+    \pgfpathqcurveto{120.7107bp}{93.7500bp}{137.5000bp}{110.5393bp}{137.5000bp}{131.2500bp}
     \pgfpathclose
     \pgfusepathqfillstroke
   \end{pgfscope}
@@ -57,11 +57,11 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{73.7500bp}{131.2500bp}
-    \pgfpathqcurveto{73.7500bp}{151.2703bp}{57.5203bp}{167.5000bp}{37.5000bp}{167.5000bp}
-    \pgfpathqcurveto{17.4797bp}{167.5000bp}{1.2500bp}{151.2703bp}{1.2500bp}{131.2500bp}
-    \pgfpathqcurveto{1.2500bp}{111.2297bp}{17.4797bp}{95.0000bp}{37.5000bp}{95.0000bp}
-    \pgfpathqcurveto{57.5203bp}{95.0000bp}{73.7500bp}{111.2297bp}{73.7500bp}{131.2500bp}
+    \pgfpathqmoveto{136.2500bp}{131.2500bp}
+    \pgfpathqcurveto{136.2500bp}{151.2703bp}{120.0203bp}{167.5000bp}{100.0000bp}{167.5000bp}
+    \pgfpathqcurveto{79.9797bp}{167.5000bp}{63.7500bp}{151.2703bp}{63.7500bp}{131.2500bp}
+    \pgfpathqcurveto{63.7500bp}{111.2297bp}{79.9797bp}{95.0000bp}{100.0000bp}{95.0000bp}
+    \pgfpathqcurveto{120.0203bp}{95.0000bp}{136.2500bp}{111.2297bp}{136.2500bp}{131.2500bp}
     \pgfpathclose
     \pgfusepathqfillstroke
   \end{pgfscope}
@@ -76,9 +76,11 @@
     \pgfpathqmoveto{37.5000bp}{106.2500bp}
     \pgfpathqcurveto{16.7893bp}{106.2500bp}{0.0000bp}{89.4607bp}{0.0000bp}{68.7500bp}
     \pgfpathqcurveto{-0.0000bp}{48.0393bp}{16.7893bp}{31.2500bp}{37.5000bp}{31.2500bp}
+    \pgfpathqlineto{100.0000bp}{31.2500bp}
     \pgfpathqlineto{162.5000bp}{31.2500bp}
     \pgfpathqcurveto{183.2107bp}{31.2500bp}{200.0000bp}{48.0393bp}{200.0000bp}{68.7500bp}
     \pgfpathqcurveto{200.0000bp}{89.4607bp}{183.2107bp}{106.2500bp}{162.5000bp}{106.2500bp}
+    \pgfpathqlineto{100.0000bp}{106.2500bp}
     \pgfpathqlineto{37.5000bp}{106.2500bp}
     \pgfpathclose
     \pgfusepathqfillstroke
@@ -94,9 +96,11 @@
     \pgfpathqmoveto{37.5000bp}{105.0000bp}
     \pgfpathqcurveto{17.4797bp}{105.0000bp}{1.2500bp}{88.7703bp}{1.2500bp}{68.7500bp}
     \pgfpathqcurveto{1.2500bp}{48.7297bp}{17.4797bp}{32.5000bp}{37.5000bp}{32.5000bp}
+    \pgfpathqlineto{100.0000bp}{32.5000bp}
     \pgfpathqlineto{162.5000bp}{32.5000bp}
     \pgfpathqcurveto{182.5203bp}{32.5000bp}{198.7500bp}{48.7297bp}{198.7500bp}{68.7500bp}
     \pgfpathqcurveto{198.7500bp}{88.7703bp}{182.5203bp}{105.0000bp}{162.5000bp}{105.0000bp}
+    \pgfpathqlineto{100.0000bp}{105.0000bp}
     \pgfpathqlineto{37.5000bp}{105.0000bp}
     \pgfpathclose
     \pgfusepathqfillstroke
@@ -106,7 +110,7 @@
     \pgfsetfillcolor{fc}
     \pgftransformshift{\pgfqpoint{168.7500bp}{137.5000bp}}
     \pgftransformscale{1.5625}
-    \pgftext[base,left]{$q_2$}
+    \pgftext[base,left]{$g_2$}
   \end{pgfscope}
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
@@ -129,7 +133,7 @@
     \pgfsetfillcolor{fc}
     \pgftransformshift{\pgfqpoint{168.7500bp}{75.0000bp}}
     \pgftransformscale{1.5625}
-    \pgftext[base,left]{$q_1$}
+    \pgftext[base,left]{$g_1$}
   \end{pgfscope}
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
@@ -180,7 +184,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{43.7500bp}{137.5000bp}}
+    \pgftransformshift{\pgfqpoint{106.2500bp}{137.5000bp}}
     \pgftransformscale{1.5625}
     \pgftext[base,left]{$p_2$}
   \end{pgfscope}
@@ -192,18 +196,18 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{40.6250bp}{131.2500bp}
-    \pgfpathqcurveto{40.6250bp}{132.9759bp}{39.2259bp}{134.3750bp}{37.5000bp}{134.3750bp}
-    \pgfpathqcurveto{35.7741bp}{134.3750bp}{34.3750bp}{132.9759bp}{34.3750bp}{131.2500bp}
-    \pgfpathqcurveto{34.3750bp}{129.5241bp}{35.7741bp}{128.1250bp}{37.5000bp}{128.1250bp}
-    \pgfpathqcurveto{39.2259bp}{128.1250bp}{40.6250bp}{129.5241bp}{40.6250bp}{131.2500bp}
+    \pgfpathqmoveto{103.1250bp}{131.2500bp}
+    \pgfpathqcurveto{103.1250bp}{132.9759bp}{101.7259bp}{134.3750bp}{100.0000bp}{134.3750bp}
+    \pgfpathqcurveto{98.2741bp}{134.3750bp}{96.8750bp}{132.9759bp}{96.8750bp}{131.2500bp}
+    \pgfpathqcurveto{96.8750bp}{129.5241bp}{98.2741bp}{128.1250bp}{100.0000bp}{128.1250bp}
+    \pgfpathqcurveto{101.7259bp}{128.1250bp}{103.1250bp}{129.5241bp}{103.1250bp}{131.2500bp}
     \pgfpathclose
     \pgfusepathqfillstroke
   \end{pgfscope}
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{43.7500bp}{75.0000bp}}
+    \pgftransformshift{\pgfqpoint{106.2500bp}{75.0000bp}}
     \pgftransformscale{1.5625}
     \pgftext[base,left]{$p_1$}
   \end{pgfscope}
@@ -215,11 +219,11 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{40.6250bp}{68.7500bp}
-    \pgfpathqcurveto{40.6250bp}{70.4759bp}{39.2259bp}{71.8750bp}{37.5000bp}{71.8750bp}
-    \pgfpathqcurveto{35.7741bp}{71.8750bp}{34.3750bp}{70.4759bp}{34.3750bp}{68.7500bp}
-    \pgfpathqcurveto{34.3750bp}{67.0241bp}{35.7741bp}{65.6250bp}{37.5000bp}{65.6250bp}
-    \pgfpathqcurveto{39.2259bp}{65.6250bp}{40.6250bp}{67.0241bp}{40.6250bp}{68.7500bp}
+    \pgfpathqmoveto{103.1250bp}{68.7500bp}
+    \pgfpathqcurveto{103.1250bp}{70.4759bp}{101.7259bp}{71.8750bp}{100.0000bp}{71.8750bp}
+    \pgfpathqcurveto{98.2741bp}{71.8750bp}{96.8750bp}{70.4759bp}{96.8750bp}{68.7500bp}
+    \pgfpathqcurveto{96.8750bp}{67.0241bp}{98.2741bp}{65.6250bp}{100.0000bp}{65.6250bp}
+    \pgfpathqcurveto{101.7259bp}{65.6250bp}{103.1250bp}{67.0241bp}{103.1250bp}{68.7500bp}
     \pgfpathclose
     \pgfusepathqfillstroke
   \end{pgfscope}
@@ -229,8 +233,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{37.5000bp}{68.7500bp}
-    \pgfpathqlineto{37.5000bp}{131.2500bp}
+    \pgfpathqmoveto{100.0000bp}{68.7500bp}
+    \pgfpathqlineto{100.0000bp}{131.2500bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -252,5 +256,28 @@
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
     \pgfusepathqfill
+  \end{pgfscope}
+  \begin{pgfscope}
+    \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
+    \pgfsetfillcolor{fc}
+    \pgftransformshift{\pgfqpoint{43.7500bp}{75.0000bp}}
+    \pgftransformscale{1.5625}
+    \pgftext[base,left]{$q_1$}
+  \end{pgfscope}
+  \begin{pgfscope}
+    \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
+    \pgfsetfillcolor{fc}
+    \pgfsetlinewidth{0.6633bp}
+    \definecolor{sc}{rgb}{0.0000,0.0000,0.0000}
+    \pgfsetstrokecolor{sc}
+    \pgfsetmiterjoin
+    \pgfsetbuttcap
+    \pgfpathqmoveto{40.6250bp}{68.7500bp}
+    \pgfpathqcurveto{40.6250bp}{70.4759bp}{39.2259bp}{71.8750bp}{37.5000bp}{71.8750bp}
+    \pgfpathqcurveto{35.7741bp}{71.8750bp}{34.3750bp}{70.4759bp}{34.3750bp}{68.7500bp}
+    \pgfpathqcurveto{34.3750bp}{67.0241bp}{35.7741bp}{65.6250bp}{37.5000bp}{65.6250bp}
+    \pgfpathqcurveto{39.2259bp}{65.6250bp}{40.6250bp}{67.0241bp}{40.6250bp}{68.7500bp}
+    \pgfpathclose
+    \pgfusepathqfillstroke
   \end{pgfscope}
 \end{pgfpicture}

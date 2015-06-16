@@ -1,7 +1,7 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
-In the following, we consider a general algorithm for learning in a virtual world. The algorithm bears resemblance to, and is derived from, the generally accepted scientific method [source], which can be summarized as follows:
+In the following, we consider a general algorithm for learning in a virtual world. The algorithm bears resemblance to, and is derived from, the generally accepted scientific method, which can be summarized as follows:
 
 \begin{enumerate}
     \item Propose a question
@@ -12,9 +12,10 @@ In the following, we consider a general algorithm for learning in a virtual worl
     \item Repeat from step 2, taking into account the newly obtained knowledge
 \end{enumerate}
 
-Note that the above summation does not describe an algorithm, as there is no termination condition in the cycle formed by steps 2--6. [Delete]
+Note that the above summation does not describe an algorithm, as there is no termination condition in the cycle formed by steps 2--6. However in the following we will show our attempt to algorithmize it.
 
-The derived algorithm presented in figure~\ref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2--6 in the summation given above, untill the question can be satisfactorily answered.
+
+The algorithm presented in figure~\ref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2--6 in the summation given above, untill the question can be satisfactorily answered.
 
 In the following we will elaborate on the types and functions used in the algorithmization of the scientific method, and their relevance to learning.
 
@@ -23,13 +24,17 @@ In the following we will elaborate on the types and functions used in the algori
 
     \begin{algorithmic}
         \Function~{$\textsc{Learn}$} {\texttt{Question} $q$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
-            \While~{$\neg canAnswer(q, k, w)$}
-                \State~$k \gets k + inquire(w, q)$
-                \State~\texttt{Hypothesis} $h \gets form(q, k, s)$
-                \State~\texttt{Experiment} $e \gets design(w, h, s)$
-                \State~$(\texttt{Result} \, r, w) \gets conduct(e, w)$
-                \State~$k \gets k + analyse(r, k)$
-                \State~$s \gets update(s, k)$
+            \While{$\neg canAnswer(q, k, w)$}
+                %\State{$k \gets k + inquire(w, q)$}
+                \State{\texttt{Hypothesis} $h \gets form(q, k, s)$}
+                \State{\texttt{Experiment} $e \gets design(w, h, s)$}
+                \If{an experiment could be found}
+                    \State{$(\texttt{Result} \, r, w) \gets conduct(e, w)$}
+                    \State{$k \gets k + analyse(r, k)$}
+                \Else%
+                    \State{$k \gets k + inquire(w, q)$}
+                \EndIf%
+                \State{$s \gets update(s, k)$}
             \EndWhile%
             \State~\Return~$k$
         \EndFunction%

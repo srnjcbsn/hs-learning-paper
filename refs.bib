@@ -1,3 +1,17 @@
+@TECHREPORT{PDDL,
+  AUTHOR={Mcdermott, D. and Ghallab, M. and Howe, A. and Knoblock, C. and Ram, A.
+     and Veloso, M. and Weld, D. and Wilkins, D.},
+  TITLE={PDDL - The Planning Domain Definition Language},
+  INSTITUTION={Yale Center for Computational Vision and Control,},
+  NUMBER={TR-98-003},
+  YEAR={1998},
+  ABSTRACT={This manual describes the syntax of PDDL, the Planning Domain Definition
+     Language, the problem-specification language for the AIPS-98 planning competition.
+     The language has roughly the the expressiveness of Pednault’s ADL for
+     propositions, and roughly the expressiveness of UMCP for actions. Our hope
+     is to encourage empirical evaluation of planner performance, and development
+     of standard sets of problems all in comparable notations.}
+}
 @article{Walsh2008,
 abstract = {This work addresses the problem of efficiently learning action schemas using a bounded number of samples (interactions with the environment). We consider schemas in two languages— traditional STRIPS, and a new language$\backslash$nSTRIPS+WS that extends STRIPS to allow for the creation of new objects when an action is executed. This modification$\backslash$nallows STRIPS+WS to model web services and can be used to describe web-service composition (planning) problems. We show that general STRIPS operators cannot be efficiently learned through raw experience, though restricting$\backslash$nthe size of action preconditions yields a positive result. We then show that efficient learning is possible without this restriction if an agent has access to a “teacher” that can provide solution traces on demand. We adapt this learning algorithm to efficiently learn web-service descriptions in STRIPS+WS.},
 author = {Walsh, Tj and Littman, Ml},
@@ -46,4 +60,22 @@ year = {2011}
 	year = {1957},
 	issn = {00318116, 15730883},
 	doi = {10.1007/BF02304905}
+}
+@article{STRIPS,
+title = "Strips: A new approach to the application of theorem proving to problem solving ",
+journal = "Artificial Intelligence ",
+volume = "2",
+number = "3–4",
+pages = "189 - 208",
+year = "1971",
+note = "",
+issn = "0004-3702",
+doi = "http://dx.doi.org/10.1016/0004-3702(71)90010-5",
+url = "http://www.sciencedirect.com/science/article/pii/0004370271900105",
+author = "Richard E. Fikes and Nils J. Nilsson",
+keywords = "Problem solving",
+keywords = "theorem proving",
+keywords = "robot planning",
+keywords = "heuristic search ",
+abstract = "We describe a new problem solver called \{STRIPS\} that attempts to find a sequence of operators in a space of world models to transform a given initial world model in which a given goal formula can be proven to be true. \{STRIPS\} represents a world model as an arbitrary collection in first-order predicate calculus formulas and is designed to work with models consisting of large numbers of formula. It employs a resolution theorem prover to answer questions of particular models and uses means-ends analysis to guide it to the desired goal-satisfying model. "
 }

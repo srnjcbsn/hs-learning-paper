@@ -1,46 +1,59 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
-In order to discuss learning we must define a model for the domain which we operate within. Thus we choose to use the generally accepted PDDL or Planning Domain Definition Language[Cite missing]. This section will give a minimal definition of PDDL, and provide context for syntax used in later chapter. We will also explain functions used in state manipulation such as the ground - and state-transition function.
+In order to discuss learning we must define a model for the domain which we operate within. We have chosen to use the generally accepted PDDL or Planning Domain Definition Language (see~\cite{PDDL}), as it is well researched.
 
-PDDL is based on set-theoretic planning[Cite missing] popularized by the STRIPS language[Cite missing]. By default states in PDDL are based on closed-world-assumption, meaning if something is not defined in the state it is assumed to be false. Thus a state is set of predicates defining the properties of the objects in an environment which the agent currently operates.
+This section will give a minimal definition of PDDL, and provide context for syntax used in later chapter. We will also explain functions used in state manipulation such as the grounding and state-transition functions.
+
+
+PDDL is based on set-theoretic planning (see~\cite{ghallab2004a}) popularized by the STRIPS language (see~\cite{STRIPS}). By default states in PDDL are based on closed-world-assumption, meaning that if something is not defined in the state it is assumed to be false. 
+In PDDL and set-theoretic planning, a state is set of predicates defining the properties of the objects in an environment.
 
 \begin{definition} 
-	State $S$ in PDDL is a set of grounded predicates $\{p(o_1,\dots,o_n) \mid  p \in \mathbb{P} \land \{o_1,\dots,o_n\} \subseteq \mathcal{O} \land p(o_1,\dots,o_n) = \texttt{TRUE}\}$. Where $\mathcal{O}$ is the set of all objects in the world, and $\mathbb{P}$ is the set of all predicates that can be used to describe the objects in the world.
+	An intensional definition of a state $S$ in PDDL is a set of grounded predicates:
+    \begin{equation*}
+        S=\{p(o_1,\dots,o_n) \mid  p \in \mathbb{P} \land \{o_1,\dots,o_n\} \subseteq \mathcal{O} \land p(o_1,\dots,o_n) = \texttt{TRUE}\}
+    \end{equation*}
+    Where $\mathcal{O}$ is the set of all objects in the world, and $\mathbb{P}$ is the set of all predicates that can be used to describe the objects in the world.
 \end{definition}
 
-To change the state an agent must perform action on the state, in PDDL action schemas describes what changes the action will have to the state and under what conditions. 
-
+The ways an agent can change the state, and under which circumstances, is decribed by \textit{action schemas}. 
 	
-	\begin{definition} 
-		An action definition or action schema, defines how and when an action is to be applied. 
-		
-		$
+\begin{definition} \label{def:lrn:action-spec-def}
+		An action definition or action schema defines when an action is to be applied, as well as the consequences of the application. As such an action schema contains a logical formula specifying its preconditions, which must be satisfied for the action to be applied. If the preconditions are satisfied, the changes listed in the logic formula denoting the effects are applied. The structure of an action schema is the following:
+	\begin{itemize}
+        \item[Pre] A goal description (GD), explained below. : :
+    \end{itemize}
+    \begin{equation*}
 		\begin{array}{ll}
-		Action ~ schema ~ A: & \\
+		Action~schema~A: & \\
 		
 		\begin{array}{ll}
-		Variables & = \{v_1,\dots,v_n\}			 \\  
-		Pre	& = Goal Description(GD) \\
-		Eff & = Effect(EFF) 
+		Parameters & : (v_1,\dots,v_n) \\  
+		Pre	& : Goal~Description \\
+		Eff & : Effect 
 		\end{array}
-		\end{array}$
-		
+		\end{array}
+    \end{equation*}
+
+	The parameters of an action schema is a list of variables used in the Pre and Eff. Pre is description of the action schema preconditions and Eff is a description of its effects. 
+    Goal Description or GD is specifically designed logic formula for describing preconditon. Effect or EFF is another logical construct for describing effects of an action.
+
 		The BNF for GD and EFF is as follows:
 		
 	%DONT USE TABS on the following listing as it is directly affected by it
 		\begin{lstlisting}
-	<GD> -> (and <GD>*) 
-	<GD> -> LITERAL
-	
-	<EFF> -> (and <EFF>*)
-	<EFF> -> LITERAL
-	
-	<LITERAL> -> <predicate name> (TERM*)
-	<LITERAL> -> (not <LITERAL>)
-	
-	<TERM> -> <object>
-	<TERM> -> <variable>
+            <GD> -> (and <GD>*) 
+            <GD> -> LITERAL
+            
+            <EFF> -> (and <EFF>*)
+            <EFF> -> LITERAL
+            
+            <LITERAL> -> <predicate name> (TERM*)
+            <LITERAL> -> (not <LITERAL>)
+            
+            <TERM> -> <object>
+            <TERM> -> <variable>
 		\end{lstlisting}
 		
 		The distinction between GD and EFF is important to PDDL action schemas to allow either to receive additional features without the other gaining the same.
@@ -48,11 +61,11 @@ To change the state an agent must perform action on the state, in PDDL action sc
 	
 In PDDL a set of action schemas, along with properties about always present objects and specifications of all Predicates are defined as a domain.
 
-\begin{definition} A domain in PDDL, defines what predicates ca
+\begin{definition} A domain in PDDL, defines what predicates can be utilized, object that are constant between all instantiations of the domain, and the action schemas available to the planner.
 	
 $
 \begin{array}{ll}
-Domain ~ D: & \\
+Domain~D: & \\
 
 \begin{array}{ll}
 Constants & = \{o_1,\dots,o_n\}			 \\  
@@ -65,21 +78,30 @@ Action-Specs & = A~set~of~action~schemas~avaiable~to~the~agent \\
 
 	
 
-Instanced action schemas are referred to mainly as just actions. Such actions contain the name of the action schema it is instanced from, and a list of objects that are to be mapped to its variables.
+An application of an action contain the name of its corresponding action schema, and a list of objects that are to be mapped to its variables.
 \begin{definition} 
-	An action $A(o_1,\dots,o_n)$ explains how action schema $A$ is to be instanced. The mapping to variables works like normal function mappings. 
+	An action $A(o_1,\dots,o_n)$ explains how action schema $A$ is to be applied. The mapping to variables works like normal function application. 
 	
 	$\sigma = \{ v_1 \mapsto o_1,\dots,v_n \mapsto o_n \}$.
+	
+	For notational purposes, an application of an action schema $A$ can be written as:
+	
+	$a = A(o_1,\dots,o_n)$ 
+	
+	I.e. the name of the action schema in lower case, where the input to action is some combination of objects.
+	
+	
+	
 \end{definition}
 
 
 Predicates which contain Terms in its arguments are referred to as fluent predicates, while grounded predicates refer to predicates that only contain objects in its arguments. Given a mapping $\sigma$ from variables to objects any fluent predicate can become grounded.
 \begin{definition} 
-	Any fluent predicate be converted to a grounded predicate, by a applying a mapping $\sigma$ to each of its arguments. As such the \texttt{grond} function takes a predicate $P$ and a mapping $\sigma$
+	Any fluent predicate cab be mapped to a grounded predicate, by a applying a mapping $\sigma$ to each of its arguments. As such the \texttt{grond} function takes a predicate $p$ and a mapping $\sigma$
 	
-		$\texttt{ground}(P(x_1,\dots,x_n),\sigma) = P(\sigma(x_1),\dots,\sigma(x_n)$ where $P$ is the name of the predicate.
+		$\texttt{ground}(p(x_1,\dots,x_n),\sigma) = p(\sigma(x_1),\dots,\sigma(x_n)$ where $p$ is the name of the predicate.
 		
-	If the mapping is given in context, I.E. there is an instanced action schema in context of the discussion, then the shorthand $\texttt{ground}(P)$ can be used.
+	If the mapping is given in context, i.e. there is an action application in context of the discussion, then the shorthand $\texttt{ground}(p)$ can be used instead.
 \end{definition}
 
 
@@ -98,30 +120,44 @@ To explain how an action is applied to a state we define a State-Transition func
 	\right.$ 
 	
 	where $effect^+$ are the positive changes, meaning the grounded predicates that are to be set \texttt{TRUE} in the new state $S'$. Conversely $effect^-$ are the negatives changes, which are the predicates to be set \texttt{FALSE} in $S'$. 
+	
+	\textbf{NB} For more feature rich PDDL versions, the $effect$ functions require both the domain, problem and state in order to get the actual effects; however we assume these are given from context unless specified otherwise.
+	
 \end{definition}
 
 Furthermore, we define a single Transition as follows:
 
 \begin{definition} 
-	Transition $T$ refers to a triple (S,A,S'), where S is the original state, A is the action that was used on S and S' is the resulting state.
+	Transition $T$ refers to a triple (S,A,S'), where S is the original state, A is the action that was applied S and S' is the resulting state.
 \end{definition}
 
-Lastly in order for an action to know its purpose when planning it must have a defined goal. Such a goal is defined within what PDDL refers to as a problem.
+Lastly in order for an agent to know its purpose when planning it must have a defined goal. Such a goal is defined within a PDDL Problem.
 
-\begin{definition} 
+\begin{definition} A problem contains the knowledge of the domain it applies to, the objects that is specific to the problem, the initial state of the planner and the goal expressed as a goal description (see Def.  \ref{def:lrn:action-spec-def}).
+	
 	$
 	\begin{array}{ll}
-	Action ~ schema ~ A: & \\
+	Problem ~ P: & \\
 	
 	\begin{array}{ll}
-	Variables & = \{v_1,\dots,v_n\}			 \\  
-	Pre	& = Goal Description(GD) \\
-	Eff & = Effect(EFF) 
+	Doman & = Name ~ of ~ the ~ domain ~ it ~ is ~ based ~ on \\
+	Objects ~ \mathcal{O} & = \{o_1,\dots,o_n\}			 \\  
+	Init-State& = A ~ Set ~ of ~ Grounded ~ Predicates \\
+	Goal ~ \mathcal{G} & = Goal ~ Description(GD)
 	\end{array}
 	\end{array}$
 \end{definition}
 
-Given this machinery an agent is capable of modelling  definition actions and their e
+To use a PDDL specification an agent can with a domain and an accompanying problem generate a plan, which solves that specific problem.
+
+\begin{definition} 
+	A plan $P$ is defined as a list of action, solving a given problem.
+	$P = (a_1,\dots,a_n)$
+\end{definition}
+
+Given this machinery an agent is thus capable of modeling the world and define actions that is applicable in the world. These definitions provides a framework for learning of action schema, which we will go into detail with, for both non-conditional and conditional action schemas.
+
+
 	
 	
 
