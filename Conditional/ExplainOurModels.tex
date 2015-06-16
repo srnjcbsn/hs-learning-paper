@@ -104,20 +104,34 @@ Consider again a state transition $\left( s, a, s' \right)$. The hypergraph cons
 
 From the above, it follows that all grounded predicates with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be predicates, and can as such be reused in for another transition.
 
-
+\begin{equation*}
+    reduce(c, H) =
+    \left\{ \left( t_1, t_2 \right) \mid 
+        \left( t_1, t_2 \right) \in c \land 
+        \exists_{b \in H} \left[ t_1 \in b \land t_2 \in b \right] 
+    \right\}
+\end{equation*}
 
 \begin{algorithm}
     \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
     \begin{algorithmic}
-        \Function{$\textsc{Conditional-Effect-Learn}$} {$\left( s, a, s'\right)$, \texttt{HyperGraph} $U$, $K$, $C$}
+        \Function{Update-Knowledge}{$n$, $\Delta s$, $U$, $K$, $C$}
+            \ForAll{predicates $p \in \Delta s$ with name $n$}
+                \State{$H_p \gets hypergraph(p, s)$}
+                \State{$\left(U, r \right) \gets merge \left( U, H_p \right)$}
+                \State{$\left( C, K \right) \gets rename(r, C, K)$}
+            \EndFor
+            \ForAll{predicates $q \notin \Delta s$ with name $n$}
+                \State{$H_q \gets hypergraph(q, s)$}
+                \State{$C_n \gets C_n \cup cands\left( H_q, U \right)$}
+            \EndFor
+            \State{$C_n = \left\{ reduce\left(c, U\right) \mid c \in C_n \right\}$}
+            \State{Remove any singleton sets from $C_n$, and add them to $K_n$}
+        \EndFunction
+
+        \Function{$\textsc{Conditional-Effect-Learn}$} {$\left( s, a, s'\right)$, $U$, $K$, $C$}
             \ForAll{predicate names $n$}
-                \ForAll{predicates $p \in \Delta s$ with name $n$}
-                    \State{Let $H_p$ be the hypergraph describing $p$}
-                    \State{$H_n \gets merge \left( H_n, H_p \right)$}
-                \EndFor
-                \ForAll{predicates $q \notin \Delta s$ with name $p$}
-                    \State{$C_n \gets C_n \cup cands\left( q, H_n \right)$}
-                \EndFor
+                \State{$UpdateKnowledge\left(n, \Delta s, U_n, K_n, C_n \right)$}
             \EndFor
         \EndFunction%
     \end{algorithmic}
