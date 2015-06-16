@@ -16,6 +16,7 @@
 \usepackage[ampersand]{easylist}
 \usepackage{subcaption}
 \usepackage{enumitem}
+\usepackage{mathtools}
 
 \hypersetup{
     colorlinks,
@@ -62,7 +63,16 @@
 %   {}% space after theorem head; " " = normal interword space
 %   {}% Manually specify head
 
+% symbol used for function calculating total state
 \newcommand{\ts}{X}
+
+% Symbol for a predicate connection
+\newcommand{\pc}{\hookrightarrow}
+% \newcommand{\pc}{\xrightharpoondown{p}}
+% Symbol for a binding connection
+% \newcommand{\bc}{\xrightharpoondown{b}}
+\newcommand{\bc}{\rightharpoonup}
+
 \renewcommand{\algorithmicrequire}{\textbf{input:}}
 \renewcommand{\algorithmicensure}{\textbf{output:}}
 

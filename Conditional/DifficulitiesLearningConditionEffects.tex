@@ -104,165 +104,186 @@ Thus if both negative and positive preconditions are allowed a the same time use
 \end{figure}
 
 \begin{example}\label{ex:ca:sokoban-moveleft-action}
-Let us consider an example of acquiring preconditions from a state modelled with predicates. In \figref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
+    Let us consider an example of acquiring preconditions from a state modelled with predicates. In \figref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
 
-The action schema that produced the effect is:
-\begin{align*}
-&MoveLeft():&  \\
-&\quad
-	\forall_{x, y}
-		\left[
-			\neg\texttt{sokobanAt}(y) \land \texttt{sokobanAt}(x)
-		\right]
-		\quad when \quad
-		\left[ \texttt{adj-h}(x,y) \land \texttt{sokobanAt}(y) \right]& \\
-&\quad
-	\forall_{x, y, z, b}
-		\left[ \neg\texttt{at}(b,y) \land \texttt{at}(b,x) \right]
-		\quad when \quad
-		\left[
-			\begin{gathered}
-				 \texttt{adj-h}(x,y) \land \texttt{adj-h}(y,z) \land \\
-					  \texttt{sokobanAt}(z) \land \texttt{at}(b, y)
-			\end{gathered}
-		\right] &
-\end{align*}
+    The action schema that produced the effect is:
+    \begin{align*}
+    &MoveLeft():&  \\
+    &\quad
+        \forall_{x, y}
+            \left[
+                \neg\texttt{sokobanAt}(y) \land \texttt{sokobanAt}(x)
+            \right]
+            \quad when \quad
+            \left[ \texttt{adj-h}(x,y) \land \texttt{sokobanAt}(y) \right]& \\
+    &\quad
+        \forall_{x, y, z, b}
+            \left[ \neg\texttt{at}(b,y) \land \texttt{at}(b,x) \right]
+            \quad when \quad
+            \left[
+                \begin{gathered}
+                     \texttt{adj-h}(x,y) \land \texttt{adj-h}(y,z) \land \\
+                          \texttt{sokobanAt}(z) \land \texttt{at}(b, y)
+                \end{gathered}
+            \right] &
+    \end{align*}
 
-The state transition that occurred:
+    The state transition that occurred:
 
-\begin{equation*}\label{eq:s_before}
-S_{before} =
-	\left\{
-		\begin{gathered}
-			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-			\texttt{at}(box,t2), \texttt{sokobanAt}(t3)
-		\end{gathered}
-	\right\}
-\end{equation*}
-\begin{equation*}
-S_{after} =
-	\left\{
-		\begin{gathered}
-			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-			\texttt{at}(box,t1), \texttt{sokobanAt}(t2)
-		\end{gathered}
-	\right\}
-\end{equation*}
-The effects of the state transition we calculate:
-\begin{equation*}
-\Delta S =
-	\left\{
-		\begin{gathered}
-			\texttt{at}(box, t1), \texttt{sokobanAt}(t2), \\
-			\neg\texttt{at}(box,t2), \neg\texttt{sokobanAt}(t3)
-		\end{gathered}
-	\right\}
-\end{equation*}
-To interpret the objects as variables we provide some mapping of objects to variables, such a mapping could be:
-\begin{equation*}
-\delta =
-	\left [
-		\begin{gathered}
-			t1 \mapsto x \\
-			t2 \mapsto y \\
-			t3 \mapsto z \\
-			box \mapsto b
-		\end{gathered}
-	\right ]
-\end{equation*}
-We apply the mapping to the objects of $S_{before}$:
-\begin{equation*}
-	\sigma(S_{before}, \delta) =
-	\begin{gathered}
-		\left\{
-			\begin{gathered}
-				\texttt{adj-h}(\delta (t1), \delta (t2)), \\
-				\texttt{adj-h}(\delta (t2), \delta (t3)), \\
-				\texttt{at}(\delta (box),\delta (t2)), \\
-				 \texttt{sokobanAt}(\delta (t3))
-			\end{gathered}
-		\right\}
-		=
-		\left\{
-			\begin{gathered}
-				\texttt{adj-h}(x, y), \\
-				 \texttt{adj-h}(y, z), \\
-				\texttt{at}(y), \\
-				\texttt{sokobanAt}(z)
-			\end{gathered}
-		\right\}
-	\end{gathered}
-\end{equation*}
-We also apply the mapping to the effects $\Delta S$
-\begin{equation*}
-	\Delta S =
-		\left\{
-			\begin{gathered}
-				\texttt{at}(\delta (box),\delta (t1)), \\
-				\texttt{sokobanAt}(\delta (t2)), \\
-				\neg\texttt{at}(\delta (box),\delta (t2)), \\
-				 \neg\texttt{sokobanAt}(\delta (t3))
-			\end{gathered}
-		\right\}
-		=
-		\left\{
-			\begin{gathered}
-				\texttt{at}(b,x),
-				\texttt{sokobanAt}(y), \\
-				\neg\texttt{at}(b,y),
-				\neg\texttt{sokobanAt}(z)
-			\end{gathered}
-		\right\}
-\end{equation*}
+    \begin{equation*}\label{eq:s_before}
+    S_{before} =
+        \left\{
+            \begin{gathered}
+                \texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
+                \texttt{at}(box,t2), \texttt{sokobanAt}(t3)
+            \end{gathered}
+        \right\}
+    \end{equation*}
+    \begin{equation*}
+    S_{after} =
+        \left\{
+            \begin{gathered}
+                \texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
+                \texttt{at}(box,t1), \texttt{sokobanAt}(t2)
+            \end{gathered}
+        \right\}
+    \end{equation*}
+    The effects of the state transition we calculate:
+    \begin{equation*}
+    \Delta S =
+        \left\{
+            \begin{gathered}
+                \texttt{at}(box, t1), \texttt{sokobanAt}(t2), \\
+                \neg\texttt{at}(box,t2), \neg\texttt{sokobanAt}(t3)
+            \end{gathered}
+        \right\}
+    \end{equation*}
+    To interpret the objects as variables we provide some mapping of objects to variables, such a mapping could be:
+    \begin{equation*}
+    \delta =
+        \left [
+            \begin{gathered}
+                t1 \mapsto x \\
+                t2 \mapsto y \\
+                t3 \mapsto z \\
+                box \mapsto b
+            \end{gathered}
+        \right ]
+    \end{equation*}
+    We apply the mapping to the objects of $S_{before}$:
+    \begin{equation*}
+        \sigma(S_{before}, \delta) =
+        \begin{gathered}
+            \left\{
+                \begin{gathered}
+                    \texttt{adj-h}(\delta (t1), \delta (t2)), \\
+                    \texttt{adj-h}(\delta (t2), \delta (t3)), \\
+                    \texttt{at}(\delta (box),\delta (t2)), \\
+                     \texttt{sokobanAt}(\delta (t3))
+                \end{gathered}
+            \right\}
+            =
+            \left\{
+                \begin{gathered}
+                    \texttt{adj-h}(x, y), \\
+                     \texttt{adj-h}(y, z), \\
+                    \texttt{at}(y), \\
+                    \texttt{sokobanAt}(z)
+                \end{gathered}
+            \right\}
+        \end{gathered}
+    \end{equation*}
+    We also apply the mapping to the effects $\Delta S$
+    \begin{equation*}
+        \Delta S =
+            \left\{
+                \begin{gathered}
+                    \texttt{at}(\delta (box),\delta (t1)), \\
+                    \texttt{sokobanAt}(\delta (t2)), \\
+                    \neg\texttt{at}(\delta (box),\delta (t2)), \\
+                     \neg\texttt{sokobanAt}(\delta (t3))
+                \end{gathered}
+            \right\}
+            =
+            \left\{
+                \begin{gathered}
+                    \texttt{at}(b,x),
+                    \texttt{sokobanAt}(y), \\
+                    \neg\texttt{at}(b,y),
+                    \neg\texttt{sokobanAt}(z)
+                \end{gathered}
+            \right\}
+    \end{equation*}
 
-The resulting fluent predicates are the preconditions and effects
-Therefore our hypothesis of the action scheme is:
-\begin{align*}
-&MoveLeft_{hyp}():&  \\
-&\quad
-	\forall_{x, y, z, b}
-		\left[
-		\begin{gathered}
-			\texttt{at}(b, x) \land \texttt{sokobanAt}(y) \land \\ \neg\texttt{at}(b,y) \land \neg\texttt{sokobanAt}(z) \quad
-		\end{gathered}
-		\right]
-	when
-		\left[
-		\begin{gathered}
-		\quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{at}(b,y) \land \texttt{sokobanAt}(z)
-		\end{gathered}
-		\right]&
-\end{align*}
+    The resulting fluent predicates are the preconditions and effects
+    Therefore our hypothesis of the action scheme is:
+    \begin{align*}
+    &MoveLeft_{hyp}():&  \\
+    &\quad
+        \forall_{x, y, z, b}
+            \left[
+            \begin{gathered}
+                \texttt{at}(b, x) \land \texttt{sokobanAt}(y) \land \\ \neg\texttt{at}(b,y) \land \neg\texttt{sokobanAt}(z) \quad
+            \end{gathered}
+            \right]
+        when
+            \left[
+            \begin{gathered}
+            \quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{at}(b,y) \land \texttt{sokobanAt}(z)
+            \end{gathered}
+            \right]&
+    \end{align*}
 
-According to theorem \ref{thm:ca:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
-\begin{align*}
-&\gamma(S_{before},MoveLeft_{hyp}) =
-	\left\{
-		\begin{gathered}
-			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-			\texttt{at}(box,t1), \texttt{sokobanAt}(t2)
-		\end{gathered}
-	\right\}
-	= S_{after}
-&
-\end{align*}
+    According to theorem \ref{thm:ca:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
+    \begin{align*}
+    &\gamma(S_{before},MoveLeft_{hyp}) =
+        \left\{
+            \begin{gathered}
+                \texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
+                \texttt{at}(box,t1), \texttt{sokobanAt}(t2)
+            \end{gathered}
+        \right\}
+        = S_{after}
+    &
+    \end{align*}
 
-We observe that this is indeed correct.
-
-
+    We observe that this is indeed correct.
 \end{example}
 
-
-
-
 \subsubsection{Initial approach to reducing preconditions}
-As different scenarios are explored the unproven set $U_p$ of preconditions can be reduced.
-\newtheorem{thm-unknown-set}{Definition}
-\begin{thm-unknown-set}
-The unproven set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  predicates $\mathbb{CP}$.
-\end{thm-unknown-set}
 
-If we have the sets of unproven preconditions $U_p1$ and $U_p1$ from two different state transitions, we can compare them and remove discrepancies by intersection:
+As different scenarios are explored the unproven set $U_p$ of preconditions can be reduced.
+
+\begin{definition}
+The unproven set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  predicates $\mathbb{CP}$.
+\end{definition}
+
+We will now consider how this unproven set can be constructed using the methods for proving and disproving preconditions presented in Section~\ref{sec:NC:Preconditions}, show why it is insufficient and introduce a new model which fits the domain better.
+
+By Restrictions~\ref{rst:ca:no-disjuntive-conditionals} and~\ref{rst:ca:no-multiple-effect}, each predicate $p \in \Delta s$ is spawned by exactly one conditional. As such, it can be deduced that if a predicate $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \mathcal{O}$) occurs in $\Delta s$ after application of $a$, then $A$ contains a conditional of the form
+
+\begin{equation*}
+    \forall x_1, \dots, x_n 
+        \left[ p\left(\delta\left(u_1\right), \dots, \delta \left(u_{|p|}\right) \right) \right] \quad when \quad 
+        \left[ \left<unknown\right> \right]
+\end{equation*}
+where $\left\{\delta \left( u_1 \right), \dots, \delta \left(u_{|p|} \right) \right\} \subseteq \left\{ x_1, \dots, x_n \right\} \subseteq \delta [\mathcal{O}]$ and $\delta$ is a substitution function as explained above. Observe that once this conditional has been proven to exist, the problem of finding its preconditions is similar to finding the preconditions of a non-conditional action schema $A'$ accepting as many parameters as the number of objects in the world, ie. 
+
+\begin{align*}
+    \begin{split}
+        \textsc{Action} &\; \textit{A'}\left(\delta \left( o_1 \right), \ldots, \delta \left( o_{|\mathcal{O}|}\right)\right): \\
+        \textsc{Pre}: \; & \left< unknown \right> \\
+        \textsc{Eff}: \; & p\left( \delta \left(u_1\right), \dots, \delta \left( u_{|p|} \right)\right)
+    \end{split}
+\end{align*}
+
+in which case the grounding function becomes $\delta^{-1}$. Thus, the function $d(s)$ from Section~\ref{sec:NC:Preconditions} can be used to disprove preconditions, and the set of predicates neither proven nor disproven to be preconditions becomes $\mathbb{CP} \setminus d(s)$. Note that since $\mathbb{P}_{A'} = \mathbb{CP}_A$, $|d(s)| = |\mathbb{P}_{A'}|$, as each predicate is either present or absent from the state. 
+
+As all predicates in $\Delta s$ with the same name are effects of the same conditional, it is tempting to consider them different applications of $A'$ and prove knowledge about their preconditions as in Section~\ref{sec:NC:Preconditions}. However, the above only holds for a single grounded predicate observed to be the effect of the conditional; if a predicate with the same name but different arguments occurs in $\Delta s$, then it is the effect of another interpretation of the universal quantifier in the conditional, and the nonconditional action schema constructed for it will not equal $A'$.
+
+Consequently, the preconditions disproven by $d(s)$ for $A'$ are only applicable to the grounded predicate $A'$ was constructed for. To find the preconditions of the conditional, a method of combining the different disproven predicates is needed.
+
+It follows from the above that if we have the sets of unproven preconditions $U_p1$ and $U_p1$ from two different state transitions, we can compare them and remove discrepancies by intersection:
 
 \begin{equation}
 \label{eq:unknownpredcondset}
@@ -270,6 +291,7 @@ If we have the sets of unproven preconditions $U_p1$ and $U_p1$ from two differe
 \end{equation}
 
 This will work for removing entire predicates and only if the two sets use exact same naming for variables. Herein lies the problem of reducing preconditions; unlike non-conditional effects where entire predicates are removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables.
+
 \begin{definition}
 	A binding between variables, means that variables between predicates are the same.
 	Bindings that contain only one variable are free and means that no binding exists.
@@ -305,6 +327,18 @@ Thus this approach to modelling the unknown preconditions, which we used for non
 
 \subsubsection{A new model: Binding sets}
 As is evident our model of using set of predicates, that was used for modelling non-conditional effects, is not suitable when discussing conditional effects. As such we propose using Binding sets when modelling preconditions and effects for a conditional effect.
+
+As is evident our model of using set of predicates, that was used for modelling non-conditional effects, is not suitable when discussing conditional effects. In the following we will consider a another model for 
+
+\begin{definition}[Connection]\label{def:ca:connection}
+    A connection is a sequence of pairs $\left( p, i \right)$
+\end{definition}
+
+\begin{example}
+    \begin{equation*}
+        f_1 \bc p_2 \pc p_1 \bc q_1
+    \end{equation*}
+\end{example}
 
 \begin{definition}\label{thm:ca:binding-set}
 	Binding set $B$ is a theoretical set of all bindings which differentiate between bindings from different predicates, such that the name of predicates also determines whether or not two bindings are equal. Information pertaining to the name of the variable from which the binding exists does not conflict, therefore if two $B$ sets intersected but they had completely different naming of variables then the resulting set would still be as though their name matched.
