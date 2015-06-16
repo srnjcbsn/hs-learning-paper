@@ -292,8 +292,8 @@ It follows from the above that if we have the sets of unproven preconditions $U_
 
 This will work for removing entire predicates and only if the two sets use exact same naming for variables. Herein lies the problem of reducing preconditions; unlike non-conditional effects where entire predicates are removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables.
 
-\begin{definition}
-	A binding between variables, means that variables between predicates are the same.
+\begin{definition}[Binding]\label{def:ca:binding}
+    A binding between variables, means that variables between predicates are the same.
 	Bindings that contain only one variable are free and means that no binding exists.
 	It is important to note that a predicate with multiple variables can have bindings with itself.
 	For instance $q(x)$ and $p(x,y)$ has a binding on their first argument as they both refer to the same variable, and $y$ is a free variable as no other predicates with $y$ exists.
@@ -325,13 +325,30 @@ Thus this approach to modelling the unknown preconditions, which we used for non
     And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect. As they have the similarity of having the same binding between the first and second argument. What we actually need is to have a set of bindings and take the intersection of that.
 \end{example}
 
-\subsubsection{A new model: Binding sets}
+\subsubsection{A new model: Connecting paths}
 As is evident our model of using set of predicates, that was used for modelling non-conditional effects, is not suitable when discussing conditional effects. As such we propose using Binding sets when modelling preconditions and effects for a conditional effect.
 
-From the discussion above, it is evident that the model used for preconditions of non-conditional actions are not sufficient for 
+From the discussion above, it is evident that the model used for preconditions of non-conditional actions is not sufficient for our needs. Specifically, it does not allow us to easily combine knowledge obtained about the same conditional from different interpretations. The problem, as shown above, is that 
 
-\begin{definition}[Connection]\label{def:ca:connection}
-    A connection is a sequence of pairs $\left( p, i \right)$
+\begin{definition}[Binding connection]\label{def:ca:varConns}
+    A binding connection between indices $i$ and $j$ of two predicates $p$ and $q$ means that the variable or object at the $i$'th argument of $p$ is the same as that at the $j$'th argument of $q$. In the following, the shorthand $p_i \bc q_j$ is used to denote binding connections.
+\end{definition}
+
+\begin{definition}[Predicate connection]
+    Similarly, the notation $p_1 \pc p_2$ denotes the rather obvious fact that the first and second argument of $p$ are both part of the same predicate $p$.
+\end{definition}
+
+\begin{definition}[Connecting path]\label{def:ca:connectingPath}
+    A connecting path is a 
+    
+    \begin{equation*}
+        f_i \bc p_j \pc p_k \bc q_l
+    \end{equation*}
+    is a shorthand for
+    \begin{equation*}
+        \left< \left( f_i \bc p_j \right), \left( p_j \pc p_k \right), \left( p_k \bc q_l \right) \right>
+    \end{equation*}
+    A connection is a sequence of pairs $\left( p, i \right)$ where $p$ is a signed predicate name (such as $\neg \texttt{sokobanAt}$) and $i \in \{ 1, \dots, |p| \}$ is an index in $p$. We will use the shorthand $p_i$ for the tuple $(p,i)$, such that $p_i$ means ``the $i$'th argument of $p$''.
 \end{definition}
 
 \begin{example}
