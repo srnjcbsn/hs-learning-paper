@@ -1,6 +1,117 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
+
+In~\cite{Walsh2008}, they presented algorithm on how to learn effects of action schemes limited to non-conditional effects. We will expand on that and generalize some of their concepts.
+
+If ignore the concept of planning with constants in effects, then we know that all fluent literals in our effects must have variables which are permutations of the action's variables. The set of all those fluent literals we define as $\mathbb{F}$, another way understand $\mathbb{F}$ is that it is all the possible fluent literals which an action schema can have for its effects.
+
+\begin{definition} 
+$\mathbb{F}_A$ is the set of all fluent literals available to action schema $A$. For ease of use $A$ can be omitted if it is implied through context.
+	\begin{equation*}
+		\mathbb{F}_A = \left\{ 
+				\begin{gathered}
+					p(x_1,\dots,x_n), \\
+					\neg p(x_1,\dots,x_n)
+				\end{gathered}
+					\left|
+				\begin{gathered} p \in \mathbb{P}~\land \\
+								n = arity(p)~\land  \\
+								(x_1,\dots,x_n) = permutation(Vars(A))
+				\end{gathered}				
+							\right.\right\}
+	\end{equation*}
+\end{definition}
+
+
+\begin{figure}
+	\def\firstcircle{(0,0) circle (1.5cm)}
+	\def\secondcircle{(0:2cm) circle (1.5cm)}
+	\def\thirdcircle{(0:3.8cm) circle (2.9cm)}
+	\centering
+% Now we can draw the sets:
+\begin{tikzpicture}
+
+
+\draw \firstcircle node[above] {$S$};
+\draw \secondcircle node [above] {$S'$};
+
+% Now we want to highlight the intersection of the first and the
+% second circle:
+
+\begin{scope}
+\clip \firstcircle;
+\fill[red] \secondcircle;
+\end{scope}
+
+% Next, we want the highlight the intersection of all three circles:
+
+\begin{scope}
+\clip \firstcircle;
+\clip \secondcircle;
+\fill[green] \thirdcircle;
+\end{scope}
+
+
+\end{tikzpicture}
+\caption{\label{fig:nca:venn-of-effects} Venn diagram of a state transition. The red area shows predicates which was unaffected, and the Green show effects that was added to S but masked as unaffected because they were already present in S.}
+
+\end{figure}
+
+For any action schema schema it is common that only a small subset of $\mathbb{F}$ are actually present in its effects, 
+therefore we differentiate between them. 
+We define whether we have proved or disproved them. 
+Initially when a fluent has yet to proved or disproved we say that it is unproven. 
+It then follows that if no fluents are considered unproven then we have complete knowledge for the action schemas effects.
+
+
+\begin{definition} 
+	The proved set $K$ contains which fluents $\mathbb{F}$ we know are in the action schemas actual effects.
+	Conversely the disproved set $D$ define which fluents are for certain not present.
+	Those fluents that are neither in $K$ nor in $D$ are said to be in the unproven set $U$.
+	
+\end{definition}
+
+For $K$, $D$ and $U$ two important invariant holds.
+
+\begin{invariant}[Mutual exclusivity]
+	\begin{equation*}
+		\begin{split}
+		K \cap D & = \emptyset  \\ 
+		K \cap U &= \emptyset \\
+		D \cap U &= \emptyset
+		\end{split}
+	\end{equation*}
+\end{invariant}
+
+\begin{invariant}[Completeness]
+	\begin{equation*}
+		U \cup K \cup D = \mathbb{F}
+	\end{equation*}
+\end{invariant}
+
+In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
+In a state transition effects are added directly to $S$ to form $S'$, however for predicates in $S \cap S'$ this means there are two distinct possibilities either they were part of the effects of the action or they were not (see Figure \ref{fig:nca:venn-of-effects}).
+
+
+\begin{theorem}
+	Positive fluents that when grounded are not in $S'$ are considered disproved. Conversely negative fluents that when grounded are not in $S$ are also considered disproved. This gives us:
+	
+	\begin{equation*}
+		D = \left\{
+			f \; | \; f \in \mathbb{F} \land g(f) \notin s'
+			\right\} 
+			\cup
+			 \left\{
+			\neg f \; | \; \neg f \in \mathbb{F} \land g(f) \notin s
+			\right\}
+	\end{equation*}
+	\begin{proof} If a positive grounded  fluent   \qedhere
+	\end{proof}
+\end{theorem}
+
+ 
+
 \begin{equation}
     u^+ = \left\{
         p \; | \; p \in \mathbb{P} \land g(p) \in s \cap s'
