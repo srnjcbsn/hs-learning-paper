@@ -2,12 +2,12 @@
 \begin{document}
 
 
-In~\cite{Walsh2008}, they presented algorithm on how to learn effects of action schemes limited to non-conditional effects. We will expand on that and generalize some of their concepts.
+In~\cite{Walsh2008}, they presented an algorithm on how to learn effects of action schemes limited to non-conditional effects. We will expand on that and generalize some of their concepts.
 
-If ignore the concept of planning with constants in effects, then we know that all fluent literals in our effects must have variables which are permutations of the action's variables. The set of all those fluent literals we define as $\mathbb{F}$, another way understand $\mathbb{F}$ is that it is all the possible fluent literals which an action schema can have for its effects.
+If we ignore the concept of planning with constants in effects, then we know that all fluent literals in our effects must have variables which are permutations of the action's variables. The set of all those fluent literals we define as $\mathbb{F}$, another way to understand $\mathbb{F}$ is that it is all the possible fluent literals which an action schema can have for its effects.
 
 \begin{definition} 
-$\mathbb{F}_A$ is the set of all fluent literals available to action schema $A$. For ease of use $A$ can be omitted if it is implied through context.
+$\mathbb{F}_A$ is the set of all fluent literals available to an action schema $A$. For ease of use the $A$ can be omitted if it is implied through context.
 	\begin{equation*}
 		\mathbb{F}_A = \left\{ 
 				\begin{gathered}
@@ -17,7 +17,7 @@ $\mathbb{F}_A$ is the set of all fluent literals available to action schema $A$.
 					\left|
 				\begin{gathered} p \in \mathbb{P}~\land \\
 								n = arity(p)~\land  \\
-								(x_1,\dots,x_n) = permutation(Vars(A))
+								(x_1,\dots,x_n) ~is~ a~ permutation ~ of ~Vars(A)
 				\end{gathered}				
 							\right.\right\}
 	\end{equation*}
@@ -59,14 +59,13 @@ $\mathbb{F}_A$ is the set of all fluent literals available to action schema $A$.
 \end{figure}
 
 For any action schema schema it is common that only a small subset of $\mathbb{F}$ are actually present in its effects, 
-therefore we differentiate between them. 
-We define whether we have proved or disproved them. 
-Initially when a fluent has yet to proved or disproved we say that it is unproven. 
+therefore we differentiate between them by defining whether we have proved or disproved them. 
+Initially when a fluent has yet to proved or disproved, we say that it is unproven. 
 It then follows that if no fluents are considered unproven then we have complete knowledge for the action schemas effects.
 
 
 \begin{definition} 
-	The proved set $K$ contains which fluents $\mathbb{F}$ we know are in the action schemas actual effects.
+	The proved set $K$ contains which fluents  $f \in \mathbb{F}$ we know are in the action schemas actual effects.
 	Conversely the disproved set $D$ define which fluents are for certain not present.
 	Those fluents that are neither in $K$ nor in $D$ are said to be in the unproven set $U$.
 	
@@ -91,184 +90,209 @@ For $K$, $D$ and $U$ two important invariant holds.
 \end{invariant}
 
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
-In a state transition effects are added directly to $S$ to form $S'$, however for predicates in $S \cap S'$ this means there are two distinct possibilities either they were part of the effects of the action or they were not (see Figure \ref{fig:nca:venn-of-effects}).
-
+In a state transition effects are added directly to $S$ in order to form $S'$, therefor we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that predicates are both in $S$ and $S'$ there are two distinct possibilities either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
+To disprove fluents for a single transition we use the idea that fluents that have been grounded which not in the $S'$ cannot be positive effects, and fluents that have been grounded  which are in the $S'$ cannot be negative effects. 
+This is logically sound and gives us the following theorem:
 
 \begin{theorem}
-	Positive fluents that when grounded are not in $S'$ are considered disproved. Conversely negative fluents that when grounded are not in $S$ are also considered disproved. This gives us:
+	 From a single state-transition $(S,a,S')$ we know that,
+	positive fluents are disproved, when grounded they are not in $S'$. Conversely negative fluents when grounded are disproved when they are in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:
 	
 	\begin{equation*}
-		D = \left\{
-			f \; | \; f \in \mathbb{F} \land g(f) \notin s'
+		 d(S') = \left\{
+			f \; | \; f \in \mathbb{F} \land ground(f) \notin S'
 			\right\} 
 			\cup
 			 \left\{
-			\neg f \; | \; \neg f \in \mathbb{F} \land g(f) \notin s
+			\neg f \; | \; \neg f \in \mathbb{F} \land ground(f) \in S'
 			\right\}
 	\end{equation*}
-	\begin{proof} If a positive grounded  fluent   \qedhere
+	\begin{proof}[Proof by definition]
+		Recall that $S'$ is the result of a union which include the grounded predicates of an action $A$'s effects. Hence, it follows trivially that any predicate $p \notin S'$ can not have been an effect of action $A$.
+	Like wise if a grounded fluent is in $S'$ then that fluent cannot have been a negative effect, or it would not have been in $S'$.
 	\end{proof}
 \end{theorem}
 
- 
 
-\begin{equation}
-    u^+ = \left\{
-        p \; | \; p \in \mathbb{P} \land g(p) \in s \cap s'
-    \right\}
-\end{equation}
-
-\begin{equation}
-    u^- = \left\{
-        p \; | \; p \in \mathbb{P} \land g(p) \notin s \cup s'
-    \right\}
-\end{equation}
-
-\begin{equation}
-    d^+ = \left\{
-        p \; | \; p \in \mathbb{P} \land g(p) \notin s'
-    \right\}
-\end{equation}
-
-\begin{equation}
-    d^- = \left\{
-        p \; | \; p \in \mathbb{P} \land g(p) \in s'
-    \right\}
-\end{equation}
-
-\begin{equation}
-    k^+ = \left\{
-        p \; | \; q \in a^+ \land ug(q) = \{ p \}
-    \right\}
-\end{equation}
-
-\begin{equation}
-    k^- = \left\{
-        p \; | \; q \in a^- \land ug(q) = \{ p \}
-    \right\}
-\end{equation}
-
-    Consider a state transition $\left(s,a,s'\right)$ where $s$ is a
-state consisting of grounded predicates, $a$ is a $k$-ary action
-application with arguments $a_{1},\dots,a_{k}$, and $s'$ is the
-state resulting from the application of $a$ in $s$.
-
-Trivially, $a^{+}=s'\setminus s$ resp. $a^{-}=s\setminus s'$ are
-the grounded predicates added to resp. removed from the world by application
-of $a$. Consequentially, for each predicate $p\in a^{+}$ there is
-a predicate $q\in E^{+}$ such that $g\left(q\right)=p$ (dually for
-$a^{-}$ and $E^{-}$). However, since the grounding function $g$
-is non-injective, several different fluent predicates may be grounded
-to the same $p$, hence the ungrounding function $u$ yields a set
-of predicates:
-\[
-ug:p\mapsto\left\{ q:g\left(q\right)=p\right\}
-\]
+\begin{example}[disproving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-disproving-effects}
+	In case the sokoban agent applies the action $\texttt{move-h}(t_1, t_2)$ in state $S_0$, the resulting state $S_1$ will have the visible effect that the sokoban relocated from $t_1$ to $t_2$. 
+	
+	
+	
+	\begin{equation*}
+		\begin{split}
+		S_0 &=
+		\left\{
+		\begin{gathered}
+			\texttt{sokobanAt}(t_1), \\
+			\texttt{clear}(t_2),\\
+			\texttt{hAdj}(t_1, t_2)	
+		\end{gathered}
+		\right\} \\
+		S_1 &=
+		\left\{
+		\begin{gathered}
+			\texttt{sokobanAt}(t_2), \\
+			\texttt{clear}(t_1), \\
+			\texttt{hAdj}(t_1, t_2)			
+		\end{gathered}
+		\right\} \\		
+		\mathbb{F}_{move-h} &= \left\{
+		\begin{gathered}
+			\texttt{sokobanAt}(to), \texttt{clear}(from), \\
+			\texttt{vAdj}(from, to), \texttt{vAdj}(to, from), \\
+			\texttt{vAdj}(from, from), \texttt{vAdj}(to, to), \\
+			\texttt{hAdj}(from, from), \texttt{hAdj}(to, to), \\
+			\texttt{at}(from, to), \texttt{at}(to, from), \\
+			\texttt{goal}(from), \texttt{goal}(to)  \\
+			\dots
+		\end{gathered}
+		\right\} \\
+		d(S_1) &= \left\{
+		\begin{gathered}
+			\neg \texttt{sokobanAt}(to), \\
+			\neg \texttt{clear}(from), \\
+			\neg \texttt{hAdj}(from, to), \\
+			\dots \\
+			\texttt{sokobanAt}(from), \\
+			\texttt{clear}(to), \\
+			\dots			
+		\end{gathered}
+		\right\}
+		\end{split}
+	\end{equation*}
+We see that incorrect effects are correctly disproved, such as moving the sokoban back where it came from $\texttt{sokobanAt}(from)$.
+\end{example}
 
 
-For a predicate $p\in s^{+}$, the set $u\left(p\right)$ is contains
-at least one element that is a member of $E^{+}$. If $u\left(p\right)$
-is the singleton set, its one element $q$ can unambiguously be determined
-to be a member of $E^{+}$. A similar argument can be made for $a^{-}$
-and $E^{-}$. Let $uamb$ denote a function which, given a set of
-ungrounded predicate sets, yields the union of the singleton sets,
-formally:
+\begin{figure}
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+\begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
+\node[ele,label=below:{$p(x,y)$}] (a1) at (3,4) {};    
+\node[ele,label=below:{$p(y,x)$}] (a2) at (3,3) {};    
+\node[ele,label=below:{$p(x,x)$}] (a3) at (3,2) {};
+\node[ele,label=below:{$p(y,y)$}] (a4) at (3,1) {};
+\node[] (a5) at (3,0.5) {};
 
-\[
-uamb:X\mapsto\bigcup\left\{ x:x\in X\land\left|x\right|=1\right\}
-\]
+\node[ele,,label=below:{$p(o_1,o_2)$}] (b1) at (0,4) {};
+\node[ele,,label=below:{$p(o_2,o_1)$}] (b2) at (0,3) {};
+\node[ele,,label=below:{$p(o_1,o_1)$}] (b3) at (0,2) {};
+\node[ele,,label=below:{$p(o_2,o_2)$}] (b4) at (0,1) {};
+\node[] (b5) at (0,0.5) {};
 
+\node[draw,fit= (a1) (a2) (a3) (a4) (a5),minimum width=2cm] {} ;
+\node[draw,fit= (b1) (b2) (b3) (b4) (b5),minimum width=2cm] {} ;  
+\draw[<-,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b1);
+\draw[<-,thick,shorten <=2pt,shorten >=2] (a2) -- (b2);
+\draw[<-,thick,shorten <=2pt,shorten >=2] (a3) -- (b3);
+\draw[<-,thick,shorten <=2pt,shorten >=2] (a4) -- (b4);
+\end{tikzpicture}
+		\caption{Unique $A(o_1,o_2)$, \newline $ground^{-1}$ is multivalued}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
 
-Then, the sets of fluent predicates $uamb\left[ug\left[a^{+}\right]\right]$
-and $uamb\left[u\left[a^{-}\right]\right]$ are proven to be in $E^{+}$
-and $E^{-}$, respectively.
+\begin{tikzpicture}[ele/.style={fill=black,circle,minimum width=.8pt,inner sep=1pt},every fit/.style={ellipse,draw,inner sep=-2pt}]
+\node[ele,label=below:{$p(x,y)$}] (a1) at (3,4) {};    
+\node[ele,label=below:{$p(y,x)$}] (a2) at (3,3) {};    
+\node[ele,label=below:{$p(x,x)$}] (a3) at (3,2) {};
+\node[ele,label=below:{$p(y,y)$}] (a4) at (3,1) {};
+\node[] (a5) at (3,0.5) {};
 
-The approach described above does not generally enumerate the effects
-of $A$, for two reasons:
-\begin{description}
-\item [{Hidden\ effects:}] As $s'$ contains the subset of $s$ not explicitly
-removed by application of $a$, it is unknown whether any predicate
-$p\in s\cap s'$ was produced by $a$ or inherited from $s$. Similarly,
-it is unknon whether a predicate $q\notin s\cup s'$ would be deleted
-by $a$ if it had existed in $s$.
-\item [{Ambiguous\ predicates:}] If for any two arguments $\psi_{i}$
-and $\psi_{j}$ of $a$ it holds that $\psi_{i}=\psi_{j}$, then the
-predicate $p\left(\psi_{i}\right)$ could be produced by grounding
-of either $p\left(\pi_{i}\right)$ or $p\left(\pi_{j}\right)$. Hence,
-it is unknown which predicate in the set $ug\left[p\left(\psi\right)\right]$
-is in $A$'s add or delete list, unless it is the singleton set.
-\end{description}
-Consequentially, an ungrounded predicate $p$ can only be established
-as being part of $A$'s (positive or negative) effects if $\exists q\in a^{+}\cup a^{-}\left[g\left(q\right)=\left\{ p\right\} \right]$.
-To lift this restriction, we propose a scheme for transition learning
-taking into account prior knowledge, based on {[}Walsh{]}:
+\node[] (b2) at (0,4) {};
+\node[ele,,label=below:{$p(o_1,o_1)$}] (b1) at (0,2.5) {};
+\node[] (b5) at (0,0.5) {};
 
-Consider a state transition $\left(s,a,s'\right)$ as well as a set
-of grounded predicates $K^{+}$ that have previously been proven to
-exist in $E^{+}$ and a set of ungrounded predicates $U^{+}$ that
-have neither been proved nor disproved to be in $E^{+}$. Note that
-$K^{+}\cap U^{+}=\emptyset$ , and that if a predicate $p$ is not
-in either set, it must have been proven to be absent from $E^{+}$.
-The possible hidden effects $s\cap s'$ can now be reduced to the
-set
-\[
-u^{+}=s\cap s'\cap g\left[U^{+}\cup K^{+}\right]
-\]
-where $g\left(U^{+}\cup K^{+}\right)$ is the the set of all positive
-grounded predicates that have not been disproven to exist in $E^{+}$,
-ie. $g\left(E^{+}\right)\subseteq g\left(U^{+}\cup K^{+}\right)$.
-When ungrounding the positive effects $a^{+}$, each of the resulting
-sets are intersected with $U^{+}\cup K^{+}$, effectively removing
-from the sets predicates which have previously been proven to be absent
-from $E^{+}$.
-\[
-\alpha=\left\{ x\cap\left(U^{+}\cup K^{+}\right):x\in ug\left[a^{+}\right]\right\}
-\]
+\node[draw,fit= (a1) (a2) (a3) (a4) (a5),minimum width=2cm] {} ;
+\node[draw,fit= (b1) (b2) (b5),minimum width=2cm] {} ;  
+\draw[<-,thick,shorten <=2pt,shorten >=2pt] (a1) -- (b1);
+\draw[<-,thick,shorten <=2pt,shorten >=2] (a2) -- (b1);
+\draw[<-,thick,shorten <=2pt,shorten >=2] (a3) -- (b1);
+\draw[<-,thick,shorten <=2pt,shorten >=2] (a4) -- (b1);
+\end{tikzpicture}
+		
+		\caption{Identical $A(o_1,o_1)$, \newline 
+			$ground^{-1}$ is multivalued.}
+	\end{subfigure}
+	\caption{Shows how $ground^{-1}$ maps to the domain $\mathbb{F}$ from the grounded fluents, for unique and identical action arguments. }
+	\label{fig:nca:ground-injectivity}
+\end{figure}
 
+In order to understand proving of fluents we must look into how effects are generated, based on the action schema.
+The $ground$ function is used to ground fluents from an action's effect. This is important since if we know what fluent a grounded fluent originated from, then that is a proof for that fluent. This means that if a grounded fluent $p \in \Delta S$ returns only one fluent when $ground^{-1}$ is applied to it, i.e. $ground^{-1}(p) = {f}$ then that $f$ has been proved. In other words if $ground$ is injective then $ground^{-1}$ is single-valued and it can thus be applied to all grounded fluents in $\Delta S$ and that will prove all of their respective fluents.
+Whether or not $ground$ is injective depends on the arguments of the action (see Figure \ref*{fig:nca:ground-injectivity}).
+This gives rise to the following lemma:
+\begin{lemma}
+If the arguments given to an action $A$ are all unique, then $ground$ is injective. Thereby making $ground^{-1}$ single-valued.
 
-The sets in $\alpha$ that are unambiguous can now be added to the
-set of known positive predicates of $E$, while the set of unkowns
-is redefined as the union of all ungroundings of $u^{+}$ that were
-not previously proven included in or absent from $E^{+}$, as well
-as all ambiguous predicates in $\alpha$.
-\[
-K^{+}=K^{+}\cup uamb\left[\alpha\right]
-\]
+\begin{proof}
+	If a pair fluents are different that means their list of variables are different or their names are different. 
+	\begin{itemize}
+		\item If their names are different then by definition two different grounded fluents will be outputted by $ground$.
+		
+		\item If their list of variables are different, and the arguments to the action are unique. Then those pairs of lists of variables will remain different, even when each variable is mapped to an object, as all those objects are unique. Since $ground$ only performs this mapping then this must hold for $ground$.
+	\end{itemize}	
+	As we have proved that $ground$ can never output to the same predicate, for two different fluents when the action arguments are unique. Then it follows that $ground$ must be an injective function. 
+\end{proof}
+\end{lemma}
 
+On a side note, this means it is preferable to an agent to try actions where the arguments to that action are all unique. 
 
-\[
-U^{+}=\left(\bigcup ug\left[u^{+}\right]\cap U^{+}\right)\cup amb\left[\alpha\right]
-\]
+If however only some of the arguments are unique, then we should still be able to prove some of the fluents, provided all other fluents that map from the same grounded fluent have been disproved. We can do this by using our disproved set $Ð$, built from earlier transitions, to discard incorrect fluents. This gives us the following theorem: 
 
+\begin{theorem} For a state-transition $(S,a,S')$ with 
+	\begin{equation*}
+	\Delta S = S' \setminus S \cup \{\neg p \mid  p \in S \setminus S' \}
+	\end{equation*}
+	
+	then, 
+	 $\forall_{p \in \Delta S}$ it holds that:
+	
+	If $ground^{-1}$ is single-valued or it is multivalued but all except one output have been disproved, then that the fluent outputted by $ground^{-1}(p)$ is proved to be an effect.
+	We can write this as a function:
+	
+	\begin{equation*}
+	k(\Delta S) = 
+	\left\{
+		f \mid 
+				p \in \Delta S \land 
+				ground(p)^{-1} \setminus D = \{f\}
+		\right\}
+	\end{equation*}
+	where $D$ is the set of disproved fluents.
+	
+	\begin{proof}
+		If $ground^{-1}$ is single-valued then that means only one fluent can produce the grounded predicate observed in the state, therefore that fluent must be an actual effect.
+		If $ground^{-1}$ is multivalued but all other outputs have been disproved then as before only one fluent could can produce the grounded predicate, giving us the same result which is that, the fluent is an actual effect.
+	\end{proof}
+\end{theorem}
 
-Similarly to the positive effects described above, the sets $K^{-}$
-and $U^{-}$ is maintained for the negative effects. Effect candidtes
-are the sets resulting from ungrounding $a^{-}$, each intersected
-with $U^{-}\cap K^{-}$ to remove predicates proven to be false:
-\[
-\beta=\left\{ x\cap\left(U^{-}\cup K^{-}\right):x\in ug\left[a^{-}\right]\right\}
-\]
+\begin{example}[Proving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-proving-effects}
+	Following from Example \ref{ex:nca:moveSucceeded-disproving-effects}
+	We have $S_0$, $S_1$ and $\mathbb{F}$.
+	
+	\begin{equation*}
+	\begin{split}
+	\Delta S &=
+	\left\{
+	\begin{gathered}
+	\texttt{sokobanAt}(t_2), \\
+	\texttt{clear}(t_1), \\
+	\neg \texttt{clear}(t_2)		
+	\end{gathered}
+	\right\} \\	
+	k(\Delta S) &= \left\{
+	\begin{gathered}
+	\texttt{sokobanAt}(to), \\
+	\texttt{clear}(from), \\
+	\neg \texttt{clear}(to)		
+	\end{gathered}
+	\right\}
+	\end{split}
+	\end{equation*}
+	We see that effects are correctly proven, such a proving the action actually moves sokoban to a new location i.e. $\texttt{sokobanAt}(to)$.
+\end{example}
 
-
-As above, the unambiguous predicates in $\beta$ have now been proven
-to be false, and can be added to $K^{-}$.
-
-\[
-K^{-}=K^{-}\cup uamb\left[\beta\right]
-\]
-
-
-As we do not allow spurious effects, all ungrounded predicates that
-would produce a predicate $p\in s'$ when grounded are considered
-proven to be absent from $E^{-}$. This is exactly the set $\bigcup ug\left[s'\right]$.
-Additionally, the ambiguous negative effects in $\beta$ are added
-to the set $U^{-}$:
-
-\[
-U^{-}=\left(U^{-}\setminus\bigcup ug\left[s'\right]\right)\cup amb\left[\beta\right]
-\]
-where the ambiguous actions are found as follows:
-\[
-amb:X\mapsto\bigcup\left\{ x:x\in X\land|x|>1\right\}
-\]
 \end{document}
