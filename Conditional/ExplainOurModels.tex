@@ -6,6 +6,13 @@
 
 <TODO: a set of connecting paths can be seen as a tree with many duplicate subtrees, which can therefore be seen as a cyclic graph with edge labels denoting $\bc$ (binding edge) or $\pc$ (predicate edge). These will be in ``clusters'' of complete subgraphs, therefore path sets can be seen as hypergraphs>
 
+\begin{example}
+    \begin{align*}
+        & g_1 \bc m_1 \bc p_2 \pc p_1 \bc q_1 \\
+        & m_1 \bc g_1 \bc p_2 \pc p_1 \bc q_1
+    \end{align*}
+\end{example}
+
 % Formerly we defined binding sets as a theoretical set, however for practical application we require an exact model.
 %
 % For instance, earlier we made the assumption that ambiguous predicates would always match correctly, to get an idea of this problem
