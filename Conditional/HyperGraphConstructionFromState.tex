@@ -4,23 +4,70 @@
 
 \textsc{\texttt{Work in progress}}
 
-<TODO:\@ Include explanation of how proven effects are combined with the hypergraphs of the preconditions>
+Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown above) now describes how the predicates in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the predicate edge describing $p$ as an effect.
 
-<TODO:\@ Explain how there are many hypergraphs in one state, I.E. each effect contains its own hypergraph of preconditions>
+Such a hypergraph describes which bindings were present in $\ts(s)$ when the effect $p$ occurred, and how $p$ is connected to them. In other words, it denotes the preconditions for the conditional that spawned $p$ which has not been disproven, and any binding \textit{not} in the hypergraph is disproven to be a precondition.
 
-Given a state transition $(s,a,s')$:
+\begin{proposition}\label{prop:ca:disprovenHg}
+    For a state transition $\left( S, a, S' \right)$ and a predicate $p \in \Delta S$, any binding absent from $hypergraph \left( p, X(S) \right)$ is not a precondition for the conditional in $A$ with $p$ as effect. 
+\end{proposition}
 
-(TO Thomas this is a very condensed form of what will be written)
-find all predicates in $\Delta s = s \setminus s'$. For each effect predicate, find predicates that are connected to it, and build a hypergraph from this information (after applying a substitution to reduce it to variable form). 
+\begin{proof}[Proof by contradiction]
+    Consider a state transition $\left( S, a, S' \right)$, a predicate $p \left( o_1 \right) \in \Delta S$, and the hypergraph $H = hypergraph\left( p\left(o_1\right), X(S) \right)$. If a binding $(p_1, q_1)$ is not present in $H$ (meaning that there is no binding edge in $H$ containing $p_1$ and $q_1$), then that binding is not present in $X(S)$ (i.e.\ $q\left(o_1\right) \notin S$). Thus, if that binding was a precondition for the conditional that spawned $p\left(o_1\right)$, then that interpretation of the conditional would have failed, and $p\left( o_1 \right)$ would not have occurred in $\Delta S$. Additionally, by Proposition~\ref{prop:ca:singleConditional}, no other conditional in $A$ could have caused the effect $p \left(o_1\right)$.
+\end{proof}
 
-For each effect with the same predicate form (ie. $p(x,y)$ has the same form as $p(y,x)$, but not the same form as $p(x,x)$ or $q(x,y)$), merge their hyper graphs as described in the next section. 
+Recall that any two predicates $p$ and $q$ in $\Delta S$ with the same name are effects of the same conditional (by Proposition~\ref{prop:ca:singleConditional}), and that any bindings absent from \textit{either} of the hypergraphs $H_p = hypergraph(p, X(S))$ and $H_q = hypergraph(q, X(S))$ are disproven to be preconditions of that conditional (by Proposition~\ref{prop:ca:disprovenHg}). Consequently, if the two hypergraphs can be merged into one hypergraph $H'$, such that $H'$ only contains bindings that $H_p$ and $H_q$ has in common, then any binding absent from $H'$ can not be a precondition for the conditional either. 
 
-Then merge the resulting hypergraphs with prior knowledge (which is also a hypergraph).
+In the following, we will assume availability of such a merging function (denoted $merge$), and a detailed algorithm can be found in Section~\ref{sec:C:HGMerging}.
 
-When a conditional action fails:
+From the above, it follows that all grounded predicates with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be predicates, and can as such be reused in for another transition.
 
-As for non-conditional actions, we will introduce the notion of a candidate set for proving preconditions. In contrast to non-conditional actions, the preconditions we wish to prove are bindings between variables. 
+\subsection{DRAFT OVERVIEW}
 
-Whenever a conditional effect fails, the 
+Unknown $U$ is a hypergraph, anything not in $U$ is explicitly disproven.
+
+Candidates $C$ is a set of sets of tuples. Each tuple describes a binding between two variables that might be necessary for the conditional to succeed. (they are stored as identifiers, so they point to two specific vertices in $U$). 
+
+If a conditional fails, a hypergraph $H_{fail}$ is constructed for it and compared to $U$ (analoguously to det difference between the two hypergraphs). If a binding set $B$ in $U$ contains a vertex $v$ that is not in the corresponding binding set in $H_{fail}$, then the tuple set $\left\{ (v, b) \mid b \in B \land b \neq v \right\}$ are added to $C$. I.e.\ all the bindings taht could have caused the conditional to fail.
+
+These individual tuples can be disproven by the $reduce$ function. If there exists a singleton set with the tuple $(t, v)$, then it is a precondition that $t$ and $v$ are in the same binding set.
+
+Proven knowledge is a set of tuples of vertices $(v_1, v_2)$ (only their identifiers are needed).
+
+As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not identical, the $merge$ function also performs a renaming. This renaming should be returned so that it can be applied to the vertices in $K$ and $C$ (otherwise they will be out of sync. Additionally, as described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex were in fact two. If that is the case, the renaming function will replace that vertex with two (with the same name but different identifiers). If that vertex is in the known set, it is moved to the candidate set (as the two vertices are part of two different subhypergraphs, and we no longer know which of them must hold).
+
+\begin{equation*}
+    reduce(c, H) =
+    \left\{ \left( t_1, t_2 \right) \mid 
+        \left( t_1, t_2 \right) \in c \land 
+        \exists_{b \in H} \left[ t_1 \in b \land t_2 \in b \right] 
+    \right\}
+\end{equation*}
+
+\begin{algorithm}
+    \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
+    \begin{algorithmic}
+        \Function{Update-Knowledge}{$n$, $\Delta s$, $U$, $K$, $C$}
+            \ForAll{predicates $p \in \Delta s$ with name $n$}
+                \State{$H_p \gets hypergraph(p, s)$}
+                \State{$\left(U, r \right) \gets merge \left( U, H_p \right)$}
+                \State{$\left( C, K \right) \gets rename(r, C, K)$}
+            \EndFor
+            \ForAll{predicates $q \notin \Delta s$ with name $n$}
+                \State{$H_q \gets hypergraph(q, s)$}
+                \State{$C \gets C \cup cands\left( H_q, U \right)$}
+            \EndFor
+            \State{$C = \left\{ reduce\left(c, U\right) \mid c \in C \right\}$}
+            \State{Remove any singleton sets from $C$, and add them to $K$}
+        \EndFunction
+
+        \Function{$\textsc{Conditional-Effect-Learn}$} {$\left( s, a, s'\right)$, $U$, $K$, $C$}
+            \ForAll{predicate names $n$}
+                \State{$\left(U_n, K_n, C_n\right) = UpdateKnowledge\left(n, \Delta s, U_n, K_n, C_n \right)$}
+            \EndFor
+            \State\Return{$\left( U, K, C\right)$}
+        \EndFunction%
+    \end{algorithmic}
+\end{algorithm}
 
 \end{document}
