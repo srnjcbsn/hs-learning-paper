@@ -11,7 +11,13 @@
     \pgfsetbuttcap
     \pgfpathqmoveto{54.5455bp}{154.5455bp}
     \pgfpathqcurveto{24.4208bp}{154.5455bp}{0.0000bp}{130.1246bp}{0.0000bp}{100.0000bp}
-    \pgfpathqcurveto{-0.0000bp}{69.8754bp}{24.4208bp}{45.4545bp}{54.5455bp}{45.4545bp}
+    \pgfpathqcurveto{0.0000bp}{69.8754bp}{24.4208bp}{45.4545bp}{54.5455bp}{45.4545bp}
+    \pgfpathqlineto{145.4545bp}{45.4545bp}
+    \pgfpathqcurveto{175.5792bp}{45.4545bp}{200.0000bp}{69.8754bp}{200.0000bp}{100.0000bp}
+    \pgfpathqcurveto{200.0000bp}{130.1246bp}{175.5792bp}{154.5455bp}{145.4545bp}{154.5455bp}
+    \pgfpathqlineto{54.5455bp}{154.5455bp}
+    \pgfpathqcurveto{24.4208bp}{154.5455bp}{0.0000bp}{130.1246bp}{0.0000bp}{100.0000bp}
+    \pgfpathqcurveto{0.0000bp}{69.8754bp}{24.4208bp}{45.4545bp}{54.5455bp}{45.4545bp}
     \pgfpathqlineto{145.4545bp}{45.4545bp}
     \pgfpathqcurveto{175.5792bp}{45.4545bp}{200.0000bp}{69.8754bp}{200.0000bp}{100.0000bp}
     \pgfpathqcurveto{200.0000bp}{130.1246bp}{175.5792bp}{154.5455bp}{145.4545bp}{154.5455bp}
@@ -28,6 +34,12 @@
     \pgfsetmiterjoin
     \pgfsetbuttcap
     \pgfpathqmoveto{54.5455bp}{152.7273bp}
+    \pgfpathqcurveto{25.4250bp}{152.7273bp}{1.8182bp}{129.1205bp}{1.8182bp}{100.0000bp}
+    \pgfpathqcurveto{1.8182bp}{70.8795bp}{25.4250bp}{47.2727bp}{54.5455bp}{47.2727bp}
+    \pgfpathqlineto{145.4545bp}{47.2727bp}
+    \pgfpathqcurveto{174.5750bp}{47.2727bp}{198.1818bp}{70.8795bp}{198.1818bp}{100.0000bp}
+    \pgfpathqcurveto{198.1818bp}{129.1205bp}{174.5750bp}{152.7273bp}{145.4545bp}{152.7273bp}
+    \pgfpathqlineto{54.5455bp}{152.7273bp}
     \pgfpathqcurveto{25.4250bp}{152.7273bp}{1.8182bp}{129.1205bp}{1.8182bp}{100.0000bp}
     \pgfpathqcurveto{1.8182bp}{70.8795bp}{25.4250bp}{47.2727bp}{54.5455bp}{47.2727bp}
     \pgfpathqlineto{145.4545bp}{47.2727bp}

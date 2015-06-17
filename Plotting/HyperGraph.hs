@@ -35,7 +35,7 @@ drawBSet [b] =  moveTo (p2 b)
              <> circle blobR  # fc black
 
 drawBSet bs = showSet where
-    p = fromVertices $ map p2 bs
+    p = fromVertices $ map p2 (head bs : reverse bs)
     e = expandTrail' opts blobR p
     f = expandTrail' opts (blobR - blobLW) p
     showSet =  f # strokePath # fc white # lc white
@@ -215,4 +215,19 @@ predicateEdge = HyperGraph
     where p1 = ("p", 1, 1)
           p2 = ("p", 2, 2)
 
-
+graphExample :: HyperGraph
+graphExample = HyperGraph
+    { verts = fromList [ (q1, (2, 3))
+                       , (p1, (2, 2))
+                       , (p2, (2, 1))
+                       , (g1, (1, 0))
+                       , (m1, (3, 0))
+                       ]
+    , pSets = [[q1],[p1, p2], [g1], [m1]]
+    , bSets = [[q1, p1], [p2, g1, m1]]
+    }
+    where q1 = ("q", 1, 1)
+          p1 = ("p", 1, 2)
+          p2 = ("p", 2, 3)
+          g1 = ("g", 1, 4)
+          m1 = ("m", 1, 5)

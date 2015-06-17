@@ -1,5 +1,6 @@
 module Main where
 
+import           Graph
 import           Harbors
 import           HyperGraph
 import           Sokoban
@@ -34,3 +35,8 @@ main = do
     draw "sokobanHyperGraph" (drawHg sokobanHg)
     draw "bindingEdge"       (drawHg bindingEdge)
     draw "predicateEdge"     (drawHg predicateEdge)
+    draw "graphExample"      (drawHg graphExample)
+
+    draw "tree"              (drawGraph tree)
+    draw "graph"             (drawGraph graph)
+

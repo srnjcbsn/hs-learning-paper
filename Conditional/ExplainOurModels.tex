@@ -6,6 +6,30 @@
 
 <TODO: a set of connecting paths can be seen as a tree with many duplicate subtrees, which can therefore be seen as a cyclic graph with edge labels denoting $\bc$ (binding edge) or $\pc$ (predicate edge). These will be in ``clusters'' of complete subgraphs, therefore path sets can be seen as hypergraphs>
 
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.28\textwidth}
+        \centering
+        \raisebox{-0.5\height}{\resizebox{\linewidth}{!}{\input{\master/Graphics/tree.pgf}}}
+        \caption{$H_1$}
+        \label{fig:ca:graphExTree}
+    \end{subfigure}%
+    \hfill%
+    \begin{subfigure}{0.28\textwidth}
+        \centering
+        \resizebox{0.65\linewidth}{!}{\raisebox{-0.5\height}{\input{\master/Graphics/graph.pgf}}}
+        \caption{$H_2$}
+        \label{fig:ca:graphExGraph}
+    \end{subfigure}
+    \begin{subfigure}{0.28\textwidth}
+        \centering
+        \resizebox{0.65\linewidth}{!}{\raisebox{-0.5\height}{\input{\master/Graphics/graphExample.pgf}}}
+        \caption{$H_2$}
+        \label{fig:ca:graphExHG}
+    \end{subfigure}
+    \caption{Figure of hypergraphs for example~\ref{ex:ca:hgma:disconnected}.}\label{fig:ex:ca:hgma:ex:disconnected}
+\end{figure}
+
 \begin{example}
     \begin{align*}
         & g_1 \bc m_1 \bc p_2 \pc p_1 \bc q_1 \\

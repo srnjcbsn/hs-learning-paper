@@ -16,6 +16,12 @@
     \pgfpathqcurveto{187.2081bp}{119.0476bp}{200.0000bp}{131.8395bp}{200.0000bp}{147.6190bp}
     \pgfpathqcurveto{200.0000bp}{163.3986bp}{187.2081bp}{176.1905bp}{171.4286bp}{176.1905bp}
     \pgfpathqlineto{76.1905bp}{176.1905bp}
+    \pgfpathqcurveto{60.4109bp}{176.1905bp}{47.6190bp}{163.3986bp}{47.6190bp}{147.6190bp}
+    \pgfpathqcurveto{47.6190bp}{131.8395bp}{60.4109bp}{119.0476bp}{76.1905bp}{119.0476bp}
+    \pgfpathqlineto{171.4286bp}{119.0476bp}
+    \pgfpathqcurveto{187.2081bp}{119.0476bp}{200.0000bp}{131.8395bp}{200.0000bp}{147.6190bp}
+    \pgfpathqcurveto{200.0000bp}{163.3986bp}{187.2081bp}{176.1905bp}{171.4286bp}{176.1905bp}
+    \pgfpathqlineto{76.1905bp}{176.1905bp}
     \pgfpathclose
     \pgfusepathqfillstroke
   \end{pgfscope}
@@ -28,6 +34,12 @@
     \pgfsetmiterjoin
     \pgfsetbuttcap
     \pgfpathqmoveto{76.1905bp}{175.2381bp}
+    \pgfpathqcurveto{60.9369bp}{175.2381bp}{48.5714bp}{162.8726bp}{48.5714bp}{147.6190bp}
+    \pgfpathqcurveto{48.5714bp}{132.3655bp}{60.9369bp}{120.0000bp}{76.1905bp}{120.0000bp}
+    \pgfpathqlineto{171.4286bp}{120.0000bp}
+    \pgfpathqcurveto{186.6822bp}{120.0000bp}{199.0476bp}{132.3655bp}{199.0476bp}{147.6190bp}
+    \pgfpathqcurveto{199.0476bp}{162.8726bp}{186.6822bp}{175.2381bp}{171.4286bp}{175.2381bp}
+    \pgfpathqlineto{76.1905bp}{175.2381bp}
     \pgfpathqcurveto{60.9369bp}{175.2381bp}{48.5714bp}{162.8726bp}{48.5714bp}{147.6190bp}
     \pgfpathqcurveto{48.5714bp}{132.3655bp}{60.9369bp}{120.0000bp}{76.1905bp}{120.0000bp}
     \pgfpathqlineto{171.4286bp}{120.0000bp}
@@ -78,13 +90,19 @@
     \pgfsetmiterjoin
     \pgfsetbuttcap
     \pgfpathqmoveto{28.5714bp}{128.5714bp}
-    \pgfpathqcurveto{12.7919bp}{128.5714bp}{-0.0000bp}{115.7796bp}{-0.0000bp}{100.0000bp}
-    \pgfpathqcurveto{-0.0000bp}{84.2204bp}{12.7919bp}{71.4286bp}{28.5714bp}{71.4286bp}
-    \pgfpathqlineto{76.1905bp}{71.4286bp}
+    \pgfpathqcurveto{12.7919bp}{128.5714bp}{0.0000bp}{115.7796bp}{0.0000bp}{100.0000bp}
+    \pgfpathqcurveto{0.0000bp}{84.2204bp}{12.7919bp}{71.4286bp}{28.5714bp}{71.4286bp}
     \pgfpathqlineto{123.8095bp}{71.4286bp}
     \pgfpathqcurveto{139.5891bp}{71.4286bp}{152.3810bp}{84.2204bp}{152.3810bp}{100.0000bp}
     \pgfpathqcurveto{152.3810bp}{115.7796bp}{139.5891bp}{128.5714bp}{123.8095bp}{128.5714bp}
     \pgfpathqlineto{76.1905bp}{128.5714bp}
+    \pgfpathqlineto{28.5714bp}{128.5714bp}
+    \pgfpathqcurveto{12.7919bp}{128.5714bp}{0.0000bp}{115.7796bp}{0.0000bp}{100.0000bp}
+    \pgfpathqcurveto{0.0000bp}{84.2204bp}{12.7919bp}{71.4286bp}{28.5714bp}{71.4286bp}
+    \pgfpathqlineto{76.1905bp}{71.4286bp}
+    \pgfpathqlineto{123.8095bp}{71.4286bp}
+    \pgfpathqcurveto{139.5891bp}{71.4286bp}{152.3810bp}{84.2204bp}{152.3810bp}{100.0000bp}
+    \pgfpathqcurveto{152.3810bp}{115.7796bp}{139.5891bp}{128.5714bp}{123.8095bp}{128.5714bp}
     \pgfpathqlineto{28.5714bp}{128.5714bp}
     \pgfpathclose
     \pgfusepathqfillstroke
@@ -100,11 +118,17 @@
     \pgfpathqmoveto{28.5714bp}{127.6190bp}
     \pgfpathqcurveto{13.3178bp}{127.6190bp}{0.9524bp}{115.2536bp}{0.9524bp}{100.0000bp}
     \pgfpathqcurveto{0.9524bp}{84.7464bp}{13.3178bp}{72.3810bp}{28.5714bp}{72.3810bp}
-    \pgfpathqlineto{76.1905bp}{72.3810bp}
     \pgfpathqlineto{123.8095bp}{72.3810bp}
     \pgfpathqcurveto{139.0631bp}{72.3810bp}{151.4286bp}{84.7464bp}{151.4286bp}{100.0000bp}
     \pgfpathqcurveto{151.4286bp}{115.2536bp}{139.0631bp}{127.6190bp}{123.8095bp}{127.6190bp}
     \pgfpathqlineto{76.1905bp}{127.6190bp}
+    \pgfpathqlineto{28.5714bp}{127.6190bp}
+    \pgfpathqcurveto{13.3178bp}{127.6190bp}{0.9524bp}{115.2536bp}{0.9524bp}{100.0000bp}
+    \pgfpathqcurveto{0.9524bp}{84.7464bp}{13.3178bp}{72.3810bp}{28.5714bp}{72.3810bp}
+    \pgfpathqlineto{76.1905bp}{72.3810bp}
+    \pgfpathqlineto{123.8095bp}{72.3810bp}
+    \pgfpathqcurveto{139.0631bp}{72.3810bp}{151.4286bp}{84.7464bp}{151.4286bp}{100.0000bp}
+    \pgfpathqcurveto{151.4286bp}{115.2536bp}{139.0631bp}{127.6190bp}{123.8095bp}{127.6190bp}
     \pgfpathqlineto{28.5714bp}{127.6190bp}
     \pgfpathclose
     \pgfusepathqfillstroke
@@ -119,8 +143,8 @@
     \pgfsetbuttcap
     \pgfpathqmoveto{57.1429bp}{52.3810bp}
     \pgfpathqcurveto{57.1429bp}{68.1605bp}{44.3510bp}{80.9524bp}{28.5714bp}{80.9524bp}
-    \pgfpathqcurveto{12.7919bp}{80.9524bp}{-0.0000bp}{68.1605bp}{-0.0000bp}{52.3810bp}
-    \pgfpathqcurveto{-0.0000bp}{36.6014bp}{12.7919bp}{23.8095bp}{28.5714bp}{23.8095bp}
+    \pgfpathqcurveto{12.7919bp}{80.9524bp}{0.0000bp}{68.1605bp}{0.0000bp}{52.3810bp}
+    \pgfpathqcurveto{0.0000bp}{36.6014bp}{12.7919bp}{23.8095bp}{28.5714bp}{23.8095bp}
     \pgfpathqcurveto{44.3510bp}{23.8095bp}{57.1429bp}{36.6014bp}{57.1429bp}{52.3810bp}
     \pgfpathclose
     \pgfusepathqfillstroke
@@ -144,7 +168,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{176.1905bp}{152.3810bp}}
+    \pgftransformcm{1.0000}{0.0000}{0.0000}{1.0000}{\pgfqpoint{176.1905bp}{152.3810bp}}
     \pgftransformscale{1.1905}
     \pgftext[base,left]{$s_1$}
   \end{pgfscope}
@@ -167,7 +191,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{128.5714bp}{104.7619bp}}
+    \pgftransformcm{1.0000}{0.0000}{0.0000}{1.0000}{\pgfqpoint{128.5714bp}{104.7619bp}}
     \pgftransformscale{1.1905}
     \pgftext[base,left]{$at_2$}
   \end{pgfscope}
@@ -190,7 +214,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{176.1905bp}{104.7619bp}}
+    \pgftransformcm{1.0000}{0.0000}{0.0000}{1.0000}{\pgfqpoint{176.1905bp}{104.7619bp}}
     \pgftransformscale{1.1905}
     \pgftext[base,left]{$at_1$}
   \end{pgfscope}
@@ -243,7 +267,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{80.9524bp}{152.3810bp}}
+    \pgftransformcm{1.0000}{0.0000}{0.0000}{1.0000}{\pgfqpoint{80.9524bp}{152.3810bp}}
     \pgftransformscale{1.1905}
     \pgftext[base,left]{$adj_2$}
   \end{pgfscope}
@@ -266,7 +290,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{80.9524bp}{104.7619bp}}
+    \pgftransformcm{1.0000}{0.0000}{0.0000}{1.0000}{\pgfqpoint{80.9524bp}{104.7619bp}}
     \pgftransformscale{1.1905}
     \pgftext[base,left]{$adj_1$}
   \end{pgfscope}
@@ -319,7 +343,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{33.3333bp}{104.7619bp}}
+    \pgftransformcm{1.0000}{0.0000}{0.0000}{1.0000}{\pgfqpoint{33.3333bp}{104.7619bp}}
     \pgftransformscale{1.1905}
     \pgftext[base,left]{$adj_2$}
   \end{pgfscope}
@@ -342,7 +366,7 @@
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}
     \pgfsetfillcolor{fc}
-    \pgftransformshift{\pgfqpoint{33.3333bp}{57.1429bp}}
+    \pgftransformcm{1.0000}{0.0000}{0.0000}{1.0000}{\pgfqpoint{33.3333bp}{57.1429bp}}
     \pgftransformscale{1.1905}
     \pgftext[base,left]{$adj_1$}
   \end{pgfscope}

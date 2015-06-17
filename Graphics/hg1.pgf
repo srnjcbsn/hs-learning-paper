@@ -80,6 +80,12 @@
     \pgfpathqcurveto{183.2107bp}{31.2500bp}{200.0000bp}{48.0393bp}{200.0000bp}{68.7500bp}
     \pgfpathqcurveto{200.0000bp}{89.4607bp}{183.2107bp}{106.2500bp}{162.5000bp}{106.2500bp}
     \pgfpathqlineto{37.5000bp}{106.2500bp}
+    \pgfpathqcurveto{16.7893bp}{106.2500bp}{0.0000bp}{89.4607bp}{0.0000bp}{68.7500bp}
+    \pgfpathqcurveto{0.0000bp}{48.0393bp}{16.7893bp}{31.2500bp}{37.5000bp}{31.2500bp}
+    \pgfpathqlineto{162.5000bp}{31.2500bp}
+    \pgfpathqcurveto{183.2107bp}{31.2500bp}{200.0000bp}{48.0393bp}{200.0000bp}{68.7500bp}
+    \pgfpathqcurveto{200.0000bp}{89.4607bp}{183.2107bp}{106.2500bp}{162.5000bp}{106.2500bp}
+    \pgfpathqlineto{37.5000bp}{106.2500bp}
     \pgfpathclose
     \pgfusepathqfillstroke
   \end{pgfscope}
@@ -92,6 +98,12 @@
     \pgfsetmiterjoin
     \pgfsetbuttcap
     \pgfpathqmoveto{37.5000bp}{105.0000bp}
+    \pgfpathqcurveto{17.4797bp}{105.0000bp}{1.2500bp}{88.7703bp}{1.2500bp}{68.7500bp}
+    \pgfpathqcurveto{1.2500bp}{48.7297bp}{17.4797bp}{32.5000bp}{37.5000bp}{32.5000bp}
+    \pgfpathqlineto{162.5000bp}{32.5000bp}
+    \pgfpathqcurveto{182.5203bp}{32.5000bp}{198.7500bp}{48.7297bp}{198.7500bp}{68.7500bp}
+    \pgfpathqcurveto{198.7500bp}{88.7703bp}{182.5203bp}{105.0000bp}{162.5000bp}{105.0000bp}
+    \pgfpathqlineto{37.5000bp}{105.0000bp}
     \pgfpathqcurveto{17.4797bp}{105.0000bp}{1.2500bp}{88.7703bp}{1.2500bp}{68.7500bp}
     \pgfpathqcurveto{1.2500bp}{48.7297bp}{17.4797bp}{32.5000bp}{37.5000bp}{32.5000bp}
     \pgfpathqlineto{162.5000bp}{32.5000bp}

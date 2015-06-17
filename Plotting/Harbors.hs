@@ -1,7 +1,7 @@
 module Harbors where
 
-import Diagrams.Prelude
-import Diagrams.Backend.SVG
+import           Diagrams.Backend.PGF
+import           Diagrams.Prelude
 
 shaft1 = arc xDir (1/10 @@ turn)
 shaft2 = arc xDir (1/3 @@ turn)
