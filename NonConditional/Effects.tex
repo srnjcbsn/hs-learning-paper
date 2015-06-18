@@ -189,7 +189,7 @@ We see that incorrect effects are correctly disproved, such as moving the sokoba
 \draw[<-,thick,shorten <=2pt,shorten >=2] (a3) -- (b3);
 \draw[<-,thick,shorten <=2pt,shorten >=2] (a4) -- (b4);
 \end{tikzpicture}
-		\caption{Unique $A(o_1,o_2)$, \newline $ground^{-1}$ is multivalued}
+		\caption{Unique $A(o_1,o_2)$, \newline $ground^{-1}$ is single-valued}
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
 		\centering
@@ -228,7 +228,7 @@ This gives rise to the following lemma:
 If the arguments given to an action $A$ are all unique, then $ground$ is injective. Thereby making $ground^{-1}$ single-valued.
 
 \begin{proof}
-	If a pair fluents are different that means their list of variables are different or their names are different. 
+	If a pair of fluents are different that means their list of variables are different or their names are different. 
 	\begin{itemize}
 		\item If their names are different then by definition two different grounded fluents will be outputted by $ground$.
 		
