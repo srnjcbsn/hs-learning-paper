@@ -4,6 +4,7 @@ import           Graph
 import           Harbors
 import           HyperGraph
 import           Sokoban
+import           Statistics
 
 import           Diagrams.Backend.PGF
 import           Diagrams.Prelude
@@ -39,4 +40,5 @@ main = do
 
     draw "tree"              (drawGraph tree)
     draw "graph"             (drawGraph graph)
+    drawHist "statistics2" >>= mapM_ (uncurry draw)
 

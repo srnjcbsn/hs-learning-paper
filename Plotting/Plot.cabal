@@ -25,4 +25,5 @@ executable Plot
                , diagrams-contrib >= 1.3
                , containers
                , filepath
+               , parsec
   default-language:    Haskell2010

@@ -1,6 +1,6 @@
 \documentclass[english]{report}
 \usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage[utf8]{luainputenc}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -17,6 +17,7 @@
 \usepackage{subcaption}
 \usepackage{enumitem}
 \usepackage{mathtools}
+\usepackage[toc,page]{appendix}
 
 \hypersetup{
     colorlinks,
@@ -109,6 +110,11 @@
 \chapter{Conclusion}
 
 \chapter{Future work}
+
+\begin{appendices}
+    \chapter{Results}
+    \subfile{Appendices/Results}
+\end{appendices}
 
 \bibliography{refs}{}
 \bibliographystyle{apalike}
