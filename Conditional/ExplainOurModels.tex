@@ -2,29 +2,46 @@
 \begin{document}
 \providecommand{\master}{..}
 
-<TODO: path sets are enormous, we need a more compact model>
+Although a set of connecting paths are adequate for obtaining knowledge about preconditions of conditionals, it requires a large amount of redundancy as many paths share a common subpath to the effect. To remedy this, a set of paths can be joined to a forest of trees (where each tree is rooted in an argument of the effect predicate), where each branch is labelled as either $\bc$ (binding edge) or $\pc$ (predicate edge).
 
-<TODO: a set of connecting paths can be seen as a tree with many duplicate subtrees, which can therefore be seen as a cyclic graph with edge labels denoting $\bc$ (binding edge) or $\pc$ (predicate edge). These will be in ``clusters'' of complete subgraphs, therefore path sets can be seen as hypergraphs>
+While joining paths as described above removes redundant tails, there are still duplicate vertices in the resulting trees. Specifically, if two subtrees $T_1$ and $T_2$ are rooted in the same vertex (originating from the same argument of the same predicate), then these two subtrees can be merged into one inheriting the children of both $T_1$ and $T_2$. If $T_1$'s parent is also $T_2$'s child, then this merging forms a cylce, and is now a cyclic, undirected graph.
+
+Notably, constructing a graph from a set of paths causes vertices to be transitively connected by binding edges:
+
+\begin{proposition}
+    For a graph constructed from a complete set of connecting paths $B$, it holds that if a vertex $v$ is reachable from a vertex $u$ by only following binding edges, then there is a binding edge between $u$ and $v$. Similarly for predicate edges.
+\end{proposition}
+
+\begin{proof}
+   If $v$ is reachable from $u$ by only following a sequence of binding edges $b$, then $b$ is a subpath of some path in $B$. Since $b$ does not contain predicate connections, all the predicate arguments contained in it have the same variable in the predicate set $B$ originated from. Hence, $B$ will also contain a path with subpath $b \bc v$, which will be present as a branch in the path tree, and therefore merged into the path graph as an edge.
+\end{proof}
+
+Consequently, a path graph consists of \textit{binding} and \textit{predicate} cliques, i.e.\ vertices in a clique are either $\bc$-connected (making it a binding clique) or they are $\pc$-connected (making it a predicate clique). Note that a clique can be both $\bc$- and $\pc$-connected, in case a predicate has several identical arguments. In the following, we interpret such a clique as two different cliques.
+
+As the graph can be meaningfully partitioned into complete subgraphs, the vertices of each subgraph can simply be seen as a set, where each set overlaps with the others. Thus, the path graph $G = (V, E)$, where $V$ is the vertex set and $E$ is the set of labelled edges becomes $HG = \left(V, E_H\right)$, where each member of $E_H$ is a set of vertices comprising either a binding or predicate clique in $G$ (labelled $\bc$ or $\pc$ respectively). Then, $HG$ describes a \emph{conformal hypergraph} (see e.g.\ \cite{bretto}), where $E_H$ is a set of hyperedges.
+
+A hypergraph constructed as described above 
 
 \begin{figure}
     \centering
-    \begin{subfigure}{0.28\textwidth}
+    \begin{subfigure}[t]{0.30\textwidth}
         \centering
         \raisebox{-0.5\height}{\resizebox{\linewidth}{!}{\input{\master/Graphics/tree.pgf}}}
-        \caption{$H_1$}
+        \caption{Paths joined to a tree.}
         \label{fig:ca:graphExTree}
     \end{subfigure}%
     \hfill%
-    \begin{subfigure}{0.28\textwidth}
+    \begin{subfigure}[t]{0.30\textwidth}
         \centering
-        \resizebox{0.65\linewidth}{!}{\raisebox{-0.5\height}{\input{\master/Graphics/graph.pgf}}}
-        \caption{$H_2$}
+        \resizebox{1\linewidth}{!}{\raisebox{-0.5\height}{\input{\master/Graphics/graph.pgf}}}
+        \caption{Path sets as a graph by joining redundant subtrees in path tree.}
         \label{fig:ca:graphExGraph}
     \end{subfigure}
-    \begin{subfigure}{0.28\textwidth}
+    \hfill%
+    \begin{subfigure}[t]{0.30\textwidth}
         \centering
-        \resizebox{0.65\linewidth}{!}{\raisebox{-0.5\height}{\input{\master/Graphics/graphExample.pgf}}}
-        \caption{$H_2$}
+        \resizebox{1\linewidth}{!}{\raisebox{-0.5\height}{\input{\master/Graphics/graphExample.pgf}}}
+        \caption{Path graph seen as a hypergraph.}
         \label{fig:ca:graphExHG}
     \end{subfigure}
     \caption{Figure of hypergraphs for example~\ref{ex:ca:hgma:disconnected}.}\label{fig:ex:ca:hgma:ex:disconnected}
