@@ -21,3 +21,4 @@ MakePlots
 *.out
 *.swp
 tags
+*.nix
