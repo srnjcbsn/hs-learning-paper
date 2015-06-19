@@ -26,6 +26,10 @@ main = do
     draw "moveLeftBefore"    moveLeftBefore
     draw "moveLeftAfter"     moveLeftAfter
 
+    draw "sokoTrain1"        training1
+    draw "sokoTrain2"        training2
+    draw "sokoTrain3"        sokoWorld1
+
     draw "hg1"               (drawHg hg1)
     draw "hgEx1_1"           (drawHg hgEx1_1)
     draw "hgEx1_2"           (drawHg hgEx1_2)

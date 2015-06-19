@@ -44,14 +44,14 @@ s = Normal (Just Sokoban)
 c :: String -> Tile
 c = Normal . Just . Crate
 
-sokoWorld1 :: World
-sokoWorld1 = [ [ s,  c1, e, g ]
-             , [ c2, w,  w, w ]
-             , [ e,  w,  w, w ]
-             , [ g,  w,  w, w ]
-             ]
-             where c1 = c "c_1"
-                   c2 = c "c_2"
+sokoWorld1 :: Diagram B
+sokoWorld1 = drawWorld [ [ s,  c1, e, g ]
+                       , [ c2, w,  w, w ]
+                       , [ e,  w,  w, w ]
+                       , [ g,  w,  w, w ]
+                       ]
+                       where c1 = c "c_1"
+                             c2 = c "c_2"
 
 smallSokoWorld :: Diagram B
 smallSokoWorld = drawWorld [ [g, c "c", s, e] ]
@@ -68,3 +68,13 @@ moveLeftAfter = drawWorld [ [c "c", s, e] ]
                 ===
                 hcat (tileLabels 1 3)
 
+training1 :: Diagram B
+training1 = drawWorld [ [g, e, c "c", e, s] ]
+
+training2 :: Diagram B
+training2 = drawWorld [ [g]
+                      , [e]
+                      , [c "c"]
+                      , [e]
+                      , [s]
+                      ]
