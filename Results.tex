@@ -1,18 +1,66 @@
-\documentclass[../Master.tex]{subfiles}
+\documentclass[Master.tex]{subfiles}
 \providecommand{\master}{.}
 \begin{document}
 
+When the scientific learning algorithm is applied through the main program, a statistics file is produced. This file contains, in order:
+\begin{itemize}
+    \item A header containing the name of each action schema in the domain, along with the action's $\mathbb{F}_A$.
+    \item The string \texttt{``- - RUNNING - -''}, signifying the end of the header.
+    \item For each experiment (plan) the agent conducted:
+        \begin{itemize}
+            \item The action which did not produce the expected outcome when applied (as explained in Section~\ref{sec:PDDLAlgo})
+            \item The amount of problems the agent had solved before execution of this action.
+            \item Eight integers, signifying how many predicates the agent has proven to be positive and negative effects and preconditions for the action, and how many are neither proven nor disproven to be positive and negative effects and preconditions for the action. Lastly, the number of candidate sets for the action is listed.
+        \end{itemize}
+\end{itemize}
 
+In the following, we will show the results of applying the optimistic non-conditional learning algorithm to the sokoban domain described previously. In order to ease the agent's understanding of the  six actions (see Section~\ref{sec:SokobanPDDL}), we have provided two simple sokoban problems, depicted in Figures~\ref{fig:results:train1} and~\ref{fig:results:train2}. 
+
+These problems serve as a training ground for the agent; in order to solve the first problem, the agent must utilize all three actions that operate on the horizontal axis, and to solve the second it must use the ones operating on the vertical axis. It then reuses the knowledge obtained from the training problems to solve the one in Figure~\ref{fig:results:train3}, which requires use of at least five of the six sokoban actions (it can be solved without use of $\texttt{move-h}$ or without use of $\texttt{move-v}$, but not without both).
+
+From inspecting the generated statistics file, it can be seen that the agent conducts a total of 1793 experiments (i.e.\ failed plans) in order to solve the the large problem without any prior knowledge.
+
+In contrast, solving the two training problems followed by the large one requires a total of 710 experiments (516 for the first problem, 151 for the second, and 43 for the third).
 
 \begin{figure}
     \begin{subfigure}{0.3\textwidth}
         \resizebox{\linewidth}{!}{\input{Graphics/sokoTrain1.pgf}}
+        \caption{Horizontal training problem for the sokoban agent.}\label{fig:results:train1}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
         \resizebox{\linewidth}{!}{\input{Graphics/sokoTrain2.pgf}}
+        \caption{Vertical training problem for the sokoban agent.}\label{fig:results:train2}
     \end{subfigure}
     \begin{subfigure}{0.3\textwidth}
         \resizebox{\linewidth}{!}{\input{Graphics/sokoTrain3.pgf}}
+        \caption{A problem that requires use of all six actions in the sokoban domain.}\label{fig:results:train3}
+    \end{subfigure}
+    \caption{Sokoban worlds used for training.}\label{fig:results:sokoTraining}
+\end{figure}
+
+In the source code bundled with this thesis, the program \texttt{Plotting/Statistics.hs} for interpreting and visually representing statistics files are included  (along with source code for generating most diagrams used in this thesis). 
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.45\linewidth}
+        \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-ek-move-h.pgf}}
+        \caption{move-h effects}\label{fig:res:ekmoveh}
+    \end{subfigure}
+    \begin{subfigure}{0.45\linewidth}
+        \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-ek-move-v.pgf}}
+        \caption{move-v effects}\label{fig:res:ekmovev}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}{0.42\linewidth}
+        \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-pk-move-h.pgf}}
+        \caption{move-h effects}\label{fig:res:pkmoveh}
+    \end{subfigure}
+    \begin{subfigure}{0.42\linewidth}
+        \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-pk-move-v.pgf}}
+        \caption{move-v effects}\label{fig:res:pkmovev}
     \end{subfigure}
 \end{figure}
 

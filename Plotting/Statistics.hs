@@ -113,10 +113,10 @@ drawPk mp knls cs steps = (frame <> plot) === strutY 1.0 === legend where
                 ||| baselineText d # translateY (-0.3)
 
 
-drawAct :: String -> (Int, [ActKnl]) -> [(String, Diagram B)]
-drawAct n (mp, aks) = [(pkName, pkd), (ekName, ekd)] where
-    pkName = "pk-" ++ n
-    ekName = "ek-" ++ n
+drawAct :: String -> String -> (Int, [ActKnl]) -> [(String, Diagram B)]
+drawAct p n (mp, aks) = [(pkName, pkd), (ekName, ekd)] where
+    pkName = p ++ "-pk-" ++ n
+    ekName = p ++ "-ek-" ++ n
     pkd = drawPk mp (map preKnl aks) (map cands aks) (map sim aks)
     ekd = drawEk mp (map effKnl aks) (map sim aks)
     -- (,) n
@@ -128,7 +128,7 @@ drawHist path = do
     let hist = case histE of
                    Right am -> am
                    Left err -> error $ show err
-    return $ concatMap (uncurry drawAct) $ Map.toList hist
+    return $ concatMap (uncurry (drawAct path)) $ Map.toList hist
 
 integer :: Parser Int
 integer = read <$> many1 digit
