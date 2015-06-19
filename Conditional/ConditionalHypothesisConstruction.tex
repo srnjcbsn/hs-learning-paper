@@ -1,0 +1,25 @@
+\documentclass[../Master.tex]{subfiles}
+\begin{document}
+\providecommand{\master}{..}
+
+Unsurprisingly hypothesis construction of conditional actions is very similar to that of non-conditional actions. 
+
+
+\subsection{Optimistic Strategy}
+Constructing the optimistic strategy as we recall has the traits \texttt{Explorative} and \texttt{Self-sufficient}.
+To accomplish these traits we must do exactly as we did in hypothesis construction for non-conditional actions, 
+except with the twist that we have to use unproven preconditions that are necessary to reach the candidates.
+This is because candidate vertices are actually an efficient way to express connecting paths, 
+but when we convert them back into preconditions we have to unpack their connecting paths.
+However since we know connecting paths are intractable we cannot simply extract those and then use them to plan with, instead we have to design the  
+
+
+The difference is that because preconditions are seen as a hypergraph representing all the unproven preconditions, 
+then it follows that candidates in this context must be leaves connected the  
+
+\input{../Graphics/hypUnproven.pgf}  
+
+\input{../Graphics/hypCands.pgf}  
+
+
+\end{document}
