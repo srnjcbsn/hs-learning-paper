@@ -4,6 +4,7 @@ import           Graph
 import           Harbors
 import           HyperGraph
 import           Sokoban
+import           Statistics
 
 import           Diagrams.Backend.PGF
 import           Diagrams.Prelude
@@ -25,6 +26,10 @@ main = do
     draw "moveLeftBefore"    moveLeftBefore
     draw "moveLeftAfter"     moveLeftAfter
 
+    draw "sokoTrain1"        training1
+    draw "sokoTrain2"        training2
+    draw "sokoTrain3"        sokoWorld1
+
     draw "hg1"               (drawHg hg1)
     draw "hgEx1_1"           (drawHg hgEx1_1)
     draw "hgEx1_2"           (drawHg hgEx1_2)
@@ -41,3 +46,5 @@ main = do
 
     draw "tree"              (drawGraph tree)
     draw "graph"             (drawGraph graph)
+    drawHist "statistics2" >>= mapM_ (uncurry draw)
+    drawHist "statisticsLong" >>= mapM_ (uncurry draw)

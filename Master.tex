@@ -1,6 +1,6 @@
 \documentclass[english]{report}
 \usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
+\usepackage[utf8]{luainputenc}
 \usepackage{amsthm}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -17,6 +17,7 @@
 \usepackage{subcaption}
 \usepackage{enumitem}
 \usepackage{mathtools}
+\usepackage[toc,page]{appendix}
 
 \hypersetup{
     colorlinks,
@@ -87,7 +88,7 @@
 \tableofcontents
 \listofalgorithms
 
-\chapter{Introduction} 
+\chapter{Introduction}
 	\subfile{Introduction}
 
 \chapter{Learning} \label{sec:Learning}
@@ -103,12 +104,18 @@
     \subfile{Implementation}
 
 \chapter{Results}\label{chp:res}
+    \subfile{Results}
 
 \chapter{Discussion}\label{chp:dis}
 
 \chapter{Conclusion}
 
 \chapter{Future work}
+
+\begin{appendices}
+    \chapter{Results}\label{sec:app:results}
+        \subfile{Appendices/Results}
+\end{appendices}
 
 \bibliography{refs}{}
 \bibliographystyle{apalike}

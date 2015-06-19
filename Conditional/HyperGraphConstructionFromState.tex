@@ -20,7 +20,11 @@ Recall that any two predicates $p$ and $q$ in $\Delta S$ with the same name are 
 
 In the following, we will assume availability of such a merging function (denoted $merge$), and a detailed algorithm can be found in Section~\ref{sec:C:HGMerging}.
 
-From the above, it follows that all grounded predicates with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be predicates, and can as such be reused in for another transition.
+From the above, it follows that all grounded predicates with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be predicates, and can as such be reused in another transition. As such, this hypergraph describes the unknown knowledge $U$.
+
+As with connecting paths, we have the concept of candidates, i.e.\ reasons a conditional could have failed in a certain interpretation. Recall that such a reason is a connecting path that was not present in the failing state. Since vertices in a hypergraph can be uniquely identified, and paths to the effect can be described by a binding to another vertex that is itself transitively connected, a candidate for failure can be encoded as a tuple of two vertices. I.e.\ it is sufficient to record the last component of the offending connecting path.
+
+As a consequence of this, 
 
 \subsection{DRAFT OVERVIEW}
 
