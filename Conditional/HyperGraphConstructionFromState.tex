@@ -32,15 +32,21 @@ Similarly to nonconditional actions and connection paths, a candidate is proven 
     \right\}
 \end{equation*}
 
-As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not identical, the $merge$ function also performs a renaming. This renaming should be returned so that it can be applied to the vertices in $K$ and $C$ (otherwise they will be out of sync. Additionally, as described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex were in fact two. If that is the case, the renaming function will replace that vertex with two (with the same name but different identifiers). If that vertex is in the known set, it is moved to the candidate set (as the two vertices are part of two different subhypergraphs, and we no longer know which of them must hold).
+As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not necessarily identical, the $merge$ function must also perform an identifier renaming. Thus, the $reduce$ function ascribed above will not work, as the vertex identifiers will not match, and vertices in $U$ can not be matched with those in $K$. Therefore, $merge$ should return the renaming function used, so that it can be applied to $C$ and $K$.
+
+As described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex in a binding edge in $U$ were in fact two. If that is the case, the renaming function will replace that vertex with two equally-named vertices with different identfiers, both part of the binding edge the original vertex was part of. 
+
+Thus, when this renaming is applied to a candidate tuple $(u,v)$, it produces $|rn(u)| \times |rn(v)|$ tuples, which replaces $(u,v)$ in the candidate set, i.e.\ 
 
 \begin{equation*}
-    reduce(c, H) =
-    \left\{ \left( t_1, t_2 \right) \mid 
-        \left( t_1, t_2 \right) \in c \land 
-        \exists_{b \in H} \left[ t_1 \in b \land t_2 \in b \right] 
+    rnCands(c, rn) =
+    \left\{ 
+        \left( u', v' \right) \mid 
+        (u, v) \in c \land u' \in r(u) \land v' \in r(v) 
     \right\}
 \end{equation*}
+
+When the renaming is applied to a vertex $v \in K$, then it holds that if $|rn(v)| > 1$, neither of the vertices in $rn(v)$ are proven. \texttt{Explain}.
 
 \begin{algorithm}
     \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
@@ -50,6 +56,8 @@ As each vertex in a hypergraph has unique identifiers, and identifiers for two h
                 \State{$H_p \gets hypergraph(p, s)$}
                 \State{$\left(U, r \right) \gets merge \left( U, H_p \right)$}
                 \State{$\left( C, K \right) \gets rename(r, C, K)$}
+                % \State{$C \gets \left\{ rnCands(c, rn) \mid c \in C \right\}$}
+                % \State{$K \gets rnKnown(K, rn) $}
             \EndFor
             \ForAll{predicates $q \notin \Delta s$ with name $n$}
                 \State{$H_q \gets hypergraph(q, s)$}
