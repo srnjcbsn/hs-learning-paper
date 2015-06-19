@@ -12,14 +12,14 @@ type Pos = (Double, Double)
 
 blobLW, blobR :: Double
 blobLW = 0.02
-blobR = 0.6
+blobR = 0.4
 
 showName :: Vert -> String
 showName (name, n, _) = "$" ++ name ++ "_" ++ show n ++ "$"
 
 data HyperGraph = HyperGraph
     { verts     :: Map Vert Pos
-	, pSets :: [[Vert]]
+	  , pSets :: [[Vert]]
     , bSets     :: [[Vert]]
     }
 
@@ -192,6 +192,53 @@ sokobanHg = HyperGraph
           at1   = ("at",   1, 5)
           at2   = ("at",   2, 6)
           sat   = ("s", 1, 7)
+
+hypUnproven :: HyperGraph
+hypUnproven = HyperGraph
+    { verts = fromList [ (q1, (1, 1))
+                       , (p1, (1, 0))
+                       , (p2, (1, -1))
+                       , (f1, (1, -2))
+                       , (f2, (1, -3))
+                       , (g1, (2, 1))
+                       , (g2, (2.5, 0))
+                       ]
+    , pSets = [[q1], [p1, p2], [f1, f2], [g1, g2]]
+    , bSets = [[q1, p1, g1], [p2,f1], [f2], [g2]]
+    }
+    where q1 = ("q", 1, 1)
+          p1 = ("p", 1, 2)
+          p2 = ("p", 2, 3)
+          g1 = ("g", 1, 4)
+          g2 = ("g", 2, 5)
+          f1 = ("f", 1, 6)
+          f2 = ("f", 2, 7)
+
+
+hypCands :: HyperGraph
+hypCands = HyperGraph
+    { verts = fromList [ (q1, (1, 1))
+                       , (p1, (1, 0))
+                       , (p2, (1, -1))
+                       , (f1, (1, -2))
+                       , (g1, (2, 1))
+                       ]
+    , pSets = [[q1], [p1, p2], [f1], [g1]]
+    , bSets = [[q1, p1, g1], [p2, f1]]
+    }
+    where q1 = ("q", 1, 1)
+          p1 = ("p", 1, 2)
+          p2 = ("p", 2, 3)
+          g1 = ("g", 1, 4)
+          f1 = ("f", 1, 6)
+
+addCandsCircle :: Diagram B
+addCandsCircle = dc (1,-2) <> dc (2,1)
+  where dc pos = circle 0.55 # lc red # moveTo (p2 $ (fromIntegral *** fromIntegral) pos)
+
+hypCandsD :: Diagram B
+hypCandsD = addCandsCircle <> drawHg hypCands
+
 
 bindingEdge :: HyperGraph
 bindingEdge = HyperGraph
