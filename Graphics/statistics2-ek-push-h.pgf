@@ -122,7 +122,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{130.7692bp}
+    \pgfpathqmoveto{3.0769bp}{130.7692bp}
+    \pgfpathqlineto{4.6154bp}{130.7692bp}
     \pgfpathqlineto{6.1538bp}{130.7692bp}
     \pgfpathqlineto{7.6923bp}{130.7692bp}
     \pgfpathqlineto{9.2308bp}{130.7692bp}
@@ -239,7 +240,7 @@
     \pgfpathqlineto{180.0000bp}{130.7692bp}
     \pgfpathqlineto{181.5385bp}{130.7692bp}
     \pgfpathqlineto{183.0769bp}{130.7692bp}
-    \pgfpathqlineto{184.6154bp}{130.7692bp}
+    \pgfpathqlineto{184.6154bp}{81.5385bp}
     \pgfpathqlineto{186.1538bp}{81.5385bp}
     \pgfpathqlineto{187.6923bp}{81.5385bp}
     \pgfpathqlineto{189.2308bp}{81.5385bp}
@@ -249,7 +250,6 @@
     \pgfpathqlineto{195.3846bp}{81.5385bp}
     \pgfpathqlineto{196.9231bp}{81.5385bp}
     \pgfpathqlineto{198.4615bp}{81.5385bp}
-    \pgfpathqlineto{200.0000bp}{81.5385bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -258,7 +258,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{81.5385bp}
+    \pgfpathqmoveto{3.0769bp}{81.5385bp}
+    \pgfpathqlineto{4.6154bp}{81.5385bp}
     \pgfpathqlineto{6.1538bp}{81.5385bp}
     \pgfpathqlineto{7.6923bp}{81.5385bp}
     \pgfpathqlineto{9.2308bp}{81.5385bp}
@@ -375,7 +376,7 @@
     \pgfpathqlineto{180.0000bp}{81.5385bp}
     \pgfpathqlineto{181.5385bp}{81.5385bp}
     \pgfpathqlineto{183.0769bp}{81.5385bp}
-    \pgfpathqlineto{184.6154bp}{81.5385bp}
+    \pgfpathqlineto{184.6154bp}{83.8462bp}
     \pgfpathqlineto{186.1538bp}{83.8462bp}
     \pgfpathqlineto{187.6923bp}{83.8462bp}
     \pgfpathqlineto{189.2308bp}{83.8462bp}
@@ -385,7 +386,6 @@
     \pgfpathqlineto{195.3846bp}{83.8462bp}
     \pgfpathqlineto{196.9231bp}{83.8462bp}
     \pgfpathqlineto{198.4615bp}{83.8462bp}
-    \pgfpathqlineto{200.0000bp}{83.8462bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -394,7 +394,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{130.7692bp}
+    \pgfpathqmoveto{3.0769bp}{130.7692bp}
+    \pgfpathqlineto{4.6154bp}{130.7692bp}
     \pgfpathqlineto{6.1538bp}{130.7692bp}
     \pgfpathqlineto{7.6923bp}{130.7692bp}
     \pgfpathqlineto{9.2308bp}{130.7692bp}
@@ -511,7 +512,7 @@
     \pgfpathqlineto{180.0000bp}{130.7692bp}
     \pgfpathqlineto{181.5385bp}{130.7692bp}
     \pgfpathqlineto{183.0769bp}{130.7692bp}
-    \pgfpathqlineto{184.6154bp}{130.7692bp}
+    \pgfpathqlineto{184.6154bp}{81.5385bp}
     \pgfpathqlineto{186.1538bp}{81.5385bp}
     \pgfpathqlineto{187.6923bp}{81.5385bp}
     \pgfpathqlineto{189.2308bp}{81.5385bp}
@@ -521,7 +522,6 @@
     \pgfpathqlineto{195.3846bp}{81.5385bp}
     \pgfpathqlineto{196.9231bp}{81.5385bp}
     \pgfpathqlineto{198.4615bp}{81.5385bp}
-    \pgfpathqlineto{200.0000bp}{81.5385bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -530,7 +530,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{81.5385bp}
+    \pgfpathqmoveto{3.0769bp}{81.5385bp}
+    \pgfpathqlineto{4.6154bp}{81.5385bp}
     \pgfpathqlineto{6.1538bp}{81.5385bp}
     \pgfpathqlineto{7.6923bp}{81.5385bp}
     \pgfpathqlineto{9.2308bp}{81.5385bp}
@@ -647,7 +648,7 @@
     \pgfpathqlineto{180.0000bp}{81.5385bp}
     \pgfpathqlineto{181.5385bp}{81.5385bp}
     \pgfpathqlineto{183.0769bp}{81.5385bp}
-    \pgfpathqlineto{184.6154bp}{81.5385bp}
+    \pgfpathqlineto{184.6154bp}{83.8462bp}
     \pgfpathqlineto{186.1538bp}{83.8462bp}
     \pgfpathqlineto{187.6923bp}{83.8462bp}
     \pgfpathqlineto{189.2308bp}{83.8462bp}
@@ -657,7 +658,6 @@
     \pgfpathqlineto{195.3846bp}{83.8462bp}
     \pgfpathqlineto{196.9231bp}{83.8462bp}
     \pgfpathqlineto{198.4615bp}{83.8462bp}
-    \pgfpathqlineto{200.0000bp}{83.8462bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -666,8 +666,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{16.9231bp}{81.5385bp}
-    \pgfpathqlineto{16.9231bp}{80.0000bp}
+    \pgfpathqmoveto{200.0000bp}{81.5385bp}
+    \pgfpathqlineto{200.0000bp}{80.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -678,6 +678,16 @@
     \pgfsetbuttcap
     \pgfpathqmoveto{186.1538bp}{81.5385bp}
     \pgfpathqlineto{186.1538bp}{80.0000bp}
+    \pgfusepathqstroke
+  \end{pgfscope}
+  \begin{pgfscope}
+    \pgfsetlinewidth{0.5000bp}
+    \definecolor{sc}{rgb}{1.0000,0.0000,0.0000}
+    \pgfsetstrokecolor{sc}
+    \pgfsetmiterjoin
+    \pgfsetbuttcap
+    \pgfpathqmoveto{3.0769bp}{81.5385bp}
+    \pgfpathqlineto{3.0769bp}{80.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}

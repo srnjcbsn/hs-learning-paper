@@ -2,8 +2,6 @@
 \providecommand{\master}{..}
 \begin{document}
 
-\textsc{\texttt{Work in progress}}
-
 Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown above) now describes how the predicates in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the predicate edge describing $p$ as an effect.
 
 Such a hypergraph describes which bindings were present in $\ts(s)$ when the effect $p$ occurred, and how $p$ is connected to them. In other words, it denotes the preconditions for the conditional that spawned $p$ which has not been disproven, and any binding \textit{not} in the hypergraph is disproven to be a precondition.
@@ -20,31 +18,51 @@ Recall that any two predicates $p$ and $q$ in $\Delta S$ with the same name are 
 
 In the following, we will assume availability of such a merging function (denoted $merge$), and a detailed algorithm can be found in Section~\ref{sec:C:HGMerging}.
 
-From the above, it follows that all grounded predicates with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be predicates, and can as such be reused in another transition. As such, this hypergraph describes the unknown knowledge $U$.
+From the above, it follows that all grounded predicates with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be predicates, and can as such be reused in another transition. This hypergraph describes the unknown knowledge $U$.
 
 As with connecting paths, we have the concept of candidates, i.e.\ reasons a conditional could have failed in a certain interpretation. Recall that such a reason is a connecting path that was not present in the failing state. Since vertices in a hypergraph can be uniquely identified, and paths to the effect can be described by a binding to another vertex that is itself transitively connected, a candidate for failure can be encoded as a tuple of two vertices. I.e.\ it is sufficient to record the last component of the offending connecting path.
 
-As a consequence of this, 
-
-\subsection{DRAFT OVERVIEW}
-
-Unknown $U$ is a hypergraph, anything not in $U$ is explicitly disproven.
-
-Candidates $C$ is a set of sets of tuples. Each tuple describes a binding between two variables that might be necessary for the conditional to succeed. (they are stored as identifiers, so they point to two specific vertices in $U$). 
-
-If a conditional fails, a hypergraph $H_{fail}$ is constructed for it and compared to $U$ (analoguously to det difference between the two hypergraphs). If a binding set $B$ in $U$ contains a vertex $v$ that is not in the corresponding binding set in $H_{fail}$, then the tuple set $\left\{ (v, b) \mid b \in B \land b \neq v \right\}$ are added to $C$. I.e.\ all the bindings taht could have caused the conditional to fail.
-
-These individual tuples can be disproven by the $reduce$ function. If there exists a singleton set with the tuple $(t, v)$, then it is a precondition that $t$ and $v$ are in the same binding set.
-
-Proven knowledge is a set of tuples of vertices $(v_1, v_2)$ (only their identifiers are needed).
-
-As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not identical, the $merge$ function also performs a renaming. This renaming should be returned so that it can be applied to the vertices in $K$ and $C$ (otherwise they will be out of sync. Additionally, as described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex were in fact two. If that is the case, the renaming function will replace that vertex with two (with the same name but different identifiers). If that vertex is in the known set, it is moved to the candidate set (as the two vertices are part of two different subhypergraphs, and we no longer know which of them must hold).
+Similarly to nonconditional actions and connection paths, a candidate is proven to be a precondition if the candidate set it is part of is reduced to the singleton set. Such a reduction can be accomplished by removing tuples from a candidate set if there is no binding edge in $U$ containing both vertices of the tuple. Given a set $c$ of vertex tuples and the set of binding edges from $U$, the $reduce$ function removes candidates from $c$ as described above.
 
 \begin{equation*}
-    reduce(c, H) =
+    reduce(c, E_B) =
     \left\{ \left( t_1, t_2 \right) \mid 
         \left( t_1, t_2 \right) \in c \land 
-        \exists_{b \in H} \left[ t_1 \in b \land t_2 \in b \right] 
+        \exists_{b \in E_B} \left[ t_1 \in b \land t_2 \in b \right] 
+    \right\}
+\end{equation*}
+
+The set of knowns can now be seen as a set of tuples, consisting of candidate tuples which have been proven to be preconditoins. 
+
+% A more natural representation for this is simply a set of sets of vertices, each of which is a subset of a binding edge in $U$. Because of transitive connectivity property <ref>, it holds that if any two subsets of $K$ overlap, then they can be replaced by their union. A tuple $(u,v)$ proven to be a precondition can then be converted to the set $\{u,v\}$ and added to $K$, while unioning <better word for unioning> overlapping sets as described above.
+
+As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not necessarily identical, the $merge$ function must also perform an identifier renaming. Thus, the $reduce$ function ascribed above will not work with the merged $U$, as the vertex identifiers will not match, and vertices in $U$ can not be matched with those in $K$. Therefore, $merge$ should return the renaming function used, so that it can be applied to $C$ and $K$.
+
+As described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex in a binding edge in $U$ were in fact two. If that is the case, the renaming function will replace that vertex with two equally-named vertices with different identfiers, both part of the binding edge the original vertex was part of. 
+
+Thus, when this renaming is applied to a candidate tuple $(u,v)$, it produces $|rn(u)| \times |rn(v)|$ tuples, which replaces $(u,v)$ in the candidate set, i.e.\ 
+
+\begin{equation*}
+    rnCands(c, rn) =
+    \left\{ 
+        \left( u', v' \right) \mid 
+        (u, v) \in c \land u' \in r(u) \land v' \in r(v) 
+    \right\}
+\end{equation*}
+
+A similar method is required for the set of proven preconditions $K$, with the added restriction that a tuple $\left( u', v' \right)$ (where $u'\in rn(u) \land v' \in rn(v)$ is only retained in $K$ if $|rn(u)| \times |rn(v)| = 1$. 
+
+\begin{equation*}
+    rnTuple\left( (u,v), rn \right) =
+    \left\{
+        \left( u', v' \right) \mid u' \in rn(u) \land v' \in rn(v)
+    \right\}
+\end{equation*}
+
+\begin{equation*}
+    rnProven(K, rn) =
+    \left\{
+        \left( u', v' \right) \mid
     \right\}
 \end{equation*}
 
@@ -56,6 +74,8 @@ As each vertex in a hypergraph has unique identifiers, and identifiers for two h
                 \State{$H_p \gets hypergraph(p, s)$}
                 \State{$\left(U, r \right) \gets merge \left( U, H_p \right)$}
                 \State{$\left( C, K \right) \gets rename(r, C, K)$}
+                % \State{$C \gets \left\{ rnCands(c, rn) \mid c \in C \right\}$}
+                % \State{$K \gets rnKnown(K, rn) $}
             \EndFor
             \ForAll{predicates $q \notin \Delta s$ with name $n$}
                 \State{$H_q \gets hypergraph(q, s)$}

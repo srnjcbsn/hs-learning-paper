@@ -1,0 +1,24 @@
+\documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
+\begin{document}
+
+Most of the algorithms and methods discussed in this thesis have been implemented and tested in the \texttt{Haskell} language. The source code for the implementation can be found at \texttt{https://github.com/srnjcbsn/hs-learning}. In the following, we will outline the features of the program.
+
+\begin{description}
+    \item[Non-conditional learning] 
+        The methods and algorithms from Section~\ref{sec:NC:Effects} and~\ref{sec:NC:Preconditions} have been fully implemented and tested.
+    \item[General algorithm]
+        The algorithm based on the scientific method (see Section~\ref{sec:Algorithm}) have been implemented, and the data structures it uses have been implemented in an abstract fashion, so that they may be used for wildly different domains. Especially, the PDDL-specificities discussed in Section~\ref{sec:PDDLAlgo} have been implemented to instatntiate the algorithm.
+    \item[Optimistic and pessimistic strategies]
+        Both the optimistic and the pessimistic strategies have been implemented specifically for PDDL.
+    \item[Internal planner] An bounded \texttt{A*} algorithm have been implemented, along with the framework necessary for working with a limited subset of first order logic (as specified by the PDDL framework, presented in Section~\ref{sec:PDDL}).
+    \item[External planner interface] A generic interface for invoking external planners is provided, and support for the \texttt{fast-downward} planner is enabled, given that it is preinstalled. See section~\ref{sec:disc:planning} for a discussion of the internal and external planning methods.
+    \item[PDDL parser and serializer]
+        In order to communicate with external planners, a PDDL parser and serializer is provided. This also enables learning arbitrary partially known domains, given that they (as well as a sequence of problems) are provided as text files written in the PDDL language (see~\cite{PDDL} for a specification).
+    \item[Sokoban environment]
+        The sokoban environment is provided as a ready-made world for the agent to act in. This implementation is based on the actions in Section~\ref{sec:SokobanPDDL}, i.e.\ it only supports non-conditional actions. When this environment is used, and the program is run in the console, a visual representation of the state of the world is displayed after each experiment.
+\end{description}
+
+While several of the algorithms and methods from Chapter~\ref{chp:ca} have been implemented in the program, hyper graph collapsing and hypothesis construction have not, which is why the implemented program can not learn conditional action schemas.
+
+\end{document}

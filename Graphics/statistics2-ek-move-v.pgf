@@ -122,7 +122,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{24.0000bp}{172.0000bp}
+    \pgfpathqmoveto{16.0000bp}{172.0000bp}
+    \pgfpathqlineto{24.0000bp}{172.0000bp}
     \pgfpathqlineto{32.0000bp}{172.0000bp}
     \pgfpathqlineto{40.0000bp}{172.0000bp}
     \pgfpathqlineto{48.0000bp}{172.0000bp}
@@ -142,9 +143,8 @@
     \pgfpathqlineto{160.0000bp}{172.0000bp}
     \pgfpathqlineto{168.0000bp}{172.0000bp}
     \pgfpathqlineto{176.0000bp}{172.0000bp}
-    \pgfpathqlineto{184.0000bp}{172.0000bp}
+    \pgfpathqlineto{184.0000bp}{92.0000bp}
     \pgfpathqlineto{192.0000bp}{92.0000bp}
-    \pgfpathqlineto{200.0000bp}{92.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -153,7 +153,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{24.0000bp}{92.0000bp}
+    \pgfpathqmoveto{16.0000bp}{92.0000bp}
+    \pgfpathqlineto{24.0000bp}{92.0000bp}
     \pgfpathqlineto{32.0000bp}{92.0000bp}
     \pgfpathqlineto{40.0000bp}{92.0000bp}
     \pgfpathqlineto{48.0000bp}{92.0000bp}
@@ -173,9 +174,8 @@
     \pgfpathqlineto{160.0000bp}{92.0000bp}
     \pgfpathqlineto{168.0000bp}{92.0000bp}
     \pgfpathqlineto{176.0000bp}{92.0000bp}
-    \pgfpathqlineto{184.0000bp}{92.0000bp}
+    \pgfpathqlineto{184.0000bp}{100.0000bp}
     \pgfpathqlineto{192.0000bp}{100.0000bp}
-    \pgfpathqlineto{200.0000bp}{100.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -184,7 +184,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{24.0000bp}{172.0000bp}
+    \pgfpathqmoveto{16.0000bp}{172.0000bp}
+    \pgfpathqlineto{24.0000bp}{172.0000bp}
     \pgfpathqlineto{32.0000bp}{172.0000bp}
     \pgfpathqlineto{40.0000bp}{172.0000bp}
     \pgfpathqlineto{48.0000bp}{172.0000bp}
@@ -204,9 +205,8 @@
     \pgfpathqlineto{160.0000bp}{172.0000bp}
     \pgfpathqlineto{168.0000bp}{172.0000bp}
     \pgfpathqlineto{176.0000bp}{172.0000bp}
-    \pgfpathqlineto{184.0000bp}{172.0000bp}
+    \pgfpathqlineto{184.0000bp}{92.0000bp}
     \pgfpathqlineto{192.0000bp}{92.0000bp}
-    \pgfpathqlineto{200.0000bp}{92.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -215,7 +215,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{24.0000bp}{92.0000bp}
+    \pgfpathqmoveto{16.0000bp}{92.0000bp}
+    \pgfpathqlineto{24.0000bp}{92.0000bp}
     \pgfpathqlineto{32.0000bp}{92.0000bp}
     \pgfpathqlineto{40.0000bp}{92.0000bp}
     \pgfpathqlineto{48.0000bp}{92.0000bp}
@@ -235,9 +236,8 @@
     \pgfpathqlineto{160.0000bp}{92.0000bp}
     \pgfpathqlineto{168.0000bp}{92.0000bp}
     \pgfpathqlineto{176.0000bp}{92.0000bp}
-    \pgfpathqlineto{184.0000bp}{92.0000bp}
+    \pgfpathqlineto{184.0000bp}{100.0000bp}
     \pgfpathqlineto{192.0000bp}{100.0000bp}
-    \pgfpathqlineto{200.0000bp}{100.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -246,8 +246,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{24.0000bp}{92.0000bp}
-    \pgfpathqlineto{24.0000bp}{84.0000bp}
+    \pgfpathqmoveto{200.0000bp}{92.0000bp}
+    \pgfpathqlineto{200.0000bp}{84.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -256,8 +256,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{56.0000bp}{92.0000bp}
-    \pgfpathqlineto{56.0000bp}{84.0000bp}
+    \pgfpathqmoveto{192.0000bp}{92.0000bp}
+    \pgfpathqlineto{192.0000bp}{84.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -268,6 +268,16 @@
     \pgfsetbuttcap
     \pgfpathqmoveto{152.0000bp}{92.0000bp}
     \pgfpathqlineto{152.0000bp}{84.0000bp}
+    \pgfusepathqstroke
+  \end{pgfscope}
+  \begin{pgfscope}
+    \pgfsetlinewidth{0.6788bp}
+    \definecolor{sc}{rgb}{1.0000,0.0000,0.0000}
+    \pgfsetstrokecolor{sc}
+    \pgfsetmiterjoin
+    \pgfsetbuttcap
+    \pgfpathqmoveto{16.0000bp}{92.0000bp}
+    \pgfpathqlineto{16.0000bp}{84.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
