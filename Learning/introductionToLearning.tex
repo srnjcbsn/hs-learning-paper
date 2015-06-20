@@ -7,11 +7,54 @@
 	\end{quote}
 	
 	This definition is based on a very human way of understanding learning, as it groups the concept of skills and knowledge together.
-	However acquiring skills often means to train or practice such that one is efficient. For instance a driver may learn to be better at operating his vehicle, not through realizing some but rather by doing it repeatedly until he has built his muscle memory.
-	Such learning in a purely logical sense is what we will define as learning but rather just an optimization of the access time of the knowledge.
-	Therefore we will keep to the notion that \textbf{Learning is the acquisition of knowledge}.
+	However acquiring skills often means to train or practice such that one is efficient. For instance an archer may learn to be better at hitting targets, 
+	not through gaining some new understanding of archery but rather by doing it repeatedly until he has built his muscle memory.
+	While from a human perspective this makes sense as a form of learning, 
+	it does not make sense in a logical view of learning, as it is just an optimization of the access time of the knowledge the person has about the subject.
+	Therefore we will keep to the notion that \textbf{Learning is the acquisition of knowledge}, and we will use this to show how an agents can learn through observations.
 	
-	The foundation for this thesis is based on the article \cite{Walsh2008},
+	\section{Defining learning}
+	
+	In the article \cite{Walsh2008}, they showed two algorithms for learning, one that was optimistic, and one that was pessimistic. 
+	The optimistic algorithm made the agent think it was capable of solving all problems, 
+	and the pessimistic made the agent think it could only solve something which it had either been told or it had observed itself. 
+	However we want to raise the question why is it necessary to define approaches to learning, is learning not a universal concept?
+	To which the answer is, the act of learning it self, i.e the acquisition of knowledge, that remains the same no matter the approach.
+	But getting into a situation where new knowledge is available that is something where there exists multiple approaches, and without it no knowledge may be acquired.
+	
+	\begin{example}
+		Imagine two people Alice and Bob, Alice is a personification of a pessimistic approach and Bob is of the optimistic approach.
+		
+		Alice is a quiet person that keeps to herself, when something unexpected happens she avoids it. 
+		Nothing exciting or good ever happens in her life time, but at the same time nothing bad ever happens either.
+		
+		Bob on the other hand is wild, he never stays at the same place for long and when he does he is barely at home. 
+		The number of jobs he has had is to many to list but suffice it to say he has pretty much tried everything.
+		Bobs life in contrast to Alice's has had many upsides and he has learned many great things that has improved him as a person,
+		however because he has the wild life style, many horrible things has happened as well, but even those horrible things has taught him some valuable lessons.
+		
+		As we can see from these examples Alice and Bob has a different approach to learning in life, but where Alice got stuck and never improved or became wiser, 
+		Bob on the other hand has improved many-fold. That is not to say that Bob's approach is inherently superior as he taken great risks to his well being, where as Alice has enjoyed a much safer life.
+		
+	\end{example}
+	
+	
+	These approaches are what \cite{tobias1990a} defines as a Learning strategy:
+	
+\begin{quote}
+	A learning strategy is a sequence of procedures for accomplishing learning.
+\end{quote}
+	
+	This does not require that an agent must know the full sequence in order to have a strategy but rather that a strategy defines what procedure an agent must take for any given situation.
+
+	Now that we have established that strategies are necessary to accommodate learning, we must turn our attention the more important aspect of learning. 
+	The acquisition of knowledge itself, all knowledge an agent has can be placed into three categories: proven knowledge, disproved knowledge and unproven knowledge. 
+	The proven knowledge is knowledge that the agent has proven to be correct, disproved knowledge is knowledge which has been shown to be incorrect, and unproven knowledge is knowledge which has neither been proved nor has it been disproved.
+	In science the prevailing method for acquiring knowledge has been through what we know today as the scientific method. 
+	As such we propose that the scientific method is equally valid for acquiring of knowledge for an agent.
+	
+	In this chapter we will show how different strategies affect learning and define traits that are common among strategies that we have observed. 
+	Furthermore, we will also show how the scientific method adapted into an algorithm to be used by a learning agent, and specifically how one may use it with PDDL.
 	
 	
 	
