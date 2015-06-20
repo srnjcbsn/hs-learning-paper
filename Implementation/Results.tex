@@ -1,11 +1,11 @@
-\documentclass[Master.tex]{subfiles}
-\providecommand{\master}{.}
+\documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
 \begin{document}
 
 When the scientific learning algorithm is applied through the main program, a statistics file is produced. This file contains, in order:
 \begin{itemize}
     \item A header containing the name of each action schema in the domain, along with the action's $\mathbb{F}_A$.
-    \item The string \texttt{``- - RUNNING - -''}, signifying the end of the header.
+    \item The string \verb|``-- RUNNING --''|, signifying the end of the header.
     \item For each experiment (plan) the agent conducted:
         \begin{itemize}
             \item The action which did not produce the expected outcome when applied (as explained in Section~\ref{sec:PDDLAlgo})
@@ -44,11 +44,11 @@ In the source code bundled with this thesis, the program \texttt{Plotting/Statis
     \centering
     \begin{subfigure}{0.45\linewidth}
         \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-ek-move-h.pgf}}
-        \caption{move-h effects}\label{fig:res:ekmoveh}
+        \caption{\texttt{move-h} effects}\label{fig:res:ekmoveh}
     \end{subfigure}
     \begin{subfigure}{0.45\linewidth}
         \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-ek-move-v.pgf}}
-        \caption{move-v effects}\label{fig:res:ekmovev}
+        \caption{\texttt{move-v} effects}\label{fig:res:ekmovev}
     \end{subfigure}
 \end{figure}
 
@@ -56,11 +56,11 @@ In the source code bundled with this thesis, the program \texttt{Plotting/Statis
     \centering
     \begin{subfigure}{0.42\linewidth}
         \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-pk-move-h.pgf}}
-        \caption{move-h effects}\label{fig:res:pkmoveh}
+        \caption{\texttt{move-h} effects}\label{fig:res:pkmoveh}
     \end{subfigure}
     \begin{subfigure}{0.42\linewidth}
         \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-pk-move-v.pgf}}
-        \caption{move-v effects}\label{fig:res:pkmovev}
+        \caption{\texttt{move-v} effects}\label{fig:res:pkmovev}
     \end{subfigure}
 \end{figure}
 
