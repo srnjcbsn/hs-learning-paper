@@ -2,24 +2,126 @@
 \providecommand{\master}{..}
 \begin{document}
 
-Unsurprisingly hypothesis construction of conditional actions is very similar to that of non-conditional actions. 
+Unsurprisingly the basics of hypothesis construction for conditional actions is very similar to that of non-conditional actions. 
+As such refer to \Cref{sec:NC:hypcon} for detailed explanation of how the traits interacts with knowledge (proven, disproved, unproven.. etc.) we discussed in \Cref{sec:Strategy}.
+While the basic theory of traits remain the same, constructing hypothetical action schema using the knowledge we have modelled, is completely different. For starters our knowledge is no longer just a set of predicates, instead we have to contend with hypergraphs, therefore new approaches are needed if we want to design action schemas based on a specific strategy.
 
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\input{\master/Graphics/hypUnproven.pgf}  		
+		\caption{\label{fig:ca:hypgraph-with-unproven} A hypergraph of the unproven preconditions for the effect $q$}
+	\end{subfigure}%
+	~ 
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\input{\master/Graphics/hypCands.pgf}  
+		
+		
+		
+		\caption{\label{fig:ca:hypgraph-with-cands}The red circle indicates that it is a candidate}
+	\end{subfigure}
+	\caption{ A visualization of a hypergraph and a single candidate-set with two candidates. }
+	\label{fig:ca:two-hypgraphs-one-cands}
+\end{figure}
 
 \subsection{Optimistic Strategy}
-Constructing the optimistic strategy as we recall has the traits \texttt{Explorative} and \texttt{Self-sufficient}.
+The optimistic strategy as we recall from \Cref{sec:Strategy}, has the traits \texttt{Explorative} and \texttt{Self-sufficient}.
 To accomplish these traits we must do exactly as we did in hypothesis construction for non-conditional actions, 
-except with the twist that we have to use unproven preconditions that are necessary to reach the candidates.
-This is because candidate vertices are actually an efficient way to express connecting paths, 
-but when we convert them back into preconditions we have to unpack their connecting paths.
-However since we know connecting paths are intractable we cannot simply extract those and then use them to plan with, instead we have to design the  
+which is to plan using candidate preconditions; except with a twist: 
+We have to use unproven preconditions that are necessary to reach the candidates.
+What we mean by reach is that a candidate is not only defined by a single predicate, but rather a path of predicates connected by variables.
+This is because candidate vertices are actually an efficient way to express all connecting paths, from the candidate to the effect.
+Therefore an naive solution would be to simply extract all paths between the two vertices and use those as preconditions.
+
+\begin{example}\label{ex:ca:hyp-paths} To get an idea of using all simple paths between the candidate and the effect as precondition. 
+	We present the \Cref{fig:ca:hypgraph-with-cands} which shows two candidates which are part of a candidate set.
+	
+	In this case the paths are easy find, as there is only one path for each candidate:
+	\begin{equation*}
+		\begin{split}	
+			candidate~ g_1 &: g_1 \bc q_1 \\
+			candidate~ f_1 &: f_1 \bc p_2 \pc p_1 \bc q_1
+		\end{split}
+	\end{equation*}
+	
+	To turn these paths into preconditions we simply map each binding to a variable. For instance, binding $\{q_1,g_1,p_1\} \mapsto x$ and binding $\{p_2,f_1\} \mapsto y$. The bindings that only contain a single vertex are irrelevant and as such are given any unique variable.
+	Lastly as with non-conditional effects, we place the logic formulas in a CNF, but now a single predicate is a conjunction representing the path.
+	That means we use $\land$ between each predicate in the path, $\lor$ between each path and $\land$ between each candidate set; however in this example we only have a single set.	
+	\begin{equation*}
+		\begin{split}	
+		Effect&: \forall_{(x,y,z,i)} ~q(x)~ when~ g(x,z) \lor ( p(x,y) \land f(y,i) )
+		\end{split}
+	\end{equation*}
+	
+	We see that extracting the paths we can write meaningful effects that can be added directly into the action schema.
+	However the problem with this solution is that finding all simple paths is an NP-complete problem therefore this approach is impractical. 
+	
+\end{example}
+
+The underlying problem is that first-order logic does not have the expressive power to provide us with expression of cycles in an efficient manner. As such if a cycle does arise we are to duplicate the formula an intractable number of times.
+
+To overcome these problems we suggest to approach them from another angle, 
+instead of trying to convert our knowledge to something that a planner can understand; 
+why not instead extend the planner to understand what our knowledge means.
+By this we mean: why not add functionality to the planner, that would allow us to use our hypergraphs directly when planning.
+One important detail to know, is that to determine whether a candidate is satisfied in a state, we only need one simple path. 
+As finding any path is solvable in polynomial time. 
+This means that if we extend a planner to accept hypergraphs, that uses a search algorithm;
+then we can achieve a running time that is $O(Search\texttt{-}Time \times \left| Objects \right|^k)$ where $k$ is arity of the effect. 
+If we bound $k$ to a constant, as they suggest doing in \cite{Walsh2008}, then we can conclude our solution can run in polynomial time. 
+The search algorithm would have to find any path in the state which is between the candidate vertex and a vertex that is in the same binding as the effect vertex, to determine what effects to add to the state; 
+Furthermore, it is important to note that a lot of preprocessing can be done on the hypergraph before used for planning, thereby allowing for very efficient search algorithms. 
+Additional improvement could also be achieved by filtering effects where no vertex exists that would bind it.
+
+\begin{example} To understand planning using hypergraph let us provide the following example.
+	Assume we have the candidate set shown in \Cref{fig:ca:hypgraph-with-cands}. And we have a state:
+	
+	\begin{equation*}
+		S = \{ p(o_1,_o2), f(o_2,o_3) g(o_4,o_4), f(o_3,o_6), g(o_1,_2) \}
+	\end{equation*}
+	
+	To find the effects we search from the candidates one at a time, mapping the bindings as we go forward.
+	The first candidate $f_1$ has two nodes:
+	\begin{equation*}
+		f_1 = o_3 ~ or ~ f_1 = 0_2
+	\end{equation*}
+	 As there exists no node $p_2 = o_3$, that search path is discontinued, and continuing the other gives us:
+	 \begin{equation*}
+		 p(o_1,o_2) \rightarrow q(o_1)
+	 \end{equation*}
+	 We then do the same for $g$ but as some of the effects are already found we need not search for those, limiting us to only:
+	 \begin{equation*}
+		 g(o_4,o_4) \rightarrow q(o_4)
+	 \end{equation*}
+	 
+	 As such we get the effects: $q(o_1)\land q(o_4)$, which are the correct effects.
+	 It is important to note that if have we had multiple candidate sets then those would have to be intersected with each other. 
+	 However even that aspect might have a more efficient solution.
+	
+\end{example}
+
+\subsection{Pessimistic Strategy}
+
+While the optimistic strategy was very hard to achieve, the pessimistic is surprisingly easy, we recall from \Cref{sec:NC:hypcon} that to make a pessimistic action schema it is only necessary to plan using only unproven preconditions. Since our hypergraph is a model of all our unproven preconditions then we need only convert it into predicates and use them in a conjunction, after which the planner should be able to handle the rest.
 
 
-The difference is that because preconditions are seen as a hypergraph representing all the unproven preconditions, 
-then it follows that candidates in this context must be leaves connected the  
+\begin{example} To construct a pessimistic action schema based on a hypergraph, the vertices and edges must be turned into predicate logic.
+	In \Cref{fig:ca:hypgraph-with-unproven} we see a hypergraph of our unproven preconditions for a conditional effect $q$.
+	Using the same approach shown in \Cref{ex:ca:hyp-paths}, we map each binding to a variable and combine the predicate edges' vertices into predicates.
+	As such our pessimistic effect will be the following:
+	\begin{equation*}
+	\begin{split}	
+	Effect&: \forall_{(x,y,z,i)} ~q(x)~ when~ g(x,z) \land p(x,y) \land f(y,i)
+	\end{split}
+	\end{equation*}	
+	As we proved in \Cref{thm:ca:precondition-state}, this action schema will only produce the exact same effects as was produced when the agent observed them. Therefore the action schema is pessimistic.
+\end{example}
+  
 
-\input{\master/Graphics/hypUnproven.pgf}  
 
-\input{\master/Graphics/hypCands.pgf}  
 
 
 \end{document}
