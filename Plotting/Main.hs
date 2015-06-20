@@ -47,4 +47,4 @@ main = do
     draw "tree"              (drawGraph tree)
     draw "graph"             (drawGraph graph)
     drawHist "statistics2" >>= mapM_ (uncurry draw)
-    drawHist "statisticsLong" >>= mapM_ (uncurry draw)
+    -- drawHist "statisticsLong" >>= mapM_ (uncurry draw)

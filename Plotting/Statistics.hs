@@ -3,13 +3,12 @@ module Statistics where
 import           Diagrams.Backend.PGF
 import           Diagrams.Prelude
 
--- import           Control.Applicative           ((*>), (<*))
--- import           Control.Arrow                 (second, (***))
 import           Control.Monad                 (void)
-import           Data.List                     (group)
+import           Data.List                     (group, inits)
 import           Data.Map                      (Map, fromList, fromListWith,
                                                 mapWithKey, (!))
 import qualified Data.Map                      as Map
+import           Debug.Trace
 import           System.FilePath               ()
 import           Text.ParserCombinators.Parsec
 import qualified Text.ParserCombinators.Parsec as P
@@ -43,7 +42,7 @@ mvPt maxPreds y col = moveTo (p2 (0.0, yTrans maxPreds y))
                              (circle r # fc col # lc col)
 
 plotl mp vals = zipWith (\x y -> p2 (x, y))
-                        [ fromIntegral x | x <- [1 ..] ]
+                        [ fromIntegral x | x <- [0 ..] ]
                         (map (yTrans mp) vals)
 
 posKnls :: Int -> [Knl] -> [[P2 Double]]
@@ -60,6 +59,9 @@ colors = [ ("positive proven", blue)
          , ("candidates", black)
          ]
 
+stepchanges :: [Int] -> [Int]
+stepchanges = (map sum) . inits . (map length) . group
+
 drawEk :: Int -> [Knl] -> [Int] -> Diagram B
 drawEk mp knls steps = (frame <> plot) === strutY 1.0 === legend where
     -- maxC = yTrans mp $ maximum cs
@@ -72,10 +74,9 @@ drawEk mp knls steps = (frame <> plot) === strutY 1.0 === legend where
           <> (p2 (0.0, fA)) ~~ (p2 ((-0.2), fA))
           <> moveTo (p2 ((-2.0), fA)) (baselineText "$\\mathbb{F}_A$" # translateY (-0.3))
           <> mconcat (map tick [ 5, 10 .. length knls])
-          <> mconcat (map stepTick stepchanges)
+          <> mconcat (map stepTick $ stepchanges steps)
     stepTick n = p2 (fromIntegral n, 0.0) ~~ p2 (fromIntegral n, (-1.0))
                # lc red
-    stepchanges = map length $ group steps
     tick n = p2 (fromIntegral n, 0.0) ~~ p2 (fromIntegral n, (-0.5))
     plot = mconcat
          $ zipWith (\vs col -> fromVertices vs # lc col)
@@ -98,10 +99,9 @@ drawPk mp knls cs steps = (frame <> plot) === strutY 1.0 === legend where
           <> (p2 (0.0, fA)) ~~ (p2 ((-0.2), fA))
           <> moveTo (p2 ((-2.0), fA)) (baselineText "$\\mathbb{F}_A$" # translateY (-0.3))
           <> mconcat (map tick [ 5, 10 .. length knls])
-          <> mconcat (map stepTick stepchanges)
+          <> mconcat (map stepTick $ stepchanges steps)
     stepTick n = p2 (fromIntegral n, 0.0) ~~ p2 (fromIntegral n, (-0.5))
                # lc red
-    stepchanges = map length $ group steps
     tick n = p2 (fromIntegral n, 0.0) ~~ p2 (fromIntegral n, (-0.5))
     plot = mconcat
          $ zipWith (\vs col -> fromVertices vs # lc col)
