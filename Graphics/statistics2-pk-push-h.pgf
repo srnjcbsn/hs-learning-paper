@@ -122,134 +122,134 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{61.1538bp}
-    \pgfpathqlineto{6.1538bp}{61.9231bp}
-    \pgfpathqlineto{7.6923bp}{62.6923bp}
-    \pgfpathqlineto{9.2308bp}{63.4615bp}
-    \pgfpathqlineto{10.7692bp}{64.2308bp}
-    \pgfpathqlineto{12.3077bp}{65.0000bp}
-    \pgfpathqlineto{13.8462bp}{65.7692bp}
-    \pgfpathqlineto{15.3846bp}{66.5385bp}
-    \pgfpathqlineto{16.9231bp}{67.3077bp}
-    \pgfpathqlineto{18.4615bp}{68.0769bp}
-    \pgfpathqlineto{20.0000bp}{68.8462bp}
-    \pgfpathqlineto{21.5385bp}{69.6154bp}
-    \pgfpathqlineto{23.0769bp}{70.3846bp}
-    \pgfpathqlineto{24.6154bp}{71.1538bp}
-    \pgfpathqlineto{26.1538bp}{71.9231bp}
-    \pgfpathqlineto{27.6923bp}{72.6923bp}
-    \pgfpathqlineto{29.2308bp}{73.4615bp}
-    \pgfpathqlineto{30.7692bp}{74.2308bp}
-    \pgfpathqlineto{32.3077bp}{75.0000bp}
-    \pgfpathqlineto{33.8462bp}{75.7692bp}
-    \pgfpathqlineto{35.3846bp}{76.5385bp}
-    \pgfpathqlineto{36.9231bp}{77.3077bp}
-    \pgfpathqlineto{38.4615bp}{78.0769bp}
-    \pgfpathqlineto{40.0000bp}{78.8462bp}
-    \pgfpathqlineto{41.5385bp}{79.6154bp}
-    \pgfpathqlineto{43.0769bp}{80.3846bp}
-    \pgfpathqlineto{44.6154bp}{81.1538bp}
-    \pgfpathqlineto{46.1538bp}{81.9231bp}
-    \pgfpathqlineto{47.6923bp}{82.6923bp}
-    \pgfpathqlineto{49.2308bp}{83.4615bp}
-    \pgfpathqlineto{50.7692bp}{84.2308bp}
-    \pgfpathqlineto{52.3077bp}{85.0000bp}
-    \pgfpathqlineto{53.8462bp}{85.7692bp}
-    \pgfpathqlineto{55.3846bp}{86.5385bp}
-    \pgfpathqlineto{56.9231bp}{87.3077bp}
-    \pgfpathqlineto{58.4615bp}{88.0769bp}
-    \pgfpathqlineto{60.0000bp}{88.8462bp}
-    \pgfpathqlineto{61.5385bp}{89.6154bp}
-    \pgfpathqlineto{63.0769bp}{90.3846bp}
-    \pgfpathqlineto{64.6154bp}{91.1538bp}
-    \pgfpathqlineto{66.1538bp}{91.9231bp}
-    \pgfpathqlineto{67.6923bp}{92.6923bp}
-    \pgfpathqlineto{69.2308bp}{93.4615bp}
-    \pgfpathqlineto{70.7692bp}{94.2308bp}
-    \pgfpathqlineto{72.3077bp}{95.0000bp}
-    \pgfpathqlineto{73.8462bp}{95.7692bp}
-    \pgfpathqlineto{75.3846bp}{96.5385bp}
-    \pgfpathqlineto{76.9231bp}{97.3077bp}
-    \pgfpathqlineto{78.4615bp}{98.0769bp}
-    \pgfpathqlineto{80.0000bp}{98.8462bp}
-    \pgfpathqlineto{81.5385bp}{99.6154bp}
-    \pgfpathqlineto{83.0769bp}{100.3846bp}
-    \pgfpathqlineto{84.6154bp}{101.1538bp}
-    \pgfpathqlineto{86.1538bp}{101.9231bp}
-    \pgfpathqlineto{87.6923bp}{102.6923bp}
-    \pgfpathqlineto{89.2308bp}{103.4615bp}
-    \pgfpathqlineto{90.7692bp}{104.2308bp}
-    \pgfpathqlineto{92.3077bp}{105.0000bp}
-    \pgfpathqlineto{93.8462bp}{105.7692bp}
-    \pgfpathqlineto{95.3846bp}{106.5385bp}
-    \pgfpathqlineto{96.9231bp}{107.3077bp}
-    \pgfpathqlineto{98.4615bp}{108.0769bp}
-    \pgfpathqlineto{100.0000bp}{108.8462bp}
-    \pgfpathqlineto{101.5385bp}{109.6154bp}
-    \pgfpathqlineto{103.0769bp}{110.3846bp}
-    \pgfpathqlineto{104.6154bp}{111.1538bp}
-    \pgfpathqlineto{106.1538bp}{111.9231bp}
-    \pgfpathqlineto{107.6923bp}{112.6923bp}
-    \pgfpathqlineto{109.2308bp}{113.4615bp}
-    \pgfpathqlineto{110.7692bp}{114.2308bp}
-    \pgfpathqlineto{112.3077bp}{115.0000bp}
-    \pgfpathqlineto{113.8462bp}{115.7692bp}
-    \pgfpathqlineto{115.3846bp}{116.5385bp}
-    \pgfpathqlineto{116.9231bp}{117.3077bp}
-    \pgfpathqlineto{118.4615bp}{118.0769bp}
-    \pgfpathqlineto{120.0000bp}{118.8462bp}
-    \pgfpathqlineto{121.5385bp}{119.6154bp}
-    \pgfpathqlineto{123.0769bp}{120.3846bp}
-    \pgfpathqlineto{124.6154bp}{121.1538bp}
-    \pgfpathqlineto{126.1538bp}{121.9231bp}
-    \pgfpathqlineto{127.6923bp}{122.6923bp}
-    \pgfpathqlineto{129.2308bp}{123.4615bp}
-    \pgfpathqlineto{130.7692bp}{124.2308bp}
-    \pgfpathqlineto{132.3077bp}{125.0000bp}
-    \pgfpathqlineto{133.8462bp}{125.7692bp}
-    \pgfpathqlineto{135.3846bp}{126.5385bp}
-    \pgfpathqlineto{136.9231bp}{127.3077bp}
-    \pgfpathqlineto{138.4615bp}{128.0769bp}
-    \pgfpathqlineto{140.0000bp}{128.8462bp}
-    \pgfpathqlineto{141.5385bp}{129.6154bp}
-    \pgfpathqlineto{143.0769bp}{130.3846bp}
-    \pgfpathqlineto{144.6154bp}{131.1538bp}
-    \pgfpathqlineto{146.1538bp}{131.9231bp}
-    \pgfpathqlineto{147.6923bp}{132.6923bp}
-    \pgfpathqlineto{149.2308bp}{133.4615bp}
-    \pgfpathqlineto{150.7692bp}{134.2308bp}
-    \pgfpathqlineto{152.3077bp}{135.0000bp}
-    \pgfpathqlineto{153.8462bp}{135.7692bp}
-    \pgfpathqlineto{155.3846bp}{136.5385bp}
-    \pgfpathqlineto{156.9231bp}{137.3077bp}
-    \pgfpathqlineto{158.4615bp}{138.0769bp}
-    \pgfpathqlineto{160.0000bp}{138.8462bp}
-    \pgfpathqlineto{161.5385bp}{139.6154bp}
-    \pgfpathqlineto{163.0769bp}{140.3846bp}
-    \pgfpathqlineto{164.6154bp}{141.1538bp}
-    \pgfpathqlineto{166.1538bp}{141.9231bp}
-    \pgfpathqlineto{167.6923bp}{142.6923bp}
-    \pgfpathqlineto{169.2308bp}{143.4615bp}
-    \pgfpathqlineto{170.7692bp}{144.2308bp}
-    \pgfpathqlineto{172.3077bp}{145.0000bp}
-    \pgfpathqlineto{173.8462bp}{145.7692bp}
-    \pgfpathqlineto{175.3846bp}{146.5385bp}
-    \pgfpathqlineto{176.9231bp}{147.3077bp}
-    \pgfpathqlineto{178.4615bp}{148.0769bp}
-    \pgfpathqlineto{180.0000bp}{148.8462bp}
-    \pgfpathqlineto{181.5385bp}{149.6154bp}
-    \pgfpathqlineto{183.0769bp}{150.3846bp}
+    \pgfpathqmoveto{3.0769bp}{61.1538bp}
+    \pgfpathqlineto{4.6154bp}{61.9231bp}
+    \pgfpathqlineto{6.1538bp}{62.6923bp}
+    \pgfpathqlineto{7.6923bp}{63.4615bp}
+    \pgfpathqlineto{9.2308bp}{64.2308bp}
+    \pgfpathqlineto{10.7692bp}{65.0000bp}
+    \pgfpathqlineto{12.3077bp}{65.7692bp}
+    \pgfpathqlineto{13.8462bp}{66.5385bp}
+    \pgfpathqlineto{15.3846bp}{67.3077bp}
+    \pgfpathqlineto{16.9231bp}{68.0769bp}
+    \pgfpathqlineto{18.4615bp}{68.8462bp}
+    \pgfpathqlineto{20.0000bp}{69.6154bp}
+    \pgfpathqlineto{21.5385bp}{70.3846bp}
+    \pgfpathqlineto{23.0769bp}{71.1538bp}
+    \pgfpathqlineto{24.6154bp}{71.9231bp}
+    \pgfpathqlineto{26.1538bp}{72.6923bp}
+    \pgfpathqlineto{27.6923bp}{73.4615bp}
+    \pgfpathqlineto{29.2308bp}{74.2308bp}
+    \pgfpathqlineto{30.7692bp}{75.0000bp}
+    \pgfpathqlineto{32.3077bp}{75.7692bp}
+    \pgfpathqlineto{33.8462bp}{76.5385bp}
+    \pgfpathqlineto{35.3846bp}{77.3077bp}
+    \pgfpathqlineto{36.9231bp}{78.0769bp}
+    \pgfpathqlineto{38.4615bp}{78.8462bp}
+    \pgfpathqlineto{40.0000bp}{79.6154bp}
+    \pgfpathqlineto{41.5385bp}{80.3846bp}
+    \pgfpathqlineto{43.0769bp}{81.1538bp}
+    \pgfpathqlineto{44.6154bp}{81.9231bp}
+    \pgfpathqlineto{46.1538bp}{82.6923bp}
+    \pgfpathqlineto{47.6923bp}{83.4615bp}
+    \pgfpathqlineto{49.2308bp}{84.2308bp}
+    \pgfpathqlineto{50.7692bp}{85.0000bp}
+    \pgfpathqlineto{52.3077bp}{85.7692bp}
+    \pgfpathqlineto{53.8462bp}{86.5385bp}
+    \pgfpathqlineto{55.3846bp}{87.3077bp}
+    \pgfpathqlineto{56.9231bp}{88.0769bp}
+    \pgfpathqlineto{58.4615bp}{88.8462bp}
+    \pgfpathqlineto{60.0000bp}{89.6154bp}
+    \pgfpathqlineto{61.5385bp}{90.3846bp}
+    \pgfpathqlineto{63.0769bp}{91.1538bp}
+    \pgfpathqlineto{64.6154bp}{91.9231bp}
+    \pgfpathqlineto{66.1538bp}{92.6923bp}
+    \pgfpathqlineto{67.6923bp}{93.4615bp}
+    \pgfpathqlineto{69.2308bp}{94.2308bp}
+    \pgfpathqlineto{70.7692bp}{95.0000bp}
+    \pgfpathqlineto{72.3077bp}{95.7692bp}
+    \pgfpathqlineto{73.8462bp}{96.5385bp}
+    \pgfpathqlineto{75.3846bp}{97.3077bp}
+    \pgfpathqlineto{76.9231bp}{98.0769bp}
+    \pgfpathqlineto{78.4615bp}{98.8462bp}
+    \pgfpathqlineto{80.0000bp}{99.6154bp}
+    \pgfpathqlineto{81.5385bp}{100.3846bp}
+    \pgfpathqlineto{83.0769bp}{101.1538bp}
+    \pgfpathqlineto{84.6154bp}{101.9231bp}
+    \pgfpathqlineto{86.1538bp}{102.6923bp}
+    \pgfpathqlineto{87.6923bp}{103.4615bp}
+    \pgfpathqlineto{89.2308bp}{104.2308bp}
+    \pgfpathqlineto{90.7692bp}{105.0000bp}
+    \pgfpathqlineto{92.3077bp}{105.7692bp}
+    \pgfpathqlineto{93.8462bp}{106.5385bp}
+    \pgfpathqlineto{95.3846bp}{107.3077bp}
+    \pgfpathqlineto{96.9231bp}{108.0769bp}
+    \pgfpathqlineto{98.4615bp}{108.8462bp}
+    \pgfpathqlineto{100.0000bp}{109.6154bp}
+    \pgfpathqlineto{101.5385bp}{110.3846bp}
+    \pgfpathqlineto{103.0769bp}{111.1538bp}
+    \pgfpathqlineto{104.6154bp}{111.9231bp}
+    \pgfpathqlineto{106.1538bp}{112.6923bp}
+    \pgfpathqlineto{107.6923bp}{113.4615bp}
+    \pgfpathqlineto{109.2308bp}{114.2308bp}
+    \pgfpathqlineto{110.7692bp}{115.0000bp}
+    \pgfpathqlineto{112.3077bp}{115.7692bp}
+    \pgfpathqlineto{113.8462bp}{116.5385bp}
+    \pgfpathqlineto{115.3846bp}{117.3077bp}
+    \pgfpathqlineto{116.9231bp}{118.0769bp}
+    \pgfpathqlineto{118.4615bp}{118.8462bp}
+    \pgfpathqlineto{120.0000bp}{119.6154bp}
+    \pgfpathqlineto{121.5385bp}{120.3846bp}
+    \pgfpathqlineto{123.0769bp}{121.1538bp}
+    \pgfpathqlineto{124.6154bp}{121.9231bp}
+    \pgfpathqlineto{126.1538bp}{122.6923bp}
+    \pgfpathqlineto{127.6923bp}{123.4615bp}
+    \pgfpathqlineto{129.2308bp}{124.2308bp}
+    \pgfpathqlineto{130.7692bp}{125.0000bp}
+    \pgfpathqlineto{132.3077bp}{125.7692bp}
+    \pgfpathqlineto{133.8462bp}{126.5385bp}
+    \pgfpathqlineto{135.3846bp}{127.3077bp}
+    \pgfpathqlineto{136.9231bp}{128.0769bp}
+    \pgfpathqlineto{138.4615bp}{128.8462bp}
+    \pgfpathqlineto{140.0000bp}{129.6154bp}
+    \pgfpathqlineto{141.5385bp}{130.3846bp}
+    \pgfpathqlineto{143.0769bp}{131.1538bp}
+    \pgfpathqlineto{144.6154bp}{131.9231bp}
+    \pgfpathqlineto{146.1538bp}{132.6923bp}
+    \pgfpathqlineto{147.6923bp}{133.4615bp}
+    \pgfpathqlineto{149.2308bp}{134.2308bp}
+    \pgfpathqlineto{150.7692bp}{135.0000bp}
+    \pgfpathqlineto{152.3077bp}{135.7692bp}
+    \pgfpathqlineto{153.8462bp}{136.5385bp}
+    \pgfpathqlineto{155.3846bp}{137.3077bp}
+    \pgfpathqlineto{156.9231bp}{138.0769bp}
+    \pgfpathqlineto{158.4615bp}{138.8462bp}
+    \pgfpathqlineto{160.0000bp}{139.6154bp}
+    \pgfpathqlineto{161.5385bp}{140.3846bp}
+    \pgfpathqlineto{163.0769bp}{141.1538bp}
+    \pgfpathqlineto{164.6154bp}{141.9231bp}
+    \pgfpathqlineto{166.1538bp}{142.6923bp}
+    \pgfpathqlineto{167.6923bp}{143.4615bp}
+    \pgfpathqlineto{169.2308bp}{144.2308bp}
+    \pgfpathqlineto{170.7692bp}{145.0000bp}
+    \pgfpathqlineto{172.3077bp}{145.7692bp}
+    \pgfpathqlineto{173.8462bp}{146.5385bp}
+    \pgfpathqlineto{175.3846bp}{147.3077bp}
+    \pgfpathqlineto{176.9231bp}{148.0769bp}
+    \pgfpathqlineto{178.4615bp}{148.8462bp}
+    \pgfpathqlineto{180.0000bp}{149.6154bp}
+    \pgfpathqlineto{181.5385bp}{150.3846bp}
+    \pgfpathqlineto{183.0769bp}{151.1538bp}
     \pgfpathqlineto{184.6154bp}{151.1538bp}
-    \pgfpathqlineto{186.1538bp}{151.1538bp}
-    \pgfpathqlineto{187.6923bp}{135.7692bp}
-    \pgfpathqlineto{189.2308bp}{97.3077bp}
+    \pgfpathqlineto{186.1538bp}{135.7692bp}
+    \pgfpathqlineto{187.6923bp}{97.3077bp}
+    \pgfpathqlineto{189.2308bp}{95.0000bp}
     \pgfpathqlineto{190.7692bp}{95.0000bp}
-    \pgfpathqlineto{192.3077bp}{95.0000bp}
-    \pgfpathqlineto{193.8462bp}{78.8462bp}
-    \pgfpathqlineto{195.3846bp}{75.0000bp}
-    \pgfpathqlineto{196.9231bp}{75.7692bp}
+    \pgfpathqlineto{192.3077bp}{78.8462bp}
+    \pgfpathqlineto{193.8462bp}{75.0000bp}
+    \pgfpathqlineto{195.3846bp}{75.7692bp}
+    \pgfpathqlineto{196.9231bp}{66.5385bp}
     \pgfpathqlineto{198.4615bp}{66.5385bp}
-    \pgfpathqlineto{200.0000bp}{66.5385bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -258,7 +258,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{109.6154bp}
+    \pgfpathqmoveto{3.0769bp}{109.6154bp}
+    \pgfpathqlineto{4.6154bp}{109.6154bp}
     \pgfpathqlineto{6.1538bp}{109.6154bp}
     \pgfpathqlineto{7.6923bp}{109.6154bp}
     \pgfpathqlineto{9.2308bp}{109.6154bp}
@@ -375,7 +376,7 @@
     \pgfpathqlineto{180.0000bp}{109.6154bp}
     \pgfpathqlineto{181.5385bp}{109.6154bp}
     \pgfpathqlineto{183.0769bp}{109.6154bp}
-    \pgfpathqlineto{184.6154bp}{109.6154bp}
+    \pgfpathqlineto{184.6154bp}{104.2308bp}
     \pgfpathqlineto{186.1538bp}{104.2308bp}
     \pgfpathqlineto{187.6923bp}{104.2308bp}
     \pgfpathqlineto{189.2308bp}{104.2308bp}
@@ -385,7 +386,6 @@
     \pgfpathqlineto{195.3846bp}{104.2308bp}
     \pgfpathqlineto{196.9231bp}{104.2308bp}
     \pgfpathqlineto{198.4615bp}{104.2308bp}
-    \pgfpathqlineto{200.0000bp}{104.2308bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -394,7 +394,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{60.3846bp}
+    \pgfpathqmoveto{3.0769bp}{60.3846bp}
+    \pgfpathqlineto{4.6154bp}{60.3846bp}
     \pgfpathqlineto{6.1538bp}{60.3846bp}
     \pgfpathqlineto{7.6923bp}{60.3846bp}
     \pgfpathqlineto{9.2308bp}{60.3846bp}
@@ -521,7 +522,6 @@
     \pgfpathqlineto{195.3846bp}{60.3846bp}
     \pgfpathqlineto{196.9231bp}{60.3846bp}
     \pgfpathqlineto{198.4615bp}{60.3846bp}
-    \pgfpathqlineto{200.0000bp}{60.3846bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -530,7 +530,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{109.6154bp}
+    \pgfpathqmoveto{3.0769bp}{109.6154bp}
+    \pgfpathqlineto{4.6154bp}{109.6154bp}
     \pgfpathqlineto{6.1538bp}{109.6154bp}
     \pgfpathqlineto{7.6923bp}{109.6154bp}
     \pgfpathqlineto{9.2308bp}{109.6154bp}
@@ -647,17 +648,16 @@
     \pgfpathqlineto{180.0000bp}{109.6154bp}
     \pgfpathqlineto{181.5385bp}{109.6154bp}
     \pgfpathqlineto{183.0769bp}{109.6154bp}
-    \pgfpathqlineto{184.6154bp}{109.6154bp}
+    \pgfpathqlineto{184.6154bp}{65.7692bp}
     \pgfpathqlineto{186.1538bp}{65.7692bp}
     \pgfpathqlineto{187.6923bp}{65.7692bp}
     \pgfpathqlineto{189.2308bp}{65.7692bp}
     \pgfpathqlineto{190.7692bp}{65.7692bp}
-    \pgfpathqlineto{192.3077bp}{65.7692bp}
+    \pgfpathqlineto{192.3077bp}{65.0000bp}
     \pgfpathqlineto{193.8462bp}{65.0000bp}
     \pgfpathqlineto{195.3846bp}{65.0000bp}
     \pgfpathqlineto{196.9231bp}{65.0000bp}
     \pgfpathqlineto{198.4615bp}{65.0000bp}
-    \pgfpathqlineto{200.0000bp}{65.0000bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -666,7 +666,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{4.6154bp}{60.3846bp}
+    \pgfpathqmoveto{3.0769bp}{60.3846bp}
+    \pgfpathqlineto{4.6154bp}{60.3846bp}
     \pgfpathqlineto{6.1538bp}{60.3846bp}
     \pgfpathqlineto{7.6923bp}{60.3846bp}
     \pgfpathqlineto{9.2308bp}{60.3846bp}
@@ -788,12 +789,11 @@
     \pgfpathqlineto{187.6923bp}{60.3846bp}
     \pgfpathqlineto{189.2308bp}{60.3846bp}
     \pgfpathqlineto{190.7692bp}{60.3846bp}
-    \pgfpathqlineto{192.3077bp}{60.3846bp}
+    \pgfpathqlineto{192.3077bp}{61.1538bp}
     \pgfpathqlineto{193.8462bp}{61.1538bp}
     \pgfpathqlineto{195.3846bp}{61.1538bp}
     \pgfpathqlineto{196.9231bp}{61.1538bp}
     \pgfpathqlineto{198.4615bp}{61.1538bp}
-    \pgfpathqlineto{200.0000bp}{61.1538bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -802,8 +802,8 @@
     \pgfsetstrokecolor{sc}
     \pgfsetmiterjoin
     \pgfsetbuttcap
-    \pgfpathqmoveto{16.9231bp}{60.3846bp}
-    \pgfpathqlineto{16.9231bp}{59.6154bp}
+    \pgfpathqmoveto{200.0000bp}{60.3846bp}
+    \pgfpathqlineto{200.0000bp}{59.6154bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
@@ -814,6 +814,16 @@
     \pgfsetbuttcap
     \pgfpathqmoveto{186.1538bp}{60.3846bp}
     \pgfpathqlineto{186.1538bp}{59.6154bp}
+    \pgfusepathqstroke
+  \end{pgfscope}
+  \begin{pgfscope}
+    \pgfsetlinewidth{0.5722bp}
+    \definecolor{sc}{rgb}{1.0000,0.0000,0.0000}
+    \pgfsetstrokecolor{sc}
+    \pgfsetmiterjoin
+    \pgfsetbuttcap
+    \pgfpathqmoveto{3.0769bp}{60.3846bp}
+    \pgfpathqlineto{3.0769bp}{59.6154bp}
     \pgfusepathqstroke
   \end{pgfscope}
   \begin{pgfscope}
