@@ -1,0 +1,44 @@
+\documentclass[Master.tex]{subfiles}
+\begin{document}
+
+	In the beginning we raised the question what does it mean to learn?, we then defined learning as the acquisition of knowledge, 
+	however we would not define an agent that merely remembers all transition it has observed as a learning agent,
+	instead we believe that a learning agent must also be able to infer new knowledge from its observations.
+	These ideas are based on the scientific method, which is why we used that as a foundation for our general learning algorithm(see \Cref{algo:science}). 
+	Separate to learning is the concept of achieving situation that may accommodate learning, referred to as a learning strategy.
+	While not learning itself strategies are essential to the discussion of learning as it limits what we may be able to learn. 
+	It is also an unavoidable feature of any intelligent agent, since that not having a strategy is a strategy itself. 
+
+
+	Initially when one looks at learning from a purely non-conditional perspective, 
+	it seems obvious to conclude that learning is just about the observation of contradictions,
+	and is based purely on logical proofs, as we saw in our proof of non-conditional action learning.
+	However the problem non-conditional action schemas is, for starters 
+	these sort of domains are not a natural way of expressing actions, 
+	usually actions contain conditional effects therefore these theory for learning them, 
+	while interesting, may not be useful in actual environments.
+	Furthermore, because actions that fail provides no feedback, 
+	therefore performing that action for the first time can take an agent a very long time, as all candidate sets must be generated.
+	
+	For non-conditional actions we provided solutions that removed two of the restrictions outlined in \cite{Walsh2008} for their algorithms.
+	First one is negative preconditions, our solution is fairly simple as we just had to consider the absence of atoms in the state.
+	The problem however, is that usually only a small subset of all the possible atoms are in the state at the same time, 
+	but with the introduction of negative preconditions, we have to consider all possible atoms all the time.
+	Secondly we solved the problem with negative goals, the solution of extending the internal planner with a new feature --- planning with spurious actions --- is in our opinion quite ingenious, as it is very simple to implement. 
+	
+	
+	When we move into the domain of conditional action learning --- which is much closer to the real world --- 
+	then the problem is more related to pattern recognition than to logic, this makes sense as machine learning as a field is based on the field of pattern recognition. 
+	The underlying truth is that we as logicians often think of preconditions as just that, conditions that must be satisfied in order for effects to happen, and while that is correct it would be more helpful to view them as patterns that allows for those effects.
+	Once we change our view of logic formulas, to one based on mathematical models --- such as our hypergraph model ---	then comprehension of the problem no longer seems overwhelming but rather a manageable challenge. 
+	
+	Why hypergraphs are so important to our solution, is that as a model it allows for nameless variables in the atoms. 
+	In normal first order logic nameless variables are not a particularly attractive feature, 
+	however for describing 
+
+	\section{Future Work}
+	
+	
+	
+
+\end{document}
