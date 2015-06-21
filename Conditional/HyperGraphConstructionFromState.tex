@@ -32,9 +32,13 @@ Similarly to nonconditional actions and connection paths, a candidate is proven 
     \right\}
 \end{equation*}
 
-The set of knowns can now be seen as a set of tuples, consisting of candidate tuples which have been proven to be preconditoins. 
+Given a candidate set $C$, the proven preconditions can now be seen as the singleton sets in $C$, i.e.\ 
 
-% A more natural representation for this is simply a set of sets of vertices, each of which is a subset of a binding edge in $U$. Because of transitive connectivity property <ref>, it holds that if any two subsets of $K$ overlap, then they can be replaced by their union. A tuple $(u,v)$ proven to be a precondition can then be converted to the set $\{u,v\}$ and added to $K$, while unioning <better word for unioning> overlapping sets as described above.
+\begin{equation*}
+    K(C) = \left\{ 
+        c \mid c \in C \land |c| = 1
+    \right\}
+\end{equation*}
 
 As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not necessarily identical, the $merge$ function must also perform an identifier renaming. Thus, the $reduce$ function ascribed above will not work with the merged $U$, as the vertex identifiers will not match, and vertices in $U$ can not be matched with those in $K$. Therefore, $merge$ should return the renaming function used, so that it can be applied to $C$ and $K$.
 
@@ -50,19 +54,15 @@ Thus, when this renaming is applied to a candidate tuple $(u,v)$, it produces $|
     \right\}
 \end{equation*}
 
-A similar method is required for the set of proven preconditions $K$, with the added restriction that a tuple $\left( u', v' \right)$ (where $u'\in rn(u) \land v' \in rn(v)$ is only retained in $K$ if $|rn(u)| \times |rn(v)| = 1$. 
+% As $K$ is a union of singleton candidate sets, each vertex pair $(u,v) \in K$ can be renamed as $rnCands( \{ (u,v) \}, rn)$. If the set returned is a singleton set $\left\{ \left( u, v \right) \right\}$, then $\left(u, v\right)$ is 
+% The same renaming method is applied to all vertex pairs $(u,v)$ in $K$, with an added restriction: if $|rn(u)| > 1$, then 
+%
+% A similar method is required for the set of proven preconditions $K$, with an added restriction: If $|rnTuple( (u,v), rn)| = 1$ for a tuple $(u,v) \in K$, then the singleton set is retained in $K$. Otherwise, $rnTuple( (u,v), rn)$ is added to $C$.
 
 \begin{equation*}
     rnTuple\left( (u,v), rn \right) =
     \left\{
         \left( u', v' \right) \mid u' \in rn(u) \land v' \in rn(v)
-    \right\}
-\end{equation*}
-
-\begin{equation*}
-    rnProven(K, rn) =
-    \left\{
-        \left( u', v' \right) \mid
     \right\}
 \end{equation*}
 
