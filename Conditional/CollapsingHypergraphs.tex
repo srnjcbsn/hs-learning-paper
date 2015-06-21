@@ -3,8 +3,19 @@
 \begin{document}
 
 
-Some conditional effects can be reduced to a smaller expression that is equally restrictive.
 
+\begin{definition}[Redundant preconditions]
+Consider a conditional $C$ of the form
+
+    \begin{equation*}
+        \forall x_1, \dots, x_n : [q\left(x_1, \dots, x_{|q|}\right)] \quad when \quad \left[\bigwedge P\right]
+    \end{equation*}
+    where $P$ is a set of atoms with parameters from $\left\{x_1, \dots, x_n \right\}$.
+    An atom $p \in P$ is \emph{redundant} if it holds for all states $S$ that $eff (S, C) = eff \left(S, C'\right)$, where $C'$ is identical to $C$ with $p$ removed from $P$.
+\end{definition}
+
+Consider an arbitrary state $S$. For a substitution $\delta : \left\{x_1, \dots x_n \right\} \rightarrow \mathcal{O}$
+    
 For all binding sets $b$ of a hypergraph $H$, the following holds:
 
 For any two subsets $b_1$ and $b_2$ of $b$ it holds that: If there exists a vertex transformation function $t$ such that $t\left[b_1\right] \subseteq b_2$, then $b_1$ is redundant, ie. $H$ is equally expressive with or withouth the subgraph described by $b_1$.
