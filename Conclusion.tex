@@ -34,7 +34,22 @@
 	
 	Why hypergraphs are so important to our solution, is that as a model it allows for nameless variables in the atoms. 
 	In normal first order logic nameless variables are not a particularly attractive feature, 
-	however for describing 
+	however as a knowledge description it allows us to compare two conditionals in a simplified manner.
+	
+	The problem currently with hypergraph model is that we have not solved the problem of isomorphic subgraphs (or subgraph matching) in the hypergraphs, 
+	this is especially a problem for our merging algorithm (see \Cref{algo:hypergraphmerge}) as it currently have no prevention of these.
+	Our opinion is that given these subgraphs are not incorrect knowledge but rather duplicate knowledge then removal of some of the subgraphs should be a significant improvement.
+	Therefore using suboptimal solutions that run efficiently would suffice for our purpose. 
+	However we have not had time to focus on this aspect, as we have focused on knowledge acquisition and utilization of that knowledge (construction of hypothesis).
+	
+	
+	Overall we think that learning algorithms built as an deterministic algorithm as opposed to evolutionary algorithm, can be a viable approach to achieve a learning A.I. However further research is definitely required if we are to undercover all the aspects of what it means to learn.
+	
+	
+	
+	
+	
+	
 
 	\section{Future Work}
 	
