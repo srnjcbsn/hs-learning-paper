@@ -1,21 +1,24 @@
+\providecommand{\master}{..}
 \documentclass[../Master.tex]{subfiles}
+
 \begin{document}
+
 
 
 In~\cite{Walsh2008}, they presented an algorithm on how to learn effects of action schemes limited to non-conditional effects. We will expand on that and generalize some of their concepts.
 
-If we ignore the concept of planning with constants in effects, then we know that all fluent literals in our effects must have variables which are permutations of the action's variables. The set of all those fluent literals we define as $\mathbb{F}$, another way to understand $\mathbb{F}$ is that it is all the possible fluent literals which an action schema can have for its effects.
+If we ignore the concept of planning with constants in effects, then we know that all literals in our effects must have variables which are permutations of the action's variables. The set of all those literals we define as $\lits$, another way to understand $\lits$ is that it is all the possible literals which an action schema can have for its effects.
 
 \begin{definition} 
-$\mathbb{F}_A$ is the set of all fluent literals available to an action schema $A$. For ease of use the $A$ can be omitted if it is implied through context.
+$\lits_A$ is the set of all literals available to an action schema $A$. For ease of use the $A$ can be omitted if it is implied through context.
 	\begin{equation*}
-		\mathbb{F}_A = \left\{ 
+		\lits_A = \left\{ 
 				\begin{gathered}
 					p(x_1,\dots,x_n), \\
 					\neg p(x_1,\dots,x_n)
 				\end{gathered}
 					\left|
-				\begin{gathered} p \in \mathbb{P}~\land \\
+				\begin{gathered} p \in \preds~\land \\
                     \left\{ x_1,\dots,x_{|p|} \right\} \subseteq params(A)
 				\end{gathered}				
 							\right.\right\}
@@ -57,40 +60,45 @@ $\mathbb{F}_A$ is the set of all fluent literals available to an action schema $
 
 \end{figure}
 
-For any action schema schema it is common that only a small subset of $\mathbb{F}$ are actually present in its effects, 
+For any action schema schema it is common that only a small subset of $\lits$ are actually present in its effects, 
 therefore we differentiate between them by defining whether we have proved or disproved them. 
-Initially when a fluent has yet to proved or disproved, we say that it is unproven. 
-It then follows that if no fluents are considered unproven then we have complete knowledge for the action schemas effects.
+Initially when a literal has yet to proved or disproved, we say that it is unproven. 
+It then follows that if no literals are considered unproven then we have complete knowledge for the action schemas effects.
 
 
 \begin{definition} 
-	The proved set $K$ contains which fluents  $f \in \mathbb{F}$ we know are in the action schemas actual effects.
-	Conversely the disproved set $D$ define which fluents are for certain not present.
-	Those fluents that are neither in $K$ nor in $D$ are said to be in the unproven set $U$.
+	The proved set $\Pro$ contains which literals  $l \in \lits$ we know are in the action schemas actual effects.
+	Conversely the disproved set $\Dsp$ define which literals are for certain not present.
+	Those literals that are neither in $\Pro$ nor in $\Dsp$ are said to be in the unproven set $\Up$.
+	
+	For instance, if an action's effect can have the literals $\lits = \{p(x), \neg p(x)\}$, 
+	then initially $\Up = \lits$, $\Pro = \emptyset$ and $\Dsp = \emptyset$. 
+	If we then learn that $p(x)$ is an effect and $\neg p(x)$ is not. 
+	Our sets should by this definition be: $\Up = \emptyset$, $\Pro = \{p(x)\}$ and $\Dsp = \{\neg p(x)\}$. 
 	
 \end{definition}
 
-For $K$, $D$ and $U$ two important invariant holds.
+For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 
 \begin{invariant}[Mutual exclusivity]
 	\begin{equation*}
 		\begin{split}
-		K \cap D & = \emptyset  \\ 
-		K \cap U &= \emptyset \\
-		D \cap U &= \emptyset
+		\Pro \cap \Dsp & = \emptyset  \\ 
+		\Pro \cap \Up &= \emptyset \\
+		\Dsp \cap \Up &= \emptyset
 		\end{split}
 	\end{equation*}
 \end{invariant}
 
 \begin{invariant}[Completeness]
 	\begin{equation*}
-		U \cup K \cup D = \mathbb{F}
+		\Up \cup \Pro \cup \Dsp = \lits
 	\end{equation*}
 \end{invariant}
 
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
-In a state transition effects are added directly to $S$ in order to form $S'$, therefor we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that predicates are both in $S$ and $S'$ there are two distinct possibilities either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
-To disprove fluents for a single transition we use the idea that fluents that have been grounded which not in the $S'$ cannot be positive effects, and fluents that have been grounded  which are in the $S'$ cannot be negative effects. 
+In a state transition effects are added directly to $S$ in order to form $S'$, therefor we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that atoms are both in $S$ and $S'$ there are two distinct possibilities either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
+To disprove atoms for a single transition we use the idea that grounded atoms which not in the $S'$ cannot be positive effects, and grounded atoms which are in the $S'$ cannot be negative effects. 
 This is logically sound and gives us the following theorem:
 
 \begin{theorem}

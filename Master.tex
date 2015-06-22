@@ -18,11 +18,13 @@
 %
 %Set to 'print' for printed version, use 'net' for online version
 \def\thesisversion{print}
+\providecommand{\master}{.}
 %
 %==================================================================================================
 % PACKAGES
 %==================================================================================================
-\usepackage{LukeThesis}                             %Import Thesis base style
+
+\usepackage{\master/LukeThesis}                             %Import Thesis base style
 \usepackage{subfiles}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -76,13 +78,45 @@
 % symbol used for function calculating total state
 \newcommand{\ts}{X}
 
+
 % Symbol for a predicate connection
 \newcommand{\pc}{\times}
 % Symbol for a binding connection
 \newcommand{\bc}{\bullet}
+% Symbol for atoms
+\newcommand{\atoms}{\mathbb{A}}
+
+\newcommand{\lits}{\mathbb{L}}
+% Symbol for predicates
+\newcommand{\preds}{\mathbb{P}}
+% Symbol for goal
+\newcommand{\goal}{\mathcal{G}}
+% Symbol for domain
+\newcommand{\dom}{\mathcal{D}}
+
+%symbol for disproven
+\newcommand{\dsp}{d}
+\newcommand{\Dsp}{D}
+
+%symbol for proven
+\newcommand{\pro}{k}
+\newcommand{\Pro}{K}
+
+%symbbol for unproven
+\newcommand{\up}{u}
+\newcommand{\Up}{U}
+
+%symbol for candidate
+\newcommand{\cand}{c}
+\newcommand{\Cand}{C}
+
+\newcommand{\objs}{\mathcal{O}}
+
+\newcommand{\cset}{\mathcal{C}}
+
 
 \begin{document}
-\newcommand{\master}{.}
+
 %------------------------
 %Pre-frontmatter material
 %------------------------
