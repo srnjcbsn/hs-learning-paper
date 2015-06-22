@@ -18,9 +18,9 @@ showName :: Vert -> String
 showName (name, n, _) = "$" ++ name ++ "_" ++ show n ++ "$"
 
 data HyperGraph = HyperGraph
-    { verts     :: Map Vert Pos
+    { verts       :: Map Vert Pos
 	  , pSets :: [[Vert]]
-    , bSets     :: [[Vert]]
+    , bSets       :: [[Vert]]
     }
 
 vertex :: Vert -> Diagram B
@@ -147,17 +147,21 @@ isomorphic = HyperGraph
     { verts = fromList [ (q1,   (1, 2))
                        , (p1_1, (2, 2))
                        , (p2_1, (3, 2))
+                       , (g1,   (3, 1))
                        , (p1_2, (1, 1))
                        , (p2_2, (1, 0))
+                       , (f1,   (2, 0))
                        ]
-    , pSets = [[q1], [p1_1, p2_1], [p1_2, p2_2]]
-    , bSets = [[p1_2, q1, p1_1], [p2_1], [p2_2]]
+    , pSets = [[q1], [p1_1, p2_1], [p1_2, p2_2], [g1], [f1]]
+    , bSets = [[p1_2, q1, p1_1], [p2_1, g1], [p2_2, f1]]
     }
     where q1   = ("q", 1, 1)
           p1_1 = ("p", 1, 2)
           p2_1 = ("p", 2, 3)
           p1_2 = ("p", 1, 4)
           p2_2 = ("p", 2, 5)
+          g1   = ("g", 1, 6)
+          f1   = ("g", 1, 7)
 
 isomorphicReduced :: HyperGraph
 isomorphicReduced = HyperGraph

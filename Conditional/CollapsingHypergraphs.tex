@@ -2,6 +2,8 @@
 \providecommand{\master}{..}
 \begin{document}
 
+Some preconditions can be reduced to smaller expressions that are equally restrictive, end therefore produce the same effects in the same states. The atoms that can be removed to obtain such an expression are said to be \textit{redundant}.
+
 \begin{definition}[Redundant preconditions]\label{def:ca:redundantps}
 Consider a conditional $C$ of the form
 
@@ -12,7 +14,7 @@ Consider a conditional $C$ of the form
     A subset $P' \subset P$ is \emph{redundant} if it holds for all states $S$ that $eff (C,S) = eff \left(C',S\right)$, where $C'$ is identical to $C$ with $P'$ removed from $P$.
 \end{definition}
 
-
+In other words, a precondition $p$ is redundant if another precondition $p'$ with the same name already exists, and if the $i$'th parameter of $p$ is a variable occuring in the effect, then the $i$'th parameter of $p'$ is identical. I.e.\ 
 
 \begin{proposition}\label{prop:ca:redundantps}
     A subset $P'$ of the preconditions $P$ of a conditional $C$ is redundant if there exists a mapping $s : \left\{ x_1, \dots, x_n \right\} \rightarrow \left\{ x_1, \dots, x_n \right\}$ where $\left[ x_1 \mapsto x_n, \dots, x_{|q|} \mapsto x_{|q|}\right]$ such that $s \left[P\right] = P \setminus P'$. That is, a mapping that does not change the name of variables appearing in the effect.
@@ -28,13 +30,21 @@ Consider a conditional $C$ of the form
     From $eff(C, S) \subseteq eff(C',S) \land eff(C',S) \subseteq eff(C, S)$ we have that $eff(C,S) = eff(C',S)$ for all $S$, and $P'$ is therefore a set of redundant preconditions.
 \end{proof}
 
-From Proposition~\ref{prop:ca:redundantps} it follows that a precondition $p$ is redundant if another precondition $p'$ with the same name already exists, and if the $i$'th parameter of $p$ is a variable occuring in the effect, then the $i$'th parameter of $p'$ is identical. From this it can be observed that a set of connecting paths correctly removes redundant preconditions: since connecting paths do not mention variable names, a set of preconditions which are identical to another set in $P$ under variable renaming is described by the same path. See Example~\ref{ex:ca:hgma:ex:collapsing} for an illustration.
+From Proposition~\ref{prop:ca:redundantps} it can be seen that a set of connecting paths correctly removes redundant preconditions: since connecting paths do not mention variable names, a set of preconditions which are identical to another set in $P$ under variable renaming is described by the same path. See Example~\ref{ex:ca:hgma:ex:collapsing} for an illustration.
 
 However, this is not the case for hypergraphs. In this model, redundant preconditions appear as mirrored subgraphs: If a set of preconditions $P_1 \subset P$ is made redundant by another set $P_2 \subset P$, then they both appear as subhypergraphs of the hypergraph of $P$, and have a binding edge in common. Since $P_1$ is equal to $P_2$ under variable renaming, their hypergraphs are isomorphic under vertex identifier renaming. 
 
 However, ismorphic subgraphs are not automatically removed by either hypergraph construction or -merging functions, and must be handled seperately. In fact, the hypergraph merging algorithm can \textit{add} redundancy, as shown in Example~\ref{ex:ca:hgma:ex:collapsing}.
 
 \begin{example}\label{ex:ca:hgma:ex:collapsing}
+    
+    Consider the following set of unproven connecting paths $U$ for a conditional $C$:
+    \begin{align*}
+        f_1 \bc p_2 \pc p_1 \bc p_1 \bc q_1 \\
+        g_1 \bc p_2 \pc p_1 \bc p_1 \bc q_1
+    \end{align*}
+
+    If this set of unproven paths are merged with another identical set, then the outcome will be $U$. However, the corresponding hypergraph (shown in \figref{fig:ex:ca:hgma:ex:isomorphic}) will double in size when it is merged with an identical one. This is a consequence of the hyperedge intersection function $e_1 \sqcap e_2$ yielding a vertex for each pair of equally-named vertices $\left(v_1, v_2\right)$, where $v_1 \in e_1$ and $v_2 \in e_2$ (showcased in Example~\ref{ex:ca:hgma:generalization}).
 
 	Consider an action $a$ applied in state $s_0$, resulting in state $s_1$:
 	\begin{equation*}
@@ -88,5 +98,7 @@ However, ismorphic subgraphs are not automatically removed by either hypergraph 
 
 
 Note that, by Definition~\ref{def:ca:redundantps}, the addition of redundant preconditions to hypergraphs does not yield incorrect knowledge. However, it does decrease effictiveness and efficiency. It decreases \textit{efficiency}, because the hypergraph grows unnecessarily in size and thus is harder to merge. It decreases effectiveness because the ``proven'' preconditions are reduced to candidates more often, and candidate sets grow in size, making them harder to reduce to the singleton set.
+
+
 
 \end{document}
