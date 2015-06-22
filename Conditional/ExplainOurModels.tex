@@ -39,6 +39,8 @@ Consequently, a path graph consists of \textit{binding} and \textit{predicate} c
 
 As the graph can be meaningfully partitioned into complete subgraphs, the vertices of each subgraph can simply be seen as a set, where each set overlaps with the others. Thus, a path graph $G$ becomes $HG = \left(V, E_H\right)$, where each member of $E_H$ is a set of vertices comprising either a binding or predicate clique in $G$ (labelled $\bc$ or $\pc$ respectively). Then, $HG$ describes a \emph{conformal hypergraph} (see e.g.\ \cite{bretto}), where $E_H$ is a set of hyperedges.
 
+A hypergraph constructed from a set of connecting paths contains $O\left(|\mathcal{O}|^m\right)$ vertices and $O\left( |\mathcal{O}|^m\right)$ hyperedges, where $m$ is the maximum arity of predicates. 
+
 \begin{figure}
     \centering
     \begin{subfigure}[t]{0.30\textwidth}

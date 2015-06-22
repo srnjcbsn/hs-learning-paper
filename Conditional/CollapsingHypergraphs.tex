@@ -2,23 +2,37 @@
 \providecommand{\master}{..}
 \begin{document}
 
-
-
-\begin{definition}[Redundant preconditions]
+\begin{definition}[Redundant preconditions]\label{def:ca:redundantps}
 Consider a conditional $C$ of the form
 
     \begin{equation*}
         \forall x_1, \dots, x_n : [q\left(x_1, \dots, x_{|q|}\right)] \quad when \quad \left[\bigwedge P\right]
     \end{equation*}
     where $P$ is a set of atoms with parameters from $\left\{x_1, \dots, x_n \right\}$.
-    An atom $p \in P$ is \emph{redundant} if it holds for all states $S$ that $eff (S, C) = eff \left(S, C'\right)$, where $C'$ is identical to $C$ with $p$ removed from $P$.
+    A subset $P' \subset P$ is \emph{redundant} if it holds for all states $S$ that $eff (C,S) = eff \left(C',S\right)$, where $C'$ is identical to $C$ with $P'$ removed from $P$.
 \end{definition}
 
-Consider an arbitrary state $S$. For a substitution $\delta : \left\{x_1, \dots x_n \right\} \rightarrow \mathcal{O}$
-    
-For all binding sets $b$ of a hypergraph $H$, the following holds:
 
-For any two subsets $b_1$ and $b_2$ of $b$ it holds that: If there exists a vertex transformation function $t$ such that $t\left[b_1\right] \subseteq b_2$, then $b_1$ is redundant, ie. $H$ is equally expressive with or withouth the subgraph described by $b_1$.
+
+\begin{proposition}\label{prop:ca:redundantps}
+    A subset $P'$ of the preconditions $P$ of a conditional $C$ is redundant if there exists a mapping $s : \left\{ x_1, \dots, x_n \right\} \rightarrow \left\{ x_1, \dots, x_n \right\}$ where $\left[ x_1 \mapsto x_n, \dots, x_{|q|} \mapsto x_{|q|}\right]$ such that $s \left[P\right] = P \setminus P'$. That is, a mapping that does not change the name of variables appearing in the effect.
+\end{proposition}
+
+\begin{proof} 
+    Recall that for a conditional to yield an effect $q\left(O_1, \dots O_{|q|}\right)$ (where $\left\{ O_1, \dots, O_{|q|}\right\} \subseteq \mathcal{O}$) in a state $S$, there must exist a mapping $\sigma$ from variables of $C$ to objects in $\mathcal{O}$, such that $\sigma\left[ P \right] \subseteq S$, and $\sigma\left(x_1\right) = O_1, \dots, \sigma\left(x_{|q|}\right) = O_{|q|}$. Let $C$ be a conditional with precondition set $P$, and $C'$ be equal to $C$, except with preconditions $P \setminus P'$. Let $s$ be a renaming function as described in Proposition~\ref{prop:ca:redundantps}.
+    \begin{itemize}
+        \item Since $s\left[ P \right] \subset P$, it holds that if $\sigma \left[ P \right] \subseteq S$, then $\sigma \left[ s \left[ P \right] \right] \subseteq S$, which implies that $eff(C,S) \subseteq eff(C',S)$.
+
+        \item If $\sigma$ is a mapping such that $\sigma \left[ s \left[ P \right]\right] \subseteq S$, then $\sigma' = \left(\sigma \circ s \right)$ is a mapping such that $\sigma' \left[P\right] \subseteq S$. Therefore, $eff(C', S) \subseteq eff(C', S)$
+    \end{itemize}
+    From $eff(C, S) \subseteq eff(C',S) \land eff(C',S) \subseteq eff(C, S)$ we have that $eff(C,S) = eff(C',S)$ for all $S$, and $P'$ is therefore a set of redundant preconditions.
+\end{proof}
+
+From Proposition~\ref{prop:ca:redundantps} it follows that a precondition $p$ is redundant if another precondition $p'$ with the same name already exists, and if the $i$'th parameter of $p$ is a variable occuring in the effect, then the $i$'th parameter of $p'$ is identical. From this it can be observed that a set of connecting paths correctly removes redundant preconditions: since connecting paths do not mention variable names, a set of preconditions which are identical to another set in $P$ under variable renaming is described by the same path. See Example~\ref{ex:ca:hgma:ex:collapsing} for an illustration.
+
+However, this is not the case for hypergraphs. In this model, redundant preconditions appear as mirrored subgraphs: If a set of preconditions $P_1 \subset P$ is made redundant by another set $P_2 \subset P$, then they both appear as subhypergraphs of the hypergraph of $P$, and have a binding edge in common. Since $P_1$ is equal to $P_2$ under variable renaming, their hypergraphs are isomorphic under vertex identifier renaming. 
+
+However, ismorphic subgraphs are not automatically removed by either hypergraph construction or -merging functions, and must be handled seperately. In fact, the hypergraph merging algorithm can \textit{add} redundancy, as shown in Example~\ref{ex:ca:hgma:ex:collapsing}.
 
 \begin{example}\label{ex:ca:hgma:ex:collapsing}
 
@@ -70,5 +84,9 @@ For any two subsets $b_1$ and $b_2$ of $b$ it holds that: If there exists a vert
         \hfill
     \end{figure}
 \end{example}
+
+
+
+Note that, by Definition~\ref{def:ca:redundantps}, the addition of redundant preconditions to hypergraphs does not yield incorrect knowledge. However, it does decrease effictiveness and efficiency. It decreases \textit{efficiency}, because the hypergraph grows unnecessarily in size and thus is harder to merge. It decreases effectiveness because the ``proven'' preconditions are reduced to candidates more often, and candidate sets grow in size, making them harder to reduce to the singleton set.
 
 \end{document}
