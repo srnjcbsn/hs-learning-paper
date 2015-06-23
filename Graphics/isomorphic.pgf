@@ -164,7 +164,7 @@
     \pgfsetfillcolor{fc}
     \pgftransformshift{\pgfqpoint{107.1429bp}{35.7143bp}}
     \pgftransformscale{1.7857}
-    \pgftext[base,left]{$g_1$}
+    \pgftext[base,left]{$f_1$}
   \end{pgfscope}
   \begin{pgfscope}
     \definecolor{fc}{rgb}{0.0000,0.0000,0.0000}

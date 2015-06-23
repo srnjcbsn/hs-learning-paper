@@ -161,7 +161,7 @@ isomorphic = HyperGraph
           p1_2 = ("p", 1, 4)
           p2_2 = ("p", 2, 5)
           g1   = ("g", 1, 6)
-          f1   = ("g", 1, 7)
+          f1   = ("f", 1, 7)
 
 isomorphicReduced :: HyperGraph
 isomorphicReduced = HyperGraph
