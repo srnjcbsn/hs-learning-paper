@@ -7,7 +7,7 @@
 
 In~\cite{Walsh2008}, they presented an algorithm on how to learn effects of action schemes limited to non-conditional effects. We will expand on that and generalize some of their concepts.
 
-If we ignore the concept of planning with constants in effects, then we know that all literals in our effects must have variables which are permutations of the action's variables. The set of all those literals we define as $\lits$, another way to understand $\lits$ is that it is all the possible literals which an action schema can have for its effects.
+If we ignore the concept of planning with constants in effects, then we know that all literals in our effects must have variables which are permutations of the action's variables. The set of all those literals we define as $\lits$, another way to understand $\lits$ is that it is all the possible literals which an action schema use for its effects (or preconditions).
 
 \begin{definition} 
 $\lits_A$ is the set of all literals available to an action schema $A$. For ease of use the $A$ can be omitted if it is implied through context.
@@ -97,26 +97,26 @@ For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 \end{invariant}
 
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
-In a state transition effects are added directly to $S$ in order to form $S'$, therefor we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that atoms are both in $S$ and $S'$ there are two distinct possibilities either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
+In a state transition effects are added directly to $S$ in order to form $S'$, therefore we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that atoms are both in $S$ and $S'$ there are two distinct possibilities either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
 To disprove atoms for a single transition we use the idea that grounded atoms which not in the $S'$ cannot be positive effects, and grounded atoms which are in the $S'$ cannot be negative effects. 
 This is logically sound and gives us the following theorem:
 
 \begin{theorem}
 	 From a single state-transition $(S,a,S')$ we know that,
-	positive fluents are disproved, when grounded they are not in $S'$. Conversely negative fluents when grounded are disproved when they are in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:
+	positive literals are disproved, when grounded they are not in $S'$. Conversely grounded negative literals are disproved when they are in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:
 	
 	\begin{equation*}
-		 d(S') = \left\{
-			f \; | \; f \in \mathbb{F} \land ground(f) \notin S'
+		 \dsp(S') = \left\{
+			p \mid p \in \lits \land \ground (p) \notin S'
 			\right\} 
 			\cup
 			 \left\{
-			\neg f \; | \; \neg f \in \mathbb{F} \land ground(f) \in S'
+			\overline{p} \mid \overline{p} \in \lits \land \ground(p) \in S'
 			\right\}
 	\end{equation*}
 	\begin{proof}[Proof by definition]
-		Recall that $S'$ is the result of a union which include the grounded predicates of an action $A$'s effects. Hence, it follows trivially that any predicate $p \notin S'$ can not have been an effect of action $A$.
-	Like wise if a grounded fluent is in $S'$ then that fluent cannot have been a negative effect, or it would not have been in $S'$.
+		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p) \notin S'$ can not have been an effect of action $A$.
+	Like wise if a potential negative effect $\overline{p}$ is $\ground(p) \in S'$ then that could not have been a negative effect.
 	\end{proof}
 \end{theorem}
 
@@ -144,7 +144,7 @@ This is logically sound and gives us the following theorem:
 			\texttt{hAdj}(t_1, t_2)			
 		\end{gathered}
 		\right\} \\		
-		\mathbb{F}_{move-h} &= \left\{
+		\lits_{move-h} &= \left\{
 		\begin{gathered}
 			\texttt{sokobanAt}(to), \texttt{clear}(from), \\
 			\texttt{vAdj}(from, to), \texttt{vAdj}(to, from), \\
@@ -155,7 +155,7 @@ This is logically sound and gives us the following theorem:
 			\dots
 		\end{gathered}
 		\right\} \\
-		d(S_1) &= \left\{
+		\dsp(S_1) &= \left\{
 		\begin{gathered}
 			\neg \texttt{sokobanAt}(to), \\
 			\neg \texttt{clear}(from), \\
@@ -183,10 +183,10 @@ We see that incorrect effects are correctly disproved, such as moving the sokoba
 \node[ele,label=below:{$p(y,y)$}] (a4) at (3,1) {};
 \node[] (a5) at (3,0.5) {};
 
-\node[ele,,label=below:{$p(o_1,o_2)$}] (b1) at (0,4) {};
-\node[ele,,label=below:{$p(o_2,o_1)$}] (b2) at (0,3) {};
-\node[ele,,label=below:{$p(o_1,o_1)$}] (b3) at (0,2) {};
-\node[ele,,label=below:{$p(o_2,o_2)$}] (b4) at (0,1) {};
+\node[ele,,label=below:{$p(O_1,O_2)$}] (b1) at (0,4) {};
+\node[ele,,label=below:{$p(O_2,O_1)$}] (b2) at (0,3) {};
+\node[ele,,label=below:{$p(O_1,O_1)$}] (b3) at (0,2) {};
+\node[ele,,label=below:{$p(O_2,O_2)$}] (b4) at (0,1) {};
 \node[] (b5) at (0,0.5) {};
 
 \node[draw,fit= (a1) (a2) (a3) (a4) (a5),minimum width=2cm] {} ;
@@ -196,7 +196,7 @@ We see that incorrect effects are correctly disproved, such as moving the sokoba
 \draw[<-,thick,shorten <=2pt,shorten >=2] (a3) -- (b3);
 \draw[<-,thick,shorten <=2pt,shorten >=2] (a4) -- (b4);
 \end{tikzpicture}
-		\caption{Unique $A(o_1,o_2)$, \newline $ground^{-1}$ is single-valued}
+		\caption{Unique $A(O_1,O_2)$, \newline $\invground$ is single-valued}
 	\end{subfigure}%
 	\begin{subfigure}{.5\textwidth}
 		\centering
@@ -209,7 +209,7 @@ We see that incorrect effects are correctly disproved, such as moving the sokoba
 \node[] (a5) at (3,0.5) {};
 
 \node[] (b2) at (0,4) {};
-\node[ele,,label=below:{$p(o_1,o_1)$}] (b1) at (0,2.5) {};
+\node[ele,,label=below:{$p(O_1,O_1)$}] (b1) at (0,2.5) {};
 \node[] (b5) at (0,0.5) {};
 
 \node[draw,fit= (a1) (a2) (a3) (a4) (a5),minimum width=2cm] {} ;
@@ -220,34 +220,48 @@ We see that incorrect effects are correctly disproved, such as moving the sokoba
 \draw[<-,thick,shorten <=2pt,shorten >=2] (a4) -- (b1);
 \end{tikzpicture}
 		
-		\caption{Identical $A(o_1,o_1)$, \newline 
-			$ground^{-1}$ is multivalued.}
+		\caption{Identical $A(O_1,O_1)$, \newline 
+			$\invground$ is multivalued.}
 	\end{subfigure}
-	\caption{Shows how $ground^{-1}$ maps to the domain $\mathbb{F}$ from the grounded fluents, for unique and identical action arguments. }
+	\caption{Shows how $\invground$ maps to the domain $\lits$ from the grounded atoms, for unique and identical action arguments. }
 	\label{fig:nca:ground-injectivity}
 \end{figure}
 
-In order to understand proving of fluents we must look into how effects are generated, based on the action schema.
-The $ground$ function is used to ground fluents from an action's effect. This is important since if we know what fluent a grounded fluent originated from, then that is a proof for that fluent. This means that if a grounded fluent $p \in \Delta S$ returns only one fluent when $ground^{-1}$ is applied to it, i.e. $ground^{-1}(p) = {f}$ then that $f$ has been proved. In other words if $ground$ is injective then $ground^{-1}$ is single-valued and it can thus be applied to all grounded fluents in $\Delta S$ and that will prove all of their respective fluents.
-Whether or not $ground$ is injective depends on the arguments of the action (see Figure \ref*{fig:nca:ground-injectivity}).
+In order to understand proving of effect we must look into how effects are generated, based on the action schema.
+The $\ground$ function is used to ground atoms from an action's effect. This is important since if we know what atom a grounded atom originated from, then that is a proof for that atom. This means that if a grounded atom $p \in \Delta S$ returns only one atom when $\invground$ is applied to it, i.e. $\invground(p(O_1,O_2)) = {p(x,y)}$ then that atom $p(x,y)$ has been proved. In other words if $\ground$ is injective then $\invground$ is single-valued and it can thus be applied to all grounded atoms in $\Delta S$ and that will prove all of their respective atoms.
+Whether or not $\ground$ is injective depends on the arguments of the action (see Figure \ref*{fig:nca:ground-injectivity}).
 This gives rise to the following lemma:
 \begin{lemma}
-If the arguments given to an action $A$ are all unique, then $ground$ is injective. Thereby making $ground^{-1}$ single-valued.
+If the arguments given to an action $A$ are all unique, then $\ground$ is injective. Thereby making $\invground$ single-valued.
 
 \begin{proof}
-	If a pair of fluents are different that means their list of variables are different or their names are different. 
+	Two atoms are different when either their variables are different or their names are different. 
 	\begin{itemize}
-		\item If their names are different then by definition two different grounded fluents will be outputted by $ground$.
+		\item If their names are different then by definition two different grounded atoms will be outputted by $\ground$.
 		
-		\item If their list of variables are different, and the arguments to the action are unique. Then those pairs of lists of variables will remain different, even when each variable is mapped to an object, as all those objects are unique. Since $ground$ only performs this mapping then this must hold for $ground$.
+		\item If the $p_1(v_1,\dots,v_n)$ and  $p_2(v_1,\dots,v_n)$ variables are different
+			\begin{equation*}
+				v_{1,1} = v_{2,1} \land 
+				v_{1,2} = v_{2,2} \dots
+				v_{1,n-1} = v_{2,n-1} \land
+				v_{1,n} = v_{2,n}
+			\end{equation*} 		
+		and arguments to the action $A(arg_1,\dots,arg_n)$ are unique
+			\begin{equation*}
+			arg_i \neq arg_j ~ where~ i,j \in \{ 1 \dots n \}
+			\end{equation*} 
+		 
+		Then the result of grounding the atom will remain different even when each variable is mapped to an object, 
+		as all those objects are unique. 
+		Since $\ground$ is the function that performs mapping.
 	\end{itemize}	
-	As we have proved that $ground$ can never output to the same predicate, for two different fluents when the action arguments are unique. Then it follows that $ground$ must be an injective function. 
+	As we have proved that $\ground$ can never output to the same grounded atom, for two different atom when the action arguments are unique. Then it follows that $\ground$ must be an injective function by definition. 
 \end{proof}
 \end{lemma}
 
 On a side note, this means it is preferable to an agent to try actions where the arguments to that action are all unique. 
 
-If however only some of the arguments are unique, then we should still be able to prove some of the fluents, provided all other fluents that map from the same grounded fluent have been disproved. We can do this by using our disproved set $Ð$, built from earlier transitions, to discard incorrect fluents. This gives us the following theorem: 
+If however only some of the arguments are unique, then we should still be able to prove some of the atoms, provided all other atoms that map from the same grounded atom have been disproved. We can do this by using our disproved set \Dsp, built from earlier transitions, to discard incorrect atoms. This gives us the following theorem: 
 
 \begin{theorem} For a state-transition $(S,a,S')$ with 
 	\begin{equation*}
@@ -257,28 +271,28 @@ If however only some of the arguments are unique, then we should still be able t
 	then, 
 	 $\forall_{p \in \Delta S}$ it holds that:
 	
-	If $ground^{-1}$ is single-valued or it is multivalued but all except one output have been disproved, then that the fluent outputted by $ground^{-1}(p)$ is proved to be an effect.
+	If $\invground$ is single-valued or it is multivalued but all except one output have been disproved, then that the literal outputted by $\invground$ is proved to be an effect.
 	We can write this as a function:
 	
 	\begin{equation*}
-	k(\Delta S) = 
+	\pro(\Delta S) = 
 	\left\{
-		f \mid 
-				p \in \Delta S \land 
-				ground(p)^{-1} \setminus D = \{f\}
+		p \mid 
+				p_g \in \Delta S \land 
+				\ground(p_g) \setminus \Dsp = \{p\}
 		\right\}
 	\end{equation*}
-	where $D$ is the set of disproved fluents.
+	where $\Dsp$ is the set of disproved literals that the agent already knows about.
 	
 	\begin{proof}
-		If $ground^{-1}$ is single-valued then that means only one fluent can produce the grounded predicate observed in the state, therefore that fluent must be an actual effect.
-		If $ground^{-1}$ is multivalued but all other outputs have been disproved then as before only one fluent could can produce the grounded predicate, giving us the same result which is that, the fluent is an actual effect.
+		If $\invground$ is single-valued then that means only one atom can produce the grounded atom observed in the state, therefore that atom must be an actual effect.
+		If $\invground$ is multivalued but all other outputs have been disproved then as before only one atom can produce the grounded atom, giving us the same result which is that, the atom is an actual effect.
 	\end{proof}
 \end{theorem}
 
 \begin{example}[Proving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-proving-effects}
 	Following from Example \ref{ex:nca:moveSucceeded-disproving-effects}
-	We have $S_0$, $S_1$ and $\mathbb{F}$.
+	We have $S_0$, $S_1$ and \lits.
 	
 	\begin{equation*}
 	\begin{split}
@@ -290,7 +304,7 @@ If however only some of the arguments are unique, then we should still be able t
 	\neg \texttt{clear}(t_2)		
 	\end{gathered}
 	\right\} \\	
-	k(\Delta S) &= \left\{
+	\pro(\Delta S) &= \left\{
 	\begin{gathered}
 	\texttt{sokobanAt}(to), \\
 	\texttt{clear}(from), \\
