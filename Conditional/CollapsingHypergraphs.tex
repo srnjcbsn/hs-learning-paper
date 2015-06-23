@@ -30,11 +30,31 @@ In other words, a precondition $p$ is redundant if another precondition $p'$ wit
     From $eff(C, S) \subseteq eff(C',S) \land eff(C',S) \subseteq eff(C, S)$ we have that $eff(C,S) = eff(C',S)$ for all $S$, and $P'$ is therefore a set of redundant preconditions.
 \end{proof}
 
-From Proposition~\ref{prop:ca:redundantps} it can be seen that a set of connecting paths correctly removes redundant preconditions: since connecting paths do not mention variable names, a set of preconditions which are identical to another set in $P$ under variable renaming is described by the same path. See Example~\ref{ex:ca:hgma:ex:collapsing} for an illustration.
+From Proposition~\ref{prop:ca:redundantps} it can be seen that a set of connecting paths correctly removes redundant preconditions: since connecting paths do not mention variable names, a set of preconditions which are identical to another set in $P$ under variable renaming is described by the same path. See Example~\ref{ex:ca:redundantPaths} for an illustration.
+
+\begin{example}\label{ex:ca:redundantPaths}
+
+    Consider the conditional $C$:
+    \begin{equation*}
+        \forall x, y, z : \left[ q(x) \right] \quad when \quad
+        \left[ p(x, y) \land f(y) \land p(x,z) \land f(z) \right]
+    \end{equation*}
+
+    It is clear that $p(x,z) \land f(z)$ is redundant, since if there is an interpretation such that $p(x,z) \land f(z)$ is satisfied in a state $S$, then the interpretation where $y = z$ is also satisfied in $S$.
+
+    If $C$ is expressed in terms of connecting paths, both $p(x,y) \land f(y)$ and $p(x,z) \land f(z)$ is represented as 
+    \begin{equation*}
+        f_1 \bc p_2 \pc p_1 \bc q_1
+    \end{equation*}
+    
+    Hence, both would be represented by the same path when inserted in the path set.
+
+\end{example}
 
 However, this is not the case for hypergraphs. In this model, redundant preconditions appear as mirrored subgraphs: If a set of preconditions $P_1 \subset P$ is made redundant by another set $P_2 \subset P$, then they both appear as subhypergraphs of the hypergraph of $P$, and have a binding edge in common. Since $P_1$ is equal to $P_2$ under variable renaming, their hypergraphs are isomorphic under vertex identifier renaming. 
 
 However, ismorphic subgraphs are not automatically removed by either hypergraph construction or -merging functions, and must be handled seperately. In fact, the hypergraph merging algorithm can \textit{add} redundancy, as shown in Example~\ref{ex:ca:hgma:ex:collapsing}.
+
 
 \begin{example}\label{ex:ca:hgma:ex:collapsing}
     
@@ -46,51 +66,23 @@ However, ismorphic subgraphs are not automatically removed by either hypergraph 
 
     If this set of unproven paths are merged with another identical set, then the outcome will be $U$. However, the corresponding hypergraph (shown in \figref{fig:ex:ca:hgma:ex:isomorphic}) will double in size when it is merged with an identical one. This is a consequence of the hyperedge intersection function $e_1 \sqcap e_2$ yielding a vertex for each pair of equally-named vertices $\left(v_1, v_2\right)$, where $v_1 \in e_1$ and $v_2 \in e_2$ (showcased in Example~\ref{ex:ca:hgma:generalization}).
 
-	Consider an action $a$ applied in state $s_0$, resulting in state $s_1$:
-	\begin{equation*}
-		s_0 = \left\{ 
-			p\left(o_1, o_2\right), p\left(o_1, o_3\right)
-		\right\}
-	\end{equation*}
-
-	\begin{equation*}
-		s_1 = s_0 \cup \left\{
-			q\left( o_1 \right)
-		\right\}
-	\end{equation*}
-
-	Inspecting this state transition will reveal a single pattern $H$ for the effect $q$ (disregarding negative preconditions), visualized in~\figref{fig:ex:ca:hgma:ex:isomorphic}.
-
-    \begin{equation*}
-        H = \forall x, y, z : q(x) \quad \textit{when} \quad
-            p(x,y) \land p(x,z)
-    \end{equation*}
-
-	As the variables $y$ and $z$ are both leaves, and are bound to the effect in the same manner, the subgraphs $p(x,y)$ and $p(x,z)$ are isomorphic, ie.\ identical under identifier renaming. Collapsing the two subgraphs results in the hypergraph $H'$ (visualized in~\figref{fig:ex:ca:hgma:ex:isomorphicReduced}).
-	
-    \begin{equation*}
-        H' = \forall x, y : q(x) \quad \textit{when} \quad p(x,y)
-    \end{equation*}
-
-	Notice that $H$ and $H'$ are equally restrictive: If, for a given set of objects $O$, and a state $s$, there exists a substitution $\delta_1 : \left\{x, y, z\right\} \rightarrow O$ such that $\delta\left[p(x,y), p(x,z)\right] \vdash s$, then there also exists a substitution $\delta_1 : \left\{x, y\right\} \rightarrow O$ such that $\delta_2\left[p(x,y)\right] \vdash s$
-
 	\begin{figure}
         \centering
         \hfill
         \begin{subfigure}[b]{0.4\textwidth}
             \centering
             \resizebox{0.7\linewidth}{!}{\input{\master/Graphics/isomorphic.pgf}}
-            \caption{Hypergraph $H$ before collapsing}
+            \caption{Hypergraph $U$.}
             \label{fig:ex:ca:hgma:ex:isomorphic}
         \end{subfigure}%
         \hfill%
         \begin{subfigure}[b]{0.4\textwidth}
             \centering
             \resizebox{0.75\linewidth}{!}{\input{\master/Graphics/isomorphicReduced.pgf}}
-            \caption{Hypergraph $H$ after collapsing.}
+            \caption{Hypergraph $U$ after merging with an identical one.}
             \label{fig:ex:ca:hgma:ex:isomorphicReduced}
         \end{subfigure}
-		\caption{Hyper graphs for example~\ref{fig:ex:ca:hgma:ex:collapsing}}\label{fig:ex:ca:hgma:ex:collapsing}
+		\caption{Hyper graphs for Example~\ref{fig:ex:ca:hgma:ex:collapsing}}\label{fig:ex:ca:hgma:ex:collapsing}
         \hfill
     \end{figure}
 \end{example}
