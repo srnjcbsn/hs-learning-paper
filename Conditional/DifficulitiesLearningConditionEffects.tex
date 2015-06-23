@@ -59,7 +59,13 @@ This is important as we now have an initial assumption of possible literals for 
 
 %\subsubsection{Limitations}
 In order to simplify the problem we have made the following restrictions on conditional effects we can learn:
-\begin{enumerate}[label=R\arabic*]
+
+\newlist{propenum}{enumerate}{1} % also creates a counter called 'propenumi'
+\setlist[propenum]{label=R. \arabic*}
+\crefalias{propenumi}{arestriction} 
+
+\begin{arestriction}\leavevmode
+\begin{propenum}[label=R.\arabic*]
 	\item Actions cannot have variables. i.e. all actions are of form $A()$, 
 	we have added this restricting to study the problem in its most minimal form.	
 		
@@ -74,8 +80,8 @@ In order to simplify the problem we have made the following restrictions on cond
 
 		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
 		  I.e.\ If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
-\end{enumerate}
-
+\end{propenum}
+\end{arestriction}
 %
 %Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditionals have the same effect, as that is equivalent to an disjunctive precondition.
 
@@ -95,20 +101,18 @@ Given the restriction we presented we are able to simplify the problem. That is,
 			\right]
 		\; when \;
 		\left[ \texttt{p}(x,y) \right]
-	\end{align*}	
-	
+	\end{align*}		
 	That conditional is equivalent to: 
-	
 	\begin{align*}
 		A():&  \\
-			 &\forall_{x, y}
+			 &\quad\forall_{x, y}
 				\left[
 				\texttt{h}(y)
 				\right]
 				\; when \;
 				\left[ \texttt{p}(x,y) \right] \\
-		&\land 	\\		
-		&\forall_{x, y}
+		&\quad\land 	\\		
+		&\quad\forall_{x, y}
 		\left[
 		\texttt{q}(x)
 		\right]
@@ -129,11 +133,11 @@ Given the restriction we presented we are able to simplify the problem. That is,
 \begin{figure}
 	\centering{%
 	\includegraphics[width=1\textwidth]{\master/Graphics/house_conditional_knowledge.png}}
-	\caption{\label{fig:ca:house-example}Three states of light problem for Example~\ref{ex:ca:light-on}}
+	\caption{\label{fig:ca:house-example}Three states of light problem for \Cref{ex:ca:light-on}}
 \end{figure}
 
 \begin{example}\label{ex:ca:light-on}
-Consider the problem of turning on light as shown in \figref{fig:ca:house-example}.
+Consider the problem of turning on light as shown in \Cref{fig:ca:house-example}.
 In the figure there are three different cases of a person learning how to turn on the
 light. In the first two cases the agent successfully turns on the light while in the last nothing occurs.
 
@@ -146,7 +150,7 @@ In the first case we learn that to turn on the light there are these possible pr
 Even though we intuitively know that it is only the lamp which is the only required object in this room for the light to turn on, we cannot discard any of the other objects present as not being a precondition.
 \end{example}
 
-\subsubsection{Preconditions from states}
+\subsection{Preconditions from states}
 Objects are defined by the atoms in the state which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
 This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
 to a to different variable.
@@ -164,20 +168,19 @@ where $(v_1, v_2,\dots,v_{n-1},v_n)$ are variables for the quantifier of the con
 \end{equation*}
 To see how it works in sokoban see \Cref{ex:ca:sokoban-moveleft-action}
 
+Another property we can take advantage of is that similar to non-conditional preconditions, if an effect is successfully added to the state then that disproves all preconditions not currently satisfied.
+This gives us the following:
 
 \begin{theorem}\label{thm:ca:precondition-state}
-If an action produces one or more effects $E$, then all predicates in the prior state are the maximum number of positive preconditions to those exact effects.
+If $\gamma (S,a) = S'$ then $\pre(e) \subseteq \sigma(\ts(S))$  for the effect $e \in \geffects$.
+Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not to remove actual preconditions.
 
-If $\gamma (S,a) \neq S$ and objects are interpreted as variables then $preconds(a) \subseteq S$  for effects $E$.
-
-\begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in S for the effects E.
-	In this case the effects would not occur as their required preconditions are missing, thus the preconditions must be satisfied in S.
-	As such we can conclude S contains at least all precondition predicates.
+\begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in $\ts(S)$ for the effects \geffects.
+	In this case the effects would not occur as their required preconditions are missing, thus the preconditions must be satisfied in $\ts(S)$.
+	As such we can conclude $\ts(S)$ contains at least all precondition atoms.
 \end{proof}
 \end{theorem}
 
-\textbf{NB} For negative preconditions use $S^c$ where all predicates has been negated, as negative precondition refer to predicates not in the state.
-Thus if both negative and positive preconditions are allowed a the same time use  $S \cup \neg[S^c] $ for the preconditions.
 
 \begin{figure}
     \hspace*{0.1\textwidth}%
@@ -198,7 +201,7 @@ Thus if both negative and positive preconditions are allowed a the same time use
 \end{figure}
 
 \begin{example}\label{ex:ca:sokoban-moveleft-action}
-    Let us consider an example of acquiring preconditions from a state modelled with predicates. In \Cref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
+    Let us consider an example of acquiring preconditions from the state. In \Cref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
 
     The action schema that produced the effect is:
     \begin{align*}
@@ -289,7 +292,7 @@ Thus if both negative and positive preconditions are allowed a the same time use
     \end{equation*}
     We also apply the mapping to the effects $\Delta S$
     \begin{equation*}
-        \Delta S =
+        \sigma(\geffects, \delta) =
             \left\{
                 \begin{gathered}
                     \texttt{at}(\delta (box),\delta (t1)), \\
@@ -309,7 +312,7 @@ Thus if both negative and positive preconditions are allowed a the same time use
             \right\}
     \end{equation*}
 
-    The resulting fluent predicates are the preconditions and effects
+    The resulting literals of $S_{before}$ and $\geffects$ are the preconditions and the effects.
     Therefore our hypothesis of the action scheme is:
     \begin{align*}
     &MoveLeft_{hyp}():&  \\
@@ -344,17 +347,17 @@ Thus if both negative and positive preconditions are allowed a the same time use
     We observe that this is indeed correct.
 \end{example}
 
-\subsubsection{Initial approach to reducing preconditions}
+\subsection{Initial approach to reducing preconditions}
 
-As different scenarios are explored the unproven set $U_p$ of preconditions can be reduced.
+As different scenarios are explored the unproven set $\Up_p$ of preconditions can be reduced.
 
 \begin{definition}
-The unproven set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  predicates $\mathbb{CP}$.
+The unproven set $Up_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  literals $\glits$.
 \end{definition}
 
 We will now consider how this unproven set can be constructed using the methods for proving and disproving preconditions presented in \Cref{sec:NC:Preconditions}, show why it is insufficient and introduce a new model which fits the domain better.
 
-By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, each predicate $p \in \Delta s$ is spawned by exactly one conditional. As such, it can be deduced that if a predicate $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \mathcal{O}$) occurs in $\Delta s$ after application of $a$, then $A$ contains a conditional of the form
+By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, each literal $p \in \geffects$ is spawned by exactly one conditional. As such, it can be deduced that if a predicate $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \objs$) occurs in $\geffects$ after application of $a$, then $A$ contains a conditional of the form
 
 \begin{equation*}
     \forall x_1, \dots, x_n 
@@ -371,9 +374,9 @@ where $\left\{\delta \left( u_1 \right), \dots, \delta \left(u_{|p|} \right) \ri
     \end{split}
 \end{align*}
 
-in which case the grounding function becomes $\delta^{-1}$. Thus, the function $d(s)$ from Section~\ref{sec:NC:Preconditions} can be used to disprove preconditions, and the set of predicates neither proven nor disproven to be preconditions becomes $\mathbb{CP} \setminus d(s)$. Note that since $\mathbb{P}_{A'} = \mathbb{CP}_A$, $|d(s)| = |\mathbb{P}_{A'}|$, as each predicate is either present or absent from the state. 
+in which case the grounding function becomes $\delta^{-1}$. Thus, the function $d(s)$ from \Cref{sec:NC:Preconditions} can be used to disprove preconditions, and the set of predicates neither proven nor disproven to be preconditions becomes $\mathbb{CP} \setminus d(s)$. Note that since $\mathbb{P}_{A'} = \mathbb{CP}_A$, $|d(s)| = |\mathbb{P}_{A'}|$, as each predicate is either present or absent from the state. 
 
-As all predicates in $\Delta s$ with the same name are effects of the same conditional, it is tempting to consider them different applications of $A'$ and prove knowledge about their preconditions as in Section~\ref{sec:NC:Preconditions}. However, the above only holds for a single grounded predicate observed to be the effect of the conditional; if a predicate with the same name but different arguments occurs in $\Delta s$, then it is the effect of another interpretation of the universal quantifier in the conditional, and the nonconditional action schema constructed for it will not equal $A'$.
+As all predicates in $\Delta s$ with the same name are effects of the same conditional, it is tempting to consider them different applications of $A'$ and prove knowledge about their preconditions as in \Cref{sec:NC:Preconditions}. However, the above only holds for a single grounded predicate observed to be the effect of the conditional; if a predicate with the same name but different arguments occurs in $\Delta s$, then it is the effect of another interpretation of the universal quantifier in the conditional, and the nonconditional action schema constructed for it will not equal $A'$.
 
 Consequently, the preconditions disproven by $d(s)$ for $A'$ are only applicable to the grounded predicate $A'$ was constructed for. To find the preconditions of the conditional, a method of combining the different disproven predicates is needed.
 
@@ -395,7 +398,7 @@ This will work for removing entire predicates and only if the two sets use exact
 Thus this approach to modelling the unknown preconditions, which we used for non-conditional actions is incorrect.
 
 \begin{example}\label{ex:ca:light-on-2}
-    Following from Example~\ref{ex:ca:light-on} we come to the second case in \figref{fig:ca:house-example}
+    Following from \Cref{ex:ca:light-on} we come to the second case in \Cref{fig:ca:house-example}
     we see that we can turn on the light again but this time the sofa and the lamp has changed location and
     there is no table. From this we expand our knowledge by learning:
     \begin{itemize}
@@ -419,7 +422,7 @@ Thus this approach to modelling the unknown preconditions, which we used for non
     And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect. As they have the similarity of having the same binding between the first and second argument. What we actually need is to have a set of bindings and take the intersection of that.
 \end{example}
 
-\subsubsection{A new model: Connecting paths}
+\subsection{A new model: Connecting paths}
 From the discussion above, it is evident that the model used for preconditions of non-conditional actions is not sufficient for our needs. Specifically, it does not allow us to easily combine knowledge obtained about the same conditional from different interpretations. 
 The problem, as shown above, is that this approach compares sets of predicates to prove and disprove preconditions, and determines equality of the predicates based on variable naming. However, the variable names are arbitrary and only interesting in that they describe how predicates in a set are connected to each other, since it is this connectivity that determines precondtitions.
 
@@ -433,7 +436,7 @@ In the following, we will explain a model based solely on connectivity between p
     Similarly, the notation $p_1 \pc p_2$ denotes the rather obvious fact that the first and second argument of $p$ are both part of the same predicate $p$.
 \end{definition}
 
-Although Definition~\ref{def:ca:predicateConn} seems insignificant, it allows us to define transitive connectivity: If $p_i \pc p_j$ and $p_j \bc q_k$ then $p_i$ and $q_k$ are connected through $p_j$. This connectivity is called a \emph{connecting path} and is denoted $p_i \pc p_j \bc q_k$.
+Although \Cref{def:ca:predicateConn} seems insignificant, it allows us to define transitive connectivity: If $p_i \pc p_j$ and $p_j \bc q_k$ then $p_i$ and $q_k$ are connected through $p_j$. This connectivity is called a \emph{connecting path} and is denoted $p_i \pc p_j \bc q_k$.
 
 \begin{definition}[Connecting path]\label{def:ca:connectingPath}
     A connecting path is a sequence of alternating binding and predicate connections, where any two adjacent connections shares a component, i.e.\
@@ -458,7 +461,7 @@ If another effect with the same name as $p$ occurs in $\Delta S$, we can now int
     <Insert example here>
 \end{example}
 
-\subsubsection{Proving preconditions}
+\subsection{Proving preconditions}
 Up until now we have only discussed limiting the number of possible preconditions (Unknown set) , however another aspect of learning is to determine what the actual preconditions are.
 For non-conditional actions proving the preconditions of an action was a matter of using failed actions to make a list of candidate predicates that through elimination eventually got down to just one predicate which is then proclaimed proven. The approach is similar for conditional actions however instead of having candidates of predicates; conditional actions must maintain a candidate set for the connecting paths instead of entire predicates, and thus is only capable of proving a single path at a time.
 
@@ -467,13 +470,13 @@ For non-conditional actions proving the preconditions of an action was a matter 
 \end{theorem}
 
 \begin{proof}[\textbf{Proof by contradiction}] 
-    If there is less than one path in the preconditions then that means there are zero paths. By Restriction~\ref{rst:ca:no-disjoint-preconditions}, zero paths means zero precondition. If there are zero preconditions then the effect would not have failed. Therefore there must be a minimum of one path that is a precondition.
+    If there is less than one path in the preconditions then that means there are zero paths. By \Cref{rst:ca:no-disjoint-preconditions}, zero paths means zero precondition. If there are zero preconditions then the effect would not have failed. Therefore there must be a minimum of one path that is a precondition.
 \end{proof}
 
 Initially we have a set of paths $B_u$, which is our set of unproven preconditions for the effect of a conditional.
 If we then see that an effect does not occur in the state, the paths in the prior state that did not produce that effect becomes the candidates of possible bindings $B_c$.
 
-Because of Theorem~\ref{thm:minimum-one-binding} the following invariant holds:
+Because of \Cref{thm:minimum-one-binding} the following invariant holds:
 \begin{equation} \label{eq:binding_invariant}
 \left| \{b  \mid  b \in B_c \land b \in preconds_{paths}(A)\} \right|  \ge 1
 \end{equation}
@@ -483,10 +486,10 @@ Meaning that at least one of the paths in this set is part of the paths in the p
 \begin{equation}
     B_c' = B_c \cap B_u
 \end{equation}
-And thus if ever $|B_c| = 1$ then we know that it is a correct binding because of our Invariant~\ref{eq:binding_invariant} and thus it is proven.
+And thus if ever $|B_c| = 1$ then we know that it is a correct binding because of our \Cref{eq:binding_invariant} and thus it is proven.
 
 \begin{example}\label{ex:ca:light-on-3}
-    Consider the last case on \figref{fig:ca:house-example}. This case is identical to the first case except it does not have a lamp, thus we learn that:
+    Consider the last case in \Cref{fig:ca:house-example}. This case is identical to the first case except it does not have a lamp, thus we learn that:
     \begin{itemize}
         \item A lamp is required for the effect to occur.
     \end{itemize}

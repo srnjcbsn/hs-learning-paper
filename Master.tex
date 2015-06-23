@@ -74,6 +74,8 @@
 
 \newtheorem{invariant}{Invariant}[chapter]
 
+\newtheorem{arestriction}{Restriction}
+
 \newcommand{\figref}[1]{\figurename~\ref{#1}}
 
 % symbol used for function calculating total state
@@ -135,12 +137,34 @@
 
 \newcommand{\pre}{\ensuremath{\textit{pre}}\xspace}
 
-\newcommand{\locref}[1]{\ifthenelse{\pageref{#1}<\thepage}{above}{below}}
+\newcommand{\locref}[1]{\protect\ifthenelse{\pageref{#1}=\thepage}{}{\protect\ifthenelse{\pageref{#1}<\thepage}{, above}{, below}}}
 
 %\let\Cref\locref
 \let\oldcref\Cref
-%\renewcommand{\Cref}[1]{[\oldcref{#1}, \locref{#1}]\xspace}
-\renewcommand{\Cref}[1]{\locref{#1}}
+\renewcommand{\Cref}[1]{[\oldcref{#1}\locref{#1}]\xspace}
+%\renewcommand{\Cref}[1]{\locref{#1}}
+
+\let\oldtheorem\theorem
+\renewcommand{\theorem}{%
+	\crefalias{lemma}{theorem}
+	\oldtheorem}
+
+\let\oldtheorem\definition
+\renewcommand{\definition}{%
+	\crefalias{lemma}{definition}
+	\oldtheorem}
+
+\let\oldtheorem\corollary
+\renewcommand{\corollary}{%
+	\crefalias{lemma}{corollary}
+	\oldtheorem}
+
+\let\oldtheorem\proposition
+\renewcommand{\proposition}{%
+	\crefalias{lemma}{proposition}
+	\oldtheorem}
+
+
 
 \begin{document}
 
