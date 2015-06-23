@@ -15,38 +15,6 @@ To keep it simple, we only support effects which are conjunctions of conditional
 We do not support actions with parameters.
 
 
-In STRIPS-Style actions the objects $A(O_1,O_2,\ldots,O_{n-1},O_n)$ are the only objects affected by the action.
-Thus any predicate that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
-However when actions contain conditional effects with support for use of quantifiers this claim no longer holds.
-As such to properly discuss the subject we introduce \glits, which is the set of all grounded literals.
-\begin{definition}
-	\glits is the set of all grounded literals is defined as:
-	\begin{equation*}
-		\glits =
-		\left\{ \neg p\left(o_1, \dots, o_{|p|}\right), 
-				p\left(o_1, \dots, o_{|p|}\right) 
-				\mid 
-		p \in \preds \land 
-		\left\{o_1, \dots, o_{|p|} \right\} \subseteq \objs
-		\right\}
-	\end{equation*}
-	
-	The arguments $\preds$ and $\objs$ are given from the context.
-\end{definition}
-
-A problem occurs when the set of objects \objs is infinite (or intractably large), which causes the set $\glits$ to also be infinite.
-Meaning it is theoretically possible to have chain of connected atoms, such as 
-\begin{equation*}
-	p(v_1,v_2), p(v_2,v_3),\dots, p(v_{|\objs|-2},v_{|\objs|-1}), p(v_{|\objs|-1},v_{|\objs|})
-\end{equation*}
- as a precondition to a conditional.
-This means that initially we cannot assume that $|\varC| < |\objs|$.
-
-as quantifiers can have an infinite number of variables.
-However if the environment is \textbf{fully observable} and has a finite number of objects,
-we can limit the variables of the quantifier to be equal to the number of objects; This means that we can limit $\glits$ to a finite set.
-This is important as we now have an initial assumption of possible predicates for both the preconditions and the effects.
-
 \begin{definition}
 	An explicit state is a set of predicates where the negative predicates are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicate names $P$ and a set of objects $\objs$:
 	\begin{equation*}
@@ -60,9 +28,43 @@ This is important as we now have an initial assumption of possible predicates fo
 	The arguments $P$ and $\mathcal{O}$ are normally left out when their values are clear from the context.
 \end{definition}
 
+
+In STRIPS-Style actions the objects $A(O_1,O_2,\ldots,O_{n-1},O_n)$ are the only objects affected by the action.
+Thus any predicate that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
+However when actions contain conditional effects with support for use of quantifiers this claim no longer holds.
+As such to properly discuss the subject we introduce \glits, which is the set of all grounded literals.
+\begin{definition}
+	All possible grounded literals \glits is defined as:
+	\begin{equation*}
+		\glits =
+		\left\{ \neg p\left(O_1, \dots, O_{|p|}\right), 
+				p\left(O_1, \dots, O_{|p|}\right) 
+				\mid 
+		p \in \preds \land 
+		\left\{O_1, \dots, O_{|p|} \right\} \subseteq \objs
+		\right\}
+	\end{equation*}
+	
+	to avoid defining it as a function assume $\preds$ and $\objs$ are given from the context.
+\end{definition}
+
+A problem occurs when the set of objects \objs is infinite (or intractably large), which causes the set $\glits$ to also be infinite.
+Meaning it is theoretically possible to have chain of connected atoms, such as 
+\begin{equation*}
+	p(v_1,v_2), p(v_2,v_3),\dots, p(v_{|\objs|-2},v_{|\objs|-1}), p(v_{|\objs|-1},v_{|\objs|})
+\end{equation*}
+ as a precondition to a conditional.
+This means that initially we cannot assume that $|\varC| < |\objs|$.
+
+However if the environment has a finite number of objects, then we can limit $\glits$ to a finite set.
+This is important as we now have an initial assumption of possible literals for both the preconditions and the effects.
+
 %\subsubsection{Limitations}
 In order to simplify the problem we have made the following restrictions on conditional effects we can learn:
 \begin{enumerate}[label=R\arabic*]
+	\item Actions cannot have variables. i.e. all actions are of form $A()$, 
+	we have added this restricting to study the problem in its most minimal form.	
+		
 	\item The environment must be fully observable.
 	\item The environment must contain a finite number of objects.
 	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
@@ -76,13 +78,54 @@ In order to simplify the problem we have made the following restrictions on cond
 		  I.e.\ If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
 \end{enumerate}
 
+%
+%Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditionals have the same effect, as that is equivalent to an disjunctive precondition.
 
-Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditional effects have the same effect, as that is equivalent to an disjunctive precondition.
+In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using prior models and what changes to the models are necessary. Lastly we will introduce a new way to model atoms by using hypergraphs.
 
-In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using prior models and what changes to the models are necessary in order to find proper solutions.
 
-\begin{proposition}\label{prop:ca:singleConditional}
-    Consider a state transition $\left(S, a, S'\right)$ and a grounded predicate $p \in \Delta S$. By Restrictions~\ref{rst:ca:no-disjuntive-conditionals} and~\ref{rst:ca:no-multiple-effect}, there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two predicates in $\Delta s$ with the same name are effects of the same conditional.
+Given the restriction we presented we are able to simplify the problem. That is, we can model every possible action schema where each conditional only contains one effect.
+
+\begin{example}
+	Take for instance the conditional:	
+	\begin{align*}
+		&A():&  \\
+		&\quad
+		\forall_{x, y}
+			\left[
+				\texttt{q}(x) \land \texttt{h}(y)
+			\right]
+		\; when \;
+		\left[ \texttt{p}(x,y) \right]
+	\end{align*}	
+	
+	That conditional is equivalent to: 
+	
+	\begin{align*}
+		A():&  \\
+			 &\forall_{x, y}
+				\left[
+				\texttt{h}(y)
+				\right]
+				\; when \;
+				\left[ \texttt{p}(x,y) \right] \\
+		&\land 	\\		
+		&\forall_{x, y}
+		\left[
+		\texttt{q}(x)
+		\right]
+		\; when \;
+		\left[ \texttt{p}(x,y) \right]
+	\end{align*}
+	
+\end{example}
+
+
+
+\begin{proposition}[Single effect per conditional]\label{prop:ca:singleConditional}
+    Consider a state transition $\left(S, a, S'\right)$ and a grounded literal $p \in \geffects$. By Restrictions~\ref{rst:ca:no-disjuntive-conditionals} and~\ref{rst:ca:no-multiple-effect}, 
+    
+    there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two literals in $\geffects$ with the same predicate are effects of the same conditional.
 \end{proposition}
 
 \begin{figure}
