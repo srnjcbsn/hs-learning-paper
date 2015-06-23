@@ -37,6 +37,7 @@
 \usetikzlibrary{positioning}
 \usetikzlibrary{trees,arrows,fit,shapes}
 \usepackage{listings}
+\usepackage{xspace}
 
 \lstset{%
 	basicstyle=\itshape,
@@ -80,43 +81,59 @@
 
 
 % Symbol for a predicate connection
-\newcommand{\pc}{\times}
+\newcommand{\pc}{\ensuremath{\times}\xspace}
 % Symbol for a binding connection
-\newcommand{\bc}{\bullet}
+\newcommand{\bc}{\ensuremath{\bullet}\xspace}
 % Symbol for atoms
-\newcommand{\atoms}{\ensuremath{\mathbb{A}}}
+\newcommand{\atoms}{\ensuremath{\mathbb{A}}\xspace}
 
-\newcommand{\lits}{\ensuremath{\mathbb{L}}}
+\newcommand{\lits}{\ensuremath{\mathbb{L}}\xspace}
 % Symbol for predicates
-\newcommand{\preds}{\ensuremath{\mathbb{P}}}
+\newcommand{\preds}{\ensuremath{\mathbb{P}}\xspace}
 % Symbol for goal
-\newcommand{\goal}{\ensuremath{\mathcal{G}}}
+\newcommand{\goal}{\ensuremath{\mathcal{G}}\xspace}
 % Symbol for domain
-\newcommand{\dom}{\ensuremath{\mathcal{D}}}
+\newcommand{\dom}{\ensuremath{\mathcal{D}}\xspace}
 
 %symbol for disproven
-\newcommand{\dsp}{\ensuremath{d}}
-\newcommand{\Dsp}{\ensuremath{D}}
+\newcommand{\dsp}{\ensuremath{d}\xspace}
+\newcommand{\Dsp}{\ensuremath{D}\xspace}
 
 %symbol for proven
-\newcommand{\pro}{\ensuremath{k}}
-\newcommand{\Pro}{\ensuremath{K}}
+\newcommand{\pro}{\ensuremath{k}\xspace}
+\newcommand{\Pro}{\ensuremath{K}\xspace}
 
 %symbbol for unproven
-\newcommand{\up}{\ensuremath{u}}
-\newcommand{\Up}{\ensuremath{U}}
+\newcommand{\up}{\ensuremath{u}\xspace}
+\newcommand{\Up}{\ensuremath{U}\xspace}
 
 %symbol for candidate
-\newcommand{\cand}{\ensuremath{c}}
-\newcommand{\Cand}{\ensuremath{C}}
+\newcommand{\cand}{\ensuremath{c}\xspace}
+\newcommand{\Cand}{\ensuremath{C}\xspace}
 
-\newcommand{\objs}{\ensuremath{\mathcal{O}}}
+\newcommand{\objs}{\ensuremath{\mathcal{O}}\xspace}
 
-\newcommand{\cset}{\ensuremath{\mathcal{C}}}
+\newcommand{\cset}{\ensuremath{\mathcal{C}}\xspace}
 
-\newcommand{\ground}{\ensuremath{ground}}
+\newcommand{\ground}{\ensuremath{\textit{ground}}\xspace}
 
-\newcommand{\invground}{\ensuremath{\ground ^{-1} }}
+\newcommand{\invground}{\ensuremath{\ground ^{-1}}\xspace}
+
+\newcommand{\glits}{\ensuremath{\mathbb{G}}\xspace} 
+
+%symbol for Undefined set
+\newcommand{\undefset}{\ensuremath{\mathcal{X}}\xspace}
+
+%symbol for effect set
+\newcommand{\geffects}{\ensuremath{\Delta S}\xspace}
+
+%symbol for variables of
+\newcommand{\varC}{\ensuremath{\textit{vars}}\xspace}
+
+%symbol for variables of
+\newcommand{\eff}{\ensuremath{\textit{eff}}\xspace}
+
+\newcommand{\pre}{\ensuremath{\textit{pre}}\xspace}
 
 
 \begin{document}

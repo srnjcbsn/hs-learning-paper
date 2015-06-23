@@ -1,5 +1,6 @@
-\documentclass[../Master.tex]{subfiles}
 \providecommand{\master}{..}
+\documentclass[\master/Master.tex]{subfiles}
+
 
 \begin{document}
 
@@ -13,26 +14,51 @@ To keep it simple, we only support effects which are conjunctions of conditional
 
 We do not support actions with parameters.
 
-\begin{definition}
-    An explicit state is a set of predicates where the negative predicates are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicate names $P$ and a set of objects $\mathcal{O}$:
-    \begin{equation*}
-        X\left(S, P, \mathcal{O}\right) = S \cup
-        \left\{ \neg p \mid 
-            p\left(o_1, \dots, o_{|p|}\right) \notin s \land 
-            \left\{o_1, \dots, o_{|p|} \right\} \in \mathcal{O} \land
-            p \in P
-        \right\}
-    \end{equation*}
-    The arguments $P$ and $\mathcal{O}$ are normally left out when their values are clear from the context.
-\end{definition}
 
 In STRIPS-Style actions the objects $A(O_1,O_2,\ldots,O_{n-1},O_n)$ are the only objects affected by the action.
 Thus any predicate that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
-However as actions with conditional effects support the use of quantifiers this claim no longer holds.
-Therefore the universe $\mathbb{CP}$ for conditional effects of possible predicates is infinite as quantifiers can have an infinite number of variables.
+However when actions contain conditional effects with support for use of quantifiers this claim no longer holds.
+As such to properly discuss the subject we introduce \glits, which is the set of all grounded literals.
+\begin{definition}
+	\glits is the set of all grounded literals is defined as:
+	\begin{equation*}
+		\glits =
+		\left\{ \neg p\left(o_1, \dots, o_{|p|}\right), 
+				p\left(o_1, \dots, o_{|p|}\right) 
+				\mid 
+		p \in \preds \land 
+		\left\{o_1, \dots, o_{|p|} \right\} \subseteq \objs
+		\right\}
+	\end{equation*}
+	
+	The arguments $\preds$ and $\objs$ are given from the context.
+\end{definition}
+
+A problem occurs when the set of objects \objs is infinite (or intractably large), which causes the set $\glits$ to also be infinite.
+Meaning it is theoretically possible to have chain of connected atoms, such as 
+\begin{equation*}
+	p(v_1,v_2), p(v_2,v_3),\dots, p(v_{|\objs|-2},v_{|\objs|-1}), p(v_{|\objs|-1},v_{|\objs|})
+\end{equation*}
+ as a precondition to a conditional.
+This means that initially we cannot assume that $|\varC| < |\objs|$.
+
+as quantifiers can have an infinite number of variables.
 However if the environment is \textbf{fully observable} and has a finite number of objects,
-we can limit the variables of the quantifier to be equal to the number of objects; This means that we can limit $\mathbb{CP}$ to a finite set.
+we can limit the variables of the quantifier to be equal to the number of objects; This means that we can limit $\glits$ to a finite set.
 This is important as we now have an initial assumption of possible predicates for both the preconditions and the effects.
+
+\begin{definition}
+	An explicit state is a set of predicates where the negative predicates are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicate names $P$ and a set of objects $\objs$:
+	\begin{equation*}
+		\ts\left(S, \preds, \objs\right) = S \cup
+		\left\{ \neg p \mid 
+		p\left(o_1, \dots, o_{|p|}\right) \notin S \land 
+		\left\{o_1, \dots, o_{|p|} \right\} \in \objs \land
+		p \in \preds
+		\right\}
+	\end{equation*}
+	The arguments $P$ and $\mathcal{O}$ are normally left out when their values are clear from the context.
+\end{definition}
 
 %\subsubsection{Limitations}
 In order to simplify the problem we have made the following restrictions on conditional effects we can learn:

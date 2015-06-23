@@ -80,7 +80,7 @@ It then follows that if no literals are considered unproven then we have complet
 
 For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 
-\begin{invariant}[Mutual exclusivity]
+\begin{invariant}[Mutual exclusivity]\label{inv:nca:mutual-ex}
 	\begin{equation*}
 		\begin{split}
 		\Pro \cap \Dsp & = \emptyset  \\ 
@@ -111,12 +111,12 @@ This is logically sound and gives us the following theorem:
 			\right\} 
 			\cup
 			 \left\{
-			\overline{p} \mid \overline{p} \in \lits \land \ground(p) \in S'
+			\neg p \mid \neg p \in \lits \land \ground(p) \in S'
 			\right\}
 	\end{equation*}
 	\begin{proof}[Proof by definition]
 		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p) \notin S'$ can not have been an effect of action $A$.
-	Like wise if a potential negative effect $\overline{p}$ is $\ground(p) \in S'$ then that could not have been a negative effect.
+	Like wise if a potential negative effect $\neg p$ is $\ground(p) \in S'$ then that could not have been a negative effect.
 	\end{proof}
 \end{theorem}
 
