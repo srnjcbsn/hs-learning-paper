@@ -5,7 +5,7 @@
 
 
 
-In~\cite{Walsh2008}, they presented an algorithm on how to learn effects of action schemes limited to non-conditional effects. We will expand on that and generalize some of their concepts.
+\cite{Walsh2008} presents an algorithm for learning effects of action schemas limited to non-conditional effects. In this section we will expand on that and generalize some of their concepts.
 
 If we ignore the concept of planning with constants in effects, then we know that all literals in our effects must have variables which are permutations of the action's variables. The set of all those literals we define as $\lits$, another way to understand $\lits$ is that it is all the possible literals which an action schema use for its effects (or preconditions).
 
@@ -31,56 +31,54 @@ $\lits_A$ is the set of all literals available to an action schema $A$. For ease
 	\def\secondcircle{(0:2cm) circle (1.5cm)}
 	\def\thirdcircle{(0:3.8cm) circle (2.9cm)}
 	\centering
-% Now we can draw the sets:
-\begin{tikzpicture}
+    % Now we can draw the sets:
+    \begin{tikzpicture}
+        \draw \firstcircle node[above] {$S$};
+        \draw \secondcircle node [above] {$S'$};
 
+        % Now we want to highlight the intersection of the first and the
+        % second circle:
 
-\draw \firstcircle node[above] {$S$};
-\draw \secondcircle node [above] {$S'$};
+        \begin{scope}
+        \clip \firstcircle;
+        \fill[red] \secondcircle;
+        \end{scope}
 
-% Now we want to highlight the intersection of the first and the
-% second circle:
+        % Next, we want the highlight the intersection of all three circles:
 
-\begin{scope}
-\clip \firstcircle;
-\fill[red] \secondcircle;
-\end{scope}
-
-% Next, we want the highlight the intersection of all three circles:
-
-\begin{scope}
-\clip \firstcircle;
-\clip \secondcircle;
-\fill[green] \thirdcircle;
-\end{scope}
-
-
-\end{tikzpicture}
-\caption{\label{fig:nca:venn-of-effects} Venn diagram of a state transition. The red area shows predicates which was unaffected, and the Green show effects that was added to S but masked as unaffected because they were already present in S.}
-
+        \begin{scope}
+        \clip \firstcircle;
+        \clip \secondcircle;
+        \fill[green] \thirdcircle;
+        \end{scope}
+    \end{tikzpicture}
+    \caption{\label{fig:nca:venn-of-effects} Venn diagram of a state transition. The red area shows unaffected atoms, and the green show effects that was added to $S$ but masked as unaffected because they were already present in $S$.}
 \end{figure}
 
-For any action schema schema it is common that only a small subset of $\lits$ are actually present in its effects, 
+For any action schema it is common that only a small subset of $\lits$ are actually present in its effects, 
 therefore we differentiate between them by defining whether we have proved or disproved them. 
 Initially when a literal has yet to proved or disproved, we say that it is unproven. 
-It then follows that if no literals are considered unproven then we have complete knowledge for the action schemas effects.
+It then follows that if no literals are considered unproven then we have complete knowledge for the action schema's effects.
 
 
 \begin{definition} 
-	The proved set $\Pro$ contains which literals  $l \in \lits$ we know are in the action schemas actual effects.
-	Conversely the disproved set $\Dsp$ define which literals are for certain not present.
-	Those literals that are neither in $\Pro$ nor in $\Dsp$ are said to be in the unproven set $\Up$.
-	
+    For an action schema $A$, we define the following sets of literals:
+    \begin{itemize}
+        \item The set $\Pro$ contains the literals  $l \in \lits$ proven to be effects $A$.
+        \item Conversely, $\Dsp$ is the set of literals disproven to be effects of $A$.
+        \item Those literals that are neither in $\Pro$ nor in $\Dsp$ are said to be in the unproven set $\Up$.
+    \end{itemize}
 	For instance, if an action's effect can have the literals $\lits = \{p(x), \neg p(x)\}$, 
 	then initially $\Up = \lits$, $\Pro = \emptyset$ and $\Dsp = \emptyset$. 
-	If we then learn that $p(x)$ is an effect and $\neg p(x)$ is not. 
-	Our sets should by this definition be: $\Up = \emptyset$, $\Pro = \{p(x)\}$ and $\Dsp = \{\neg p(x)\}$. 
+	If we then learn that $p(x)$ is an effect and $\neg p(x)$ is not, 
+	our sets should by this definition be: $\Up = \emptyset$, $\Pro = \{p(x)\}$ and $\Dsp = \{\neg p(x)\}$. 
 	
 \end{definition}
 
 For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 
 \begin{invariant}[Mutual exclusivity]\label{inv:nca:mutual-ex}
+    A literal $l \in \lits$ is either proven or disproven to be a precondition, or it is neither, i.e.\
 	\begin{equation*}
 		\begin{split}
 		\Pro \cap \Dsp & = \emptyset  \\ 
@@ -91,14 +89,15 @@ For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 \end{invariant}
 
 \begin{invariant}[Completeness]
+    The three sets completely describe $\lits$, i.e.\ 
 	\begin{equation*}
 		\Up \cup \Pro \cup \Dsp = \lits
 	\end{equation*}
 \end{invariant}
 
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
-In a state transition effects are added directly to $S$ in order to form $S'$, therefore we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that atoms are both in $S$ and $S'$ there are two distinct possibilities either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
-To disprove atoms for a single transition we use the idea that grounded atoms which not in the $S'$ cannot be positive effects, and grounded atoms which are in the $S'$ cannot be negative effects. 
+In a state transition effects are added directly to $S$ in order to form $S'$, therefore we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that atoms are both in $S$ and $S'$ there are two distinct possibilities: either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
+To disprove atoms for a single transition we use the idea that grounded atoms which are not in $S'$ cannot be positive effects, and grounded atoms which are in $S'$ cannot be negative effects. 
 This is logically sound and gives us the following theorem:
 
 \begin{theorem}
