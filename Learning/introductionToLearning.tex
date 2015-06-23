@@ -13,33 +13,41 @@
 	it does not make sense in a logical view of learning, as it is just an optimization of the access time of the knowledge the person has about the subject.
 	Therefore we will keep to the notion that \textbf{Learning is the acquisition of knowledge}, and we will use this to show how an agents can learn through observations.
 	
-	\section{Defining learning}
+\section{Defining learning}
 	
-	In the article \cite{Walsh2008}, they showed two algorithms for learning, one that was optimistic, and one that was pessimistic. 
-	The optimistic algorithm made the agent think it was capable of solving all problems, 
-	and the pessimistic made the agent think it could only solve something which it had either been told or it had observed itself. 
-	However we want to raise the question why is it necessary to define approaches to learning, is learning not a universal concept?
-	To which the answer is, the act of learning it self, i.e the acquisition of knowledge, that remains the same no matter the approach.
-	But getting into a situation where new knowledge is available that is something where there exists multiple approaches, and without it no knowledge may be acquired.
+	In~\cite{Walsh2008}, two learning algorithms are presented, an optimistic and a pessimistic one.
+    In the optimistic algorithm, the learning agent believes it is able to solve any problem, unless it can explicitly prove otherwise. In contrast, the learning agent in the pessimistic algorithm only assume it can solve a problem if it has decidedly proven so, or if an external entity has provided it with a solution. 
+
+A natural question in this context is, why is it necessary to define approaches to learning, such as the optimistic and pessimistic ones? Is learning not a universal concept? The answer is that while the acquisition of knowledge in itself remains the same no matter the approach, there are multiple approaches to getting into a situation where new knowledge is available. The frequency with which new knowledge is obtained, and the relevance of said knowledge relies heavily on the approach taken.
+
+\begin{example}
+    Consider two programmers tasked with implementing a complicated animation. Both only know the programming language $X$, but have no experience with graphics programming. Programmer $A$ implements the animation in language $X$, complementing his existing knowledge with books and tutorials when in doubt. Programmer $B$ takes a different approach, trying out several different languages and methodologies before finally discovering that language $W$ is the most useable for his needs. By focussing his learning on the graphics element, $A$ is able to quickly and efficiently sove the task. $B$ has solved the task more elegantly, and has obtained knowledge which may be relevant in similar programming tasks, but has taken considerably longer.
+\end{example}
+
+% 	However we want to raise the question why is it necessary to define approaches to learning, is learning not a universal concept?
+% 	To which the answer is, the act of learning itself, i.e.\ the acquisition of knowledge, that remains the same no matter the approach.
+% 	But getting into a situation where new knowledge is available that is something where there exists multiple approaches, and without it no knowledge may be acquired.
+% 	
+% To examplify this, a pessimistic learner will learn how to solve a given task by improving his knowledge about tools he already knows and is comfortable with, while a more optimistically inclined learner might try out a number of different approaches before finally discovering a working technique. Even though the pessimist might have arrived at the solution faster, the optimist have had the chance to improve his understanding of a number of related fields, which may be applicable to similar problems in the future.
+%
+% 	\begin{example}
+% 		Imagine two people Alice and Bob, Alice is a personification of a pessimistic approach and Bob is of the optimistic approach.
+% 		
+% 		Alice is a quiet person that keeps to herself, when something unexpected happens she avoids it. 
+% 		Nothing exciting or good ever happens in her life time, but at the same time nothing bad ever happens either.
+% 		
+% 		Bob on the other hand is wild, he never stays at the same place for long and when he does he is barely at home. 
+% 		The number of jobs he has had is to many to list but suffice it to say he has pretty much tried everything.
+% 		Bobs life in contrast to Alice's has had many upsides and he has learned many great things that has improved him as a person,
+% 		however because he has the wild life style, many horrible things has happened as well, but even those horrible things has taught him some valuable lessons.
+% 		
+% 		As we can see from these examples Alice and Bob has a different approach to learning in life, but where Alice got stuck and never improved or became wiser, 
+% 		Bob on the other hand has improved many-fold. That is not to say that Bob's approach is inherently superior as he taken great risks to his well being, where as Alice has enjoyed a much safer life.
+% 		
+% 	\end{example}
 	
-	\begin{example}
-		Imagine two people Alice and Bob, Alice is a personification of a pessimistic approach and Bob is of the optimistic approach.
-		
-		Alice is a quiet person that keeps to herself, when something unexpected happens she avoids it. 
-		Nothing exciting or good ever happens in her life time, but at the same time nothing bad ever happens either.
-		
-		Bob on the other hand is wild, he never stays at the same place for long and when he does he is barely at home. 
-		The number of jobs he has had is to many to list but suffice it to say he has pretty much tried everything.
-		Bobs life in contrast to Alice's has had many upsides and he has learned many great things that has improved him as a person,
-		however because he has the wild life style, many horrible things has happened as well, but even those horrible things has taught him some valuable lessons.
-		
-		As we can see from these examples Alice and Bob has a different approach to learning in life, but where Alice got stuck and never improved or became wiser, 
-		Bob on the other hand has improved many-fold. That is not to say that Bob's approach is inherently superior as he taken great risks to his well being, where as Alice has enjoyed a much safer life.
-		
-	\end{example}
 	
-	
-	These approaches are what \cite{tobias1990a} defines as a Learning strategy:
+	These approaches are what~\cite{tobias1990a} defines as a Learning strategy:
 	
 \begin{quote}
 	A learning strategy is a sequence of procedures for accomplishing learning.
