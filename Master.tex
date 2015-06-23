@@ -135,6 +135,12 @@
 
 \newcommand{\pre}{\ensuremath{\textit{pre}}\xspace}
 
+\newcommand{\locref}[1]{\ifthenelse{\pageref{#1}<\thepage}{above}{below}}
+
+%\let\Cref\locref
+\let\oldcref\Cref
+%\renewcommand{\Cref}[1]{[\oldcref{#1}, \locref{#1}]\xspace}
+\renewcommand{\Cref}[1]{\locref{#1}}
 
 \begin{document}
 

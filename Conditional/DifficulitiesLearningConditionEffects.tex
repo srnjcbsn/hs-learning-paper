@@ -30,7 +30,7 @@ We do not support actions with parameters.
 In STRIPS-Style actions the objects $A(O_1,O_2,\ldots,O_{n-1},O_n)$ are the only objects affected by the action.
 Thus any predicate that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
 However when actions contain conditional effects with support for use of quantifiers this claim no longer holds.
-As such to properly discuss the subject we introduce \glits, which is the set of all grounded literals.
+To properly discuss the subject we introduce \glits, which is the set of all grounded literals.
 \begin{definition}
 	All possible grounded literals \glits is defined as:
 	\begin{equation*}
@@ -79,7 +79,7 @@ In order to simplify the problem we have made the following restrictions on cond
 %
 %Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditionals have the same effect, as that is equivalent to an disjunctive precondition.
 
-In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using prior models and what changes to the models are necessary. Lastly we will introduce a new way to model atoms by using hypergraphs.
+In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using initial models and what changes to the models are necessary. Lastly we will introduce a new way to model atoms by using hypergraphs.
 
 
 Given the restriction we presented we are able to simplify the problem. That is, we can model every possible action schema where each conditional only contains one effect.
@@ -121,14 +121,14 @@ Given the restriction we presented we are able to simplify the problem. That is,
 
 
 \begin{proposition}[Single effect per conditional]\label{prop:ca:singleConditional}
-    Consider a state transition $\left(S, a, S'\right)$ and a grounded literal $p \in \geffects$. By Restrictions~\ref{rst:ca:no-disjuntive-conditionals} and~\ref{rst:ca:no-multiple-effect}, 
+    Consider a state transition $\left(S, a, S'\right)$ and a grounded literal $p \in \geffects$. By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, 
     
     there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two literals in $\geffects$ with the same predicate are effects of the same conditional.
 \end{proposition}
 
 \begin{figure}
 	\centering{%
-	\includegraphics[width=0.5\textwidth]{\master/Graphics/house_conditional_knowledge.png}}
+	\includegraphics[width=1\textwidth]{\master/Graphics/house_conditional_knowledge.png}}
 	\caption{\label{fig:ca:house-example}Three states of light problem for Example~\ref{ex:ca:light-on}}
 \end{figure}
 
@@ -147,24 +147,23 @@ Even though we intuitively know that it is only the lamp which is the only requi
 \end{example}
 
 \subsubsection{Preconditions from states}
-Objects are defined by the predicates which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
-
-
+Objects are defined by the atoms in the state which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
 This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
 to a to different variable.
+\begin{equation}
+	\sigma(P,\delta) =  \leftarrow \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}
+\end{equation}
+For instance for the state.
+$\{ p(O_1), p(O_2),\ldots,p(O_n)\}$ using a mapping
 \begin{equation*}
-	\sigma : P, \delta \leftarrow \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}
+\delta = \{O_1 \mapsto v_1, O_2 \mapsto v_2 \ldots, O_n \mapsto v_n\}
 \end{equation*}
-
-
-
-For instance for the state
-$\{ p(Object_1), p(Object_2),\ldots,p(Object_n)\}$ using a mapping
-$\delta = \{Object_1 \mapsto x, Object_2 \mapsto y \ldots\}$
-where $(x, y..)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects
+where $(v_1, v_2,\dots,v_{n-1},v_n)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects
 \begin{equation*}
-\{ p(\delta(Object_1)), p(\delta(Object_2)),\ldots,p(\delta(Object_n))\} = \{ p(x), p(y),\ldots\}
+\{ p(\delta(O_1)), p(\delta(O_2)),\ldots,p(\delta(O_n))\} = \{ p(v_1), p(v_2),\ldots,p(v_n)\}
 \end{equation*}
+To see how it works in sokoban see \Cref{ex:ca:sokoban-moveleft-action}
+
 
 \begin{theorem}\label{thm:ca:precondition-state}
 If an action produces one or more effects $E$, then all predicates in the prior state are the maximum number of positive preconditions to those exact effects.
@@ -194,12 +193,12 @@ Thus if both negative and positive preconditions are allowed a the same time use
         \caption{After execution of \texttt{MoveLeft}}
     \end{subfigure}
     \hspace*{0.1\textwidth}
-	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for Example~\ref{ex:ca:sokoban-moveleft-action} }
+	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for \Cref{ex:ca:sokoban-moveleft-action} }
 
 \end{figure}
 
 \begin{example}\label{ex:ca:sokoban-moveleft-action}
-    Let us consider an example of acquiring preconditions from a state modelled with predicates. In \figref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
+    Let us consider an example of acquiring preconditions from a state modelled with predicates. In \Cref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
 
     The action schema that produced the effect is:
     \begin{align*}
@@ -329,7 +328,7 @@ Thus if both negative and positive preconditions are allowed a the same time use
             \right]&
     \end{align*}
 
-    According to Theorem~\ref{thm:ca:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
+    According to \Cref{thm:ca:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
     \begin{align*}
     &\gamma(S_{before},MoveLeft_{hyp}) =
         \left\{
@@ -353,9 +352,9 @@ As different scenarios are explored the unproven set $U_p$ of preconditions can 
 The unproven set $U_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  predicates $\mathbb{CP}$.
 \end{definition}
 
-We will now consider how this unproven set can be constructed using the methods for proving and disproving preconditions presented in Section~\ref{sec:NC:Preconditions}, show why it is insufficient and introduce a new model which fits the domain better.
+We will now consider how this unproven set can be constructed using the methods for proving and disproving preconditions presented in \Cref{sec:NC:Preconditions}, show why it is insufficient and introduce a new model which fits the domain better.
 
-By Restrictions~\ref{rst:ca:no-disjuntive-conditionals} and~\ref{rst:ca:no-multiple-effect}, each predicate $p \in \Delta s$ is spawned by exactly one conditional. As such, it can be deduced that if a predicate $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \mathcal{O}$) occurs in $\Delta s$ after application of $a$, then $A$ contains a conditional of the form
+By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, each predicate $p \in \Delta s$ is spawned by exactly one conditional. As such, it can be deduced that if a predicate $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \mathcal{O}$) occurs in $\Delta s$ after application of $a$, then $A$ contains a conditional of the form
 
 \begin{equation*}
     \forall x_1, \dots, x_n 
