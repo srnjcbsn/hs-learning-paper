@@ -236,31 +236,38 @@ If the arguments given to an action $A$ are all unique, then $\ground$ is inject
 \end{lemma}
 
 \begin{proof}
-    Two atoms are different when either their variables or predicates are different. Consider two ungrounded atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ and their groundings $p' = ground\left(p \right)$ and $q' = ground\left( q \right)$.
+    Consider an action schema $A\left(a_1, \dots, a_n\right)$ and two atoms 
+    \begin{equation*}
+        p = pn\left(x_1, \dots, x_{|p|}\right)
+    \end{equation*}
+    and
+    \begin{equation*}
+        q = qn\left(y_1, \dots, y_{|q|}\right)
+    \end{equation*}
+    where $\left\{ x_1, \dots, x_{|p|}\right\} \cup \left\{ y_1, \dots, y_{|q|}\right\} \subseteq \left\{a_1, \dots, a_n\right\}$. If $A$ is applied with unique objects $O_1, \dots, O_n$, then $p$ and $q$ are grounded as $p' = ground(p, \sigma)$ and $q' = ground(q,\sigma)$, where $\sigma = \left[ a_1 \mapsto O_1, \dots, a_n \mapsto O_n \right]$.
+
+    % Two atoms are different when either their variables or predicates are different. Consider two ungrounded atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ where all parameters of the two atoms  and their groundings $p' = ground\left(p \right)$ and $q' = ground\left( q \right)$. 
 	\begin{itemize}
-		\item  If $p \neq q$ then by definition $p' \neq q'$
+		\item If $p \neq q$ then (by definition) $p' \neq q'$
 		
-        \item If the parameters of the two atoms are different (i.e.\ if there exists an $i \in \{ 1, \dots, |q| \}$, such that $x_i \neq y_i$), and all arguments to $A$ are unique
-            \begin{equation*}
-                x_i \neq y_i 
-            \end{equation*}
-		\item If the $p_1(v_1,\dots,v_n)$ and  $p_2(v_1,\dots,v_n)$ variables are different
-			\begin{equation*}
-				v_{1,1} = v_{2,1} \land 
-				v_{1,2} = v_{2,2} \dots
-				v_{1,n-1} = v_{2,n-1} \land
-				v_{1,n} = v_{2,n}
-			\end{equation*} 		
-		and arguments to the action $A(arg_1,\dots,arg_n)$ are unique
-			\begin{equation*}
-			arg_i \neq arg_j ~ where~ i,j \in \{ 1 \dots n \}
-			\end{equation*} 
-		 
-		Then the result of grounding the atom will remain different even when each variable is mapped to an object, 
-		as all those objects are unique. 
-		Since $\ground$ is the function that performs mapping.
+        \item If $pn = qn$, then at least some of the parameters of $p$ and $q$ differ. I.e.\ there exists at least one $i$ such that $x_i \neq y_i$. Since all action arguments are different, $\sigma\left( x_i \right) \neq \sigma\left( y_i \right)$. Consequently, $p \neq q$.
+		% \item If the $p_1(v_1,\dots,v_n)$ and  $p_2(v_1,\dots,v_n)$ variables are different
+		% 	\begin{equation*}
+		% 		v_{1,1} = v_{2,1} \land 
+		% 		v_{1,2} = v_{2,2} \dots
+		% 		v_{1,n-1} = v_{2,n-1} \land
+		% 		v_{1,n} = v_{2,n}
+		% 	\end{equation*} 		
+		% and arguments to the action $A(arg_1,\dots,arg_n)$ are unique
+		% 	\begin{equation*}
+		% 	arg_i \neq arg_j ~ where~ i,j \in \{ 1 \dots n \}
+		% 	\end{equation*} 
+		%  
+		% Then the result of grounding the atom will remain different even when each variable is mapped to an object, 
+		% as all those objects are unique. 
+		% Since $\ground$ is the function that performs mapping.
 	\end{itemize}	
-	As we have proved that $\ground$ can never output to the same grounded atom, for two different atom when the action arguments are unique. Then it follows that $\ground$ must be an injective function by definition. 
+	As we have proved that $\ground$ can never output to the same grounded atom, for two different atom when the action arguments are unique. Then it follows that $\ground$ must be an injective function by definition.
 \end{proof}
 
 On a side note, this means it is preferable to an agent to try actions where the arguments to that action are all unique. 

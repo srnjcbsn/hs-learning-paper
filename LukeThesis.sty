@@ -21,9 +21,9 @@
 \usepackage{varioref}                               %Enhances references (\vref {label})
 \usepackage{fancyhdr}                               %Pretty headers/footers
 \usepackage{hyperref}                               %References package
-\usepackage{amsmath,amssymb,latexsym}               %AMS and other symbols
+\usepackage{amsmath,amssymb,latexsym,amsthm}               %AMS and other symbols
 \usepackage{epic,eepic,epsfig,graphics,psfrag}      %Figure/picture packages
-\usepackage{theorem}                                %Allows creation of custom enviroments
+% \usepackage{theorem}                                %Allows creation of custom enviroments
 %
 %==================================================================================================
 % PAGE GEOMETRY
@@ -117,14 +117,14 @@
 %==================================================================================================
 % ENVIROMENTS SETUP
 %==================================================================================================
-\newtheorem{lemma}{Lemma}[chapter]
-\newtheorem{proposition}[lemma]{Proposition}
-\newtheorem{theorem}[lemma]{Theorem}
-\newtheorem{corollary}[lemma]{Corollary}{\theorembodyfont{\rmfamily}
-\newtheorem{definition}[lemma]{Definition}}\theoremheaderfont{\scshape\bfseries}
-\newenvironment{proof}{{\scshape Proof.}}{}
-\newcommand{\qed}{\hfill $\square$ \vspace{5mm}}
-\newtheorem{example}{Example}[chapter]
+% \newtheorem{lemma}{Lemma}[chapter]
+% \newtheorem{proposition}[lemma]{Proposition}
+% \newtheorem{theorem}[lemma]{Theorem}
+% \newtheorem{corollary}[lemma]{Corollary}{\theorembodyfont{\rmfamily}
+% \newtheorem{definition}[lemma]{Definition}}\theoremheaderfont{\scshape\bfseries}
+% % \newenvironment{proof}{{\scshape Proof.}}{}
+% \newcommand{\qed}{\hfill $\square$ \vspace{5mm}}
+% \newtheorem{example}{Example}[chapter]
 %
 %==================================================================================================
 % CHAPTER AND APPENDIX STYLING SETUP
