@@ -96,13 +96,14 @@ For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 \end{invariant}
 
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
-In a state transition effects are added directly to $S$ in order to form $S'$, therefore we should be able to observe the effects of the action by looking at changes from $S$ to $S'$.  For the special case that atoms are both in $S$ and $S'$ there are two distinct possibilities: either they were part of the effects of the action but the effect was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}) which is relevant when proving effects. 
+
+When an action is successfully applied in a state $S$, the literals comprising its positive effects are grounded and added to $S$ to form $S'$. Similarly, its negative effects are grounded and removed from $S$. Therefore, we should be able to observe the effects of the action as the differences between $S$ to $S'$. For the special case that an atom is both in $S$ and $S'$ there are two distinct possibilities: either it is part of the effects of the action but was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}). The same holds for atoms that are in neither $S$ nor $S'$.
+
 To disprove atoms for a single transition we use the idea that grounded atoms which are not in $S'$ cannot be positive effects, and grounded atoms which are in $S'$ cannot be negative effects. 
 This is logically sound and gives us the following theorem:
 
 \begin{theorem}
-	 From a single state-transition $(S,a,S')$ we know that,
-	positive literals are disproved, when grounded they are not in $S'$. Conversely grounded negative literals are disproved when they are in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:
+	 Let $\left(S, a, S'\right)$ be a state transition. Then any grounded literal $l$ is disproven to be a positive effect if its grounded version is not in $S'$. Conversely, a negative literal is disproven to be an effect if its grounded version is in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:
 	
 	\begin{equation*}
 		 \dsp(S') = \left\{
@@ -113,11 +114,11 @@ This is logically sound and gives us the following theorem:
 			\neg p \mid \neg p \in \lits \land \ground(p) \in S'
 			\right\}
 	\end{equation*}
+\end{theorem}
 	\begin{proof}[Proof by definition]
 		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p) \notin S'$ can not have been an effect of action $A$.
-	Like wise if a potential negative effect $\neg p$ is $\ground(p) \in S'$ then that could not have been a negative effect.
+	Likewise if a potential negative effect $\neg p$ is $\ground(p) \in S'$ then that could not have been a negative effect.
 	\end{proof}
-\end{theorem}
 
 
 \begin{example}[disproving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-disproving-effects}
@@ -226,17 +227,17 @@ We see that incorrect effects are correctly disproved, such as moving the sokoba
 	\label{fig:nca:ground-injectivity}
 \end{figure}
 
-In order to understand proving of effect we must look into how effects are generated, based on the action schema.
+In order to understand proving effects, we must understand how effects are generated based on the action schema.
 The $\ground$ function is used to ground atoms from an action's effect. This is important since if we know what atom a grounded atom originated from, then that is a proof for that atom. This means that if a grounded atom $p \in \Delta S$ returns only one atom when $\invground$ is applied to it, i.e. $\invground(p(O_1,O_2)) = {p(x,y)}$ then that atom $p(x,y)$ has been proved. In other words if $\ground$ is injective then $\invground$ is single-valued and it can thus be applied to all grounded atoms in $\Delta S$ and that will prove all of their respective atoms.
 Whether or not $\ground$ is injective depends on the arguments of the action (see Figure \ref*{fig:nca:ground-injectivity}).
 This gives rise to the following lemma:
 \begin{lemma}
-If the arguments given to an action $A$ are all unique, then $\ground$ is injective. Thereby making $\invground$ single-valued.
+If the arguments given to an action $A$ are all unique, then $\ground$ is injective, thereby making $\invground$ single-valued.
 
 \begin{proof}
-	Two atoms are different when either their variables are different or their names are different. 
+    Two atoms are different when either their variables or names are different. Consider two atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ that 
 	\begin{itemize}
-		\item If their names are different then by definition two different grounded atoms will be outputted by $\ground$.
+		\item  If their names are different then by definition two different grounded atoms will be outputted by $\ground$.
 		
 		\item If the $p_1(v_1,\dots,v_n)$ and  $p_2(v_1,\dots,v_n)$ variables are different
 			\begin{equation*}
