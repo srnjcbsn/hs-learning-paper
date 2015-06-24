@@ -233,12 +233,17 @@ Whether or not $\ground$ is injective depends on the arguments of the action (se
 This gives rise to the following lemma:
 \begin{lemma}
 If the arguments given to an action $A$ are all unique, then $\ground$ is injective, thereby making $\invground$ single-valued.
+\end{lemma}
 
 \begin{proof}
-    Two atoms are different when either their variables or names are different. Consider two atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ that 
+    Two atoms are different when either their variables or predicates are different. Consider two ungrounded atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ and their groundings $p' = ground\left(p \right)$ and $q' = ground\left( q \right)$.
 	\begin{itemize}
-		\item  If their names are different then by definition two different grounded atoms will be outputted by $\ground$.
+		\item  If $p \neq q$ then by definition $p' \neq q'$
 		
+        \item If the parameters of the two atoms are different (i.e.\ if there exists an $i \in \{ 1, \dots, |q| \}$, such that $x_i \neq y_i$), and all arguments to $A$ are unique
+            \begin{equation*}
+                x_i \neq y_i 
+            \end{equation*}
 		\item If the $p_1(v_1,\dots,v_n)$ and  $p_2(v_1,\dots,v_n)$ variables are different
 			\begin{equation*}
 				v_{1,1} = v_{2,1} \land 
@@ -257,7 +262,6 @@ If the arguments given to an action $A$ are all unique, then $\ground$ is inject
 	\end{itemize}	
 	As we have proved that $\ground$ can never output to the same grounded atom, for two different atom when the action arguments are unique. Then it follows that $\ground$ must be an injective function by definition. 
 \end{proof}
-\end{lemma}
 
 On a side note, this means it is preferable to an agent to try actions where the arguments to that action are all unique. 
 
