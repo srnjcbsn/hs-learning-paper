@@ -236,88 +236,101 @@ If the arguments given to an action $A$ are all unique, then $\ground$ is inject
 \end{lemma}
 
 \begin{proof}
-    Two atoms are different when either their variables or predicates are different. Consider two ungrounded atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ and their groundings $p' = ground\left(p \right)$ and $q' = ground\left( q \right)$.
+    Consider an action schema $A\left(a_1, \dots, a_n\right)$ and two atoms 
+    \begin{equation*}
+        p = pn\left(x_1, \dots, x_{|p|}\right)
+    \end{equation*}
+    and
+    \begin{equation*}
+        q = qn\left(y_1, \dots, y_{|q|}\right)
+    \end{equation*}
+    where $\left\{ x_1, \dots, x_{|p|}\right\} \cup \left\{ y_1, \dots, y_{|q|}\right\} \subseteq \left\{a_1, \dots, a_n\right\}$. If $A$ is applied with unique objects $O_1, \dots, O_n$, then $p$ and $q$ are grounded as $p' = ground(p, \sigma)$ and $q' = ground(q,\sigma)$, where $\sigma = \left[ a_1 \mapsto O_1, \dots, a_n \mapsto O_n \right]$.
+
+    % Two atoms are different when either their variables or predicates are different. Consider two ungrounded atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ where all parameters of the two atoms  and their groundings $p' = ground\left(p \right)$ and $q' = ground\left( q \right)$. 
 	\begin{itemize}
-		\item  If $p \neq q$ then by definition $p' \neq q'$
+		\item If $p \neq q$ then (by definition) $p' \neq q'$
 		
-        \item If the parameters of the two atoms are different (i.e.\ if there exists an $i \in \{ 1, \dots, |q| \}$, such that $x_i \neq y_i$), and all arguments to $A$ are unique
-            \begin{equation*}
-                x_i \neq y_i 
-            \end{equation*}
-		\item If the $p_1(v_1,\dots,v_n)$ and  $p_2(v_1,\dots,v_n)$ variables are different
-			\begin{equation*}
-				v_{1,1} = v_{2,1} \land 
-				v_{1,2} = v_{2,2} \dots
-				v_{1,n-1} = v_{2,n-1} \land
-				v_{1,n} = v_{2,n}
-			\end{equation*} 		
-		and arguments to the action $A(arg_1,\dots,arg_n)$ are unique
-			\begin{equation*}
-			arg_i \neq arg_j ~ where~ i,j \in \{ 1 \dots n \}
-			\end{equation*} 
-		 
-		Then the result of grounding the atom will remain different even when each variable is mapped to an object, 
-		as all those objects are unique. 
-		Since $\ground$ is the function that performs mapping.
+        \item If $pn = qn$, then at least some of the parameters of $p$ and $q$ differ. I.e.\ there exists at least one $i$ such that $x_i \neq y_i$. Since all action arguments are different, $\sigma\left( x_i \right) \neq \sigma\left( y_i \right)$. Consequently, $p \neq q$.
+		% \item If the $p_1(v_1,\dots,v_n)$ and  $p_2(v_1,\dots,v_n)$ variables are different
+		% 	\begin{equation*}
+		% 		v_{1,1} = v_{2,1} \land 
+		% 		v_{1,2} = v_{2,2} \dots
+		% 		v_{1,n-1} = v_{2,n-1} \land
+		% 		v_{1,n} = v_{2,n}
+		% 	\end{equation*} 		
+		% and arguments to the action $A(arg_1,\dots,arg_n)$ are unique
+		% 	\begin{equation*}
+		% 	arg_i \neq arg_j ~ where~ i,j \in \{ 1 \dots n \}
+		% 	\end{equation*} 
+		%  
+		% Then the result of grounding the atom will remain different even when each variable is mapped to an object, 
+		% as all those objects are unique. 
+		% Since $\ground$ is the function that performs mapping.
 	\end{itemize}	
-	As we have proved that $\ground$ can never output to the same grounded atom, for two different atom when the action arguments are unique. Then it follows that $\ground$ must be an injective function by definition. 
+	As we have proved that $\ground$ can never output to the same grounded atom, for two different atom when the action arguments are unique. Then it follows that $\ground$ must be an injective function by definition.
 \end{proof}
 
-On a side note, this means it is preferable to an agent to try actions where the arguments to that action are all unique. 
+On a side note, this means it is preferable for an agent to try actions where the arguments to that action are all unique. 
 
 If however only some of the arguments are unique, then we should still be able to prove some of the atoms, provided all other atoms that map from the same grounded atom have been disproved. We can do this by using our disproved set \Dsp, built from earlier transitions, to discard incorrect atoms. This gives us the following theorem: 
 
 \begin{theorem} For a state-transition $(S,a,S')$ with 
 	\begin{equation*}
-	\Delta S = S' \setminus S \cup \{\neg p \mid  p \in S \setminus S' \}
+	\Delta S = \left(S' \setminus S\right) \cup \{\neg p \mid  p \in S \setminus S' \}
 	\end{equation*}
 	
-	then, 
-	 $\forall_{p \in \Delta S}$ it holds that:
+	then, for all $p \in \geffects$, the following holds:
 	
-	If $\invground$ is single-valued or it is multivalued but all except one output have been disproved, then that the literal outputted by $\invground$ is proved to be an effect.
+    \begin{itemize}
+        \item If \invground is single-valued, then $\invground(p)$ is an effect of $A$.
+        \item If \invground is multivalued but there is a single atom in $\invground(p)$ that have not previously been disproven to be an effect, then that atom is an effect.
+    \end{itemize}
+
+	% If $\invground$ is single-valued or it is multivalued but all except one output are disproven, then that the literal outputted by $\invground$ is proven to be an effect.
 	We can write this as a function:
 	
 	\begin{equation*}
-	\pro(\Delta S) = 
+	\pro(\geffects) = 
 	\left\{
-		p \mid 
-				p_g \in \Delta S \land 
-				\ground(p_g) \setminus \Dsp = \{p\}
+		p' \mid 
+				p \in \geffects \land 
+				\invground(p) \setminus \Dsp = \{p'\}
 		\right\}
 	\end{equation*}
-	where $\Dsp$ is the set of disproved literals that the agent already knows about.
-	
-	\begin{proof}
-		If $\invground$ is single-valued then that means only one atom can produce the grounded atom observed in the state, therefore that atom must be an actual effect.
-		If $\invground$ is multivalued but all other outputs have been disproved then as before only one atom can produce the grounded atom, giving us the same result which is that, the atom is an actual effect.
-	\end{proof}
+	where $\Dsp$ is the set of disproven literals that the agent already knows about.
 \end{theorem}
+	
+\begin{proof}
+    We prove the two cases described above:
+    \begin{itemize}
+        \item If $\invground$ is single-valued, then $\invground (p)$ is the only atom in $A$ that could have caused $p$ to occur in $S'$.
+        \item If $\invground$ is multivalued, then it is generally not known which atom(s) caused $p$ to occur in $S'$. However, if all atoms except one in $\invground\left( p \right)$ have previously been disproven to be effect, then that single atom must be an effect. 
+    \end{itemize}
+\end{proof}
 
 \begin{example}[Proving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-proving-effects}
-	Following from Example \ref{ex:nca:moveSucceeded-disproving-effects}
-	We have $S_0$, $S_1$ and \lits.
+	Consider the states $S_0$ and $S_1$ from Example~\ref{ex:nca:moveSucceeded-disproving-effects}. Then, $\geffects$ can be found as follows:
 	
 	\begin{equation*}
-	\begin{split}
-	\Delta S &=
-	\left\{
-	\begin{gathered}
-	\texttt{sokobanAt}(t_2), \\
-	\texttt{clear}(t_1), \\
-	\neg \texttt{clear}(t_2)		
-	\end{gathered}
-	\right\} \\	
-	\pro(\Delta S) &= \left\{
-	\begin{gathered}
-	\texttt{sokobanAt}(to), \\
-	\texttt{clear}(from), \\
-	\neg \texttt{clear}(to)		
-	\end{gathered}
-	\right\}
-	\end{split}
+	\Delta S = \left\{
+        \begin{gathered}
+            \texttt{sokobanAt}(t_2), \\
+            \texttt{clear}(t_1), \\
+            \neg \texttt{clear}(t_2)		
+        \end{gathered}
+        \right\}
 	\end{equation*}
-	We see that effects are correctly proven, such a proving the action actually moves sokoban to a new location i.e. $\texttt{sokobanAt}(to)$.
+And the known knowledge can be extracted as
+    \begin{equation*}
+        \pro(\Delta S) = \left\{
+            \begin{gathered}
+                \texttt{sokobanAt}(to), \\
+                \texttt{clear}(from), \\
+                \neg \texttt{clear}(to)		
+            \end{gathered}
+        \right\}
+    \end{equation*}
+	We see that effects are correctly proven. For example, the fact that the sokoban moves to a new location is correctly proved by $\texttt{sokobanAt}(to)$.
 \end{example}
 
 \end{document}

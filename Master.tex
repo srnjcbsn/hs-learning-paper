@@ -72,9 +72,17 @@
 % THESIS STRUCTURE  (Modifiy to include more chapters etc)
 %==================================================================================================
 
-\newtheorem{invariant}{Invariant}[chapter]
+% \newtheorem{invariant}{Invariant}[chapter]
 
-\newtheorem{arestriction}{Restriction}
+\newtheorem{arestriction}{Restriction}  
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\theoremstyle{plain}
+\newtheorem{example}{Example}[section]
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{invariant}{Invariant}[chapter]
+\newtheorem{lemma}{Lemma}[chapter]
 
 \newcommand{\figref}[1]{\figurename~\ref{#1}}
 
@@ -147,25 +155,25 @@
 
 \newcommand{\Sref}[2]{[#1 \ref{#2}\locref{#2}]\xspace}
 %\renewcommand{\Cref}[1]{\locref{#1}}
-\let\oldtheorem\theorem
-\renewcommand{\theorem}{%
-	\crefalias{lemma}{theorem}
-	\oldtheorem}
-
-\let\oldtheorem\definition
-\renewcommand{\definition}{%
-	\crefalias{lemma}{definition}
-	\oldtheorem}
-
-\let\oldtheorem\corollary
-\renewcommand{\corollary}{%
-	\crefalias{lemma}{corollary}
-	\oldtheorem}
-
-\let\oldtheorem\proposition
-\renewcommand{\proposition}{%
-	\crefalias{lemma}{proposition}
-	\oldtheorem}
+% \let\oldtheorem\theorem
+% \renewcommand{\theorem}{%
+% 	\crefalias{lemma}{theorem}
+% 	\oldtheorem}
+%
+% \let\oldtheorem\definition
+% \renewcommand{\definition}{%
+% 	\crefalias{lemma}{definition}
+% 	\oldtheorem}
+%
+% \let\oldtheorem\corollary
+% \renewcommand{\corollary}{%
+% 	\crefalias{lemma}{corollary}
+% 	\oldtheorem}
+%
+% \let\oldtheorem\proposition
+% \renewcommand{\proposition}{%
+% 	\crefalias{lemma}{proposition}
+% 	\oldtheorem}
 
 
 
