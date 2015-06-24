@@ -14,7 +14,7 @@ We do not support actions with parameters.
 
 
 \begin{definition}
-	An explicit state is a set of predicates where the negative predicates are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicate names $P$ and a set of objects $\objs$:
+	An explicit state is a set of literals where the negative literals are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicates $\preds$ and a set of objects $\objs$:
 	\begin{equation*}
 		\ts\left(S, \preds, \objs\right) = S \cup
 		\left\{ \neg p \mid 
@@ -23,12 +23,12 @@ We do not support actions with parameters.
 		p \in \preds
 		\right\}
 	\end{equation*}
-	The arguments $P$ and $\mathcal{O}$ are normally left out when their values are clear from the context.
+	The arguments $\preds$ and $\objs$ are normally left out when their values are clear from the context.
 \end{definition}
 
 
 In STRIPS-Style actions the objects $A(O_1,O_2,\ldots,O_{n-1},O_n)$ are the only objects affected by the action.
-Thus any predicate that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
+Thus any literal that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
 However when actions contain conditional effects with support for use of quantifiers this claim no longer holds.
 To properly discuss the subject we introduce \glits, which is the set of all grounded literals.
 \begin{definition}
@@ -151,11 +151,11 @@ Even though we intuitively know that it is only the lamp which is the only requi
 \end{example}
 
 \subsection{Preconditions from states}
-Objects are defined by the atoms in the state which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of predicates is the requirement for the effects to occur.
-This means if we interpret the objects as variables connecting the predicates in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
+Objects are defined by the atoms in the state which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of literals is the requirement for the effects to occur.
+This means if we interpret the objects as variables connecting the literals in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
 to a to different variable.
-\begin{equation}
-	\sigma(P,\delta) =  \leftarrow \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}
+\begin{equation}\label{eq:ca:substitution}
+	\sigma(P,\delta) =  \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}
 \end{equation}
 For instance for the state.
 $\{ p(O_1), p(O_2),\ldots,p(O_n)\}$ using a mapping
@@ -174,13 +174,11 @@ This gives us the following:
 \begin{theorem}\label{thm:ca:precondition-state}
 If $\gamma (S,a) = S'$ then $\pre(e) \subseteq \sigma(\ts(S))$  for the effect $e \in \geffects$.
 Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not to remove actual preconditions.
-
+\end{theorem}
 \begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in $\ts(S)$ for the effects \geffects.
 	In this case the effects would not occur as their required preconditions are missing, thus the preconditions must be satisfied in $\ts(S)$.
 	As such we can conclude $\ts(S)$ contains at least all precondition atoms.
 \end{proof}
-\end{theorem}
-
 
 \begin{figure}
     \hspace*{0.1\textwidth}%
@@ -347,24 +345,25 @@ Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not t
     We observe that this is indeed correct.
 \end{example}
 
-\subsection{Initial approach to reducing preconditions}
+\subsection{Initial approach to reducing preconditions}\label{ssec:ca:init-approach}
 
-As different scenarios are explored the unproven set $\Up_p$ of preconditions can be reduced.
+All the preconditions we get from a state can be seen as the unproven preconditions, like they were for non-conditional knowledge.
+Therefore as different scenarios are explored the unproven set $\Up_p$ of preconditions can be reduced.
 
 \begin{definition}
-The unproven set $Up_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  literals $\glits$.
+The unproven set $\Up_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  literals $\glits$.
 \end{definition}
 
 We will now consider how this unproven set can be constructed using the methods for proving and disproving preconditions presented in \Cref{sec:NC:Preconditions}, show why it is insufficient and introduce a new model which fits the domain better.
 
-By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, each literal $p \in \geffects$ is spawned by exactly one conditional. As such, it can be deduced that if a predicate $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \objs$) occurs in $\geffects$ after application of $a$, then $A$ contains a conditional of the form
+By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, each literal $p \in \geffects$ is spawned by exactly one conditional. As such, it can be deduced that if a literal $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \objs$) occurs in $\geffects$ after application of $a$, then $A$ contains a conditional of the form
 
 \begin{equation*}
     \forall x_1, \dots, x_n 
         \left[ p\left(\delta\left(u_1\right), \dots, \delta \left(u_{|p|}\right) \right) \right] \quad when \quad 
         \left[ \left<unknown\right> \right]
 \end{equation*}
-where $\left\{\delta \left( u_1 \right), \dots, \delta \left(u_{|p|} \right) \right\} \subseteq \left\{ x_1, \dots, x_n \right\} \subseteq \delta [\mathcal{O}]$ and $\delta$ is a substitution function as explained above. Observe that once this conditional has been proven to exist, the problem of finding its preconditions is similar to finding the preconditions of a non-conditional action schema $A'$ accepting as many parameters as the number of objects in the world, ie. 
+where $\left\{\delta \left( u_1 \right), \dots, \delta \left(u_{|p|} \right) \right\} \subseteq \left\{ x_1, \dots, x_n \right\} \subseteq \delta [\objs]$ and $\delta$ is a substitution function as explained in \Cref{eq:ca:substitution}. Observe that once this conditional has been proven to exist, the problem of finding its preconditions is similar to finding the preconditions of a non-conditional action schema $A'$ accepting as many parameters as the number of objects in the world, ie. 
 
 \begin{align*}
     \begin{split}
@@ -374,28 +373,28 @@ where $\left\{\delta \left( u_1 \right), \dots, \delta \left(u_{|p|} \right) \ri
     \end{split}
 \end{align*}
 
-in which case the grounding function becomes $\delta^{-1}$. Thus, the function $d(s)$ from \Cref{sec:NC:Preconditions} can be used to disprove preconditions, and the set of predicates neither proven nor disproven to be preconditions becomes $\mathbb{CP} \setminus d(s)$. Note that since $\mathbb{P}_{A'} = \mathbb{CP}_A$, $|d(s)| = |\mathbb{P}_{A'}|$, as each predicate is either present or absent from the state. 
+in which case the grounding function becomes $\delta^{-1}$. Thus, the function $\dsp(S)$ from \Cref{sec:NC:Preconditions} can be used to disprove preconditions, and the set of unproven literals to be preconditions becomes $\sigma(\glits) \setminus \dsp(s)$.
 
-As all predicates in $\Delta s$ with the same name are effects of the same conditional, it is tempting to consider them different applications of $A'$ and prove knowledge about their preconditions as in \Cref{sec:NC:Preconditions}. However, the above only holds for a single grounded predicate observed to be the effect of the conditional; if a predicate with the same name but different arguments occurs in $\Delta s$, then it is the effect of another interpretation of the universal quantifier in the conditional, and the nonconditional action schema constructed for it will not equal $A'$.
+As all literals in $\geffects$ with the same name are effects of the same conditional, it is tempting to consider them different applications of $A'$ and prove knowledge about their preconditions as in \Cref{sec:NC:Preconditions}. However, the above only holds for a single grounded literal observed to be the effect of the conditional; if a literal with the same predicate but different arguments occurs in $\geffects$, then it is the effect of another interpretation of the universal quantifier in the conditional, and the nonconditional action schema constructed for it will not equal $A'$.
 
-Consequently, the preconditions disproven by $d(s)$ for $A'$ are only applicable to the grounded predicate $A'$ was constructed for. To find the preconditions of the conditional, a method of combining the different disproven predicates is needed.
+Consequently, the preconditions disproven by $\dsp(S)$ for $A'$ are only applicable to the grounded literal $A'$ was constructed for. To find the preconditions of the conditional, a method of combining the different disproven literals is needed.
 
-It follows from the above that if we have the sets of unproven preconditions $U_p1$ and $U_p1$ from two different state transitions, we can compare them and remove discrepancies by intersection:
+It follows from the above that if we have the sets of unproven preconditions $\Up_p1$ and $\Up_p1$ from two different state transitions, we can compare them and remove discrepancies by intersection:
 
 \begin{equation}
 \label{eq:unknownpredcondset}
-	U_p' = U_p1 \cap U_p2
+	\Up_p' = \Up_p1 \cap \Up_p2
 \end{equation}
 
-This will work for removing entire predicates and only if the two sets use exact same naming for variables. Herein lies the problem of reducing preconditions; unlike non-conditional effects where entire predicates are removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables.
+This will work for removing discard disproven literals if only if the two sets variables match up perfectly. Herein lies the problem of reducing preconditions; unlike non-conditional effects where entire literals are removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables. For instance, $p(x)$ and $q(x)$ have a binding since both have the variable $x$, to remove the binding simply rename one of their variables. I.e $p(x)$ and $q(y)$.
 
 \begin{definition}[Binding]\label{def:ca:binding}
-    A binding between variables, means that variables between predicates are the same.
+    A binding between variables, means that variables between atoms are the same.
 	Bindings that contain only one variable are free and means that no binding exists.
-	It is important to note that a predicate with multiple variables can have bindings with itself.
-	For instance $q(x)$ and $p(x,y)$ has a binding on their first argument as they both refer to the same variable, and $y$ is a free variable as no other predicates with $y$ exists.
+	It is important to note that a literal with multiple variables can have bindings with itself.
+	For instance $q(x)$ and $p(x,y)$ has a binding on their first argument as they both refer to the same variable, and $y$ is a free variable as no other literals with $y$ exists.
 \end{definition}
-Thus this approach to modelling the unknown preconditions, which we used for non-conditional actions is incorrect.
+Therefore the approach to modeling the unknown preconditions, which we used for non-conditional actions is incorrect when used for conditional actions. See \Cref{ex:ca:nonbinding-intersection-model} for more details.
 
 \begin{example}\label{ex:ca:light-on-2}
     Following from \Cref{ex:ca:light-on} we come to the second case in \Cref{fig:ca:house-example}
@@ -409,37 +408,56 @@ Thus this approach to modelling the unknown preconditions, which we used for non
 \end{example}
 
 \begin{example}\label{ex:ca:nonbinding-intersection-model}
-    To elucidate the problem of bindings further, imagine that we have two different $U_p$
+    To elucidate the problem of bindings further, imagine that we have two different $\Up_p$
     \begin{align*}
-        U_p1 &= \{ \texttt{p}(x, x, x) \} \\
-        U_p2 &= \{ \texttt{p}(x, x, y) \}
+        \Up_p1 &= \{ \texttt{p}(x, x, x) \} \\
+        \Up_p2 &= \{ \texttt{p}(x, x, y) \}
     \end{align*}
-    We see that $U_p1$ has a stronger precondition, meaning that if $U_p1$ holds then so does $U_p2$ but not oppositely. I.e.\ 
+    We see that $\Up_p1$ has a stronger precondition, meaning that if $\Up_p1$ holds then so does $\Up_p2$ but not oppositely. I.e.\ 
     \begin{equation*}
     \forall_{x} \texttt{p}(x, x, x) \nvDash \forall_{x, y} \texttt{p}(x, x, y)  \quad and \quad
      \forall_{x, y} \texttt{p}(x, x, y) \vDash \forall_{x} \texttt{p}(x, x, x) 
     \end{equation*}
-    And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect. As they have the similarity of having the same binding between the first and second argument. What we actually need is to have a set of bindings and take the intersection of that.
+    And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect.
+    \begin{equation*}
+    	\Up_p1 \cap \Up_p2 = \emptyset
+    \end{equation*}
+    
+     As they have the similarity of having the same binding between the first and second argument. 
+     What we actually need is to have a special atom intersection $(\cap)$ that take two sets of bindings and take the intersection of that.
+     \begin{equation*}
+     	\Up_p1 (\cap) \Up_p2 = \{ \texttt{p}(x, x, y) \}
+     \end{equation*}
 \end{example}
 
 \subsection{A new model: Connecting paths}
-From the discussion above, it is evident that the model used for preconditions of non-conditional actions is not sufficient for our needs. Specifically, it does not allow us to easily combine knowledge obtained about the same conditional from different interpretations. 
-The problem, as shown above, is that this approach compares sets of predicates to prove and disprove preconditions, and determines equality of the predicates based on variable naming. However, the variable names are arbitrary and only interesting in that they describe how predicates in a set are connected to each other, since it is this connectivity that determines precondtitions.
+From the discussion in \Cref{ssec:ca:init-approach}, 
+it is evident that the model used for preconditions of non-conditional actions is not sufficient for our needs. 
+Specifically, it does not allow us to easily combine knowledge obtained about the same conditional from different interpretations. 
+The problem, as shown in \Cref{ex:ca:nonbinding-intersection-model}, is that this approach compares sets of literals to prove and disprove preconditions, and determines equality of the literals based on variable naming. 
+However, the variable names are arbitrary and only interesting in that they describe how literals in a set are connected to each other, since it is this connectivity that determines preconditions.
 
-In the following, we will explain a model based solely on connectivity between predicates. To begin with, we will explore how predicates can be connected:
+In the following, we will explain a model based solely on connectivity between literals. To begin with, we will explore how literals can be connected:
 
 \begin{definition}[Binding connection]\label{def:ca:bindingConn}
-    A binding connection between indices $i$ and $j$ of two predicates $p$ and $q$ means that the variable or object at the $i$'th argument of $p$ is the same as that at the $j$'th argument of $q$. In the following, the shorthand $p_i \bc q_j$ is used to denote binding connections.
+    A binding connection between indices $i$ and $j$ of two literals $p$ and $q$ means that the variable or object at the $i$'th argument of $p$ is the same as that at the $j$'th argument of $q$. In the following, the shorthand $p_i \bc q_j$ is used to denote binding connections.
+    For instance, $p(x,y)$ and $q(z,x)$ has a binding connection on $p_1$ and $q_2$ since they both have $x$ on those argument indices.
+    
 \end{definition}
 
-\begin{definition}[Predicate connection]\label{def:ca:predicateConn}
-    Similarly, the notation $p_1 \pc p_2$ denotes the rather obvious fact that the first and second argument of $p$ are both part of the same predicate $p$.
+\begin{definition}[Atom connection]\label{def:ca:predicateConn}
+    Similarly, the notation $p_1 \pc p_2$ denotes the rather obvious fact that the first and second argument of $p$ are both part of the same atom $p$. I.e $p(x,y)$ has an atom connection as $p_1$ and $p_2$ belong to the same atom.
+\end{definition}
+
+\begin{definition}[Combined connection]\label{def:ca:combinedConn}
+	We define $p_1 \rsc p_2$ in the case that a connection is both $\pc$ and $\bc$.
+	For instance $p(x,x)$ have a combined connection $p_1 \rsc p_2$. Note that it still contains all the permutations of the other connection types.
 \end{definition}
 
 Although \Cref{def:ca:predicateConn} seems insignificant, it allows us to define transitive connectivity: If $p_i \pc p_j$ and $p_j \bc q_k$ then $p_i$ and $q_k$ are connected through $p_j$. This connectivity is called a \emph{connecting path} and is denoted $p_i \pc p_j \bc q_k$.
 
 \begin{definition}[Connecting path]\label{def:ca:connectingPath}
-    A connecting path is a sequence of alternating binding and predicate connections, where any two adjacent connections shares a component, i.e.\
+    A connecting path is a sequence of binding and atom connections, where any two adjacent connections shares a component, i.e.\
     \begin{equation*}
         \left< 
             \left( f_i \bc p_j \right), 
@@ -453,20 +471,73 @@ Although \Cref{def:ca:predicateConn} seems insignificant, it allows us to define
     \end{equation*}
 \end{definition}
 
-Given a state transition $\left(S, a, S'\right)$, it now holds that for any effect $p \in \Delta S$ there exists one or more connecting paths between any argument of $p$ and any argument of any predicate $q \in \ts(S)$. Any one of these paths describe a possible precondition, and the set of all paths comprises the set of unproven preconditions $U$ for $p$. 
 
-If another effect with the same name as $p$ occurs in $\Delta S$, we can now intersect their two path sets to arrive at a correctly merged precondition set $U'$.
+
+Given a state transition $\left(S, a, S'\right)$, it now holds that for any effect $p \in \geffects$ there exists one or more connecting paths between any argument of $p$ and any argument of any literal $q \in \ts(S)$. Any one of these paths describe a possible precondition, and the set of all paths comprises the set of unproven preconditions $\Up$ for $p$. 
+
+If another effect with the same name as $p$ occurs in $\geffects$, we can now intersect their two path sets to arrive at a correctly merged precondition set $\Up'$.
 
 \begin{example}\label{ex:ca:non-binding-interesction-model-fixed}
-    <Insert example here>
+	In this example we will see how connecting paths are derived from a transition and how they solve the intersection problem shown in \Cref{ex:ca:nonbinding-intersection-model}, to simplify the example we exclude negative literals.
+   Let assume we have a transition (S,a,S')
+   \begin{align*}
+	   	S &= \{ p(A,A), g(B) \}\\
+	   	S'& = S \cup \{ q(A,B) \}
+   \end{align*}
+   with the effect
+	\begin{equation*}
+	 	\geffects = \{ q(A) \}
+	\end{equation*}
+	This means that from $q(A)$ we have the following connecting paths
+	\begin{align*}
+		\Up_0= 
+		\left\{
+		\begin{gathered}
+			q_1 \bc p_1
+		,\\	q_1 \bc p_2
+		,\\	q_1 \bc p_1 \bc p_2
+		,\\	q_1 \bc p_2 \bc p_1
+		,\\	q_1 \pc p_1 \pc p_2 
+		,\\	q_1 \pc p_2 \pc p_1 
+		,\\	q_1 \bc p_1 \rsc p_2 
+		,\\	q_1 \bc p_1 \rsc p_2 
+		,\\ q_1 \bc g_1	
+		\end{gathered}	
+		\right\}	
+	\end{align*}
+   these connecting paths would that define our initial unproven set $\Up_0$.
+   Lets assume we have another unproven set $Up_1$ which is based on the $p(x,y)$ precondition which similar to the one shown in \Cref{ex:ca:nonbinding-intersection-model}, but scaled down as .
+   \begin{align*}
+   	\Up_1=
+   	\left\{
+   	\begin{gathered}
+   		 q_1 \bc p_1 
+   	\end{gathered}	
+   	\right\}	
+   \end{align*}
+   
+   Intersection of $\Up_0$ and $\Up_1$ will be
+	   \begin{align*}
+	   	\Up_0 \cap \Up_1=
+	   	\left\{
+	   	\begin{gathered}
+	   		q_1 \bc p_1 
+	   	\end{gathered}	
+	   	\right\}	
+	   \end{align*}
+   which is the same as $p(x,y)$. Therefore we can see 
+   
+   
+   
+   
 \end{example}
 
 \subsection{Proving preconditions}
 Up until now we have only discussed limiting the number of possible preconditions (Unknown set) , however another aspect of learning is to determine what the actual preconditions are.
-For non-conditional actions proving the preconditions of an action was a matter of using failed actions to make a list of candidate predicates that through elimination eventually got down to just one predicate which is then proclaimed proven. The approach is similar for conditional actions however instead of having candidates of predicates; conditional actions must maintain a candidate set for the connecting paths instead of entire predicates, and thus is only capable of proving a single path at a time.
+For non-conditional actions proving the preconditions of an action was a matter of using failed actions to make a list of candidate literals that through elimination eventually got down to just one literal which is then proclaimed proven. The approach is similar for conditional actions however instead of having candidates of literals; conditional actions must maintain a candidate set for the connecting paths instead of entire literals, and thus is only capable of proving a single path at a time.
 
 \begin{theorem}\label{thm:minimum-one-binding}
-    If a conditional has been observed to produce an effect (in the form of a grounded predicate $p$), and failed to produce another grounded predicate, then there must exist at least one connecting path from $p$ which is a precondition for that conditional.
+    If a conditional has been observed to produce an effect (in the form of a grounded literal $p$), and failed to produce another grounded literal, then there must exist at least one connecting path from $p$ which is a precondition for that conditional.
 \end{theorem}
 
 \begin{proof}[\textbf{Proof by contradiction}] 
