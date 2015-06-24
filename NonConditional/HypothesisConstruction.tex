@@ -82,10 +82,10 @@
 		Assume we have an action.
 		\begin{equation*}
 			\begin{split}
-				Action ~ A &(x, y) \\
+				\actact ~ A &(x, y) \\
 					\lits&: \{ p(x,x), p(x,y), p(y,x), p(y,y) \} \\
-					pre&: \{\} \\
-					eff&: \{p(x,y)\}			
+					\actpre & \{\} \\
+					\acteff & \{p(x,y)\}			
 			\end{split}
 		\end{equation*}
 		
@@ -99,16 +99,16 @@
 			\end{split}
 		\end{equation*}
 		
-		Initially the teacher would provide the agent with the following trace
+		Initially the teacher would provide the agent with the following trace $T$
 		
 		\begin{equation*}
 			\begin{split}				
-				Trace~T &= (S_0,A(o_1,o_1),S_1) \\
+				T &= (S_0,A(o_1,o_1),S_1) \\
 				S_1 &= \{p(O_1,O_1)\}				
 			\end{split}
 		\end{equation*}
 		
-		However because the action used was $A(O_1,O_1)$ neither of the literals in $\lits$ can be proved as effects, as it could have been any of those given all we observe is $\{p(O_1,O_1)\}$. 
+		However because the action used was $A(O_1,O_1)$ neither of the literals in $\lits$ can be proven as effects, as it could have been any of those, given that all we observe is $\{p(O_1,O_1)\}$. 
 		As such if we used the pessimistic action schema proposed by \cite{Walsh2008}, no effects would be added to the hypothetical action schema, and therefore the agent would unable to reproduce the plan. 
 		
 		Lastly it is important to note that using all the unproven effects instead would not result in a PPM as they all become $\{p(O_1,O_1)\}$ when applied.
@@ -120,8 +120,8 @@ The hypothetical action schema constructed using this solution would then contai
 
 \begin{equation}
     \begin{split}			
-        preconditions&= \bigwedge\limits_{\pro \in \Pro_P \cup \Up_P} k \\
-        effects&=  \Pro_E \cup \Up_E
+        \actpre & \bigwedge\limits_{\pro \in \Pro_P \cup \Up_P} k \\
+        \acteff &  \Pro_E \cup \Up_E
     \end{split}
 \end{equation}
 
@@ -146,7 +146,7 @@ Therefore in conclusion this action schema hypothesis would be mostly \texttt{Ex
 	Furthermore, we have the set $\Pro_P$ that contain the proven preconditions, as such combining the two we get:
 
 	\begin{equation} \label{eq:nca:opt-preconds}
-		\actpre = 
+		\actpre 
 		\bigwedge\limits_{\pro \in \Pro_P} k ~ \land ~ \bigwedge \limits_{\Cand \in \cset} \left( \bigvee \limits_{p \in \Cand} p\right)
 	\end{equation}
 
@@ -157,7 +157,7 @@ Therefore in conclusion this action schema hypothesis would be mostly \texttt{Ex
 	To allow both positive and negative goals to be solved, we propose to use the negative non-disproven effects as well when constructing the action schema.
 
 	\begin{equation}
-        \acteff =  K_E \cup U_E
+        \acteff  K_E \cup U_E
 	\end{equation}
 
     In order for this to work the planner must support three valued logic \cite{putnam1957a}, or planning with spurious actions (see~\cite{Russell}).
@@ -252,7 +252,7 @@ As such this strategy unlike the other strategies takes into account all actions
 Let $\Pro_{E_1},\Pro_{E_2},\dots,\Pro_{E_n}$ be the proven effects of the other actions, thus the effects of the action in question would be.
 
 \begin{equation}
-		effects = \left( \Up_E \setminus \bigcup \limits_{i = 1} ^n \Pro_{E_i} \right) \cup \Pro_E
+		\acteff \left( \Up_E \setminus \bigcup \limits_{i = 1} ^n \Pro_{E_i} \right) \cup \Pro_E
 \end{equation}
 
 This schema would be \texttt{Exploitative} in the sense that once one action was capable of producing an effect then no other action would be explored for that purpose. 
