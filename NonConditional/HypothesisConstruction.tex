@@ -58,9 +58,9 @@
 	As we primarily focus on learning through induction rather than deductive methods, we will assume that there exists such a mechanism that can teach a help-seeking agent;
 	provided that the hypothesis gives "no plan" when help is required.
 
-\subsubsection{Strategy: Pessimistic}
+\subsection*{Strategy: Pessimistic}
 
-	A pessimistic strategy as we defined in Chapter~\ref{sec:Learning} has the traits always \texttt{Exploitative} and always \texttt{Help-seeking},
+	A pessimistic strategy --- as defined it in Chapter~\ref{sec:Learning} --- has the traits always \texttt{Exploitative} and always \texttt{Help-seeking},
 	meaning the hypothetical action schema should never make F-PPMs and claim "no plan" if it cannot guarantee the solution.
 
 	In \cite{Walsh2008} they suggest the following for a pessimistic learning strategy
@@ -115,33 +115,35 @@
 		
 	\end{example}
 	
-	A solution to the problem of being unable to solve a solved problem, we suggest a pessimistic action schema where effects include both all non-disproved negative effect along with the non-disproved positive effects.
-	As such this solution would be:
-		\begin{equation}
-			\begin{split}			
-				preconditions&= \bigwedge\limits_{\pro \in \Pro_P \cup \Up_P} k \\
-				effects&=  \Pro_E \cup \Up_E
-			\end{split}
-		\end{equation}
-	This approach will allow negative goals along with negative preconditions. 
-	However because this hypothesis uses unproven effects, there is a chance that if certain preconditions are disproven, that would allow it to be applied where the unproven effects actually does change the outcome.
-	As such it could make a F-PPM, but it is necessary if we want it to be able to reproduce plans. 
-	Therefore in conclusion this action schema hypothesis would be mostly \texttt{Exploitative} and mostly \texttt{Help-seeking}.
+As a solution to the problem of being unable to solve a solved problem, we suggest a pessimistic action schema where effects include both all non-disproved negative effect along with the non-disproved positive effects.
+The hypothetical action schema constructed using this solution would then contain the following preconditions and effects:
+
+\begin{equation}
+    \begin{split}			
+        preconditions&= \bigwedge\limits_{\pro \in \Pro_P \cup \Up_P} k \\
+        effects&=  \Pro_E \cup \Up_E
+    \end{split}
+\end{equation}
+
+This approach will allow negative goals along with negative preconditions. 
+However because this hypothesis uses unproven effects, there is a chance that if certain preconditions are disproven, that would allow it to be applied where the unproven effects actually does change the outcome.
+As such it could make a F-PPM, but it is necessary if we want it to be able to reproduce plans. 
+Therefore in conclusion this action schema hypothesis would be mostly \texttt{Exploitative} and mostly \texttt{Help-seeking}.
 	
 	
 
-\subsubsection{Strategy: Optimistic} 
+\subsection*{Strategy: Optimistic} 
 
 	An optimistic strategy has the traits \texttt{Explorative} and \texttt{Self-sufficient},
 	this means the hypothetical action schema is allowed to make F-PPMs but never allowed to make N-PPMs.
 
-	In \cite{Walsh2008} they constructed the action schema's preconditions by iterating through all subset of non-disproved preconditions.
-	This is accomplished by selecting one subset of the non-disproved preconditions and use that until the planner returns "no plan" and thereafter discarding it along with precondition subsets that satisfied it.
+	In \cite{Walsh2008} an action schema's preconditions are constructed by iterating through all subset of non-disproven preconditions.
+	This is accomplished by selecting one subset of the non-disproven preconditions and use that until the planner returns "no plan" and thereafter discarding it along with precondition subsets that satisfied it.
 
-	We propose that preconditions are constructed based on our knowledge instead.
+	We propose that preconditions are instead constructed based on the collected knowledge.
 	The set of candidate sets $\cset$ contain information about single instances of precondition combinations that has been shown to give a failure;
-	thus by placing them in CNF in the action schema we guarantee that states which contain those specific predicate combination cannot have the action applied to it.
-	Furthermore, we have the $\Pro_P$ that contain the proven preconditions, as such combining the two we get:
+	thus by converting them to CNF in the action schema, we guarantee that states which contain those specific predicate combination cannot have the action applied to it.
+	Furthermore, we have the set $\Pro_P$ that contain the proven preconditions, as such combining the two we get:
 
 	\begin{equation} \label{eq:nca:opt-preconds}
 		preconditions = 
@@ -150,12 +152,12 @@
 
 	Notice that this requires the planner to support disjunctive preconditions.
 
-	For effects \cite{Walsh2008} proposed to use all non-disproven positive effects when constructing the action schema. 
+	\cite{Walsh2008} propose to use all non-disproven positive effects when constructing the action schema. 
 	This approach will only allow the agent to solve positive goals.
 	To allow both positive and negative goals to be solved, we propose to use the negative non-disproven effects as well when constructing the action schema.
 
 	\begin{equation}
-		effects =  K_E \cup U_E
+        \textit{effects} =  K_E \cup U_E
 	\end{equation}
 
     In order for this to work the planner must support three valued logic \cite{putnam1957a}, or planning with spurious actions (see~\cite{Russell}).
