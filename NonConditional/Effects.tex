@@ -6,24 +6,46 @@
 
 
 \cite{Walsh2008} presents an algorithm for learning effects of action schemas limited to non-conditional effects. In this section we will expand on that and generalize some of their concepts.
+For any action schema it is common that only a small subset of $\lits$ are actually present in its effects, 
+therefore we differentiate between them by defining whether we have proved or disproved them. 
+Initially when a literal has yet to proved or disproved, we say that it is unproven. 
+It then follows that if no literals are considered unproven then we have complete knowledge for the action schema's effects.
 
-If we ignore the concept of planning with constants in effects, then we know that all literals in our effects must have variables which are permutations of the action's variables. The set of all those literals we define as $\lits$, another way to understand $\lits$ is that it is all the possible literals which an action schema use for its effects (or preconditions).
 
 \begin{definition} 
-$\lits_A$ is the set of all literals available to an action schema $A$. For ease of use the $A$ can be omitted if it is implied through context.
-	\begin{equation*}
-		\lits_A = \left\{ 
-				\begin{gathered}
-					p(x_1,\dots,x_n), \\
-					\neg p(x_1,\dots,x_n)
-				\end{gathered}
-					\left|
-				\begin{gathered} p \in \preds~\land \\
-                    \left\{ x_1,\dots,x_{|p|} \right\} \subseteq params(A)
-				\end{gathered}				
-							\right.\right\}
-	\end{equation*}
+	For an action schema $A$, we define the following sets of literals:
+	\begin{itemize}
+		\item The set $\Pro$ contains the literals  $l \in \lits$ proven to be effects $A$.
+		\item Conversely, $\Dsp$ is the set of literals disproven to be effects of $A$.
+		\item Those literals that are neither in $\Pro$ nor in $\Dsp$ are said to be in the unproven set $\Up$.
+	\end{itemize}
+	For instance, if an action's effect can have the literals $\lits = \{p(x), \neg p(x)\}$, 
+	then initially $\Up = \lits$, $\Pro = \emptyset$ and $\Dsp = \emptyset$. 
+	If we then learn that $p(x)$ is an effect and $\neg p(x)$ is not, 
+	our sets should by this definition be: $\Up = \emptyset$, $\Pro = \{p(x)\}$ and $\Dsp = \{\neg p(x)\}$. 
+	
 \end{definition}
+
+For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
+
+\begin{invariant}[Mutual exclusivity]\label{inv:nca:mutual-ex}
+	A literal $l \in \lits$ is either proven or disproven to be a precondition, or it is neither, i.e.\
+	\begin{equation*}
+	\begin{split}
+	\Pro \cap \Dsp & = \emptyset  \\ 
+	\Pro \cap \Up &= \emptyset \\
+	\Dsp \cap \Up &= \emptyset
+	\end{split}
+	\end{equation*}
+\end{invariant}
+
+\begin{invariant}[Completeness]
+	The three sets completely describe $\lits$, i.e.\ 
+	\begin{equation*}
+	\Up \cup \Pro \cup \Dsp = \lits
+	\end{equation*}
+\end{invariant}
+
 
 
 \begin{figure}
@@ -55,45 +77,7 @@ $\lits_A$ is the set of all literals available to an action schema $A$. For ease
     \caption{\label{fig:nca:venn-of-effects} Venn diagram of a state transition. The red area shows unaffected atoms, and the green show effects that was added to $S$ but masked as unaffected because they were already present in $S$.}
 \end{figure}
 
-For any action schema it is common that only a small subset of $\lits$ are actually present in its effects, 
-therefore we differentiate between them by defining whether we have proved or disproved them. 
-Initially when a literal has yet to proved or disproved, we say that it is unproven. 
-It then follows that if no literals are considered unproven then we have complete knowledge for the action schema's effects.
 
-
-\begin{definition} 
-    For an action schema $A$, we define the following sets of literals:
-    \begin{itemize}
-        \item The set $\Pro$ contains the literals  $l \in \lits$ proven to be effects $A$.
-        \item Conversely, $\Dsp$ is the set of literals disproven to be effects of $A$.
-        \item Those literals that are neither in $\Pro$ nor in $\Dsp$ are said to be in the unproven set $\Up$.
-    \end{itemize}
-	For instance, if an action's effect can have the literals $\lits = \{p(x), \neg p(x)\}$, 
-	then initially $\Up = \lits$, $\Pro = \emptyset$ and $\Dsp = \emptyset$. 
-	If we then learn that $p(x)$ is an effect and $\neg p(x)$ is not, 
-	our sets should by this definition be: $\Up = \emptyset$, $\Pro = \{p(x)\}$ and $\Dsp = \{\neg p(x)\}$. 
-	
-\end{definition}
-
-For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
-
-\begin{invariant}[Mutual exclusivity]\label{inv:nca:mutual-ex}
-    A literal $l \in \lits$ is either proven or disproven to be a precondition, or it is neither, i.e.\
-	\begin{equation*}
-		\begin{split}
-		\Pro \cap \Dsp & = \emptyset  \\ 
-		\Pro \cap \Up &= \emptyset \\
-		\Dsp \cap \Up &= \emptyset
-		\end{split}
-	\end{equation*}
-\end{invariant}
-
-\begin{invariant}[Completeness]
-    The three sets completely describe $\lits$, i.e.\ 
-	\begin{equation*}
-		\Up \cup \Pro \cup \Dsp = \lits
-	\end{equation*}
-\end{invariant}
 
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
 

@@ -1,21 +1,50 @@
+\providecommand{\master}{.}
 \documentclass[Master.tex]{subfiles}
 \begin{document}
 
-<TODO:\@ Introduction, explaining what non-conditional learning is about and what the structure of the section will be>
+We stated in the beginning that learning, \emph{the acquisition of knowledge}, does not change dependent on strategy, as such it is important to separate the two problems from each other.
+In this chapter we will provide an explanation of how learning of non-conditional action schemas can be achieved, and how to model the knowledge in an intuitive way.
+We will begin by explaining the knowledge that is important to action schemas. 
+In \Cref{sec:NC:hypcon} we will show how to use this knowledge to define action schemas which follows a certain strategy.
 
-For an action schema $A$, $\mathbb{P}_A$ is the set of all atoms in the domain that can be applied with the arguments of $A$. Typically, the grounded version of an action schema $A$ is denoted $a$.
+The knowledge of actions schemas must be defined by the literals that can be used in either an effect or a precondition.
+If we ignore the concept of constants, then we know that all literals in our action schema must have variables which are permutations of the  action schema's parameters.
+As such we introduce the set \lits which is all the possible literals which be used in an action schema.
 
-The actual preconditions of an action schema $A$ is denoted $Pre$ or $preconds$ or similarly (To Thomas: we are going to normalize this). Functions which accepts additional parameters (such as grounding, grounding, etc.) are normally written without these, if they are obvious from the context.
+\begin{definition} 
+	$\lits_A$ is the set of all literals available to an action schema $A$. For ease of use the $A$ can be omitted if it is implied through context.
+	\begin{equation*}
+	\lits_A = \left\{ 
+	\begin{gathered}
+	p(x_1,\dots,x_n), \\
+	\neg p(x_1,\dots,x_n)
+	\end{gathered}
+	\left|
+	\begin{gathered} p \in \preds~\land \\
+	\left\{ x_1,\dots,x_{|p|} \right\} \subseteq params(A)
+	\end{gathered}				
+	\right.\right\}
+	\end{equation*}
+	For instance, if an action has the parameters $(x,y)$ and $\preds = \{ p \}$, then \lits is:
+	
+	\begin{equation*}
+		\lits = \left\{
+		\begin{gathered}
+			p(x,x), 
+			p(x,y), \\
+			p(y,x), 
+			p(y,y), \\
+	\neg	p(x,x), 
+	\neg	p(x,y), \\
+	\neg	p(y,x), 
+	\neg	p(y,y),
+		\end{gathered}
+		\right\}
+	\end{equation*}
+	
+\end{definition}
 
-\[
-\mathbb{P}_A = \left\{
-p \left( x_1, \dots, x_{|p|} \right)
-\; | \; \left\{ x_1, \dots, x_{|p|} \right\} \subseteq params(A)
-\right\}
-\]
-
-
-(TO Thomas: Also note we use $U$ for unproven predicates, $D$ for disproven predicates and $K$ for proven predicates)
+In this chapter we will use expressions/functions such as $ground$, $\geffects$ and $\ts(S)$ to see their definition see \Cref{sec:app:pddl}.
 
 \section{Learning effects}\label{sec:NC:Effects}
     \subfile{NonConditional/Effects}
