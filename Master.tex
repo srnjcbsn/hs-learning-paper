@@ -147,13 +147,19 @@
 
 \newcommand{\pre}{\ensuremath{\textit{pre}}\xspace}
 
+% Font used for Action, Pre, and Eff keywords in schemas
+\newcommand{\actt}[1]{\textsc{#1}}
+\newcommand{\actpre}{\actt{Pre: }}
+\newcommand{\acteff}{\actt{Eff: }}
+\newcommand{\actact}{\actt{Action }}
+
 \newcommand{\locref}[1]{\protect\ifthenelse{\pageref{#1}=\thepage}{}{\protect\ifthenelse{\pageref{#1}<\thepage}{, above}{, below}}}
 
 %\let\Cref\locref
 \let\oldcref\Cref
 \renewcommand{\Cref}[1]{[\oldcref{#1}\locref{#1}]\xspace}
 
-\newcommand{\Sref}[2]{[#1 \ref{#2}\locref{#2}]\xspace}
+\newcommand{\Sref}[2]{[#1~\ref{#2}\locref{#2}]\xspace}
 %\renewcommand{\Cref}[1]{\locref{#1}}
 % \let\oldtheorem\theorem
 % \renewcommand{\theorem}{%
