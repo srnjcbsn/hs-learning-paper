@@ -146,7 +146,7 @@ Therefore in conclusion this action schema hypothesis would be mostly \texttt{Ex
 	Furthermore, we have the set $\Pro_P$ that contain the proven preconditions, as such combining the two we get:
 
 	\begin{equation} \label{eq:nca:opt-preconds}
-		preconditions = 
+		\actpre = 
 		\bigwedge\limits_{\pro \in \Pro_P} k ~ \land ~ \bigwedge \limits_{\Cand \in \cset} \left( \bigvee \limits_{p \in \Cand} p\right)
 	\end{equation}
 
@@ -157,7 +157,7 @@ Therefore in conclusion this action schema hypothesis would be mostly \texttt{Ex
 	To allow both positive and negative goals to be solved, we propose to use the negative non-disproven effects as well when constructing the action schema.
 
 	\begin{equation}
-        \textit{effects} =  K_E \cup U_E
+        \acteff =  K_E \cup U_E
 	\end{equation}
 
     In order for this to work the planner must support three valued logic \cite{putnam1957a}, or planning with spurious actions (see~\cite{Russell}).
@@ -215,7 +215,7 @@ Therefore in conclusion this action schema hypothesis would be mostly \texttt{Ex
 		The optimistic hypothesis for $\texttt{move-h}$ would thus be:
 			\begin{equation*}
 				\begin{split}
-					Preconds& :\left(
+					\actpre & \left(
 									 \begin{gathered}
 									   \texttt{hAdj}(to, from) ~ \lor \\
 									  \neg\texttt{hAdj}(from, from) ~ \lor \\ \neg\texttt{hAdj}(to, to)
@@ -226,7 +226,7 @@ Therefore in conclusion this action schema hypothesis would be mostly \texttt{Ex
 										  \texttt{sokobanAt}(from) ~ \lor \\ \texttt{clear}(to)
 									  \end{gathered}
 								  \right) \land \texttt{hAdj}(from, to) \\
-					Effects &: 	\left\{
+					\acteff & 	\left\{
 									\begin{gathered}
 										\neg\texttt{sokobanAt}(from),
 										\texttt{sokobanAt}(to),
@@ -237,9 +237,9 @@ Therefore in conclusion this action schema hypothesis would be mostly \texttt{Ex
 			\end{equation*}
 	\end{example}
 
-\subsubsection{Strategy: Confident}
+\subsection*{Strategy: Confident}
 
-A Confident strategy, as we have defined it, have the traits \texttt{Exploitative} and \texttt{Self-sufficient},
+A Confident strategy, as defined in Section~\ref{sec:Strategy}, have the traits \texttt{Exploitative} and \texttt{Self-sufficient},
 this means the hypothetical action schema will avoid both making F-PPMs and N-PPMs. 
 
 To accomplish this, our hypothesis will only use preconditions that have been proven.
