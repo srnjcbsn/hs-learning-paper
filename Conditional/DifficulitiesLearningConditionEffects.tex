@@ -66,7 +66,7 @@ In order to simplify the problem we have made the following restrictions on cond
 
 \begin{arestriction}\leavevmode
 \begin{propenum}[label=R.\arabic*]
-	\item Actions cannot have variables. i.e. all actions are of form $A()$, 
+	\item Actions cannot have parameters. i.e. all actions are of form $A()$, 
 	we have added this restricting to study the problem in its most minimal form.	
 		
 	\item The environment must be fully observable.
@@ -533,7 +533,7 @@ If another effect with the same name as $p$ occurs in $\geffects$, we can now in
 \end{example}
 
 \subsection{Proving preconditions}
-Up until now we have only discussed limiting the number of possible preconditions (Unknown set) , however another aspect of learning is to determine what the actual preconditions are.
+Another aspect of learning is to determine what the actual preconditions are.
 For non-conditional actions proving the preconditions of an action was a matter of using failed actions to make a list of candidate literals that through elimination eventually got down to just one literal which is then proclaimed proven. The approach is similar for conditional actions however instead of having candidates of literals; conditional actions must maintain a candidate set for the connecting paths instead of entire literals, and thus is only capable of proving a single path at a time.
 
 \begin{theorem}\label{thm:minimum-one-binding}
