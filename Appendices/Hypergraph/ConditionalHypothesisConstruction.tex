@@ -2,9 +2,7 @@
 \documentclass[\master/Master.tex]{subfiles}
 \begin{document}
 
-Unsurprisingly the basics of hypothesis construction for conditional actions is very similar to that of non-conditional actions. 
-As such refer to \Cref{sec:NC:hypcon} for detailed explanation of how the traits interacts with knowledge (proven, disproved, unproven.. etc.) we discussed in \Cref{sec:Strategy}.
-While the basic theory of traits remain the same, constructing hypothetical action schema using the knowledge we have modelled, is completely different. For starters our knowledge is no longer just a set of predicates, instead we have to contend with hypergraphs, therefore new approaches are needed if we want to design action schemas based on a specific strategy.
+This section provides ideas of how planning with hypergraphs can be accomplished and shows the necessary changes to the planner. 
 
 
 \begin{figure}
@@ -28,40 +26,8 @@ While the basic theory of traits remain the same, constructing hypothetical acti
 \end{figure}
 
 \subsection{Optimistic Strategy}
-The optimistic strategy as we recall from \Cref{sec:Strategy}, has the traits \texttt{Explorative} and \texttt{Self-sufficient}.
-To accomplish these traits we must do exactly as we did in hypothesis construction for non-conditional actions, 
-which is to plan using candidate preconditions; except with a twist: 
-We have to use unproven preconditions that are necessary to reach the candidates.
-What we mean by reach is that a candidate is not only defined by a single predicate, but rather a path of predicates connected by variables.
-This is because candidate vertices are actually an efficient way to express all connecting paths, from the candidate to the effect.
-Therefore an naive solution would be to simply extract all paths between the two vertices and use those as preconditions.
 
-\begin{example}\label{ex:ca:hyp-paths} To get an idea of using all simple paths between the candidate and the effect as precondition. 
-	We present the \Cref{fig:ca:hypgraph-with-cands} which shows two candidates which are part of a candidate set.
-	
-	In this case the paths are easy find, as there is only one path for each candidate:
-	\begin{equation*}
-		\begin{split}	
-			candidate~ g_1 &: g_1 \bc q_1 \\
-			candidate~ f_1 &: f_1 \bc p_2 \pc p_1 \bc q_1
-		\end{split}
-	\end{equation*}
-	
-	To turn these paths into preconditions we simply map each binding to a variable. For instance, binding $\{q_1,g_1,p_1\} \mapsto x$ and binding $\{p_2,f_1\} \mapsto y$. The bindings that only contain a single vertex are irrelevant and as such are given any unique variable.
-	Lastly as with non-conditional effects, we place the logic formulas in a CNF, but now a single predicate is a conjunction representing the path.
-	That means we use $\land$ between each predicate in the path, $\lor$ between each path and $\land$ between each candidate set; however in this example we only have a single set.	
-	\begin{equation*}
-		\begin{split}	
-		Effect&: \forall_{(x,y,z,i)} ~q(x)~ when~ g(x,z) \lor ( p(x,y) \land f(y,i) )
-		\end{split}
-	\end{equation*}
-	
-	We see that extracting the paths we can write meaningful effects that can be added directly into the action schema.
-	However the problem with this solution is that finding all simple paths is an NP-complete problem therefore this approach is impractical. 
-	
-\end{example}
 
-The underlying problem is that first-order logic does not have the expressive power to provide us with expression of cycles in an efficient manner. As such if a cycle does arise we are to duplicate the formula an intractable number of times.
 
 To overcome these problems we suggest to approach them from another angle, 
 instead of trying to convert our knowledge to something that a planner can understand; 
