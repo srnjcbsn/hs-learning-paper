@@ -1,23 +1,33 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
-We will now turn our attention to the task of learning action schemas containing conditional actions (see~\oldcref{sec:app:pddl} for an introduction to this concept). 
+We will now turn our attention to the task of learning action schemas with conditional effects. While we will briefly introduce the core concepts here, a more detailed explanation can be found in~\oldcref{sec:app:pddl}. 
 
-Conditional actions are actions with effects that are applied based on the state it is applied, that means individual effects can have its own set of preconditions.
-For instance an effect in an action schema can have the following form:
-\begin{align*}
-Effect&:\\
-&\forall x, y, z, \dots \left[ q(x, y), \dots \right] \quad when \quad 
-\left[ g(z, x), \dots  \right] \\
-& \land \\
-& \forall x, y, z, \dots \left[ p(x, y), \dots \right] \quad when \quad 
-\left[ f(z, x), \dots  \right] \\
-&\land \\ 
-&\dots
-\end{align*}
-With this addition to the action schema, we are able to express condition actions (see \Cref{ex:ca:sokoban-moveleft-action} for an applied example). 
-It is learning of these types of actions that we will explore in this section. 
-We will begin by show casing the problems with use of models from non-conditional actions, and we will show necessary changes to the models, to achieve a solution.
+What separates conditional action schemas from their non-conditional counterparts is that instead of relying solely on the arguments the action was invoked with, each effect is determined based on the state the action was applied to. That is, an effect can contain \emph{conditionals} of the form:
+\begin{equation*}
+    \cond = \forall \underbrace{x, y, z, \dots}_{\varC \left(\cond\right)}\in \objs : 
+    \underbrace{\left[ q(x, y), \dots \right]}_{\textit{effects}} \quad when \quad 
+    \underbrace{\left[ g(z, x), \dots  \right]}_{\textit{preconditions}}
+\end{equation*}
+For any interpretation of the variables $\varC\left(\cond\right)$, the \textit{effects} are only applied if the \textit{preconditions} are satisfied. See \Cref{ex:ca:sokoban-moveleft-action} for an example of an action with conditional effects.
+
+In the following sections, we will discuss what problems arise when learning conditional action schemas, analyse the applicability of the methods explored in Chapter~\ref{chp:nca}, and finally discuss new models that are better suited.
+
+
+% Conditional actions are actions with effects that are applied based on the state it is applied, that means individual effects can have its own set of preconditions.
+% For instance an effect in an action schema can have the following form:
+% \begin{align*}
+% \acteff & \forall x, y, z, \dots \left[ q(x, y), \dots \right] \quad when \quad 
+%     \left[ g(z, x), \dots  \right] \\
+%     & \land \\
+%     & \forall x, y, z, \dots \left[ p(x, y), \dots \right] \quad when \quad 
+%     \left[ f(z, x), \dots  \right] \\
+%     &\land \\ 
+%     &\dots
+% \end{align*}
+% With this addition to the action schema, we are able to express condition actions (see \Cref{ex:ca:sokoban-moveleft-action} for an applied example). 
+% It is learning of these types of actions that we will explore in this section. 
+% We will begin by show casing the problems with use of models from non-conditional actions, and we will show necessary changes to the models, to achieve a solution.
 
 
 \end{document}
