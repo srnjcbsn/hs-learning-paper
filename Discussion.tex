@@ -5,8 +5,7 @@
 As discussed in <ref>, we have imposed several restrictions on the conditional action schemas that we can learn, the most important of which we will discuss here.
 
 \paragraph*{No action parameters}
-In order to narrow our study on conditional effects, we elected to disallow parametric actions. Thus, the actions we support rely extensively 
-
+In order to narrow our study on conditional effects, we elected to disallow parametric actions. We have previously proposed that conditional actions allow for a more natural representation of an agent's actions in an unknown environment, and this restriction forces the most extreme interpretation of this; an agent knows nothing about the meaning of the relations in the environment, or whether or not objects can be manipulated by its actions. Although non-parametric actions represents the completely ignorant agent, it is not always what we wish to model. For example, the Sokoban agent may be equipped with the knowledge that a tile is something that can be stood on and moved to, and can therefore accept one as an action parameter. This would remove the need for explicitly directional actions, and the eight conditional actions presented in Section~\ref{sec:sokocond} could be reduced to two. From both learning and planning perspectives, this is clearly desirable.
 
 \paragraph{No disjoint preconditions}
 This restriction requires that the effect of a conditional must in some way be transitively related to the objects used to determine whether it should occur. As explained in Section~\ref{chp:ca}, this is vital for describing preconditions as connected paths. However, certain domains are not constructible under this restriction. 
