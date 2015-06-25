@@ -1375,7 +1375,7 @@
     \pgfsetfillcolor{fc}
     \pgftransformshift{\pgfqpoint{0.0000bp}{119.7000bp}}
     \pgftransformscale{0.1250}
-    \pgftext[base,left]{$\mathbb{F}_A$}
+    \pgftext[base,left]{$\mathbb{L}_A$}
   \end{pgfscope}
   \begin{pgfscope}
     \pgfsetlinewidth{0.5000bp}

@@ -1,6 +1,17 @@
 \documentclass[Master.tex]{subfiles}
 \begin{document}
 
+\section{Limitations on conditional action learning}
+As discussed in <ref>, we have imposed several restrictions on the conditional action schemas that we can learn, the most important of which we will discuss here.
+
+\paragraph*{No action parameters}
+In order to narrow our study on conditional effects, we elected to disallow parametric actions. Thus, the actions we support 
+
+
+\paragraph{No disjoint preconditions}
+This restriction requires that the effect of a conditional must in some way be transitively related to the objects used to determine whether it should occur. As explained in Section~\ref{chp:ca}, this is vital for describing preconditions as connected paths. However, certain domains are not constructible under this restriction. 
+
+
 \section{Missing: Time/Space complexity of non-condition action learning algorithm}
 
 \section{Missing: Advantage/disadvantage of negative goals solution}

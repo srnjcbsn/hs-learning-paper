@@ -49,12 +49,15 @@ In order to simplify the problem we have made the following restrictions on cond
 	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
 	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
 
+    \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only occur once in the effects of all conditionals for an action $A$. This allows us to associate any effect predicate with exactly one conditional. An additional consequence of this restriction is that disjunctive preconditions are not supported, since that would require a predicate to occur in two different conditionals.
+
 	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
 
 		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
 		  I.e.\ If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
 \end{propenum}
 \end{arestriction}
+
 %
 %Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditionals have the same effect, as that is equivalent to an disjunctive precondition.
 
