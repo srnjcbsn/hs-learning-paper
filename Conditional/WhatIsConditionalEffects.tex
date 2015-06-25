@@ -2,6 +2,21 @@
 \begin{document}
 
 
+Conditional actions are actions with effects that are applied based on the state it is applied, that means individual effects can have its own set of preconditions.
+For instance an effect in an action schema can have the following form:
+\begin{align*}
+Effect&:\\
+&\forall x, y, z, \dots \left[ q(x, y), \dots \right] \quad when \quad 
+\left[ g(z, x), \dots  \right] \\
+& \land \\
+& \forall x, y, z, \dots \left[ p(x, y), \dots \right] \quad when \quad 
+\left[ f(z, x), \dots  \right] \\
+&\land \\ 
+&\dots
+\end{align*}
+With this addition to the action schema, we are able to express condition actions (see \Cref{ex:ca:sokoban-moveleft-action} for an applied example). 
+It is learning of these types of actions that we will explore in this section. 
+We will begin by show casing the problems with use of models from non-conditional actions, and we will show necessary changes to the models, to achieve a solution.
 
 
 \end{document}

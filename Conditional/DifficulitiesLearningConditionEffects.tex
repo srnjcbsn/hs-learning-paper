@@ -2,31 +2,34 @@
 \documentclass[\master/Master.tex]{subfiles}
 \begin{document}
 
-\texttt{Thomas: } Note that this section is missing a proper introduction. We are considering actions containing one or more conditional effects (called conditionals in the rest of this section). We use them in the form 
-\begin{equation*}
-    \forall x, y, z, \dots \left[ q(x, y) \right] \quad when \quad 
-        \left[ p(z, x) \land f(y) \land \dots \right]
-\end{equation*}
+%\texttt{Thomas: } Note that this section is missing a proper introduction. We are considering actions containing one or more conditional effects (called conditionals in the rest of this section). We use them in the form 
+%\begin{equation*}
+%    \forall x, y, z, \dots \left[ q(x, y) \right] \quad when \quad 
+%        \left[ p(z, x) \land f(y) \land \dots \right]
+%\end{equation*}
+%
+%To keep it simple, we only support effects which are conjunctions of conditionals of the above form.
+%
+%We do not support actions with parameters.
+%
+%
+%\begin{definition}
+%	An explicit state is a set of literals where the negative literals are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicates $\preds$ and a set of objects $\objs$:
+%	\begin{equation*}
+%		\ts\left(S, \preds, \objs\right) = S \cup
+%		\left\{ \neg p \mid 
+%		p\left(o_1, \dots, o_{|p|}\right) \notin S \land 
+%		\left\{o_1, \dots, o_{|p|} \right\} \in \objs \land
+%		p \in \preds
+%		\right\}
+%	\end{equation*}
+%	The arguments $\preds$ and $\objs$ are normally left out when their values are clear from the context.
+%\end{definition}
 
-To keep it simple, we only support effects which are conjunctions of conditionals of the above form.
-
-We do not support actions with parameters.
 
 
-\begin{definition}
-	An explicit state is a set of literals where the negative literals are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicates $\preds$ and a set of objects $\objs$:
-	\begin{equation*}
-		\ts\left(S, \preds, \objs\right) = S \cup
-		\left\{ \neg p \mid 
-		p\left(o_1, \dots, o_{|p|}\right) \notin S \land 
-		\left\{o_1, \dots, o_{|p|} \right\} \in \objs \land
-		p \in \preds
-		\right\}
-	\end{equation*}
-	The arguments $\preds$ and $\objs$ are normally left out when their values are clear from the context.
-\end{definition}
 
-
+\subsection{Introducing the concepts}
 In STRIPS-Style actions the objects $A(O_1,O_2,\ldots,O_{n-1},O_n)$ are the only objects affected by the action.
 Thus any literal that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
 However when actions contain conditional effects with support for use of quantifiers this claim no longer holds.
@@ -150,7 +153,7 @@ In the first case we learn that to turn on the light there are these possible pr
 Even though we intuitively know that it is only the lamp which is the only required object in this room for the light to turn on, we cannot discard any of the other objects present as not being a precondition.
 \end{example}
 
-\subsection{Preconditions from states}
+\subsection{Disproving preconditions}
 Objects are defined by the atoms in the state which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of literals is the requirement for the effects to occur.
 This means if we interpret the objects as variables connecting the literals in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
 to a to different variable.
