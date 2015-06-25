@@ -10,7 +10,7 @@
 
 We will now present a formalization of the sokoban world introduced in section \ref{sec:Algorithm} based on the PDDL specification presented in \cite{BS2011}.
 
-\subsubsection{Problem specification}
+\subsubsection*{Problem specification}
 Any given sokoban problem, such as the one illustrated in figure \ref{fig:simpleSokoban}, contains a number of $crate$ objects (denoted $c_1, \dots, c_n$) as well as a number of $tile$ objects (denoted $t_1, \dots, t_k$). To describe how the tiles are interconnected, we introduce the predicates $hAdj(t_1,t_2)$ and $vAdj(t_1,t_3)$, respectively denoting that tile $t_1$ is horizontally adjacent to tile $t_2$ and vertically adjacent to $t_3$. It is clear that these relations are symmetric; if $t_i$ is vertically adjacent to $t_j$, then $t_j$ is also vertically adjacent to $t_i$ (similarly for horizontal adjacency). In the framework presented above, there is no machinery for aximoatic reasoning, hence this symmetry must be manually encoded by the problem designer by --- in the above example --- adding the predicates $hAdj(t_2,t_1)$ and $vAdj(t_3,t_1)$.
 
 Locations of the crates can be encoded with the predicate $at(c, t)$, denoting that crate $c$ is on tile $t$. Locations of goal tiles and the sokoban are represented with the predicates $goal(t)$ and $sokobanAt(t)$, respectively.
@@ -99,12 +99,18 @@ In total, six different action schemas are required for the sokoban domain, and 
 
 We will now present a formalization of the Sokoban domain using conditional effects. We will adhere to the restrictions given in Chapter~\ref{chp:ca}, the most important of which are ``No action parameters'' and ``No disjuntive preconditions''. Additionally, the action schemas contain no preconditions, and their effects consists solely of conjunctions of conditionals.
 
-Initially, observe that the domain and problem specifications can not readily be reused under these restrictions. For example, the adjacency relations carry no information about direction, i.e.\ whether one tile is to the left or right of another, but only that they are adjacent. This poses a problem when effects can only be described in terms of universally quantified predicates, as this could for example make the sokoban move to two horizontally adjacent, unoccupied tiles at once.
+Initially, observe that the domain and problem specifications from the non-conditional Sokoban domain can not readily be reused under these restrictions. The reason for this is that each action in the Sokoban domain only adds or removes one set of relations to or from a state, as opposed to a set of relations for several applicable objects (the $push$ action only moves one crate, $move$ only moves the sokoban one tile, etc.). Therefore the conditionals must be designed in such a way that their effects are applied at most once per action invocation.
 
-Instead, we
+For example, the adjacency relations carry no information about direction, i.e.\ whether one tile is to the left or right of another, but only that they are adjacent. This poses a problem when effects can only be described in terms of universally quantified predicates, as this could for example make the sokoban move to two horizontally adjacent, unoccupied tiles at once.
+
+Instead, we require the adjacency relations in a problem specification to be antisymmetric, such that $hAdj\left( t_1, t_2\right)$ denotes the fact that $t_1$ is immediately left of $t_2$, and $hAdj\left( t_2, t_1\right)$ does not exist.
+
+The crates are no longer represented by separate objects; the fact that a tile $t$ has a box on it is now denoted $at(t)$. This also allows for removal of the $clear$ predicate, as that becomes equivalent to $\neg at(t)$. Additionally, the $atGoal$ and $goal$ predicates becomes redundant, as the goal of a Sokoban problem is that all goal tiles are covered by any crate, which can be exressed by the $at$ predicate.
+
+As a consequence of the adjacency issue, each action must operate on a cardinal direction, rather than an axis, as was the case for non-conditional actions. As an example, the \textit{move-left} action is printed below:
 
 \begin{align*}
-\actact & \textit{move-west(): } &  \\
+\actact & \textit{move-left(): } &  \\
 & \forall x, y
     \left[
         \begin{gathered}
@@ -116,18 +122,22 @@ Instead, we
     \left[ 
         \begin{gathered}
             sokobanAt(y) \land hAdj(x,y) \\ 
-            \land \neg boxAt(x)
+            \land \neg at(x)
         \end{gathered}
     \right]
 \end{align*}
 
+Here, the preconditions specify that tile $x$ (the destination) should be to the left of tile $y$ (the source). In the corresponding \textit{move-right} action, this precondition is replaced with $hAdj(y,x)$, denoting that the destination tile should be immediately right of the source. There are also \textit{move-up} and \textit{move-down} actions, with similar adjacency preconditions. As in the non-conditional domain, the $\neg at$ predicate precondition ensures that a \textit{push} action is selected instead of the destination contains a crate. Note that, as discussed above, the preconditions of the conditional in the $move$ action can only cause a single effect to occur.
+
+As a last example, consider the \textit{push-left} action:
+
 \begin{align*}
-    \actact & \textit{push-west(): } & \\
+    \actact & \textit{push-left(): } & \\
     & \forall x, y, z
     \left[ 
         \begin{gathered}
-            \neg goalSolved(y) \\
-            \land at(x) \land \neg at (y) \\
+            % \neg goalSolved(y) \\
+            at(x) \land \neg at (y) \\
             \land sokobanAt(y) \\
             \land \neg sokobanAt(z) 
         \end{gathered}
@@ -140,29 +150,23 @@ Instead, we
             \land hAdj (y,z) \land hAdj (x,y) \\
             \land \neg at(x)
         \end{gathered}
-    \right] \\
-    & \land \\
-    & \forall x, y, z
-    \left[
-        goalSolved(x)
     \right]
-    \quad when \quad
-    \left[
-        \begin{gathered}
-            goal(x) \\
-            \land at(y) \land \neg at(x) \\ 
-            \land sokobanAt(z) \\ 
-            \land hAdj (y,z) \land hAdj (x,y) \\
-        \end{gathered}
-    \right]
+    % & \land \\
+    % & \forall x, y, z
+    % \left[
+    %     goalSolved(x)
+    % \right]
+    % \quad when \quad
+    % \left[
+    %     \begin{gathered}
+    %         goal(x) \\
+    %         \land at(y) \land \neg at(x) \\ 
+    %         \land sokobanAt(z) \\ 
+    %         \land hAdj (y,z) \land hAdj (x,y) \\
+    %     \end{gathered}
+    % \right]
 \end{align*}
-% \begin{split}
-%         \actact & move-west():
-%         \forall x, y &\left[
-%             \begin{split}
-%                 hej & \\
-%                 hej &
-%             \end{split}
-%             \right] \\
-%         \end{split}
+
+As for the $move$ action, there is a $push$ action for each cardinal direction, for the dame reason. As the need for the $goal$ predicate have been removed, we no longer discern between pushing a crate onto a goal tile and onto a non-goal tile. As such, there is no \textit{push-goal} action, and the eight actions presented so far comprise the entire domain.
+
 \end{document}
