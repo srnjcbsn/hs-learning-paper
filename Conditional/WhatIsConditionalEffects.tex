@@ -9,25 +9,10 @@ What separates conditional action schemas from their non-conditional counterpart
     \underbrace{\left[ q(x, y), \dots \right]}_{\textit{effects}} \quad when \quad 
     \underbrace{\left[ g(z, x), \dots  \right]}_{\textit{preconditions}}
 \end{equation*}
-For any interpretation of the variables $\varC\left(\cond\right)$, the \textit{effects} are only applied if the \textit{preconditions} are satisfied. See \Cref{ex:ca:sokoban-moveleft-action} for an example of an action with conditional effects.
+For any interpretation of the variables $\varC\left(\cond\right)$, the \textit{effects} are only applied if the \textit{preconditions} are satisfied. Note that --- in this sense --- a conditional is similar to a non-conditional action with as many parameters as there are objects in the world. In the following sections, we assume that each conditionals only have a single effect, and that this effect is unique from effects of other conditionals in the same action schema. This allows us to discern between different conditionals, and learn the preconditions of each separately.
+
+See \Cref{ex:ca:sokoban-moveleft-action} for an example of an action with conditional effects. 
 
 In the following sections, we will discuss what problems arise when learning conditional action schemas, analyse the applicability of the methods explored in Chapter~\ref{chp:nca}, and finally discuss new models that are better suited.
-
-
-% Conditional actions are actions with effects that are applied based on the state it is applied, that means individual effects can have its own set of preconditions.
-% For instance an effect in an action schema can have the following form:
-% \begin{align*}
-% \acteff & \forall x, y, z, \dots \left[ q(x, y), \dots \right] \quad when \quad 
-%     \left[ g(z, x), \dots  \right] \\
-%     & \land \\
-%     & \forall x, y, z, \dots \left[ p(x, y), \dots \right] \quad when \quad 
-%     \left[ f(z, x), \dots  \right] \\
-%     &\land \\ 
-%     &\dots
-% \end{align*}
-% With this addition to the action schema, we are able to express condition actions (see \Cref{ex:ca:sokoban-moveleft-action} for an applied example). 
-% It is learning of these types of actions that we will explore in this section. 
-% We will begin by show casing the problems with use of models from non-conditional actions, and we will show necessary changes to the models, to achieve a solution.
-
 
 \end{document}

@@ -31,7 +31,7 @@
 
 \subsection{Introducing the concepts}
 When a STRIPS-style (non-conditional) action is invoked with arguments $O_1, \dots, O_n$, it is certain that these arguments are the only objects affected by the action.
-Thus, any literal that contains objects other than $O_1,O_2,\ldots,O_{n-1},O_n$ can be discarded as irrelevant when learning either the effects or the preconditions.
+Thus, any literal in a state that contains objects other than these can be discarded as irrelevant when learning either the effects or the preconditions.
 However, when actions contain conditional effects with support for use of quantifiers, this claim no longer holds.
 To properly discuss the subject we introduce \glits, which is the set of all grounded literals.
 
