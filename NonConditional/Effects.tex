@@ -86,7 +86,7 @@ When an action is successfully applied in a state $S$, the literals comprising i
 To disprove atoms for a single transition we use the idea that grounded atoms which are not in $S'$ cannot be positive effects, and grounded atoms which are in $S'$ cannot be negative effects. 
 This is logically sound and gives us the following theorem:
 
-\begin{theorem}
+\begin{theorem}\label{thm:nca:disprove-effects}
 	 Let $\left(S, a, S'\right)$ be a state transition. Then any grounded literal $l$ is disproven to be a positive effect if its grounded version is not in $S'$. Conversely, a negative literal is disproven to be an effect if its grounded version is in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:
 	
 	\begin{equation*}
@@ -261,7 +261,7 @@ On a side note, this means it is preferable for an agent to try actions where th
 
 If however only some of the arguments are unique, then we should still be able to prove some of the atoms, provided all other atoms that map from the same grounded atom have been disproved. We can do this by using our disproved set \Dsp, built from earlier transitions, to discard incorrect atoms. This gives us the following theorem: 
 
-\begin{theorem} For a state-transition $(S,a,S')$ with 
+\begin{theorem}\label{thm:nca:prove-effects} For a state-transition $(S,a,S')$ with 
 	\begin{equation*}
 	\Delta S = \left(S' \setminus S\right) \cup \{\neg p \mid  p \in S \setminus S' \}
 	\end{equation*}
@@ -277,7 +277,7 @@ If however only some of the arguments are unique, then we should still be able t
 	We can write this as a function:
 	
 	\begin{equation*}
-	\pro(\geffects) = 
+	\pro(\geffects,\Dsp) = 
 	\left\{
 		p' \mid 
 				p \in \geffects \land 
@@ -319,5 +319,7 @@ And the known knowledge can be extracted as
     \end{equation*}
 	We see that effects are correctly proven. For example, the fact that the sokoban moves to a new location is correctly proved by $\texttt{sokobanAt}(to)$.
 \end{example}
+
+
 
 \end{document}
