@@ -1,5 +1,6 @@
-\documentclass[../Master.tex]{subfiles}
-\providecommand{\master}{..}
+\providecommand{\master}{../..}
+\documentclass[\master/Master.tex]{subfiles}
+
 \begin{document}
 
 Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown above) now describes how the predicates in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the predicate edge describing $p$ as an effect.

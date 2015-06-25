@@ -1,5 +1,5 @@
-\documentclass[../Master.tex]{subfiles}
 \providecommand{\master}{..}
+\documentclass[../Master.tex]{subfiles}
 \begin{document}
 
 In order to discuss learning we must define a model for the domain which we operate within. We have chosen to use the generally accepted PDDL or Planning Domain Definition Language (see~\cite{PDDL}), as it is well researched.
@@ -156,7 +156,7 @@ Lastly in order for an agent to know its purpose when planning it must have a de
 	
 	\begin{array}{ll}
 	Objects ~ \mathcal{O} & = \{o_1,\dots,o_n\}			 \\  
-	Init\texttt{-}State~ S_0& = A State\\
+	Init\texttt{-}State~ S_0& = A ~ State\\
 	Goal ~ \mathcal{G} & = Goal ~ Description\footnote{Goal Description is identical to the one defined in Definition \ref{def:lrn:action-spec-def}.}
 	\end{array}
 	\end{array}$
@@ -180,6 +180,5 @@ A non-conditional action, as the name implies are actions which contain no condi
 Whether an action support conditional effects or not has a huge impact on how the action can be described. For instance, if the action that is being modelled actually contain conditional effect, then in order to model it as a non-conditional action it has to be described using multiple actions. This becomes evident in our Sokoban example which we will use throughout this thesis, where we see that pushing a box and moving an agent is two different actions even though in the video game it was modelled after this was just one action.
 
 \section{Sokoban in PDDL}
-    \subfile{Appendices/SokobanPDDL}
-
+    \subfile{\master/Appendices/SokobanPDDL}
 \end{document}

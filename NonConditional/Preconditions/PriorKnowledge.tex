@@ -1,68 +1,95 @@
 \providecommand{\master}{../..}
 \documentclass[\master/Master.tex]{subfiles}
 \begin{document}
+\begin{algorithm}
+	\caption{Algorithm for learning non-conditional actions}\label{algo:precondLearn}
+	\begin{algorithmic}
+		\Function {$\textsc{NC-Action-learn}$} {$\left(S, a, S'\right)$, ($\Dsp_E$, $\Pro_E$), ($\Dsp_P$, $\Pro_P$, \cset)}
+		\If {$S' = S$}
+		\State $\cset \gets \cset \cup \{ \cand(S) \}$
+		\ElsIf {$S' \neq  S$}
+		\State Disprove grounded effects not present in $S'$:
+		\State $\Dsp_E \gets \Dsp_E \cup d_E(S')$
+		\State Prove unambiguous effects in $S'$:
+		\State $\Pro_E \gets \Pro_E \cup d_E(\geffects,\Dsp_E)$
+		\State Disprove grounded precondition present in $S$:
+		\State $\Dsp_P \gets \Dsp_P \cup d_P(S)$
+		\EndIf		
+		
+		\State Reduce candidate sets by removing literals disproven to preconditions:
+		\State $\cset \gets \left\{ c \setminus \Dsp_P \; | \; c \in \cset \right\}$
+		
+		\State Add singleton sets from $\cset$ to $\Pro_P$:
+		\State $\Pro_P \gets \Pro_P \cup \left\{ p \; | \; \{ p \} \in \cset \right\}$
+		
+		\State Remove candidate sets containing literals proven to be preconditions:
+		\State $\cset \gets \left\{ c \; | \; c \in \cset \land c \cap \Pro_P \neq \emptyset \right\}$
+		% \State Remove disproven literals from candidates
+		% \Comment \emph{see \eqref{reduceCands}}
+		% \State $K^\pm \gets \left\{ \textnormal{singleton sets from } C\right\}$ $\cup K^\pm$
+		% \Comment \emph{see \eqref{eq:extractKnown}}
+		% \State Remove candidate sets from $C$ which contain a literal in $K^\pm$
+		% \Comment \emph{see \eqref{eq:removeKnown}}
+		\State \Return $((\Dsp_E, \Pro_E), (\Dsp_P, \Pro_P, \cset))$
+		\EndFunction%
+	\end{algorithmic}
+\end{algorithm}
 
-We will now present an algorithm (see Algorithm~\ref{algo:precondLearn}) for obtaining knowledge about preconditions from a series of state transitions. The algorithm takes as input a state transition $(S, a, S')$ as well as prior knowledge about the action schema for $a$, consisting of the following:
+We will now present an algorithm (see \Cref{algo:precondLearn}) for obtaining knowledge about preconditions / effects from a series of state transitions. 
+The algorithm takes as input a state transition $(S, a, S')$ as well as prior knowledge about the action schema for $a$, and outputs an updated knowledge.
+The prior knowledge is consisting of the following:
 
+For effect knowledge:
 \begin{itemize}
-    \item A set \Pro containing literals proven to be prconditions.
-	\item A set \Dsp containing literals \emph{disproven} to be preconditions.
+	\item A set $\Pro_E$ containing literals proven to be effects.
+	\item A set $\Dsp_E$ containing literals \emph{disproven} to be effects.
+\end{itemize}
+
+For precondition knowledge:
+\begin{itemize}
+    \item A set $\Pro_P$ containing literals proven to be prconditions.
+	\item A set $\Dsp_P$ containing literals \emph{disproven} to be preconditions.
     \item A set \cset containing candidate sets, each satisfying the invariant in~\eqref{eq:inv}.
 \end{itemize}
 
-On action success, the sets of literals that can be disproven to be preconditions based on this transition is calculated using~\eqref{eq:DPlusTrans} and~\eqref{eq:DMinusTrans}, and added to the existing knowledge:
+\subsection*{On action success}
+An action is said to be successful when $S \neq S'$. When this occurs the following knowledge acquired.
 
+For preconditions the sets of literals that can be disproven to be preconditions based on this transition is calculated using~\eqref{eq:DPlusTrans} and~\eqref{eq:DMinusTrans}, and added to the existing knowledge:
 \begin{equation*}
-    \Dsp = \Dsp \cup \dsp^+(s)
+    \Dsp_P = \Dsp_P \cup \dsp_P(S)
 \end{equation*}
 
-On action failure, the candidate sets are determined using~\eqref{eq:cPlus} and~\eqref{eq:cMinus}, and are added to the set $\cset$.
+For effects the sets of literals that can be disproven and proven to be an effect based on this transition is calculated using~\Cref{thm:nca:prove-effects} and \Cref{thm:nca:disprove-effects}, and added to the existing knowledge:
+\begin{align*}
+\Dsp_E &= \Dsp_E \cup \dsp_E(s') \\
+\Pro_E &= \Pro_E \cup \pro_E(\geffects, \Dsp_E)
+\end{align*}
+
+
+\subsection*{On action failure}
+
+When an action fails, i.e. if $S = S'$, the candidate sets are determined using~\eqref{eq:cPlus} and~\eqref{eq:cMinus}, and are added to the set $\cset$.
 
 It now holds that either more literals have been disproven, or one more candidate set have been added to $\cset$. According to Theorem~\ref{th:invHolds}, each candidate set in $\cset$ can now be reduced by removing disproven literals, while maintaining Invariant~\eqref{eq:inv}:
 
 \begin{equation} \label{reduceCands}
-    \cset = \left\{ c \setminus \Dsp \; | \; c \in \Cand \right\}
+    \cset = \left\{ c \setminus \Dsp_P \; | \; c \in \Cand \right\}
 \end{equation}
 
 By Proposition~\ref{prop:ncp:precond-holds}, members of any singleton candidate set can now be added to the proven knowledge:
 
 \begin{equation} \label{eq:extractKnown}
-    \Pro = \Pro \cup \left\{ p \; | \; \{ p \} \in \cset \right\}
+    \Pro_P = \Pro_P \cup \left\{ p \; | \; \{ p \} \in \cset \right\}
 \end{equation}
 
 As discussed previously, any candidate set containing a literal which have already been proven to be a precondition can be safely removed from $\cset$, as no more knowledge can be obtained from it, formally:
 
+
 \begin{equation} \label{eq:removeKnown}
-    \cset = \left\{ c \; | \; c \in \Cand \land c \cap \Pro \neq \emptyset \right\}
+    \cset = \left\{ c \; | \; c \in \Cand \land c \cap \Pro_P \neq \emptyset \right\}
 \end{equation}
 
-\begin{algorithm}
-    \caption{Algorithm for learning preconditions}\label{algo:precondLearn}
-    \begin{algorithmic}
-        \Function {$\textsc{Precond-learn}$} {$\left(S, a, S'\right)$, \Dsp, \Pro, \cset}
-            \If {$S' = S$}
-                \State $\cset \gets \cset \cup \{ \cand(S) \}$
-            \ElsIf {$S' \neq  S$}
-                \State $\Dsp \gets \Dsp \cup d(S)$
-            \EndIf
 
-            \State Reduce candidate sets by removing literals disproven to preconditions:
-            \State $\cset' \gets \left\{ c \setminus \Dsp \; | \; c \in \cset \right\}$
-
-            \State Add singleton sets from $\cset'$ to \Pro:
-            \State $\Pro' \gets K \cup \left\{ p \; | \; \{ p \} \in \cset \right\}$
-
-            \State Remove candidate sets containing literals proven to be preconditions:
-            \State $\cset'' \gets \left\{ c \; | \; c \in \cset' \land c \cap \Pro \neq \emptyset \right\}$
-            % \State Remove disproven literals from candidates
-            % \Comment \emph{see \eqref{reduceCands}}
-            % \State $K^\pm \gets \left\{ \textnormal{singleton sets from } C\right\}$ $\cup K^\pm$
-            % \Comment \emph{see \eqref{eq:extractKnown}}
-            % \State Remove candidate sets from $C$ which contain a literal in $K^\pm$
-            % \Comment \emph{see \eqref{eq:removeKnown}}
-            \State \Return $(\Pro', \Dsp', \cset'')$
-        \EndFunction%
-    \end{algorithmic}
-\end{algorithm}
 
 \end{document}
