@@ -2,34 +2,6 @@
 \documentclass[\master/Master.tex]{subfiles}
 \begin{document}
 
-%\texttt{Thomas: } Note that this section is missing a proper introduction. We are considering actions containing one or more conditional effects (called conditionals in the rest of this section). We use them in the form 
-%\begin{equation*}
-%    \forall x, y, z, \dots \left[ q(x, y) \right] \quad when \quad 
-%        \left[ p(z, x) \land f(y) \land \dots \right]
-%\end{equation*}
-%
-%To keep it simple, we only support effects which are conjunctions of conditionals of the above form.
-%
-%We do not support actions with parameters.
-%
-%
-%\begin{definition}
-%	An explicit state is a set of literals where the negative literals are explicitly mentioned. To avoid generating the infinite set, it is limited by a set of predicates $\preds$ and a set of objects $\objs$:
-%	\begin{equation*}
-%		\ts\left(S, \preds, \objs\right) = S \cup
-%		\left\{ \neg p \mid 
-%		p\left(o_1, \dots, o_{|p|}\right) \notin S \land 
-%		\left\{o_1, \dots, o_{|p|} \right\} \in \objs \land
-%		p \in \preds
-%		\right\}
-%	\end{equation*}
-%	The arguments $\preds$ and $\objs$ are normally left out when their values are clear from the context.
-%\end{definition}
-
-
-
-
-\subsection{Introducing the concepts}
 When a STRIPS-style (non-conditional) action is invoked with arguments $O_1, \dots, O_n$, it is certain that these arguments are the only objects affected by the action.
 Thus, any literal in a state that contains objects other than these can be discarded as irrelevant when learning either the effects or the preconditions.
 However, when actions contain conditional effects with support for use of quantifiers, this claim no longer holds.
@@ -70,15 +42,12 @@ In order to simplify the problem we have made the following restrictions on cond
 
 \begin{arestriction}\leavevmode
 \begin{propenum}[label=R.\arabic*]
-	\item Actions cannot have variables. I.e.\ all actions are of form $A()$, 
-	we have added this restricting to study the problem in its most minimal form.	
-		
+	\item Actions cannot have parameters, i.e.\ all actions are of form $A()$. 
+	We have added this restricting to study the problem in its most minimal form.	
 	\item The environment must be fully observable.
 	\item The environment must contain a finite number of objects.
 	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
-	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect.
-
-		  I.e.\ the effect $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
+	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
 
 	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
 
