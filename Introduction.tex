@@ -26,15 +26,11 @@
 	The second algorithm in stark contrast to the first is called pessimistic, this algorithm is based around making the agent assume it is capable of nothing unless proven otherwise. This means the agent must rely on a teacher to explain how goals are solved, and instead the task for the agent is how to understand the directions given from an outside source such as a teacher.
 	
 	This paper and these two approaches we use as a point of reference for us to explore the subject.  The paper deals exclusively with set-theoretic planning actions, in a STRIPS-style domain, where they have excluded disjunctive preconditions and negative preconditions. 
-	We seek to expand upon this showing how learning of negative precondition learning can be achieved. Furthermore, we will also show how conditional action learning may be achieved. By conditional actions we mean actions that include effects that sometime occur dependent on the state the action is applied in.
-	
-	
-	To given an example of one of problems with learning STRIPS-style actions is that. For instance, effects that are outputted by an action often cannot be reversed to its original atoms. Case in point, an Action $A(x,y)$ applied with the arguments $A(o_1,o_1)$, that outputs a atom $p(o_1,o_2)$, creates a dilemma for the learning agent as it cannot deduce what atom that spawned it was as the atoms: $p(x,x), p(x,y), p(y,x), p(y,y)$ are all viable candidates. An extension of this problem is where the agent receives different pieces of knowledge for a given atom and must by piecing the knowledge together be able to determine which possible atom is the correct one.
+	We seek to expand on this, showing how learning negative preconditions can be achieved. Furthermore, we will also study, and propose a preliminary solution to, the problem of learning actions with universally quantified conditional effects. That is, actions that are able to influence many different objects in the universe, and whose effects may occur independently of each other.
 	
 	As evident these problems often depends on minute details, but they have an impact on how learning should be handled. For this reason we will be using a running example throughout the thesis such that problems are easily made apparent. The running example we will be using is that of the $1981$ video game sokoban, that is about a person trying to move creates onto specific positions in a tightly packed warehouse.
 	
-	Throughout this thesis we will solve many different issues pertaining to all sort of different aspects of learning,
-	the following list will give an overview of what we have looked into and discussed:
+	Throughout this thesis we will solve several issues pertaining to different different aspects of learning. The following list will give an overview of what we have looked into and discussed:
 	\begin{description}
 		\item[Negative Preconditions] 
 		By define a new approach to learning and understanding preconditions, we are able to handle positive as well as negative preconditions.
