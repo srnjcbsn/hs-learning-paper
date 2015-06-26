@@ -2,8 +2,22 @@
 \providecommand{\master}{..}
 \begin{document}
 
-% \VerbatimInput{\master/Plotting/statistics2} 
+When the scientific learning algorithm is applied through the main program, a statistics file is produced. This file contains, in order:
+\begin{itemize}
+    \item A header containing the name of each action schema in the domain, along with the action's $\lits_A$.
+    \item The string \verb|``-- RUNNING --''|, signifying the end of the header.
+    \item For each experiment (plan) the agent conducted:
+        \begin{itemize}
+            \item The action which did not produce the expected outcome when applied (as explained in Section~\ref{sec:PDDLAlgo})
+            \item The amount of problems the agent had solved before execution of this action.
+            \item Eight integers, signifying how many  atoms the agent has proven to be positive and negative effects and preconditions for the action, and how many are neither proven nor disproven to be positive and negative effects and preconditions for the action. Lastly, the number of candidate sets for the action is listed.
+        \end{itemize}
+\end{itemize}
 
+In the source code bundled with this thesis, the program \texttt{Plotting/Statistics.hs} for interpreting and visually representing statistics files are included  (along with source code for generating most diagrams used in this thesis). For each action schema mentioned in the statistics file, the program will output two line plots: one showing the effects the agent learned for the action, and one showing the corresponding preconditions.
+
+Graphs for the six non-conditional sokoban actions (run in the setup presented in Section~\ref{sec:Impl:Results}) are presented here. The graphs should be read as follows:
+The unit of the $y$-axis is number of atoms, and the marker $\lits_A$ denotes the maximum value. The $x$-axis is measured in experiments. For readability, the experiments where the relevant action was not the cause of failure are removed, as nothing is learned. The small black ticks denote a duration of 5 experiments, and the larger red ticks denote that a problem has been solved, and that a new one has started. Note that the candidates (black line) is not measured in number of predicates, but in number of candidate sets in \Cand.
 \begin{figure}
     \centering
     \input{\master/Graphics/ek-move-h.pgf}
