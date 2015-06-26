@@ -1,0 +1,61 @@
+\providecommand{\master}{..}
+\documentclass[../Master.tex]{subfiles}
+
+\begin{document}
+
+One of the aspect of our models which we have only lightly touched on, is the idea of the space complexity of the knowledge we have.
+This is especially true for non-conditional action, where space complexity is not mentioned, 
+the reason for this is that what we are describing is the mathematical minimum of knowledge required for an action to make perfect decision based on what it has observed.
+That the instant that something is shown to the agent in the state-transition then the agent is by our model guaranteed to know of it.
+However if one were to implement our models directly, as they are written the same knowledge is repeated multiple times, but none of the knowledge would be superfluous.
+We realise that it might still be interesting what the exact space complexity of our non-condition action knowledge is, if implemented naively:
+ \begin{align*}
+ 	Unproven ~\Up & = O(n) \\
+ 	Disproven~\Dsp & = O(n) \\
+ 	Proven~\Pro &= O(n) \\
+ 	All ~ candidate sets~ \cset & = O(n \times n)=O(n^2) \\
+ 	Maximum ~ cardinality~ of ~ state  ~ n & = |\preds| \times |\objs|^k \\
+ 	where ~ k ~ is ~ the&  ~ arity ~ of ~ the~ highest~ arity ~ predicate.
+ \end{align*} 
+ \begin{proof} 
+ 	As the maximum number of atoms to add to a state is the maximum number of atoms possible in a state $O(n)$,
+ 	it follows that the maximum cardinality of effects or preconditions must therefore be $O(n)$.
+	Since unproven initially contains all possible effects or preconditions (depending on the use-case), 
+	it then follows that unproven must have the cardinality $O(n)$. 
+	As proven/disproven cannot be larger than unproven then they must also be $O(n)$.
+	In fact because of $\Cref{inv:nca:mutual-ex}$ and $\Cref{inv:nca:completeness}$, $|\Pro|+|\Up|+|\Dsp| = n$.
+	For candidates it is less obvious, but consider that candidates require that there is one new precondition in
+	each set, and each set can at most be the size of the unproven set, then it follows that the space complexity must be $O(n^2)$.
+ \end{proof}
+Since we only have the minimum amount of knowledge required, that means our space complexity --- if it is a problem --- is a compression problem and not a problem of design. 
+An idea of how we may operate with this knowledge more efficient, is if we consider that the knowledge we are storing is simply just permutations of the combinations of variables for an atom.
+For instance, imagine we have the unproven knowledge
+ \begin{equation*}
+	\Up = \{ p(x,y), p(x,x), p(y,y), p(y,x) \}
+ \end{equation*} 
+ what we realise is that this is a permutation problem, which becomes obvious when we rewrite it as,
+ \begin{equation}\label{eq:dis:sc:perms}
+ 	pxy, pxx, pyy, pyx 
+ \end{equation} 
+ One way to efficiently write this is:
+  \begin{equation*}
+  	(\{p\},\{x,y\},\{x,y\}) 
+  \end{equation*} 
+ Which can be interpreted as for each set in the sequence we select one element in the set and use that in our permutation.
+ This would give us all the permutations of \Cref{eq:dis:sc:perms}. 
+ If this model is proved to be viable, it would mean the space complexity could be $n = |\preds| \times \objs \times k$. 
+ However we have not studied it enough for us to conclude,
+ and while we might already accept this complexity for non-conditional actions. 
+ The permutation solution actually extends to conditional effects as well, since connecting paths can be viewed as also just different permutations of the possible strings of paths.
+ I.e. two paths such as 
+ \begin{align*}
+	q_1 &\bc p_1 \\
+	q_1 &\bc g_1
+ \end{align*} 
+ can also be modelled as
+ \begin{equation*}
+ 	(\{q_1\},\{\bc\},\{p_1,g_1\}) 
+ \end{equation*} 
+
+
+\end{document}

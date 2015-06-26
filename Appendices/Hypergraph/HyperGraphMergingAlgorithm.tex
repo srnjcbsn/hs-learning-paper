@@ -5,7 +5,7 @@
 
 We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As before <binding section ref>, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this corresponds to removing vertices from binding edges, which can be accomplished as follows:
 
-Given two hypergraphs describing the same effect $q$, each will contain a predicate edge marked as an effect, containing vertices with distinct names $q_1, \ldots, q_{|q|}$. Each of these vertices will be part of exactly one binding edge in both hypergraphs. We now wish to merge these binding edges pairwise (such that the binding edge from $H_1$ containing the vertex with name $q_1$ is merged with the corresponding edge from $H_2$ etc), such that the maximum amount of knowledge about the bindings is retained, and bindings that the two edges do not have in common are removed. Additionally, each of the vertices resulting from a merge must have a unique label, based on the labels of the two vertices it was created from. For this purpose, we define the function $f$ which transforms two equally-named vertices to a new vertex with the same name and a unique label:
+Given two hypergraphs describing the same effect $q$, each will contain a atom edge marked as an effect, containing vertices with distinct names $q_1, \ldots, q_{|q|}$. Each of these vertices will be part of exactly one binding edge in both hypergraphs. We now wish to merge these binding edges pairwise (such that the binding edge from $H_1$ containing the vertex with name $q_1$ is merged with the corresponding edge from $H_2$ etc), such that the maximum amount of knowledge about the bindings is retained, and bindings that the two edges do not have in common are removed. Additionally, each of the vertices resulting from a merge must have a unique label, based on the labels of the two vertices it was created from. For this purpose, we define the function $f$ which transforms two equally-named vertices to a new vertex with the same name and a unique label:
 
 \begin{definition}
     Given two vertices with the same name, ie $v = \left(n, p_i \right)$ and $t = \left( m, p_i \right)$, $f(v,t)$ yields a new vertex with that name and an identifier based on $v$'s and $t$'s. $f$ must be injective, such that $f^{-1}(f(v,t)) = (v,t)$.
@@ -19,7 +19,7 @@ A simple implementation of $f$ is tupling the identifiers of the arguement, ie:
 \end{equation*}
 Then, $f$ is clearly inversible, and $f^{-1}$ can be computed by tuple decomposition.
 
-Once a new binding edge have been computed for an effect vertex $v$, the same method can be applied to the remaining bindings that were not removed by the merging, as each of them will be part of one predicate edge in $H_1$ and one predicate edge in $H_2$. To find the correct predicate edges for such a vertex $u$, the vertices from $H_1$ and $H_2$ that created it can be found as the first and second component of $f^{-1}(u)$, respectively, and the predicate edges they are part of can be looked up in the two hypergraphs. Note that as the hypergraph may contain cycles, it is important to check whether vertices arising from merging of hyperedges have already been discovered.
+Once a new binding edge have been computed for an effect vertex $v$, the same method can be applied to the remaining bindings that were not removed by the merging, as each of them will be part of one atom edge in $H_1$ and one atom edge in $H_2$. To find the correct atom edges for such a vertex $u$, the vertices from $H_1$ and $H_2$ that created it can be found as the first and second component of $f^{-1}(u)$, respectively, and the atom edges they are part of can be looked up in the two hypergraphs. Note that as the hypergraph may contain cycles, it is important to check whether vertices arising from merging of hyperedges have already been discovered.
 
 The method described above is formalized in Algorithm~\ref{algo:hypergraphmerge}.
 
@@ -32,10 +32,10 @@ The method described above is formalized in Algorithm~\ref{algo:hypergraphmerge}
 		\State $b' \gets b_1 \sqcap b_2$
             \State $H' \gets H' \cup b'$
             \ForAll {vertices $v \in b'$}
-                \If {there is no predicate edge in $H'$ containing $v$}
+                \If {there is no atom edge in $H'$ containing $v$}
                     \State $\left( v_1, v_2 \right) \gets f^-(v)$
-                    \State $p_1 \gets$ predicate set in $H_1$ containing $v_1$
-                    \State $p_2 \gets$ predicate set in $H_2$ containing $v_2$
+                    \State $p_1 \gets$ atom set in $H_1$ containing $v_1$
+                    \State $p_2 \gets$ atom set in $H_2$ containing $v_2$
                     \State $H' \gets \textsc{MergePredicateEdges}
                                         \left( H_1, H_2, H', p_1, p_2 \right)$
                 \EndIf
@@ -64,7 +64,7 @@ The method described above is formalized in Algorithm~\ref{algo:hypergraphmerge}
         \EndFunction
 
         \Function {$\textsc{MergeHyperGraphs}$} {$H_1$, $H_2$}
-            \State Let $q_1$ and $q_2$ denote the predicate hyper edges describing the effect in $H_1$ and $H_2$, respectively
+            \State Let $q_1$ and $q_2$ denote the atom hyper edges describing the effect in $H_1$ and $H_2$, respectively
             \State Let $H' = \emptyset$ be a new, empty hyper graph
             \State $H' \gets \textsc{MergePredicateEdges}(H_1,H_2,H',q_1,q_2)$
             \State $H' \gets \textsc{CollapseHyperGraph}(H')$
@@ -95,7 +95,7 @@ We will now turn our attention to the merging of edges. The intuitive approach (
             p(\alpha, \beta)
     \end{equation*}
 
-	In this simple example, the first argument of predicate $g$ is bound to the first argument of the effect, but such a binding does not exist in $H_2$. Since the action succeeded without the binding, it can safely be discarded as a precondition and the merged hypergraph is now:
+	In this simple example, the first argument of literal $g$ is bound to the first argument of the effect, but such a binding does not exist in $H_2$. Since the action succeeded without the binding, it can safely be discarded as a precondition and the merged hypergraph is now:
 
     \begin{equation*}
         H' = \forall x, y : q(x) \quad \text{when} \quad p(x, y)
