@@ -28,11 +28,13 @@
 	In STRIPS-style planning terms this means the strategy will rely mostly on unproven effects in its hypothesis.
 	It is explorative because it increases the probability of finding the most optimal plan to solve the problem,
 	but in doing so increases the risk of making plan-prediction mistakes(PPM).
+	\begin{definition}[PPM] This definition is a quotation from \cite{Walsh2008}
 	\begin{quotation}
 				A plan-prediction mistake occurs when an
 				agent chooses a plan for a given episode that will not reach
-				the goal, or asserts “no plan” when the goal is reachable. \cite{Walsh2008}
+				the goal, or asserts “no plan” when the goal is reachable. 
 	\end{quotation}
+	\end{definition}
 	To distinguish between the two types of plan-prediction mistakes we define them as:
 
 	\begin{definition} 
@@ -57,7 +59,7 @@
 	For instance, \cite{Walsh2008} propose a teacher that for the an initial state $S_0$ and a goal $\goal$ provides all the transitions $(S,a,S') \in T$, where $T$ is a trace, which leads to the solution of $\goal$,
 	 thereby solving the problem for the agent when it is itself incapable.
 	The agent can then use this information to learn enough about the action schemas, such that it can solve this exact goal in the future.
-	As we primarily focus on learning through induction rather than deductive methods, we will assume that there exists such a mechanism that can teach a help-seeking agent;
+	As the scope of this thesis is limited to learning through observations, we will assume that there exists such a mechanism that can teach a help-seeking agent;
 	provided that the hypothesis gives "no plan" when help is required.
 
 \subsection{Hypothesis of different strategies}
@@ -78,6 +80,7 @@
 	\end{quotation}
 	 
 	They do this under the assumption that negative preconditions cannot occur and that negative goals are not present. As we do not have these restrictions, an identical implementation of their method would not suffice, as it could introduce F-PPMs. For instance, planning with an action which is incorrectly believed to have a negative effect can cause another action with negative preconditions to be perceived as applicable by the planner.
+	
 	Additionally, a problem with their strategy, which we were unable to find an answer to, is the following: If we assume that "evinced" means proven, and not merely observed with ambiguity, then an agent can come in a state where a teacher shows a full trace but because certain effects was not proven, due to ambiguity, the agent would be incapable of reproducing the plan.
 	
 	\begin{example}
@@ -132,9 +135,13 @@ The hypothetical action schema constructed using this solution would then contai
 This approach will allow negative goals along with negative preconditions. 
 However because this hypothesis uses unproven effects, there is a chance that if certain preconditions are disproven, that would allow it to be applied where the unproven effects actually does change the outcome.
 As such it could make a F-PPM, but it is necessary if we want it to be able to reproduce plans. 
-Therefore in conclusion this action schema hypothesis would be mostly \texttt{Exploitative} and mostly \texttt{Help-seeking}.
-	
-	
+Therefore in conclusion this action schema hypothesis would be mostly \texttt{Exploitative} and mostly \texttt{Help-seeking}, but not always.
+If we wanted to guarantee that is it always \texttt{Exploitative} then  its effects must be
+
+	\begin{equation}
+	\acteff  \Pro_E 
+	\end{equation}
+	However that would make it unable to solve a subset of problems.
 
 \subsubsection{Example: Optimistic} 
 
