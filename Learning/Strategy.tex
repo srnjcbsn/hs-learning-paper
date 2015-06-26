@@ -1,38 +1,18 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
-
-	\begin{comment}
-
-	    \section*{Sec1}
-
-	    Learning has two important steps to it, the first is figuring out
-	    what to do in order to learn about something and the second is analysis
-	    of what occured to understand and actually learn about it.
-
-
-	    Analysing an outcome is about figuring out what occured and what did
-	    not occur. For instance if one pressed
-
-	    In a STRIPS domain, all actions are absolute thus we know that if
-	    an action changed the state then the action's preconditions was satisfied
-	    and all predicates added
-    \end{comment}
-
-
-
     \section*{Learning Strategies}\label{sec:strats}
 
 
-	In our analysis of agent learning strategies we have found there are different traits that exists between all strategies, and some of the traits do tend to oppose each other thus by looking at the extreme cases we can get an understanding of where they are useful and in what situations. In~\cite{Walsh2008} two such strategies are provided:
+	In our analysis of agent learning strategies we have found there are different traits that exists between all strategies, and some of the traits do tend to oppose each other thus by looking at the extreme cases we can get an understanding of where they are useful and in what situations. In~\cite{Walsh2008}, two such strategies are provided:
     \begin{itemize}
     \item An \emph{optimistic} strategy, that will always assume all actions
-    does as much as possible thus a plan can always be found.
+    does as much as possible, ensuring that a plan can always be found.
     \item A \emph{pessimistic} strategy which always assumes that actions undoes
-    as much as possible thus it will never be able to achieve any (positive)
+    as much as possible, and will therefore never be able to achieve any (positive)
     goals.
     \end{itemize}
     Both of these strategies are equally valid approaches to learning.
-    However they show two different traits which we will define and analyse.
+    However, they show two different traits which we will define and analyse.
     \begin{definition}
     [{Explorative/Exploitative}] An explorative strategy, like an explorative graph search will prefer to try and test unknown territory in the hopes that it will provide it with a better solution, but only in cases where there is no upside decide not to explore.
     An exploitative strategy however will avoid the unexplored and only learn something when necessary otherwise it will use what it has already learned. Much akin to how the dynamic between a Breath-First-Search and a Depth-First-Search works. The advantage of a Explorative strategy is that once it has learned something, it will be very efficient at doing that thing, however for it to get to that point it will spend a long time learning. Opposite an exploitative strategy will be very fast to learn something but it will very likely be an inefficent way.
