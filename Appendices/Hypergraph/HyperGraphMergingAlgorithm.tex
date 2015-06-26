@@ -3,7 +3,7 @@
 
 \begin{document}
 
-We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As before <binding section ref>, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this corresponds to removing vertices from binding edges, which can be accomplished as follows:
+We will now explain how two hypergraphs describing patterns with the same effect can be combined into a single hypergraph. As with connecting paths, we wish to disprove that a certain binding is necessary for a conditional action to succeed. In the context of hypergraphs, this corresponds to removing vertices from binding edges, which can be accomplished as follows:
 
 Given two hypergraphs describing the same effect $q$, each will contain a atom edge marked as an effect, containing vertices with distinct names $q_1, \ldots, q_{|q|}$. Each of these vertices will be part of exactly one binding edge in both hypergraphs. We now wish to merge these binding edges pairwise (such that the binding edge from $H_1$ containing the vertex with name $q_1$ is merged with the corresponding edge from $H_2$ etc), such that the maximum amount of knowledge about the bindings is retained, and bindings that the two edges do not have in common are removed. Additionally, each of the vertices resulting from a merge must have a unique label, based on the labels of the two vertices it was created from. For this purpose, we define the function $f$ which transforms two equally-named vertices to a new vertex with the same name and a unique label:
 
@@ -73,7 +73,7 @@ The method described above is formalized in Algorithm~\ref{algo:hypergraphmerge}
     \end{algorithmic}
 \end{algorithm}
 
-We will now turn our attention to the merging of edges. The intuitive approach (as described in <binding section ref>) is to use resular set intersection. However, as each vertex in the hyper graph is tuple with a unique identifier as the first component, set intersection will always yield the empty set. Instead, we wish to intersect based on name only. For this purpose, we define the special equality operator $\approx$ which ignores vertex labels, such that $\left(n,p_i\right) \approx \left(m, q_i\right)$ iff $p_i = q_i$. As a first approach to defining the merge operation, we require that it removes vertices that are only present in one of the edges:
+We will now turn our attention to the merging of edges. The intuitive approach (as with connecting paths) is to use resular set intersection. However, as each vertex in the hyper graph is tuple with a unique identifier as the first component, set intersection will always yield the empty set. Instead, we wish to intersect based on name only. For this purpose, we define the special equality operator $\approx$ which ignores vertex labels, such that $\left(n,p_i\right) \approx \left(m, q_i\right)$ iff $p_i = q_i$. As a first approach to defining the merge operation, we require that it removes vertices that are only present in one of the edges:
 
 \begin{proposition}
 	Given two edges $e_1$ and $e_2$, it must hold for all vertices in $e_1 \sqcap e_2$ that a vertex with the same name is present in both $e_1$ and $e_2$, formally:
