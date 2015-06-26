@@ -12,11 +12,11 @@ ie. the grounding of any positive precondition will yield an atom in $S$, and th
 It follows trivially that any atom $p \in \lits$ for which $ \ground(p) \notin S_t$ can not be a positive precondition, as that would have caused the action to fail. Similarly, if $\ground(p) \in S_t$, then $p$ can not be a negative precondition. The sets of atoms that can be disproven to be positive (resp. negative) preconditions are thus:
 
 \begin{equation*} \label{eq:DPlusTrans}
-    \dsp^+ (S) = \left\{ x \; | \; x \in \lits \land \ground(x) \notin s \right\}
+    \dsp^+ (S) = \left\{ x \; | \; x \in \lits \land \ground(x) \notin S \right\}
 \end{equation*}
 
 \begin{equation*} \label{eq:DMinusTrans}
-    \dsp^- (S) = \left\{ x \; | \; x \in \lits \land \ground(x) \in s \right\}
+    \dsp^- (S) = \left\{ x \; | \; x \in \lits \land \ground(x) \in S \right\}
 \end{equation*}
 
 As a convienence, $\dsp(S)$ denotes the union of $\dsp^+(S)$ and $\dsp^-(S)$, where atoms from the latter are negated:
@@ -54,7 +54,12 @@ As a convienence, $\dsp(S)$ denotes the union of $\dsp^+(S)$ and $\dsp^-(S)$, wh
 \end{example}
 
 \subsubsection*{Action failure}
-In case of action failure, at least one of $A$'s preconditions were not satisfied by $S$, but there is no indication from the environment on which atomli(s) violated a precondition by their presence in or absence from $S$. However, it is certain that either a negative precondition was violated by a grounded atom $p \in s$, or a positive precondition was violated by a grounded atomli absent from $S$. The atoms that would have caused the failure if part of $Pre^+$ (resp. $Pre^-$) are called the positive (resp. negative) candidates and can be determined as follows:
+In case of action failure, at least one of $A$'s preconditions were not satisfied by $S$, but there is no indication from the environment on which atom in $S$ violated a precondition by their presence in or absence from $S$ . However, it is certain that either a negative precondition was violated by a grounded atom $p \in S$, or a positive precondition was violated by a grounded atom absent from $S$. The atoms that would have caused the failure if they are part of $Pre^+$ (resp. $Pre^-$) are called the positive (resp. negative) candidates.
+\begin{definition}[Candidates]
+	Candidates are literals that are possible preconditions but are currently unconfirmed, they appear in sets where one of the literals in the set is guaranteed to be a precondition, hence the name candidates.
+\end{definition}
+
+ A single candidate set can be determined as follows:
 
 \begin{equation} \label{eq:cPlus}
     \cand^+(S) = \left\{ x \; | \; x \in \lits \land \ground(x) \notin s \right\}
@@ -63,17 +68,21 @@ In case of action failure, at least one of $A$'s preconditions were not satisfie
     \cand^-(S) = \left\{ x \; | \; x \in \lits \land \ground(x) \in s \right\}
 \end{equation}
 
-As for disproven candidates, $\cand(S)$ denotes the union of $\cand^+(S)$ and $\cand^-(S)$ where atoms in $\cand^-(S)$ are negated.
+As for candidates, $\cand(S)$ denotes the union of $\cand^+(S)$ and $\cand^-(S)$ where atoms in $\cand^-(S)$ are negated.
 
 \begin{equation}
     \cand(S) = \cand^+(S) \cup \left\{ \neg p \; | \; p \in \cand^-(S) \right\}
 \end{equation}
 
-Since the action failed, it holds trivially that \textit{some} atoms in $\cand^+(S)$ or $\cand^-(S)$ (or both) are preconditions, ie.
+To prove candidates are as we defined them consider: 
+\begin{proof}
+	Since the action failed, it holds trivially that \textit{some} atoms in $\cand^+(S)$ or $\cand^-(S)$ (or both) are preconditions, ie.
+	
+	\begin{equation} \label{eq:inv}
+	\left| \cand(S) \cap Pre \right| \geq 1
+	\end{equation}
+\end{proof}
 
-\begin{equation} \label{eq:inv}
-    \left| \cand(S) \cap Pre \right| \geq 1
-\end{equation}
 
 This is an important invariant; if the sets $\cand^+$ and $\cand^-$ can be reduced such that only one atom remain in $\cand^+ \cup \cand^-$ while \eqref{eq:inv} is maintained, then that atom is proven to be a precondition (negative or positive, depending on whether it was a member of $\cand^+$ or $\cand^-$). Formally,
 
@@ -122,9 +131,9 @@ It is clear that if a atom is disproven to be a precondition, then it can not be
 
     Out of these, only \texttt{clear}$(to)$ is a precondition. If the agent has available the knowledge from Example \ref{ex:moveSucceeded}, it can remove $\Dsp^+$ from the positive candidates and $\Dsp^-$ from the negatives, while --- according to theorem \ref{th:invHolds} --- maintaining invariant \eqref{eq:inv}, yielding
 
-    \begin{equation}
+    \begin{equation*}
         \cand(S_0) \setminus \dsp(S_0) = \left\{ \texttt{clear}(to) \right\}
-    \end{equation}
+    \end{equation*}
 
     % \begin{equation*}
     %     \left( c^+(S_0) \setminus d^+(S_0), c^-(S_0) \setminus d^-(S_0) \right)

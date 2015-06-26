@@ -102,21 +102,22 @@ This is logically sound and gives us the following theorem:
 		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p) \notin S'$ can not have been an effect of action $A$ or it would by definition be in $S$.
 	Likewise if a potential negative effect $\neg p$ is $\ground(p) \in S'$ then that could not have been a negative effect.
 	\end{proof}
+	
+	To summarize this theorem think of it as: 
+	\begin{enumerate}
+		\item Effects present in the state could by definition could not have been negative effects.
+		\item  Effects not present in the state could not have been positive effects (As they would then be in the state).
+	\end{enumerate}
+	
+	
+	
+	
 \begin{example}[disproving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-disproving-effects}
 	In case the sokoban agent applies the action $\texttt{move-h}(t_1, t_2)$ in state $S_0$, the resulting state $S_1$ will have the visible effect that the sokoban relocated from $t_1$ to $t_2$. 
 	For the definition of action $\texttt{move-h}$ see \Cref{sec:SokobanPDDL}.
 	
-	
 	\begin{equation*}
 		\begin{split}
-		S_0 &=
-		\left\{
-		\begin{gathered}
-			\texttt{sokobanAt}(t_1), \\
-			\texttt{clear}(t_2),\\
-			\texttt{hAdj}(t_1, t_2)	
-		\end{gathered}
-		\right\} \\
 		S_1 &=
 		\left\{
 		\begin{gathered}
@@ -124,7 +125,7 @@ This is logically sound and gives us the following theorem:
 			\texttt{clear}(t_1), \\
 			\texttt{hAdj}(t_1, t_2)			
 		\end{gathered}
-		\right\} \\		
+		\right\} \\				
 		\lits_{move-h} &= \left\{
 		\begin{gathered}
 			\texttt{sokobanAt}(to), \texttt{clear}(from), \\
@@ -136,15 +137,28 @@ This is logically sound and gives us the following theorem:
 			\dots
 		\end{gathered}
 		\right\} \\
+		\ground[\lits_{move-h}]&= \left\{
+		\begin{gathered}
+			\texttt{sokobanAt}(t_2), \texttt{clear}(t_1), \\
+			\texttt{vAdj}(t_1, t_2), \texttt{vAdj}(t_2, t_1), \\
+			\texttt{vAdj}(t_1, t_1), \texttt{vAdj}(t_2, t_2), \\
+			\texttt{hAdj}(t_1, t_1), \texttt{hAdj}(t_2, t_2), \\
+			\texttt{at}(t_1, t_2), \texttt{at}(t_2, t_1), \\
+			\texttt{goal}(t_1), \texttt{goal}(t_2)  \\
+			\dots
+		\end{gathered}
+		\right\} \\		
 		\dsp(S_1) &= \left\{
 		\begin{gathered}
 			\neg \texttt{sokobanAt}(to), \\
 			\neg \texttt{clear}(from), \\
 			\neg \texttt{hAdj}(from, to), \\
-			\dots \\
-			\texttt{sokobanAt}(from), \\
-			\texttt{clear}(to), \\
-			\dots			
+			\texttt{vAdj}(from, to), \texttt{vAdj}(to, from), \\
+			\texttt{vAdj}(from, from), \texttt{vAdj}(to, to), \\
+			\texttt{hAdj}(to, to), \\
+			\texttt{at}(from, to), \texttt{at}(to, from), \\
+			\texttt{goal}(from), \texttt{goal}(to)  \\	
+			\dots (\textsc{many disproven positive atoms})			
 		\end{gathered}
 		\right\}
 		\end{split}
@@ -227,9 +241,9 @@ If the arguments given to an action $A$ are all unique, then $\ground$ is inject
        atom_2 = q\left(y_1, \dots, y_{|q|}\right)
     \end{equation*}
     where $\left\{ x_1, \dots, x_{|p|}\right\} \cup \left\{ y_1, \dots, y_{|q|}\right\} \subseteq \left\{a_1, \dots, a_n\right\}$. If $A$ is applied with unique objects $O_1, \dots, O_n$, 
-    then $atom_1$ and $atom_2$ are grounded as $atom_1' = ground(atom_1, \sigma)$ and $atom_2' = ground(atom_2,\sigma)$, where $\sigma = \left[ a_1 \mapsto O_1, \dots, a_n \mapsto O_n \right]$.
+    then $atom_1$ and $atom_2$ are grounded as $ground(atom_1, \sigma) = atom_1'$ and $ground(atom_2,\sigma) = atom_2'$, where $\sigma = \left[ a_1 \mapsto O_1, \dots, a_n \mapsto O_n \right]$.
 
-    % Two atoms are different when either their variables or predicates are different. Consider two ungrounded atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ where all parameters of the two atoms  and their groundings $p' = ground\left(p \right)$ and $q' = ground\left( q \right)$. 
+    % Two atoms are ent when either their variables or predicates are different. Consider two ungrounded atoms $p\left(x_1, \dots, x_{|p|}\right)$ and $q\left(y_1, \dots, y_{|q|}\right)$ where all parameters of the two atoms  and their groundings $p' = ground\left(p \right)$ and $q' = ground\left( q \right)$. 
 	\begin{itemize}
 		\item If the two atoms have different predicates $p \neq q$ then (by definition) $atom_1' \neq atom_2'$
 		
@@ -251,12 +265,13 @@ If the arguments given to an action $A$ are all unique, then $\ground$ is inject
 		% Since $\ground$ is the function that performs mapping.
 	\end{itemize}	
 	Given that we only consider cases where action arguments are unique. 
-	Then we have proved that $\ground$ can never output to the same grounded atom, for two different atoms. Therefore it must follow that $\ground$ is an injective function by definition.
+	Then we have proved that $\ground$ can never output to the same grounded atom, for two different atoms. Therefore it must follow that $\ground$ is an injective function by definition when action arguments are unique.
 \end{proof}
 
-On a side note, this means it is preferable for an agent to try actions where the arguments to that action are all unique. 
+\textsc{An observation}, it follows from this proof that it is preferable for an agent to try actions, where the arguments to the action are all unique. This could be interesting when defining a heuristic for the agent's planner. 
 
-If however only some of the arguments are unique, then we should still be able to prove some of the atoms, provided all other atoms that map from the same grounded atom have been disproved. We can do this by using our disproved set \Dsp, built from earlier transitions, to discard incorrect atoms. This gives us the following theorem: 
+While \invground is single-valued when the arguments to the action are all unique. 
+This does not hold if that is not the case, but we should still be able to prove some of the literals; provided all other literals that map from the same grounded literal have been disproved. We can do this by using our disproved set \Dsp, built from earlier transitions, to discard incorrect literals. This gives us the following theorem: 
 
 \begin{theorem}\label{thm:nca:prove-effects} For a state-transition $(S,a,S')$ with 
 	\begin{equation*}
@@ -267,7 +282,8 @@ If however only some of the arguments are unique, then we should still be able t
 	
     \begin{itemize}
         \item If \invground is single-valued, then $\invground(p)$ is an effect of $A$.
-        \item If \invground is multivalued but there is a single atom in $\invground(p)$ that have not previously been disproven to be an effect, then that atom is an effect.
+        \item If \invground is multivalued but all other literals outputted from $\invground(p)$ have been disproven to be an effect, 
+        such that there is only a single literal remaining, then that literal is an effect.
     \end{itemize}
 
 	% If $\invground$ is single-valued or it is multivalued but all except one output are disproven, then that the literal outputted by $\invground$ is proven to be an effect.
@@ -287,34 +303,57 @@ If however only some of the arguments are unique, then we should still be able t
 \begin{proof}
     We prove the two cases described above:
     \begin{itemize}
-        \item If $\invground$ is single-valued, then $\invground (p)$ is the only atom in $A$ that could have caused $p$ to occur in $S'$.
-        \item If $\invground$ is multivalued, then it is generally not known which atom(s) caused $p$ to occur in $S'$. However, if all atoms except one in $\invground\left( p \right)$ have previously been disproven to be effect, then that single atom must be an effect. 
+        \item If $\invground$ is single-valued, then $\invground (p)$ is the only literal in $A$ that could have caused $p$ to occur in $S'$.
+        \item If $\invground$ is multivalued, then it is generally not known which literal(s) caused $p$ to occur in $S'$. However, if all literals except one in $\invground\left( p \right)$ have previously been disproven to be effect, then that single literal must be an effect. 
     \end{itemize}
 \end{proof}
 
+To understand this theorem think of it as, atoms in the state that we know only one effect could produce/remove, is a proof for that effect.
+
+By defining these theorems we can determine whether effects occurring in the state is proven to always occur, or at least 
+know what effects will definitely not occur. Furthermore, as we remove all ambiguous effects, the agent should be able to make the best possible predictions based on the information it has gathered.
+
 \begin{example}[Proving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-proving-effects}
-	Consider the states $S_0$ and $S_1$ from Example~\ref{ex:nca:moveSucceeded-disproving-effects}. Then, $\geffects$ can be found as follows:
+	Consider the move action from \Cref{ex:nca:moveSucceeded-disproving-effects}.	
 	
-	\begin{equation*}
-	\Delta S = \left\{
+	\begin{align*}
+		S_0 &=
+		\left\{
+		\begin{gathered}
+			\texttt{sokobanAt}(t_1), \\
+			\texttt{clear}(t_2), \\
+			\texttt{hAdj}(t_1, t_2)			
+		\end{gathered}
+		\right\} \\	
+		S_1 &=
+		\left\{
+		\begin{gathered}
+			\texttt{sokobanAt}(t_2), \\
+			\texttt{clear}(t_1), \\
+			\texttt{hAdj}(t_1, t_2)			
+		\end{gathered}
+		\right\} \\				
+	\Delta S &= \left\{
         \begin{gathered}
             \texttt{sokobanAt}(t_2), \\
+            \neg  \texttt{sokobanAt}(t_1), \\
             \texttt{clear}(t_1), \\
             \neg \texttt{clear}(t_2)		
         \end{gathered}
         \right\}
-	\end{equation*}
+	\end{align*}
 And the known knowledge can be extracted as
     \begin{equation*}
         \pro(\Delta S) = \left\{
             \begin{gathered}
-                \texttt{sokobanAt}(to), \\
-                \texttt{clear}(from), \\
-                \neg \texttt{clear}(to)		
+               \texttt{sokobanAt}(to), \\
+               \neg  \texttt{sokobanAt}(from), \\
+               \texttt{clear}(from), \\
+               \neg \texttt{clear}(to)		
             \end{gathered}
         \right\}
     \end{equation*}
-	We see that effects are correctly proven. For example, the fact that the sokoban moves to a new location is correctly proved by $\texttt{sokobanAt}(to)$.
+	We see that all effects are correctly proven. As the action used contain only unique arguments.
 \end{example}
 
 
