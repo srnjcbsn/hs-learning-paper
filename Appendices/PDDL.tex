@@ -8,20 +8,20 @@ This section will give a minimal definition of PDDL, and provide context for syn
 
 
 PDDL is based on set-theoretic planning (see~\cite{ghallab2004a}) popularized by the STRIPS language (see~\cite{STRIPS}). By default states in PDDL are based on closed-world-assumption, meaning that if something is not defined in the state it is assumed to be false. 
-In PDDL and set-theoretic planning, a state is set of predicates defining the properties of the objects in an environment.
+In PDDL and set-theoretic planning, a state is set of grounded atoms defining the properties of the objects in an environment.
 
 \begin{definition} 
-	An intensional definition of a state $S$ in PDDL is a set of grounded predicates:
+	An intensional definition of a state $S$ in PDDL is a set of grounded atoms:
     \begin{equation*}
-        S=\{p(o_1,\dots,o_n) \mid  p \in \mathbb{P} \land \{o_1,\dots,o_n\} \subseteq \mathcal{O} \land p(o_1,\dots,o_n) = \texttt{TRUE}\}
+        S=\{p(o_1,\dots,o_n) \mid  p \in \preds \land \{o_1,\dots,o_n\} \subseteq \objs \land p(o_1,\dots,o_n) = \texttt{TRUE}\}
     \end{equation*}
-    Where $\mathcal{O}$ is the set of all objects in the world, and $\mathbb{P}$ is the set of all predicates that can be used to describe the objects in the world.
+    Where $\objs$ is the set of all objects in the world, and $\preds$ is the set of all predicates that can be used to describe the objects in the world.
 \end{definition}
 
-Since states are based on closed-world-assumption, they contain no negative predicates; however for the purpose of this thesis we would like to be able to represent a complete state which contain explicitly all the negatives predicates. 
+Since states are based on closed-world-assumption, they contain no negative atoms; however for the purpose of this thesis we would like to be able to represent a complete state which contain explicitly all the negative atoms. 
 We define this explicit state as $X$, which is derived from its original state $S$.
 \begin{definition} 
-	Explicit state function $X(S)$ outputs the state where absent predicates become negative literals while maintaining the old predicates as positive literals. It is defined as follows: 
+	Explicit state function $X(S)$ outputs the state where absent atoms become negative literals while maintaining the old atoms as positive literals. It is defined as follows: 
 	
 	\begin{equation*}
 	X(S)=\{p \mid p \in S \} \cup \{\neg p \mid  p \notin S \}
@@ -64,7 +64,7 @@ The ways an agent can change the state, and under which circumstances, is descri
             <Effect> -> Forall <variable>* <Effect> 
             <Effect> -> <Effect> When <GD>
             
-            <LITERAL> -> <predicate name> (TERM*)
+            <LITERAL> -> <predicate> (TERM*)
             <LITERAL> -> not <LITERAL>
             
             <TERM> -> <object>
@@ -76,7 +76,7 @@ The ways an agent can change the state, and under which circumstances, is descri
 	
 In PDDL a set of action schemas, along with properties about always present objects and specifications of all Predicates are defined as a domain.
 
-\begin{definition} A domain in PDDL, defines what predicates can be utilized, object that are constant between all instantiations of the domain, and the action schemas available to the planner.
+\begin{definition} A domain in PDDL, defines what predicates can be utilized, objects that are constant between all instantiations of the domain, and the action schemas available to the planner.
 	
 $
 \begin{array}{ll}
@@ -84,7 +84,7 @@ Domain~\mathcal{D}: & \\
 
 \begin{array}{ll}
 Constants & = \{o_1,\dots,o_n\}			 \\  
-Predicate-Specs = \mathbb{P} \\
+Predicate-Specs = \preds \\
 Action-Specs & = A~set~of~action~schemas~avaiable~to~the~agent \\
 \end{array}
 \end{array}$
@@ -110,13 +110,13 @@ An application of an action contain the name of its corresponding action schema,
 \end{definition}
 
 
-Predicates which contain Terms in its arguments are referred to as fluent predicates, while grounded predicates refer to predicates that only contain objects in its arguments. Given a mapping $\sigma$ from variables to objects any fluent predicate can become grounded.
+Atom which contain only objects in its arguments are referred to as grounded atoms. Given a mapping $\sigma$ from variables to objects any atom can become a grounded atom.
 \begin{definition} 
-	Any fluent predicate cab be mapped to a grounded predicate, by a applying a mapping $\sigma$ to each of its arguments. As such the \texttt{grond} function takes a predicate $p$ and a mapping $\sigma$
+	Any atom can be mapped to a grounded atom, by a applying a mapping $\sigma$ to each of its arguments. As such the \ground function takes a atom $p$ and a mapping $\sigma$
 	
-		$\texttt{ground}(p(x_1,\dots,x_n),\sigma) = p(\sigma(x_1),\dots,\sigma(x_n)$ where $p$ is the name of the predicate.
+		$\ground(p(x_1,\dots,x_n),\sigma) = p(\sigma(x_1),\dots,\sigma(x_n)$ where $p$ is the predicate.
 		
-	If the mapping is given in context, i.e. there is an action application in context of the discussion, then the shorthand $\texttt{ground}(p)$ can be used instead.
+	If the mapping is given in context, i.e. there is an action application in context of the discussion, then the shorthand $\ground(p)$ can be used instead.
 \end{definition}
 
 
@@ -134,7 +134,7 @@ To explain how an action is applied to a state we define a State-Transition func
 	\end{array}
 	\right.$ 
 	
-	where $effect^+$ are the positive changes, meaning the grounded predicates that are to be set \texttt{TRUE} in the new state $S'$. Conversely $effect^-$ are the negatives changes, which are the predicates to be set \texttt{FALSE} in $S'$. 
+	where $effect^+$ are the positive changes, meaning the grounded atoms that are to be set \texttt{TRUE} in the new state $S'$. Conversely $effect^-$ are the negatives changes, which are the atoms to be set \texttt{FALSE} in $S'$. 
 	
 	\textbf{NB} For more feature rich PDDL versions, the $effect$ functions require both the domain, problem and state in order to get the actual effects; however we assume these are given from context unless specified otherwise.
 	
@@ -155,9 +155,9 @@ Lastly in order for an agent to know its purpose when planning it must have a de
 	Problem ~ \mathcal{P}: & \\
 	
 	\begin{array}{ll}
-	Objects ~ \mathcal{O} & = \{o_1,\dots,o_n\}			 \\  
+	Objects ~ \objs & = \{o_1,\dots,o_n\}			 \\  
 	Init\texttt{-}State~ S_0& = A ~ State\\
-	Goal ~ \mathcal{G} & = Goal ~ Description\footnote{Goal Description is identical to the one defined in Definition \ref{def:lrn:action-spec-def}.}
+	Goal ~ \goal & = Goal ~ Description\footnote{Goal Description is identical to the one defined in Definition \ref{def:lrn:action-spec-def}.}
 	\end{array}
 	\end{array}$
 \end{definition}

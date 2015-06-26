@@ -36,14 +36,14 @@ The method described above is formalized in Algorithm~\ref{algo:hypergraphmerge}
                     \State $\left( v_1, v_2 \right) \gets f^-(v)$
                     \State $p_1 \gets$ atom set in $H_1$ containing $v_1$
                     \State $p_2 \gets$ atom set in $H_2$ containing $v_2$
-                    \State $H' \gets \textsc{MergePredicateEdges}
+                    \State $H' \gets \textsc{MergeAtomEdges}
                                         \left( H_1, H_2, H', p_1, p_2 \right)$
                 \EndIf
             \EndFor
             \State \Return $H'$
         \EndFunction
 
-        \Function {$\textsc{MergePredicateEdges}$} {$H_1, H_2, H', p_1, p_2$}
+        \Function {$\textsc{MergeAtomEdges}$} {$H_1, H_2, H', p_1, p_2$}
             \State $p' \gets p_1 \sqcap p_2$
             \State $H' \gets H' \cup p'$
             \ForAll {vertices $v \in p'$}
@@ -66,7 +66,7 @@ The method described above is formalized in Algorithm~\ref{algo:hypergraphmerge}
         \Function {$\textsc{MergeHyperGraphs}$} {$H_1$, $H_2$}
             \State Let $q_1$ and $q_2$ denote the atom hyper edges describing the effect in $H_1$ and $H_2$, respectively
             \State Let $H' = \emptyset$ be a new, empty hyper graph
-            \State $H' \gets \textsc{MergePredicateEdges}(H_1,H_2,H',q_1,q_2)$
+            \State $H' \gets \textsc{MergeAtomEdges}(H_1,H_2,H',q_1,q_2)$
             \State $H' \gets \textsc{CollapseHyperGraph}(H')$
             \State \Return $H'$
         \EndFunction
@@ -152,7 +152,7 @@ Although intersecting binding edges by vertex names is an appealing method, it i
             p(x, y) \land p(x,z) \land f(y) \land g(z)
     \end{equation*}
 
-	From these patterns, it is clear that $H_1$ is not the correct precondition, as it would have prevented the effect $q\left(o_3\right)$. However, $H_2$ is flexible enough to allow the effect $q\left(o_1\right)$ under the interpretation $\left\{ x = o_1, y = z = o_2 \right\}$. In other words, it might be the case that the effect $q(x)$ requires to be connected to two $p$-predicates, although this was not visible for $H_1$ as the $p$-predicates happened to be identical.
+	From these patterns, it is clear that $H_1$ is not the correct precondition, as it would have prevented the effect $q\left(o_3\right)$. However, $H_2$ is flexible enough to allow the effect $q\left(o_1\right)$ under the interpretation $\left\{ x = o_1, y = z = o_2 \right\}$. In other words, it might be the case that the effect $q(x)$ requires to be connected to two $p$-atoms, although this was not visible for $H_1$ as the $p$-atoms happened to be identical.
 
     \begin{figure}
         \centering

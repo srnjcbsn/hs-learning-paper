@@ -46,10 +46,10 @@ In order to simplify the problem we have made the following restrictions on cond
 	We have added this restricting to study the problem in its most minimal form.	
 	\item The environment must be fully observable.
 	\item The environment must contain a finite number of objects.
-	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
-	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
+%	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
+%	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
 
-    \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only occur once in the effects of all conditionals for an action $A$. This allows us to associate any effect predicate with exactly one conditional. An additional consequence of this restriction is that disjunctive preconditions are not supported, since that would require a predicate to occur in two different conditionals.
+    \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only be part of a one negative and one positive literal in the effects of all conditionals for an action $A$. This allows us to associate any effect literal with exactly one conditional. An additional consequence of this restriction is that disjunctive preconditions are not supported, since that would require a literal to occur in two different conditionals.
 
 	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
 

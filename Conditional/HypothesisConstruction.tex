@@ -3,7 +3,7 @@
 \begin{document}
   	Unsurprisingly the basics of hypothesis construction for conditional actions is very similar to that of non-conditional actions. 
   	As such refer to \Cref{sec:NC:hypcon} for detailed explanation of how the traits interacts with knowledge (proven, disproved, unproven.. etc.), to understand how we define trait see \Cref{sec:Strategy}.
-  	While the basic theory of traits remain the same, constructing hypothetical action schema using the knowledge we have modeled, is completely different. First off the knowledge that we work with is no longer sets of predicates, but instead we have it in the form of connecting paths.
+  	While the basic theory of traits remain the same, constructing hypothetical action schema using the knowledge we have modeled, is completely different. First off the knowledge that we work with is no longer sets of literals, but instead we have it in the form of connecting paths.
   	Therefore new approaches are needed if we want to design action schemas based on a specific strategy.
   	This section will go through how 
   	 	
@@ -48,7 +48,7 @@
   		To turn these paths into preconditions we simply map each binding to a variable. 
   		For instance, binding $q_1 \bc g_1 \mapsto x$ and binding $q_1 \bc g_1 \mapsto y$.   		
   		As with non-conditional effects, we use the candidates set of sets in a CNF, but instead of single literals we use entire paths.
-  		That means we use $\land$ between each predicate in the path, $\lor$ between each path and $\land$ between each candidate set; however in this example we only have a single set.	
+  		That means we use $\land$ between each atom connection in the path, $\lor$ between each path and $\land$ between each candidate set; however in this example we only have a single set.	
   		Lastly as a minor optimization we can avoid using new variables for each separate candidate as they are in a disjunction.
   		However between the sets we must use new variables as they are in a conjunction.
   		For instance, the candidates $A$ and $B$ can share variables but the set $\{A, B\}$ cannot share variables with  the set $\{C, D\}$

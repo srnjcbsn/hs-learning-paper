@@ -4,13 +4,13 @@
 
 When the scientific learning algorithm is applied through the main program, a statistics file is produced. This file contains, in order:
 \begin{itemize}
-    \item A header containing the name of each action schema in the domain, along with the action's $\mathbb{F}_A$.
+    \item A header containing the name of each action schema in the domain, along with the action's $\lits_A$.
     \item The string \verb|``-- RUNNING --''|, signifying the end of the header.
     \item For each experiment (plan) the agent conducted:
         \begin{itemize}
             \item The action which did not produce the expected outcome when applied (as explained in Section~\ref{sec:PDDLAlgo})
             \item The amount of problems the agent had solved before execution of this action.
-            \item Eight integers, signifying how many predicates the agent has proven to be positive and negative effects and preconditions for the action, and how many are neither proven nor disproven to be positive and negative effects and preconditions for the action. Lastly, the number of candidate sets for the action is listed.
+            \item Eight integers, signifying how many  atoms the agent has proven to be positive and negative effects and preconditions for the action, and how many are neither proven nor disproven to be positive and negative effects and preconditions for the action. Lastly, the number of candidate sets for the action is listed.
         \end{itemize}
 \end{itemize}
 
@@ -56,7 +56,7 @@ This pattern is very similar for the \texttt{move-v} action (see Figures~\ref{fi
         \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-ek-move-v.pgf}}
         \caption{\texttt{move-v} effects}\label{fig:res:ekmovev}
     \end{subfigure}
-    \caption{Knowledge obtained about \emph{effects} of the \texttt{move-*} actions from solving the problems presented in~\figref{fig:results:sokoTraining}. The unit of the $y$-axis is number of ungrounded predicates, and the marker $\mathbb{F}_A$ denotes the maximum value. The $x$-axis is measured in experiments. For readability, the experiments where the relevant action was not the cause of failure are removed, as nothing is learned. The small black ticks denote a duration of 5 experiments, and the larger red ticks denote that a problem has been solved, and that a new one has started.}\label{fig:res:ekmove}
+    \caption{Knowledge obtained about \emph{effects} of the \texttt{move-*} actions from solving the problems presented in~\figref{fig:results:sokoTraining}. The unit of the $y$-axis is number of atoms, and the marker $\lits_A$ denotes the maximum value. The $x$-axis is measured in experiments. For readability, the experiments where the relevant action was not the cause of failure are removed, as nothing is learned. The small black ticks denote a duration of 5 experiments, and the larger red ticks denote that a problem has been solved, and that a new one has started.}\label{fig:res:ekmove}
 \end{figure}
 
 \begin{figure}
@@ -69,7 +69,7 @@ This pattern is very similar for the \texttt{move-v} action (see Figures~\ref{fi
         \resizebox{\linewidth}{!}{\input{\master/Graphics/statistics2-pk-move-v.pgf}}
         \caption{\texttt{move-v} preconditions}\label{fig:res:pkmovev}
     \end{subfigure}
-    \caption{Knowledge obtained about \emph{preconditions} of the \texttt{move-*} actions from solving the problems presented in~\figref{fig:results:sokoTraining}. See~\figref{fig:res:ekmove} for an explanation of how to read the graph. Note that the candidate data is not measured in ungrounded predicates, but set cardinality.}\label{fig:res:pkmove}
+    \caption{Knowledge obtained about \emph{preconditions} of the \texttt{move-*} actions from solving the problems presented in~\figref{fig:results:sokoTraining}. See~\figref{fig:res:ekmove} for an explanation of how to read the graph. Note that the candidate data is not measured in literals, but set cardinality.}\label{fig:res:pkmove}
 \end{figure}
 
 \end{document}
