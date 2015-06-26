@@ -1,4 +1,5 @@
-\documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
+\documentclass[\master/Master.tex]{subfiles}
 \begin{document}
 	
 	Learning is defined by the Oxford dictionary as 
@@ -12,6 +13,7 @@
 	While from a human perspective this makes sense as a form of learning, 
 	it does not make sense in a logical view of learning, as it is just an optimization of the access time of the knowledge the person has about the subject.
 	Therefore we will keep to the notion that \textbf{Learning is the acquisition of knowledge}, and we will use this to show how an agents can learn through observations.
+
 	
 \section{Defining learning}
 	
@@ -21,7 +23,7 @@
 A natural question in this context is, why is it necessary to define approaches to learning, such as the optimistic and pessimistic ones? Is learning not a universal concept? The answer is that while the acquisition of knowledge in itself remains the same no matter the approach, there are multiple approaches to getting into a situation where new knowledge is available. The frequency with which new knowledge is obtained, and the relevance of said knowledge relies heavily on the approach taken.
 
 \begin{example}
-    Consider two programmers tasked with implementing a complicated animation. Both know the programming language $J$, but have no experience with graphics programming. Programmer $A$ implements the animation in language $J$, complementing his existing knowledge with books and tutorials only when in doubt. Programmer $B$ takes a different approach, trying out several different languages and methodologies before finally discovering that language $H$ is the most useable for his needs. By focussing his learning on the graphics element, $A$ is able to quickly and efficiently sove the task. $B$ has solved the task more elegantly, and has obtained knowledge which may be relevant in similar programming tasks, but has taken considerably longer.
+    Consider two programmers tasked with implementing a complicated animation. Both know the programming language $J$, but have no experience with graphics programming. Programmer $A$ implements the animation in language $J$, complementing his existing knowledge with books and tutorials only when in doubt. Programmer $B$ takes a different approach, trying out several different languages and methodologies before finally discovering that language $H$ is the most usable for his needs. By focusing his learning on the graphics element, $A$ is able to quickly and efficiently solve the task. $B$ has solved the task more elegantly, and has obtained knowledge which may be relevant in similar programming tasks, but has taken considerably longer.
 \end{example}
 
 % 	However we want to raise the question why is it necessary to define approaches to learning, is learning not a universal concept?
@@ -55,14 +57,13 @@ A natural question in this context is, why is it necessary to define approaches 
 	
 	This does not require that an agent must know the full sequence in order to have a strategy but rather that a strategy defines what procedure an agent must take for any given situation.
 
-	Now that we have established that strategies are necessary to accommodate learning, we must turn our attention the more important aspect of learning. 
+	Now that we have established that strategies are necessary to accommodate learning, we must turn our attention to the more important aspect of learning. 
 	The acquisition of knowledge itself, all knowledge an agent has can be placed into three categories: proven knowledge, disproved knowledge and unproven knowledge. 
 	The proven knowledge is knowledge that the agent has proven to be correct, disproved knowledge is knowledge which has been shown to be incorrect, and unproven knowledge is knowledge which has neither been proved nor has it been disproved.
 	In science the prevailing method for acquiring knowledge has been through what we know today as the scientific method. 
 	As such we propose that the scientific method is equally valid for acquiring of knowledge for an agent.
 	
-	In this chapter we will show how different strategies affect learning and define traits that are common among strategies that we have observed. 
-	Furthermore, we will also show how the scientific method adapted into an algorithm to be used by a learning agent, and specifically how one may use it with PDDL.
+	
 	
 	
 	

@@ -4,12 +4,17 @@
 
 We stated in the beginning that learning, \emph{the acquisition of knowledge}, does not change dependent on strategy, as such it is important to separate the two problems from each other.
 In this chapter we will provide an explanation of how learning of non-conditional action schemas can be achieved, and how to model the knowledge in an intuitive way.
+The limits of our solution is that it only functions with STRIPS-style domains, i.e.  no disjunctive precondition, no conditional effect and that the environment is fully observable and discrete.
 We will begin by explaining the knowledge that is important to action schemas. 
 In \Cref{sec:NC:hypcon} we will show how to use this knowledge to define action schemas which follows a certain strategy.
 
-The knowledge of actions schemas must be defined by the literals that can be used in either an effect or a precondition.
+
+As action consists only of conjunctions, the knowledge of actions schemas must be defined by the literals that can be used in either an effect or a precondition.
 If we ignore the concept of constants, then we know that all literals in our action schema must have variables which are permutations of the  action schema's parameters.
-As such we introduce the set \lits which is all the possible literals which be used in an action schema.
+
+\textbf{NB} Extending the solution to support constants is easily achieved but it would obscure what we are trying to convey, as such we have left it out.
+ 
+Given this we introduce the set \lits which is all the possible literals that can be used in an action schema.
 
 \begin{definition} 
 	$\lits_A$ is the set of all literals available to an action schema $A$. For ease of use the $A$ can be omitted if it is implied through context.

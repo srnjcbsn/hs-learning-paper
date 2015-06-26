@@ -81,14 +81,13 @@ For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 \subsection{Disproving effects}
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
 
-When an action is successfully applied in a state $S$, the literals comprising its positive effects are grounded and added to $S$ to form $S'$. Similarly, its negative effects are grounded and removed from $S$. Therefore, we should be able to observe the effects of the action as the differences between $S$ to $S'$. For the special case that an atom is both in $S$ and $S'$ there are two distinct possibilities: either it is part of the effects of the action but was already part of $S$ or they were not an effect (see Figure \ref{fig:nca:venn-of-effects}). The same holds for atoms that are in neither $S$ nor $S'$.
+When an action is successfully applied in a state $S$, the literals comprising its positive effects are grounded and added to $S$ to form $S'$. Similarly, its negative effects are grounded and removed from $S$. Therefore, we should be able to observe the effects of the action as the differences between $S$ to $S'$ i.e \geffects. For the special case that an atom is both in $S$ and $S'$ there are two distinct possibilities: either it is part of the effects of the action but was already part of $S$ or it was not an effect (see Figure \ref{fig:nca:venn-of-effects}). The same holds for atoms that are in neither $S$ nor $S'$.
 
 To disprove atoms for a single transition we use the idea that grounded atoms which are not in $S'$ cannot be positive effects, and grounded atoms which are in $S'$ cannot be negative effects. 
 This is logically sound and gives us the following theorem:
 
-\begin{theorem}\label{thm:nca:disprove-effects}
-	 Let $\left(S, a, S'\right)$ be a state transition. Then any grounded literal $l$ is disproven to be a positive effect if its grounded version is not in $S'$. Conversely, a negative literal is disproven to be an effect if its grounded version is in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:
-	
+\begin{theorem}[Disproving effects]\label{thm:nca:disprove-effects}
+	 Let $\left(S, a, S'\right)$ be a state transition. Then any grounded literal $l$ is disproven to be a positive effect if its grounded version is not in $S'$. Conversely, a negative literal is disproven to be an effect if its grounded version is in $S'$. This gives us the following function to get all disproved effects for a state transition result $S'$:	
 	\begin{equation*}
 		 \dsp(S') = \left\{
 			p \mid p \in \lits \land \ground (p) \notin S'
@@ -100,14 +99,12 @@ This is logically sound and gives us the following theorem:
 	\end{equation*}
 \end{theorem}
 	\begin{proof}[Proof by definition]
-		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p) \notin S'$ can not have been an effect of action $A$.
+		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p) \notin S'$ can not have been an effect of action $A$ or it would by definition be in $S$.
 	Likewise if a potential negative effect $\neg p$ is $\ground(p) \in S'$ then that could not have been a negative effect.
 	\end{proof}
-
-
 \begin{example}[disproving effects in \texttt{move-h}] \label{ex:nca:moveSucceeded-disproving-effects}
 	In case the sokoban agent applies the action $\texttt{move-h}(t_1, t_2)$ in state $S_0$, the resulting state $S_1$ will have the visible effect that the sokoban relocated from $t_1$ to $t_2$. 
-	
+	For the definition of action $\texttt{move-h}$ see \Cref{sec:pddl:ss:soko:ds}.
 	
 	
 	\begin{equation*}

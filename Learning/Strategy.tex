@@ -1,4 +1,5 @@
-\documentclass[../Master.tex]{subfiles}
+\providecommand{\master}{..}
+\documentclass[\master/Master.tex]{subfiles}
 \begin{document}
     \section*{Learning Strategies}\label{sec:strats}
 
@@ -12,17 +13,17 @@
     goals.
     \end{itemize}
     Both of these strategies are equally valid approaches to learning.
-    However, they show two different traits which we will define and analyse.
+    However, they show two different traits which we will define and analyze.
     \begin{definition}
     [{Explorative/Exploitative}] An explorative strategy, like an explorative graph search will prefer to try and test unknown territory in the hopes that it will provide it with a better solution, but only in cases where there is no upside decide not to explore.
-    An exploitative strategy however will avoid the unexplored and only learn something when necessary otherwise it will use what it has already learned. Much akin to how the dynamic between a Breath-First-Search and a Depth-First-Search works. The advantage of a Explorative strategy is that once it has learned something, it will be very efficient at doing that thing, however for it to get to that point it will spend a long time learning. Opposite an exploitative strategy will be very fast to learn something but it will very likely be an inefficent way.
+    An exploitative strategy however will avoid the unexplored and only learn something when necessary otherwise it will use what it has already learned. Much akin to how the dynamic between a Breath-First-Search and a Depth-First-Search works. The advantage of a Explorative strategy is that once it has learned something, it will be very efficient at doing that thing, however for it to get to that point it will spend a long time learning. Opposite an exploitative strategy will be very fast to learn something but it will very likely be an inefficient way.
 	\end{definition}
 	\begin{example}
 		Imagine an agent trying to learn how to sail a ship around an island.
 		
-		In the beginning it can either sail clockwise and counter-clockwise, because it is new and inexperianced it does not know what the outcome of either of these actions will be. 
+		In the beginning it can either sail clockwise and counter-clockwise, because it is new and inexperienced it does not know what the outcome of either of these actions will be. 
 		Lets assume that it takes seven counter-clockwise moves to reach its destination but only one clockwise move.
-		Because the agent does not know anything, both the clockwise and the counter-clockwise option is initially equally good to it. If it went with the counter-clockwise option then a strategy based on exploitativity would deem the problem solvable and no longer in need of learning, as the agent can simply sick to counter-clockwise moves around the island until it reaches its destination. However if it used a strategy based explorativity then it demand both options to be tested and thus the agent would do a clockwise afterwards learning that the problem can be easily solved using two clockwise moves instead of six further counter-clockwise moves that would be required. If however the agent had went clockwise to begin with then it would have been wasting its time learning to move counter-clockwise as it is the inferior solution in this case.
+		Because the agent does not know anything, both the clockwise and the counter-clockwise option is initially equally good to it. If it went with the counter-clockwise option then a strategy based on exploitativity would deem the problem solvable and no longer in need of learning, as the agent can simply stick to counter-clockwise moves around the island until it reaches its destination. However if it used a strategy based explorativity then it demands both options to be tested and thus the agent would do a clockwise afterwards learning that the problem can be easily solved using two clockwise moves instead of six further counter-clockwise moves that would be required. If however the agent had went clockwise to begin with then it would have been wasting its time learning to move counter-clockwise as it is the inferior solution in this case.
 		
 		Thus we see that both extremes have advantages and disadvantages.
 		
@@ -46,7 +47,7 @@
     	 Obviously this is a dangerous and is inadvisable. 
     	 A more preferable approach would be to look through the manuals or receive guidance.
     \end{example}
-	By labelling the traits unique to learning strategies we can now apply them to the learning strategies which are provided in~\cite{Walsh2008} as part of the algorithm. Furthermore we can also define new strategies which use a different mixture of the traits:
+	By labeling the traits unique to learning strategies we can now apply them to the learning strategies which are provided in~\cite{Walsh2008} as part of the algorithm. Furthermore we can also define new strategies which use a different mixture of the traits:
     \begin{example}
 		[{Optimisic}] The \emph{optimistic} strategy as described in~\cite{Walsh2008} assumes that actions
 	    can always be applied (unless proven otherwise) and contain \emph{all}
