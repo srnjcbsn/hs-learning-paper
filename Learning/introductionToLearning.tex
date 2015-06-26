@@ -8,13 +8,12 @@
 	\end{quote}
 	
 	This definition is based on a very human way of understanding learning, as it groups the concept of skills and knowledge together.
-	However acquiring skills often means to train or practice such that one is efficient. For instance an archer may learn to be better at hitting targets, 
-	not through gaining some new understanding of archery but rather by doing it repeatedly until he has built his muscle memory.
+	However acquiring skills often means to train or practice such that one is efficient. For instance, an archer may learn to be better at hitting targets, 
+	not through gaining some new understanding of archery but rather by doing it repeatedly until he has sufficiently built up his muscle memory.
 	While from a human perspective this makes sense as a form of learning, 
 	it does not make sense in a logical view of learning, as it is just an optimization of the access time of the knowledge the person has about the subject.
-	Therefore we will keep to the notion that \textbf{Learning is the acquisition of knowledge}, and we will use this to show how an agents can learn through observations.
+    Therefore, we will ignore the notion of ``skills'' and distill the definition to that \textbf{Learning is the acquisition of knowledge}. Although this definition may be sufficient, we would not define an agent that merely remembers all observed state transition as a learning agent. Rather, it would be reasonable to require that a learning agent must also be able to infer new knowledge from its observations. It is this component of the learning process we will focus on in this thesis, rather than simply storing and recalling data.
 
-	
 \section{Defining learning}
 	
 	In~\cite{Walsh2008}, two learning algorithms are presented, an optimistic and a pessimistic one.
