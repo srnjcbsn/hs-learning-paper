@@ -57,13 +57,13 @@ An action is said to be successful when $S \neq S'$. When this occurs the follow
 
 For preconditions the sets of literals that can be disproven to be preconditions based on this transition is calculated using~\eqref{eq:DPlusTrans} and~\eqref{eq:DMinusTrans}, and added to the existing knowledge:
 \begin{equation*}
-    \Dsp_P = \Dsp_P \cup \dsp_P(S)
+    \Dsp_P' = \Dsp_P \cup \dsp_P(S)
 \end{equation*}
 
 For effects the sets of literals that can be disproven and proven to be an effect based on this transition is calculated using~\Cref{thm:nca:prove-effects} and \Cref{thm:nca:disprove-effects}, and added to the existing knowledge:
 \begin{align*}
-\Dsp_E &= \Dsp_E \cup \dsp_E(s') \\
-\Pro_E &= \Pro_E \cup \pro_E(\geffects, \Dsp_E)
+\Dsp_E' &= \Dsp_E \cup \dsp_E(s') \\
+\Pro_E' &= \Pro_E \cup \pro_E(\geffects, \Dsp_E)
 \end{align*}
 
 
@@ -74,20 +74,20 @@ When an action fails, i.e. if $S = S'$, the candidate sets are determined using~
 It now holds that either more literals have been disproven, or one more candidate set have been added to $\cset$. According to Theorem~\ref{th:invHolds}, each candidate set in $\cset$ can now be reduced by removing disproven literals, while maintaining Invariant~\eqref{eq:inv}:
 
 \begin{equation} \label{reduceCands}
-    \cset = \left\{ c \setminus \Dsp_P \; | \; c \in \Cand \right\}
+    \cset' = \left\{ c \setminus \Dsp_P \; | \; c \in \cset \right\}
 \end{equation}
 
 By Proposition~\ref{prop:ncp:precond-holds}, members of any singleton candidate set can now be added to the proven knowledge:
 
 \begin{equation} \label{eq:extractKnown}
-    \Pro_P = \Pro_P \cup \left\{ p \; | \; \{ p \} \in \cset \right\}
+    \Pro_P' = \Pro_P \cup \left\{ p \; | \; \{ p \} \in \cset' \right\}
 \end{equation}
 
-As discussed previously, any candidate set containing a literal which have already been proven to be a precondition can be safely removed from $\cset$, as no more knowledge can be obtained from it, formally:
+As discussed previously, any candidate set containing a literal which have already been proven to be a precondition can be safely removed from $\cset'$, as no more knowledge can be obtained from it, formally:
 
 
 \begin{equation} \label{eq:removeKnown}
-    \cset = \left\{ c \; | \; c \in \Cand \land c \cap \Pro_P \neq \emptyset \right\}
+    \cset'' = \left\{ c \; | \; c \in \cset' \land c \cap \Pro_P \neq \emptyset \right\}
 \end{equation}
 
 
