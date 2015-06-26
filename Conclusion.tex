@@ -13,12 +13,12 @@ We have shown that these concepts can be implemented by an algorithmization of t
 	Initially when one looks at learning from a purely non-conditional perspective, 
 	it seems obvious to conclude that learning is just about the observation of contradictions,
 	and is based purely on logical proofs, as we saw in our proof of non-conditional action learning.
-	However the problem non-conditional action schemas is, for starters 
-	these sort of domains are not a natural way of expressing actions, 
-	usually actions contain conditional effects therefore these theory for learning them, 
-	while interesting, may not be useful in actual environments.
-	Furthermore, because actions that fail provides no feedback, 
-	therefore performing that action for the first time can take an agent a very long time, as all candidate sets must be generated.
+    However, actions containing conditional effects allow for a more natural way of expressing domains. Therefore, the theory for learning non-conditional actions are mostly valuable as basic reasearch, providing the theoretical foundation for learning more complicated domains.
+	% However the problem non-conditional action schemas is, for starters 
+	% these sort of domains are not a natural way of expressing actions, 
+	% usually actions contain conditional effects therefore these theory for learning them, 
+	% while interesting, may not be useful in actual environments.
+	Furthermore, a conditional action must often be executed a number of times before it succeeds, as --- in the worst case --- all possible candidate sets must first be generated.
 	
 	For non-conditional actions we provided solutions that removed two of the restrictions outlined in \cite{Walsh2008} for their algorithms.
 	First one is negative preconditions, our solution is fairly simple as we just had to consider the absence of atoms in the state.
