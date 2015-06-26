@@ -3,23 +3,23 @@
 
 \begin{document}
 
-Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown above) now describes how the predicates in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the predicate edge describing $p$ as an effect.
+Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown above) now describes how the atoms in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the atom edge describing $p$ as an effect.
 
 Such a hypergraph describes which bindings were present in $\ts(s)$ when the effect $p$ occurred, and how $p$ is connected to them. In other words, it denotes the preconditions for the conditional that spawned $p$ which has not been disproven, and any binding \textit{not} in the hypergraph is disproven to be a precondition.
 
 \begin{proposition}\label{prop:ca:disprovenHg}
-    For a state transition $\left( S, a, S' \right)$ and a predicate $p \in \Delta S$, any binding absent from $hypergraph \left( p, X(S) \right)$ is not a precondition for the conditional in $A$ with $p$ as effect. 
+    For a state transition $\left( S, a, S' \right)$ and a literal $p \in \Delta S$, any binding absent from $hypergraph \left( p, X(S) \right)$ is not a precondition for the conditional in $A$ with $p$ as effect. 
 \end{proposition}
 
 \begin{proof}[Proof by contradiction]
-    Consider a state transition $\left( S, a, S' \right)$, a predicate $p \left( o_1 \right) \in \Delta S$, and the hypergraph $H = hypergraph\left( p\left(o_1\right), X(S) \right)$. If a binding $(p_1, q_1)$ is not present in $H$ (meaning that there is no binding edge in $H$ containing $p_1$ and $q_1$), then that binding is not present in $X(S)$ (i.e.\ $q\left(o_1\right) \notin S$). Thus, if that binding was a precondition for the conditional that spawned $p\left(o_1\right)$, then that interpretation of the conditional would have failed, and $p\left( o_1 \right)$ would not have occurred in $\Delta S$. Additionally, by Proposition~\ref{prop:ca:singleConditional}, no other conditional in $A$ could have caused the effect $p \left(o_1\right)$.
+    Consider a state transition $\left( S, a, S' \right)$, a literal $p \left( o_1 \right) \in \Delta S$, and the hypergraph $H = hypergraph\left( p\left(o_1\right), X(S) \right)$. If a binding $(p_1, q_1)$ is not present in $H$ (meaning that there is no binding edge in $H$ containing $p_1$ and $q_1$), then that binding is not present in $X(S)$ (i.e.\ $q\left(o_1\right) \notin S$). Thus, if that binding was a precondition for the conditional that spawned $p\left(o_1\right)$, then that interpretation of the conditional would have failed, and $p\left( o_1 \right)$ would not have occurred in $\Delta S$. Additionally, by Proposition~\ref{prop:ca:singleConditional}, no other conditional in $A$ could have caused the effect $p \left(o_1\right)$.
 \end{proof}
 
-Recall that any two predicates $p$ and $q$ in $\Delta S$ with the same name are effects of the same conditional (by Proposition~\ref{prop:ca:singleConditional}), and that any bindings absent from \textit{either} of the hypergraphs $H_p = hypergraph(p, X(S))$ and $H_q = hypergraph(q, X(S))$ are disproven to be preconditions of that conditional (by Proposition~\ref{prop:ca:disprovenHg}). Consequently, if the two hypergraphs can be merged into one hypergraph $H'$, such that $H'$ only contains bindings that $H_p$ and $H_q$ has in common, then any binding absent from $H'$ can not be a precondition for the conditional either. 
+Recall that any two literals $p$ and $q$ in $\Delta S$ with the same name are effects of the same conditional (by Proposition~\ref{prop:ca:singleConditional}), and that any bindings absent from \textit{either} of the hypergraphs $H_p = hypergraph(p, X(S))$ and $H_q = hypergraph(q, X(S))$ are disproven to be preconditions of that conditional (by Proposition~\ref{prop:ca:disprovenHg}). Consequently, if the two hypergraphs can be merged into one hypergraph $H'$, such that $H'$ only contains bindings that $H_p$ and $H_q$ has in common, then any binding absent from $H'$ can not be a precondition for the conditional either. 
 
 In the following, we will assume availability of such a merging function (denoted $merge$), and a detailed algorithm can be found in Section~\ref{sec:C:HGMerging}.
 
-From the above, it follows that all grounded predicates with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be predicates, and can as such be reused in another transition. This hypergraph describes the unknown knowledge $U$.
+From the above, it follows that all grounded literals with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be literals, and can as such be reused in another transition. This hypergraph describes the unknown knowledge $U$.
 
 As with connecting paths, we have the concept of candidates, i.e.\ reasons a conditional could have failed in a certain interpretation. Recall that such a reason is a connecting path that was not present in the failing state. Since vertices in a hypergraph can be uniquely identified, and paths to the effect can be described by a binding to another vertex that is itself transitively connected, a candidate for failure can be encoded as a tuple of two vertices. I.e.\ it is sufficient to record the last component of the offending connecting path.
 
@@ -71,14 +71,14 @@ Thus, when this renaming is applied to a candidate tuple $(u,v)$, it produces $|
     \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
     \begin{algorithmic}
         \Function{Update-Knowledge}{$n$, $\Delta s$, $U$, $K$, $C$}
-            \ForAll{predicates $p \in \Delta s$ with name $n$}
+            \ForAll{literals $p \in \Delta s$ with name $n$}
                 \State{$H_p \gets hypergraph(p, s)$}
                 \State{$\left(U, r \right) \gets merge \left( U, H_p \right)$}
                 \State{$\left( C, K \right) \gets rename(r, C, K)$}
                 % \State{$C \gets \left\{ rnCands(c, rn) \mid c \in C \right\}$}
                 % \State{$K \gets rnKnown(K, rn) $}
             \EndFor
-            \ForAll{predicates $q \notin \Delta s$ with name $n$}
+            \ForAll{literals $q \notin \Delta s$ with name $n$}
                 \State{$H_q \gets hypergraph(q, s)$}
                 \State{$C \gets C \cup cands\left( H_q, U \right)$}
             \EndFor
