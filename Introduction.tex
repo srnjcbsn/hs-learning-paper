@@ -14,23 +14,21 @@
 	Planning as a field of study deals with the idea that an agent knows what it is capable of, 
 	and from there must be able to achieve a desired goal. 
 	We wish to look at the problem from the opposite side: What if an agent knows nothing, and instead must learn through induction what it can achieve. 
-	This is interesting as it parallels the experience of an infant, when it is initially born  --- ignoring genetic memory --- such an infant should have no prior knowledge, and therefore must use inductive reasoning to begin to understand how it can act upon its environment. For each action it takes the more knowledge it will have of its capabilities, however only through failures may it learn its limitations this is a provable fact.
-	 
-	
+	This is interesting as it parallels the experience of an infant, when it is initially born  --- ignoring genetic memory --- such an infant should have no prior knowledge, and therefore must use inductive reasoning to begin to understand how it can act upon its environment. For each action it takes, it may learn of its capabilities, but only through failures may it learn its limitations.
 	
 	The \cite{Walsh2008} paper provides two algorithms that shows how to inductively learn action schemas which define a planning domain. 
 	Each algorithm describes a unique strategy for an agent to learn based on. 
 	
-	The first which they dub optimistic, is an approach where the agent always assumes it capable of more than it has seen it is. This makes it so, initially when the agent has no knowledge of anything it is quickly able to find plan, now that plan will almost always quickly fail however just by trying to perform the plan the agent is able to learn something new which it can use next time it tries to find a plan. Thus through trial and error the agent is slowly able to learn the domain.
+	The first (which they label as ``optimistic''), is an approach where the agent always assumes that it is capable of more than it has seen it is. This makes it so, initially when the agent has no knowledge of anything it is quickly able to find plan, now that plan will almost always quickly fail however just by trying to perform the plan the agent is able to learn something new which it can use next time it tries to find a plan. Thus through trial and error the agent is slowly able to learn the domain.
 	
-	The second algorithm in stark contrast to the first is called pessimistic, this algorithm is based around making the agent assume it is capable of nothing unless proven otherwise. This means the agent must rely on a teacher to explain how goals are solved, and instead the task for the agent is how to understand the directions given from an outside source such as a teacher.
+	The second algorithm (labelled ``pessimistic'') is in stark contrast to the first. With this approach, the agent assumse it is capable of nothing, unless proven otherwise. This means the agent must rely on a teacher to explain how goals are solved, and instead the task for the agent is to learn from the directions given from an outside source, eventually gaining enough knowledge to autonomously complete tasks.
 	
-	This paper and these two approaches we use as a point of reference for us to explore the subject.  The paper deals exclusively with set-theoretic planning actions, in a STRIPS-style domain, where they have excluded disjunctive preconditions and negative preconditions. 
-	We seek to expand on this, showing how learning negative preconditions can be achieved. Furthermore, we will also study, and propose a preliminary solution to, the problem of learning actions with universally quantified conditional effects. That is, actions that are able to influence many different objects in the universe, and whose effects may occur independently of each other.
+    In this thesis, we will use~\cite{Walsh2008} and the optimistic and pessimistic algorithms as a point of reference to explore the subject. The paper deals exclusively with set-theoretic planning actions, in a STRIPS-style domain, where they have excluded disjunctive and negative preconditions. 
+	We seek to expand on this, showing how learning negative preconditions can be achieved. Furthermore, we will also study, and propose a preliminary solution to the problem of learning actions with universally quantified conditional effects. That is, actions that are able to influence many different objects in the universe, and whose effects may occur independently of each other.
 	
-	These problems often depends on minute details, but they have an impact on how learning should be handled. For this reason we will be using a running example throughout the thesis such that problems are easily made apparent. The running example we will be using is that of the $1981$ video game sokoban, that is about a person trying to move creates onto specific positions in a tightly packed warehouse.
+    These problems often depends on minute details, but they have an impact on how learning should be handled. For this reason we will be using a running example throughout the thesis such that problems are easily made apparent. The running example we will be using is that of the 1981 video game Sokoban, where a worker agent is tasked with moving crates onto specific positions in a tightly packed warehouse\footnote{See e.g.\ \url{https://en.wikipedia.org/wiki/Sokoban}}.
 	
-	Throughout this thesis we will solve several issues pertaining to different different aspects of learning. The following list will give an overview of what we have looked into and discussed:
+	Throughout this thesis we will solve several issues pertaining to different aspects of learning. The following list will give an overview of what we have looked into and discussed:
 	\begin{description}
 		\item[Negative Preconditions] 
 		By define a new approach to learning and understanding preconditions, we are able to handle positive as well as negative preconditions.
