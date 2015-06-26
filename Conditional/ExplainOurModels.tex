@@ -1,8 +1,11 @@
-\documentclass[../Master.tex]{subfiles}
-\begin{document}
 \providecommand{\master}{..}
+\documentclass[\master/Master.tex]{subfiles}
+\begin{document}
+In the model --- Connecting paths--- we have presented for conditional effect learning, there is the obvious flaw that all paths from each possible precondition, has an intractable size complexity. 
+As all possible paths is NP-Hard. Which we require to represent all  the unproven connecting paths. 
+In this section we will explore a new model for reduction of the size complexity, and show how the model can be utilized for our purpose. 
 
-Although a set of connecting paths are adequate for obtaining knowledge about preconditions of conditionals, it requires a large amount of redundancy as many paths share a common subpath to the effect. To remedy this, a set of paths can be joined to a forest of trees (where each tree is rooted in an argument of the effect predicate), where each branch is labelled as either $\bc$ (binding edge) or $\pc$ (predicate edge).
+Using connecting paths to represent knowledge requires a large amount of redundancy as many paths share a common subpath to the effect. To remedy this, a set of paths can be joined to a forest of trees (where each tree is rooted in an argument of the effect atom), where each branch is labelled as either $\bc$ (binding edge) or $\pc$ (atom edge).
 
 \begin{example}[Path trees from connecting paths]\label{ex:ca:pathTrees}
     Consider a state transition $\left( S, a, S' \right)$, where 
@@ -17,7 +20,7 @@ Although a set of connecting paths are adequate for obtaining knowledge about pr
     All other paths for this effect are subpaths of the above. As can be seen, $p_2 \pc p_1 \bc q_1$ is a common tail of both paths, and therefore they can be merged into the path tree depicted in~\figref{fig:ca:graphExTree}.
 \end{example}
 
-While joining paths as described above removes redundant tails, there are still duplicate vertices in the resulting trees. Specifically, if two subtrees $T_1$ and $T_2$ are rooted in the same vertex (originating from the same argument of the same predicate), then these two subtrees can be merged into one inheriting the children of both $T_1$ and $T_2$. If $T_1$'s parent is also $T_2$'s child, then this merging forms a cylce, and results in a cyclic, undirected \emph{path graph} $G = (V, E)$. The edges in a path graph can be divided into two sets: those labelled $\bc$, and those labelled $\pc$, denoted $E_B$ and $E_P$, respectively.
+While joining paths as described above removes redundant tails, there are still duplicate vertices in the resulting trees. Specifically, if two subtrees $T_1$ and $T_2$ are rooted in the same vertex (originating from the same argument of the same atom), then these two subtrees can be merged into one inheriting the children of both $T_1$ and $T_2$. If $T_1$'s parent is also $T_2$'s child, then this merging forms a cylce, and results in a cyclic, undirected \emph{path graph} $G = (V, E)$. The edges in a path graph can be divided into two sets: those labelled $\bc$, and those labelled $\pc$, denoted $E_B$ and $E_P$, respectively.
 
 \begin{example}[Path graphs from path trees]\label{ex:ca:pathGraph}
     For the path tree constructed in Example~\ref{ex:ca:pathTrees}, the two subtrees of $p_2$ ($g_1 \bc m_1$ and $m_1 \bc g_1$) are mutually redundant, as both denote that $g_1$, $m_1$ and $p_2$ are $\bc$-connected. Therefore, they can be replaced with the cycle depicted in~\figref{fig:ca:graphExGraph}. 
@@ -26,22 +29,23 @@ While joining paths as described above removes redundant tails, there are still 
 Notably, constructing a graph from a set of paths causes vertices to be transitively connected by binding edges:
 
 \begin{proposition}\label{prop:ca:transitiveConn}
-    For a graph constructed from a complete set of connecting paths $B$, it holds that if a vertex $v$ is reachable from a vertex $u$ by only following binding edges, then there is a binding edge between $u$ and $v$. Similarly for predicate edges.
+    For a graph constructed from a complete set of connecting paths $B$, it holds that if a vertex $v$ is reachable from a vertex $u$ by only following binding edges, then there is a binding edge between $u$ and $v$. Similarly for atom edges.
 \end{proposition}
 
 \begin{proof}
-   If $v$ is reachable from $u$ by only following a sequence of binding edges $b$, then $b$ is a subpath of some path in $B$. Since $b$ does not contain predicate connections, all the predicate arguments contained in it have the same variable in the predicate set $B$ originated from. Hence, $B$ will also contain a path with subpath $b \bc v$, which will be present as a branch in the path tree, and therefore merged into the path graph as an edge.
+   If $v$ is reachable from $u$ by only following a sequence of binding edges $b$, then $b$ is a subpath of some path in $B$. Since $b$ does not contain atom connections, all the atom arguments contained in it have the same variable in the atom set $B$ originated from. Hence, $B$ will also contain a path with subpath $b \bc v$, which will be present as a branch in the path tree, and therefore merged into the path graph as an edge.
 \end{proof}
 
-As a consequence of Proposition~\ref{prop:ca:transitiveConn}, a path graph $G = (V,E)$ consists of subgraphs that are either completely connected by binding edges or completely connected by predicate edges. That is, the subgraphs $G_B = \left(V, E_B \right)$ and $G_P = \left( V, E_P \right)$ consists of complete, disconnected subgraphs.
+As a consequence of Proposition~\ref{prop:ca:transitiveConn}, a path graph $G = (V,E)$ consists of subgraphs that are either completely connected by binding edges or completely connected by atom edges. That is, the subgraphs $G_B = \left(V, E_B \right)$ and $G_P = \left( V, E_P \right)$ consists of complete, disconnected subgraphs.
 
-Consequently, a path graph consists of \textit{binding} and \textit{predicate} cliques, i.e.\ vertices in a clique are either $\bc$-connected (making it a binding clique) or they are $\pc$-connected (making it a predicate clique). Note that a clique can be both $\bc$- and $\pc$-connected, in case a predicate has several identical arguments. In the following, we interpret such a clique as two different cliques.
+Consequently, a path graph consists of \textit{binding} and \textit{atom} cliques, i.e.\ vertices in a clique are either $\bc$-connected (making it a binding clique) or they are $\pc$-connected (making it a atom clique). Note that a clique can be both $\bc$- and $\pc$-connected, in case a atom has several identical arguments. In the following, we interpret such a clique as two different cliques.
 
-As the graph can be meaningfully partitioned into complete subgraphs, the vertices of each subgraph can simply be seen as a set, where each set overlaps with the others. Thus, a path graph $G$ becomes $HG = \left(V, E_H\right)$, where each member of $E_H$ is a set of vertices comprising either a binding or predicate clique in $G$ (labelled $\bc$ or $\pc$ respectively). Then, $HG$ describes a \emph{conformal hypergraph} (see e.g.\ \cite{bretto}), where $E_H$ is a set of hyperedges.
+As the graph can be meaningfully partitioned into complete subgraphs, the vertices of each subgraph can simply be seen as a set, where each set overlaps with the others. Thus, a path graph $G$ becomes $HG = \left(V, E_H\right)$, where each member of $E_H$ is a set of vertices comprising either a binding or atom clique in $G$ (labelled $\bc$ or $\pc$ respectively). Then, $HG$ describes a \emph{conformal hypergraph} (see e.g.\ \cite{bretto}), where $E_H$ is a set of hyperedges.
 
 A hypergraph constructed from a set of connecting paths contains $O\left(|\mathcal{O}|^m\right)$ vertices and $O\left( |\mathcal{O}|^m\right)$ hyperedges, where $m$ is the maximum arity of predicates. 
 
-A thorough explanation of learning conditional effects using hypergraphs is given in Appendix~\ref{sec:app:hypergraph}, and we will summarize the most important findings here. We have explored two different approaches to using hypergraphs, which both come with their own trade-offs.
+A thorough explanation of learning conditional effects using hypergraphs is given in Appendix~\ref{sec:app:hypergraph}.
+% We have explored two different approaches to using hypergraphs, which both come with their own trade-offs.
 
 
 
@@ -69,92 +73,92 @@ A thorough explanation of learning conditional effects using hypergraphs is give
     \end{subfigure}
     \caption{Figure of hypergraphs for example~\ref{ex:ca:hgma:disconnected}.}\label{fig:ex:ca:hgma:ex:disconnected}
 \end{figure}
-
-To summarize the our prior model for preconditions and effects we have the four following sets.
-\begin{description}
-	\item [{Unproven~$B_u$}] The set of all bindings which has
-	neither been proven nor disproven.
-	\item [{Proven~$B_k$}] The set of all bindings which has been
-	proven.
-	\item [{Disproven~$B_d$}] Is the set of bindings and predicates which have
-	been disproven, it can be derived from $B_d={\left( B_u \cup B_k \right)}^c$.
-	\item [{Candidates~$B_c$}] Is a set of bindings where at least one of the bindings is an actual binding.
-	This set like for non-conditional actions are used to prove bindings,
-	which is accomplished through disproving the other candidates in the set.
-\end{description}
-
-
-	\subsection*{Hypergraph}
-	As we have shown we need a model that represent different bindings over any number of predicates.
-	Furthermore, it must provide support for multiple of the same predicates.
-
-	For these reason we have designed a model for predicate bindings using hypergraphs;
-	in this	model a vertex is a single predicate's variable position.
-	For instance, if we modelled the following predicate $p(x,x)$ its vertices would be $p1$ and $p2$ because it contains two variables.
-	The variables position is enumerated in sequence $1\ldots |p|$.
-
-	<\texttt{TODO:} introduction to hypergraphs, edges are sets of vertices>
-
-	In hypergraphs edges can be between more than 2 vertices, we use this to our advantage when modelling bindings.
-	We can define two kinds of edges: one to combine predicate vertices into a single predicate and one to represent bindings.
-
-	The two kinds of edges are defined as follows:
-
-
-	\begin{description}
-		\item [{Predicate~edge}] As  single predicates are represented as several vertices one for each variable
-		it has; a number is used to indicate the order of the variable's
-		positions. This number is appended to the label of the vertex. And an edge is used to connect these vertices together into a single predicate.
-		We choose to visualize this type of edge with a line.\\
-		\begin{tabular}{c  c}
-
-			$p(x, y)$ becomes &
-            \raisebox{-.5\height}{\resizebox{0.16\linewidth}{!}{\input{\master/Graphics/predicateEdge.pgf}}}
-		\end{tabular}
-		\item[{Binding edge}] To represent variables bound together through a common variable (Bindings) we
-		choose to visualize this using normal cloud notation around them.\\
-		\begin{tabular}{c  c}
-
-			$p(x) \land q(x)$ becomes &
-            \raisebox{-.5\height}{\resizebox{0.2\linewidth}{!}{\input{\master/Graphics/bindingEdge.pgf}}}
-		\end{tabular}
-	\end{description}
-
-    A state can thus be represented as a hypergraph by converting each predicate to a set of vertices as described above, and collecting all vertices stemming from variables with the same name in binding edges. A detailed algorithm for this conversion is given in Section~\ref{sec:Impl:HGConstruction}, and an example is provided below.
-
-% In addition to the above, a hypergraph also contains exactly one predicate edge which is labelled as the effect of the pattern the hypergraph describes (as a conditional effect can only have one effect, see~\ref{rst:ca:no-multiple-effect}).
 %
-% Note that a predicate edge will always contain a number of vertices equal to the arity of the predicate, while a binding edge can contain any number of vertices. Furthermore, a binding set can contain several vertices describing the same argument place of the same predicate. To discern vertices, we define them as a tuple containing a name denoting the predicate and the argument place it represents (such as $p_3$), as well as a unique identifier. 
+%To summarize the our prior model for preconditions and effects we have the four following sets.
+%\begin{description}
+%	\item [{Unproven~$B_u$}] The set of all bindings which has
+%	neither been proven nor disproven.
+%	\item [{Proven~$B_k$}] The set of all bindings which has been
+%	proven.
+%	\item [{Disproven~$B_d$}] Is the set of bindings and atoms which have
+%	been disproven, it can be derived from $B_d={\left( B_u \cup B_k \right)}^c$.
+%	\item [{Candidates~$B_c$}] Is a set of bindings where at least one of the bindings is an actual binding.
+%	This set like for non-conditional actions are used to prove bindings,
+%	which is accomplished through disproving the other candidates in the set.
+%\end{description}
 %
-% \begin{proposition}
-%     All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
-% \end{proposition}
-
-\begin{figure}
-    \centering
-        \input{\master/Graphics/sokobanHyperGraph.pgf}
-        \caption{Sokoban state from Example~\ref{ex:ca:sokoban-hypergraph} represented as a hypergraph. Here, $s = \texttt{sokobanAt}$, $adj = \texttt{hAdj}$ and $at = \texttt{at}$}\label{fig:ca:sokoban-hypergraph}
-\end{figure}
-
-\begin{example}\label{ex:ca:sokoban-hypergraph}
-	Consider Example~\ref{ex:ca:sokoban-moveleft-action}. In this we had
-	\begin{align*}
-		\sigma(S_{before}, \delta) =
-			\left\{
-			\begin{gathered}
-				\texttt{adj-h}(x, y), \\
-				\texttt{adj-h}(y, z), \\
-				\texttt{at}(y), \\
-				\texttt{sokobanAt}(z)
-			\end{gathered}
-			\right\}
-	\end{align*}
-	When represented as a hypergraph (see \figref{fig:ca:sokoban-hypergraph}),
-	we see that each binding is clearly visualized and that two of the same predicate (\texttt{adj-h}) can be in the same graph.
-	Also by modelling this as a graph the idea of disproving bindings also
-	becomes explicit as it literally means to remove a vertex from a binding edge.
-	Furthermore, in this model the notion of disjoint predicates (Restriction~\ref{rst:ca:no-disjuntive-conditionals}) is shown by the vertices not being connected through any type of edge.
-\end{example}
+%
+%	\subsection*{Hypergraph}
+%	As we have shown we need a model that represent different bindings over any number of atoms.
+%	Furthermore, it must provide support for multiple of the same atoms.
+%
+%	For these reason we have designed a model for atom bindings using hypergraphs;
+%	in this	model a vertex is a single atom's variable position.
+%	For instance, if we modelled the following atom $p(x,x)$ its vertices would be $p1$ and $p2$ because it contains two variables.
+%	The variables position is enumerated in sequence $1\ldots |p|$.
+%
+%	%<\texttt{TODO:} introduction to hypergraphs, edges are sets of vertices>
+%
+%	In hypergraphs edges can be between more than 2 vertices, we use this to our advantage when modelling bindings.
+%	We can define two kinds of edges: one to combine atom vertices into a single atom and one to represent bindings.
+%
+%	The two kinds of edges are defined as follows:
+%
+%
+%	\begin{description}
+%		\item [{Predicate~edge}] As  single atoms are represented as several vertices one for each variable
+%		it has; a number is used to indicate the order of the variable's
+%		positions. This number is appended to the label of the vertex. And an edge is used to connect these vertices together into a single atom.
+%		We choose to visualize this type of edge with a line.\\
+%		\begin{tabular}{c  c}
+%
+%			$p(x, y)$ becomes &
+%            \raisebox{-.5\height}{\resizebox{0.16\linewidth}{!}{\input{\master/Graphics/predicateEdge.pgf}}}
+%		\end{tabular}
+%		\item[{Binding edge}] To represent variables bound together through a common variable (Bindings) we
+%		choose to visualize this using normal cloud notation around them.\\
+%		\begin{tabular}{c  c}
+%
+%			$p(x) \land q(x)$ becomes &
+%            \raisebox{-.5\height}{\resizebox{0.2\linewidth}{!}{\input{\master/Graphics/bindingEdge.pgf}}}
+%		\end{tabular}
+%	\end{description}
+%
+%    A state can thus be represented as a hypergraph by converting each literal to a set of vertices as described above, and collecting all vertices stemming from variables with the same name in binding edges. A detailed algorithm for this conversion is given in Section~\ref{sec:Impl:HGConstruction}, and an example is provided below.
+%
+%% In addition to the above, a hypergraph also contains exactly one predicate edge which is labelled as the effect of the pattern the hypergraph describes (as a conditional effect can only have one effect, see~\ref{rst:ca:no-multiple-effect}).
+%%
+%% Note that a predicate edge will always contain a number of vertices equal to the arity of the predicate, while a binding edge can contain any number of vertices. Furthermore, a binding set can contain several vertices describing the same argument place of the same predicate. To discern vertices, we define them as a tuple containing a name denoting the predicate and the argument place it represents (such as $p_3$), as well as a unique identifier. 
+%%
+%% \begin{proposition}
+%%     All vertices in a hypergraph $H$ is member of exactly one predicate edge and one binding edge.
+%% \end{proposition}
+%
+%\begin{figure}
+%    \centering
+%        \input{\master/Graphics/sokobanHyperGraph.pgf}
+%        \caption{\label{fig:ca:sokoban-hypergraph}Sokoban state from Example~\ref{ex:ca:sokoban-hypergraph} represented as a hypergraph. Here, $s = \texttt{sokobanAt}$, $adj = \texttt{hAdj}$ and $at = \texttt{at}$}
+%\end{figure}
+%
+%\begin{example}\label{ex:ca:sokoban-hypergraph}
+%	Consider Example~\ref{ex:ca:sokoban-moveleft-action}. In this we had
+%	\begin{align*}
+%		\sigma(S_{before}, \delta) =
+%			\left\{
+%			\begin{gathered}
+%				\texttt{adj-h}(x, y), \\
+%				\texttt{adj-h}(y, z), \\
+%				\texttt{at}(y), \\
+%				\texttt{sokobanAt}(z)
+%			\end{gathered}
+%			\right\}
+%	\end{align*}
+%	When represented as a hypergraph (see \figref{fig:ca:sokoban-hypergraph}),
+%	we see that each binding is clearly visualized and that two of the same atom (\texttt{adj-h}) can be in the same graph.
+%	Also by modelling this as a graph the idea of disproving bindings also
+%	becomes explicit as it literally means to remove a vertex from a binding edge.
+%	Furthermore, in this model the notion of disjoint atoms (Restriction~\ref{rst:ca:no-disjuntive-conditionals}) is shown by the vertices not being connected through any type of edge.
+%\end{example}
 
 
 \end{document}
