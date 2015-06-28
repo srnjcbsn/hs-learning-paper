@@ -3,27 +3,28 @@
 
 Throughout this thesis, we have explored the concepts of learning, including different methods for obtaining knowledge, strategies that guide the selection of actions, as well as different domain models that can be learned from.
 
-We have shown that these concepts can be implemented by an algorithmization of the scientific method, from which we inherit the idea of experimenting to obtain data that can then be analysed to distill facts and falsities.
+We have shown that these concepts can be implemented by an algorithmization of the scientific method, from which we inherit the idea of experimenting to obtain data that can then be analyzed to distill facts and falsities.
 
 	Separate to the act of obtaining knowledge from observations is the concept of achieving situations that may accommodate learning, referred to as learning strategies.
 	Strategies are essential to the discussion of learning, as they define what an agent is able to learn.
 	It is also an unavoidable feature of any intelligent agent, since not having a strategy is a strategy in itself. 
 
-	Initially when one looks at learning from a purely non-conditional perspective, 
-	it seems obvious to conclude that learning is just about the observation of contradictions,
-	and is based purely on logical proofs, as we saw in our proof of non-conditional action learning.
-    However, actions containing conditional effects allow for a more natural way of expressing domains. Therefore, the theory for learning non-conditional actions are mostly valuable as basic reasearch, providing the theoretical foundation for learning more complicated domains.
-	Furthermore, a conditional action must often be executed a number of times before it succeeds, as --- in the worst case --- all possible candidate sets must first be generated.
+	Non-conditional actions are interesting because they represent the problem of learning in its most simple form and provide us with insight into how learning can be achieved.
+	The problem with learning non-conditional actions is that they must often be executed a number of times before they succeeds, as --- in the worst case --- all possible candidate sets must first be generated.
 	
-    For non-conditional actions we provided solutions that compared favourably to those presented in~\cite{Walsh2008} on a numer of metrics: 
-
+    For non-conditional actions we provided solutions that compared favorably to those presented in~\cite{Walsh2008} on a number of areas: 
 \begin{description}
     \item[negative preconditions] Our solution is fairly simple as we just had to consider the absence of atoms in the state. The problem however, is that usually only a small subset of all the possible atoms are in the state at the same time, but with the introduction of negative preconditions, we have to consider all possible atoms all the time.
     \item[negative goals] Secondly we solved the problem with negative goals, the solution of extending the internal planner with a new feature --- planning with spurious actions --- is in our opinion quite ingenious, as it is very simple to implement. 
-    \item[more tractable preconditions] Our implementation of precondition learning requires $O\left(|\lits|^2 \right)$ space, compared to $O\left(|\lits|^k\right)$ required by the original.
+    \item[tractable preconditions] Our implementation of precondition learning requires $O\left(|\lits|^2 \right)$ space, compared to $O\left(|\lits|^k\right)$ required by the original.
 \end{description}
 	
-When we move into the domain of conditional action learning --- which is much closer to the real world --- then the problem is more related to pattern recognition than to logic. This makes sense as machine learning as a field is based on the field of pattern recognition. The underlying truth is that we as logicians often think of preconditions as just that, conditions that must be satisfied in order for effects to happen, and while that is correct it would be more helpful to view them as patterns that allow those effects. Once we change our view of logic formulae to one based on mathematical models --- such as our hypergraph model ---	then comprehension of the problem no longer seems overwhelming but rather a manageable challenge. 
+Initially when one looks at learning from a purely non-conditional perspective, 
+it seems obvious to conclude that learning is just about the observation of contradictions,
+and is based purely on logical proofs, as we saw in our proof of non-conditional action learning.
+However, actions containing conditional effects allow for a more natural way of expressing domains.
+This means that the results are more in-line with general machine learning concepts such as the observation of patterns, 
+and in fact this research shows that for understanding machine learning, it would be valuable to study these perfect prediction models, as they elucidate the problems of learning very clearly. The underlying truth is that we as logicians often think of preconditions as just that, conditions that must be satisfied in order for effects to happen, and while that is correct it would be more helpful to view them as patterns that allow those effects. Once we change our view of logic formulae to one based on mathematical models --- such as our hypergraph model ---	then comprehension of the problem no longer seems overwhelming but rather a manageable challenge. 
 	
 The hypergraph optimization that we have worked on adds the feature of combining many connecting paths that are overlapping into one single graph, which space complexity is not intractable.
 	
@@ -31,7 +32,7 @@ The hypergraph optimization that we have worked on adds the feature of combining
 	this is especially a problem for our merging algorithm (see \Cref{algo:hypergraphmerge}) as it currently have no prevention of these.
 	Our opinion is that given these subgraphs are not incorrect knowledge but rather duplicate knowledge then removal of some of the subgraphs should be a significant improvement.
 	Therefore using suboptimal solutions that run efficiently would suffice for our purpose. 
-	However we have not had time to focus on this aspect, as we have focused on knowledge acquisition and utilization of that knowledge (construction of hypothesis).
+	However we have not had time to focus on this aspect, as we have focused on knowledge acquisition and utilization of that knowledge (construction of hypothetical action schemas).
 	
 	
 	Overall we think that learning algorithms built as an deterministic algorithm as opposed to evolutionary algorithm, can be a viable approach to achieve a learning A.I. However further research is definitely required if we are to undercover all the aspects of what it means to learn.

@@ -5,7 +5,7 @@
 
 In the following, we will show the results of applying the optimistic non-conditional learning algorithm to the sokoban domain described previously. In order to ease the agent's understanding of the  six actions (see Section~\ref{sec:SokobanPDDL}), we have provided two simple sokoban problems, depicted in Figures~\ref{fig:results:train1} and~\ref{fig:results:train2}. 
 
-These problems serve as a training ground for the agent; in order to solve the first problem, the agent must utilize all three actions that operate on the horizontal axis, and to solve the second it must use the ones operating on the vertical axis. It then reuses the knowledge obtained from the training problems to solve the one in Figure~\ref{fig:results:train3}, which requires use of at least five of the six sokoban actions (it can be solved without use of $\texttt{move-h}$ or without use of $\texttt{move-v}$, but not without both).
+These problems serve as a training ground for the agent; in order to solve the first problem, the agent must utilize all three actions that operate on the horizontal axis, and to solve the second it must use the ones operating on the vertical axis. It then reuses the knowledge obtained from the training problems to solve the one in Figure~\ref{fig:results:train3}, which requires use of at least five of the six Sokoban actions (it can be solved without use of $\texttt{move-h}$ or without use of $\texttt{move-v}$, but not without both).
 
 From inspecting the statistics file generated as a result of running the program, it can be seen that the agent conducts a total of 1793 experiments (i.e.\ failed plans) in order to solve the large problem \textit{without} any prior knowledge.
 
@@ -27,13 +27,13 @@ In contrast, solving the two training problems followed by the large one require
     \caption{Sokoban worlds used for training.}\label{fig:results:sokoTraining}
 \end{figure}
 
-In Figures~\ref{fig:res:ekmove} and~\ref{fig:res:pkmove}, graphs showing how much knowledge is obtained over a number of experiments for the \texttt{move-*} actions. Plots for the other four sokoban actions are listed in Appendix~\ref{sec:app:results}.
+In Figures~\ref{fig:res:ekmove} and~\ref{fig:res:pkmove}, graphs showing how much knowledge is obtained over a number of experiments for the \texttt{move-*} actions. Plots for the other four Sokoban actions are listed in Appendix~\ref{sec:app:results}.
 
 % The generated plots for the \texttt{move-*} actions are presented in Figures~\ref{fig:res:ekmove} and~\ref{fig:res:pkmove}, with an explanation of how to read them. Plots for the other four sokoban actions are listed in Appendix~\ref{sec:app:results}.
 
-As can be seen in~\figref{fig:res:ekmoveh}, the agent will execute arbitrary \texttt{move-h} actions, untill it finds a valid one after 20 trials. When that happens, it immediately proves its two positive and negative effects, and disproved all others. In~\figref{fig:res:pkmoveh}, it can be seen that it builds up the set of candidates for each failing action application. Upon action success in step 21, it is able to disprove many positive preconditions and some negative ones, which in turn reduces two candidate sets to singletons, thus proving them.
+As can be seen in~\figref{fig:res:ekmoveh}, the agent will execute arbitrary \texttt{move-h} actions, until it finds a valid one after 20 trials. When that happens, it immediately proves its two positive and negative effects, and disproved all others. In~\figref{fig:res:pkmoveh}, it can be seen that it builds up the set of candidates for each failing action application. Upon action success in step 21, it is able to disprove many positive preconditions and some negative ones, which in turn reduces two candidate sets to singletons, thus proving them.
 
-This pattern is very similar for the \texttt{move-v} action (see Figures~\ref{fig:res:ekmovev} and~\ref{fig:res:pkmovev}), except that its successful actions are delayed; in the first training problem, this action is never applicable, but that is unknown to the agent. It will attempt to apply the \texttt{move-v} action, and only succeed in finding cadidates. These candidates are not reduced until the action succeeds in the second training problem. However, once the agent starts solving the second problem, the \texttt{move-v} action only requires three failed trials before success, as the condidates are used to limit the applicability of the action.
+This pattern is very similar for the \texttt{move-v} action (see Figures~\ref{fig:res:ekmovev} and~\ref{fig:res:pkmovev}), except that its successful actions are delayed; in the first training problem, this action is never applicable, but that is unknown to the agent. It will attempt to apply the \texttt{move-v} action, and only succeed in finding candidates. These candidates are not reduced until the action succeeds in the second training problem. However, once the agent starts solving the second problem, the \texttt{move-v} action only requires three failed trials before success, as the condidates are used to limit the applicability of the action.
 
 \begin{figure}
     \centering
