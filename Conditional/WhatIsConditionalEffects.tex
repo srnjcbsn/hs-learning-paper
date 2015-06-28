@@ -1,7 +1,8 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
-We will now turn our attention to the task of learning action schemas with conditional effects. While we will briefly introduce the core concepts here, a more detailed explanation can be found in~\oldcref{sec:app:pddl}. 
+We will now turn our attention to the task of learning action schemas with conditional effects. 
+We will briefly introduce the core concepts of what conditional effects are, but for a more detailed explanation see~\oldcref{sec:app:pddl}. 
 
 What separates conditional action schemas from their non-conditional counterparts is that instead of relying solely on the arguments the action was invoked with, each effect is determined based on the state the action was applied to. That is, an effect can contain \emph{conditionals} of the form:
 \begin{equation*}
@@ -11,10 +12,16 @@ What separates conditional action schemas from their non-conditional counterpart
 \end{equation*}
 For any interpretation of the variables $\varC\left(\cond\right)$, the \textit{effects} are only applied if the \textit{preconditions} are satisfied. Note that --- in this sense --- a conditional is similar to a non-conditional action with as many parameters as there are objects in the world. 
 
+\begin{definition}[Conditional]
+	An effect of the structure 
+	\begin{equation}
+		\forall_{\textsc{<vars>*}} \; \textsc{<Effect>} \; when \; \textsc{<GD>}
+	\end{equation} is what we will refer to as a conditional.
+\end{definition}
 
 
 See \Cref{ex:ca:sokoban-moveleft-action} for an example of an action with conditional effects. 
 
-In the following sections, we will discuss what problems arise when learning conditional action schemas, analyse the applicability of the methods explored in Chapter~\ref{chp:nca}, and finally discuss new models that are better suited.
+In the following sections, we will discuss what problems arise when learning conditional action schemas, analyse the applicability of the methods explored in \Cref{chp:nca}, and finally discuss new models that are better suited.
 
 \end{document}
