@@ -3,7 +3,7 @@
 \begin{document}
 
 \subsubsection*{Action success}
-When an action $a$ applied to a state $S$ yields a state different from $S$ (such that $\gamma (S, a) \neq S$), then the action application was successful, and none of $A$'s preconditions were violated by $S$, meaning that
+When an action $a$ applied to a state $S$ yields a state different from $S$ (such that $\gamma (S, a) \neq S$)\footnote{$\gamma$ is a state-transition function that takes a state and an action and output the new state, see \Cref{def:pddl:state-trans}.}, then the action application was successful, and none of $A$'s preconditions were violated by $S$, meaning that
 
         \[ \ground\left[Pre^+\right] \subseteq S_t \land
             \ground\left[Pre^-\right] \subseteq \lits \setminus S_t
