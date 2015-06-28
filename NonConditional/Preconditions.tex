@@ -21,9 +21,7 @@ To obtain polynomial space complexity, the authors suggest limiting the maximum 
     \sum_{i=1}^{k} {{|\lits|}\choose{i}} = O \left( |\lits|^k \right)
 \end{equation*}
 
-In contrast, our proposed solution has a space complexity of $O \left( |\lits|^2 \right)$. 
-
-We propose a solution where individual atoms are proven and disproven to be preconditions based on the following observations:
+We propose a solution with space complexity $O \left( |\lits|^2 \right)$, which also supports negative preconditions. With this solution, individual atoms are proven and disproven to be preconditions based on the following observations:
 \begin{itemize}
     \item When $a$ succeeds, there are atoms which, if they had been preconditions, would have caused failure. These can be immediately disproven to be preconditions.
     \item When $a$ fails, there are a number of atoms which could be responsible for the failure if they are preconditions. Although it is indeterminable which of them are preconditions and which are not, this information can be saved and analysed later, when more information is available.
