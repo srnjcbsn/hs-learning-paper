@@ -18,15 +18,14 @@ Note that the above summation does not describe an algorithm, as there is no ter
 
 \section{Algorithm based on the scientific method}
 
-The algorithm presented in \Cref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2--6 in the summation given above, untill the question can be satisfactorily answered.
+The algorithm presented in \Cref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2--6 in the summation given above, until the question can be satisfactorily answered.
 
-In the following we will elaborate on the types and functions used in the algorithmization of the scientific method, and their relevance to learning.
 
 \begin{algorithm}
     \caption{Abstract learning algorithm based on the scientific method.}\label{algo:science}
 
     \begin{algorithmic}
-        \Function~{$\textsc{Learn}$} {\texttt{Question} $q$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
+        \Function{$\textsc{Learn}$}{\texttt{Question} $q$, \texttt{Strategy} $s$, \texttt{Knowledge} $k$, \texttt{World} $w$}
             \While{$\neg canAnswer(q, k, w)$}
                 %\State{$k \gets k + inquire(w, q)$}
                 \State{\texttt{Hypothesis} $h \gets form(q, k, s)$}
@@ -44,8 +43,10 @@ In the following we will elaborate on the types and functions used in the algori
     \end{algorithmic}
 \end{algorithm}
 
+In the following we will elaborate on the types and functions used in the algorithmization of the scientific method, and their relevance to learning.
+
 \paragraph*{World}
-In the context of this algorithm, it is assumed that the world is discrete and deterministic, ie.\ that it is only changed by the actions of the learning agent (specifically when the agent performs experiments).
+In the context of this algorithm, it is assumed that the world is discrete and static, ie.\ that it is only changed by the actions of the learning agent (specifically when the agent performs experiments). For an elaboration on these terms, see e.g.~\cite{Russell}. 
 
 \paragraph*{Question}
 %In the context of learning, the formulation of the question depends on whether the agent is goal-driven or hypothesis-driven; in the first case, the question will typically be posed as a problem that must be solved (``How do we transition to state $t$?''). In the second case, it will take the more general form ``How does this domain work?''.
@@ -60,7 +61,7 @@ Note that for these broad question a hypothesis that answers the question, is ge
 
 
 \paragraph*{Strategy}
-The strategy determines how the agent forms hypotheses and chooses experiments to perform, and is as such essential to how the agent learns. Different learning strategies and their traits are described in Section~\ref{sec:strats}.
+The strategy determines how the agent forms hypotheses and chooses experiments to perform, and is as such essential to how the agent learns. Different learning strategies and their traits are described in Section~\ref{sec:Strategy}.
 
 \paragraph*{Hypothesis}
 Hypotheses are created and discarded in an ad-hoc manner, since we are only interested in the knowledge they allowed us to obtain. It is therefore presumed that given the knowledge derived from performing experiments based on the hypothesis, the question can be answered satisfactorily without knowledge of the hypothesis.
