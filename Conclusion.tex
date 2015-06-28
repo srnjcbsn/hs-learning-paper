@@ -5,7 +5,7 @@ Throughout this thesis, we have explored the concepts of learning, including dif
 
 We have shown that these concepts can be implemented by an algorithmization of the scientific method, from which we inherit the idea of experimenting to obtain data that can then be analysed to distill facts and falsities.
 
-	Separate to the act of obtaining knowledge from observations is the concept of achieving situations that may accommodate learning, referred to as a learning strategy.
+	Separate to the act of obtaining knowledge from observations is the concept of achieving situations that may accommodate learning, referred to as learning strategies.
 	Strategies are essential to the discussion of learning, as they define what an agent is able to learn.
 	It is also an unavoidable feature of any intelligent agent, since not having a strategy is a strategy in itself. 
 
@@ -14,17 +14,14 @@ We have shown that these concepts can be implemented by an algorithmization of t
 	it seems obvious to conclude that learning is just about the observation of contradictions,
 	and is based purely on logical proofs, as we saw in our proof of non-conditional action learning.
     However, actions containing conditional effects allow for a more natural way of expressing domains. Therefore, the theory for learning non-conditional actions are mostly valuable as basic reasearch, providing the theoretical foundation for learning more complicated domains.
-	% However the problem non-conditional action schemas is, for starters 
-	% these sort of domains are not a natural way of expressing actions, 
-	% usually actions contain conditional effects therefore these theory for learning them, 
-	% while interesting, may not be useful in actual environments.
 	Furthermore, a conditional action must often be executed a number of times before it succeeds, as --- in the worst case --- all possible candidate sets must first be generated.
 	
-	For non-conditional actions we provided solutions that removed two of the restrictions outlined in \cite{Walsh2008} for their algorithms.
-	First one is negative preconditions, our solution is fairly simple as we just had to consider the absence of atoms in the state.
-	The problem however, is that usually only a small subset of all the possible atoms are in the state at the same time, 
-	but with the introduction of negative preconditions, we have to consider all possible atoms all the time.
-	Secondly we solved the problem with negative goals, the solution of extending the internal planner with a new feature --- planning with spurious actions --- is in our opinion quite ingenious, as it is very simple to implement. 
+	For non-conditional actions we provided solutions that removed two of the restrictions outlined in~\cite{Walsh2008} for their algorithms:
+\begin{description}
+    \item[negative preconditions] Our solution is fairly simple as we just had to consider the absence of atoms in the state. The problem however, is that usually only a small subset of all the possible atoms are in the state at the same time, but with the introduction of negative preconditions, we have to consider all possible atoms all the time.
+    \item[negative goals] Secondly we solved the problem with negative goals, the solution of extending the internal planner with a new feature --- planning with spurious actions --- is in our opinion quite ingenious, as it is very simple to implement. 
+    \item[unlimited number of preconditions]
+\end{description}
 	
 	
 	When we move into the domain of conditional action learning --- which is much closer to the real world --- 
