@@ -3,7 +3,7 @@
 
 \begin{document}
 
-Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown above) now describes how the atoms in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the atom edge describing $p$ as an effect.
+Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown in Section~\ref{sec:ca:hgintro}) now describes how the atoms in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the atom edge describing $p$ as an effect.
 
 Such a hypergraph describes which bindings were present in $\ts(s)$ when the effect $p$ occurred, and how $p$ is connected to them. In other words, it denotes the preconditions for the conditional that spawned $p$ which has not been disproven, and any binding \textit{not} in the hypergraph is disproven to be a precondition.
 
@@ -19,11 +19,11 @@ Recall that any two literals $p$ and $q$ in $\Delta S$ with the same name are ef
 
 In the following, we will assume availability of such a merging function (denoted $merge$), and a detailed algorithm can be found in Section~\ref{sec:C:HGMerging}.
 
-From the above, it follows that all grounded literals with name $n$ in $\Delta\left(s, s'\right)$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be literals, and can as such be reused in another transition. This hypergraph describes the unknown knowledge $U$.
+From the above, it follows that all grounded literals with name $n$ in $\Delta S$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be literals, and can as such be reused in another transition. This hypergraph describes the unknown knowledge $U$.
 
-As with connecting paths, we have the concept of candidates, i.e.\ reasons a conditional could have failed in a certain interpretation. Recall that such a reason is a connecting path that was not present in the failing state. Since vertices in a hypergraph can be uniquely identified, and paths to the effect can be described by a binding to another vertex that is itself transitively connected, a candidate for failure can be encoded as a tuple of two vertices. I.e.\ it is sufficient to record the last component of the offending connecting path.
+As with connecting paths, we have the concept of candidates, i.e.\ reasons a conditional could have failed in a certain interpretation. Recall that such a reason is a connecting path that was not present in the failing state. Since vertices in a hypergraph can be uniquely identified, and paths to the effect can be described by a binding to another vertex that is itself transitively connected, a candidate for failure can be encoded as a pair of vertices. I.e.\ it is sufficient to record the last component of the offending connecting path. Note that this pair can represent several connecting paths.
 
-Similarly to nonconditional actions and connection paths, a candidate is proven to be a precondition if the candidate set it is part of is reduced to the singleton set. Such a reduction can be accomplished by removing tuples from a candidate set if there is no binding edge in $U$ containing both vertices of the tuple. Given a set $c$ of vertex tuples and the set of binding edges from $U$, the $reduce$ function removes candidates from $c$ as described above.
+Similarly to nonconditional actions and connection paths, a candidate is proven to be a precondition if the candidate set it is part of is reduced to the singleton set. Such a reduction can be accomplished by removing pairs from a candidate set if there is no binding edge in $U$ containing both vertices of the pair. Given a set $c$ of vertex pairs and the set of binding edges of $U$, the $reduce$ function removes candidates from $c$ as described above.
 
 \begin{equation*}
     reduce(c, E_B) =
@@ -43,7 +43,7 @@ Given a candidate set $C$, the proven preconditions can now be seen as the singl
 
 As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not necessarily identical, the $merge$ function must also perform an identifier renaming. Thus, the $reduce$ function ascribed above will not work with the merged $U$, as the vertex identifiers will not match, and vertices in $U$ can not be matched with those in $K$. Therefore, $merge$ should return the renaming function used, so that it can be applied to $C$ and $K$.
 
-As described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex in a binding edge in $U$ were in fact two. If that is the case, the renaming function will replace that vertex with two equally-named vertices with different identfiers, both part of the binding edge the original vertex was part of. 
+As described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex in a binding edge in $U$ were in fact two. If that is the case, the renaming function will replace that vertex with two equally-named vertices with different identifiers, both part of the binding edge the original vertex was part of. 
 
 Thus, when this renaming is applied to a candidate tuple $(u,v)$, it produces $|rn(u)| \times |rn(v)|$ tuples, which replaces $(u,v)$ in the candidate set, i.e.\ 
 
@@ -55,43 +55,48 @@ Thus, when this renaming is applied to a candidate tuple $(u,v)$, it produces $|
     \right\}
 \end{equation*}
 
+Observe that since the proven knowledge $K(C)$ is comprised of the singleton candidates, some ``proven'' knowledge may --- in a later transition --- be degraded to regular candidates. As such, knowledge can never be said to be decidedly proven.
+
 % As $K$ is a union of singleton candidate sets, each vertex pair $(u,v) \in K$ can be renamed as $rnCands( \{ (u,v) \}, rn)$. If the set returned is a singleton set $\left\{ \left( u, v \right) \right\}$, then $\left(u, v\right)$ is 
 % The same renaming method is applied to all vertex pairs $(u,v)$ in $K$, with an added restriction: if $|rn(u)| > 1$, then 
 %
 % A similar method is required for the set of proven preconditions $K$, with an added restriction: If $|rnTuple( (u,v), rn)| = 1$ for a tuple $(u,v) \in K$, then the singleton set is retained in $K$. Otherwise, $rnTuple( (u,v), rn)$ is added to $C$.
 
-\begin{equation*}
-    rnTuple\left( (u,v), rn \right) =
-    \left\{
-        \left( u', v' \right) \mid u' \in rn(u) \land v' \in rn(v)
-    \right\}
-\end{equation*}
+% \begin{equation*}
+%     rnTuple\left( (u,v), rn \right) =
+%     \left\{
+%         \left( u', v' \right) \mid u' \in rn(u) \land v' \in rn(v)
+%     \right\}
+% \end{equation*}
+
+In \Cref{algo:CondEffLearn}, an algorithm for updating knowledge about a single conditional is provided. The \textsc{Update-Knowledge} function takes as input a predicate $n$, a state transition, a hypergraph $U$ describing the unknown knowledge, as well as a set of candidates $\Cand$. It then merges $U$ with hypergraphs for all effects in the state transition with the same name as $n$, performs renaming (as explained above), and updates the set of candidates. Note that for a single state transition, this function should be called for every predicate in $\preds$, and an unknown hypergraph as well as a set of candidates should be maintained for every predicate in $\preds$.
 
 \begin{algorithm}
     \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
     \begin{algorithmic}
-        \Function{Update-Knowledge}{$n$, $\Delta s$, $U$, $K$, $C$}
+        \Function{Update-Knowledge}{$n$, $(S,a,S')$, $U$, $\Cand$}
             \ForAll{literals $p \in \Delta s$ with name $n$}
-                \State{$H_p \gets hypergraph(p, s)$}
+                \State{$H_p \gets hypergraph(p, S)$}
                 \State{$\left(U, r \right) \gets merge \left( U, H_p \right)$}
-                \State{$\left( C, K \right) \gets rename(r, C, K)$}
+                \State{$\Cand \gets rnCands(\Cand, r)$}
                 % \State{$C \gets \left\{ rnCands(c, rn) \mid c \in C \right\}$}
                 % \State{$K \gets rnKnown(K, rn) $}
             \EndFor
             \ForAll{literals $q \notin \Delta s$ with name $n$}
                 \State{$H_q \gets hypergraph(q, s)$}
-                \State{$C \gets C \cup cands\left( H_q, U \right)$}
+                \State{$\Cand \gets \Cand \cup cands\left( H_q, U \right)$}
             \EndFor
-            \State{$C = \left\{ reduce\left(c, U\right) \mid c \in C \right\}$}
-            \State{Remove any singleton sets from $C$, and add them to $K$}
+            \State{$\Cand = \left\{ reduce\left(c, U\right) \mid c \in C \right\}$}
+            % \State{Remove any singleton sets from $C$, and add them to $K$}
+            \State\Return{$(U,\Cand)$}
         \EndFunction
 
-        \Function{$\textsc{Conditional-Effect-Learn}$} {$\left( s, a, s'\right)$, $U$, $K$, $C$}
-            \ForAll{predicate names $n$}
-                \State{$\left(U_n, K_n, C_n\right) = UpdateKnowledge\left(n, \Delta s, U_n, K_n, C_n \right)$}
-            \EndFor
-            \State\Return{$\left( U, K, C\right)$}
-        \EndFunction%
+        % \Function{$\textsc{Conditional-Effect-Learn}$} {$\left( s, a, s'\right)$, $U$, $K$, $C$}
+        %     \ForAll{predicate names $n$}
+        %         \State{$\left(U_n, K_n, C_n\right) = UpdateKnowledge\left(n, \Delta s, U_n, K_n, C_n \right)$}
+        %     \EndFor
+        %     \State\Return{$\left( U, K, C\right)$}
+        % \EndFunction%
     \end{algorithmic}
 \end{algorithm}
 
