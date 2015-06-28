@@ -33,9 +33,9 @@ In the following we will elaborate on the types and functions used in the algori
                 \State{\texttt{Experiment} $e \gets design(w, h, s)$}
                 \If{an experiment could be found}
                     \State{$(\texttt{Result} \, r, w) \gets conduct(e, w)$}
-                    \State{$k \gets k + analyse(r, k)$}
+                    \State{$k \gets k \cup analyse(r, k)$}
                 \Else%
-                    \State{$k \gets k + inquire(w, q)$}
+                    \State{$k \gets k \cup inquire(w, q)$}
                 \EndIf%
                 \State{$s \gets update(s, k)$}
             \EndWhile%
