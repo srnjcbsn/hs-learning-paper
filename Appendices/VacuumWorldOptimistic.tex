@@ -1,0 +1,452 @@
+\providecommand{\master}{..}
+\documentclass[\master/Master.tex]{subfiles}
+\begin{document}
+In this appendix we will provide a full example of an agent trying to learn vacuum world. 
+Furthermore, in this example the agent has been extended with both negative goals and negative preconditions feature.
+
+Predicates in domain: 
+\begin{equation*}
+	\preds = \{adj,at,dirty\}
+\end{equation*}
+
+The actual real definition of its actions:
+\begin{align*}
+	Move(from,to) &: \\
+	\lits_{move} &: 
+			\left\{
+				\begin{gathered}
+					\texttt{adj}(from,to), \texttt{adj}(from,from), \\
+					\texttt{adj}(to,to), \texttt{adj}(to,from), \\
+					\neg \texttt{adj}(from,to), \neg \texttt{adj}(from,from), \\
+					\neg \texttt{adj}(to,to), \neg \texttt{adj}(to,from), \\					
+					\texttt{at}(to), \texttt{at}(from), \\
+					\neg \texttt{at}(to), \neg \texttt{at}(from), \\					
+					\texttt{dirty}(to), \texttt{dirty}(from), \\
+					\neg \texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+				\end{gathered}
+				\right\}
+				\\
+	Pre &: 
+	\begin{gathered}
+		\texttt{adj}(from,to) \land \texttt{at}(from)\\
+	\end{gathered}
+	\\
+	Eff &: \{
+	\begin{gathered}
+		\neg \texttt{at}(from), \texttt{at}(to)\\
+	\end{gathered}\}
+	\\
+\end{align*}
+
+\begin{align*}
+	suck(t) &: \\
+	&\lits_{suck} : 
+	\left\{
+	\begin{gathered}
+		\texttt{adj}(t,t), \neg \texttt{adj}(t,t), \\					
+		\neg \texttt{at}(t), \texttt{at}(t), \\			
+		\neg \texttt{dirty}(t), \texttt{dirty}(t), \\
+	\end{gathered}
+	\right\}
+	\\
+	& Pre : 
+	\begin{gathered}
+		\texttt{at}(t)
+	\end{gathered}
+	\\
+	& Eff : \{
+	\begin{gathered}
+		\neg \texttt{dirty}(from)
+	\end{gathered}\}
+	\\
+\end{align*}
+All objects in the world:
+\begin{equation*}
+	\objs = \{t1,t2\}
+\end{equation*}
+
+Initial state:
+    \begin{equation*}
+        S_0 =
+        \left\{
+            \begin{gathered}
+                \texttt{at}(t1),\texttt{dirty}(t2) \\
+                \texttt{adj}(t1,t2), \texttt{adj}(t2,t1), \\
+            \end{gathered}
+        \right\}
+    \end{equation*}
+The goal the agent is trying to solve:
+\begin{equation*}
+	\goal = \neg \texttt{dirty}(t1) \land \neg \texttt{dirty}(t2) 
+\end{equation*}
+
+Initial knowledge:
+\begin{align*}
+	Move_{\Dsp_E0} &=\{\} \\
+	Move_{\Pro_E0} &=\{\} \\	
+	Move_{\Dsp_P0} &=\{\} \\
+	Move_{\Pro_P0} &=\{\} \\
+	Move_{\cset_P0}& =\{\} \\	
+	Suck_{\Dsp_E0} &=\{\} \\
+	Suck_{\Pro_E0} &=\{\} \\	
+	Suck_{\Dsp_P0} &=\{\} \\
+	Suck_{\Pro_P0} &=\{\} \\
+	Suck_{\cset_P0}& =\{\} 	
+\end{align*}
+The optimistic hypothesis action schemas\footnote{We will not show \lits as it is the same for all action schemas} built from knowledge 0\footnote{We will use same variable names, but in reality these are unknown to the agent. It will merely see it as x and y}:
+\begin{align*}
+	Move(from,to) &: \\
+	Pre &: 
+	\\
+	Eff &: 
+	\left\{
+	\begin{gathered}
+		\texttt{adj}(from,to), \texttt{adj}(from,from), \\
+		\texttt{adj}(to,to), \texttt{adj}(to,from), \\
+		\neg \texttt{adj}(from,to), \neg \texttt{adj}(from,from), \\
+		\neg \texttt{adj}(to,to), \neg \texttt{adj}(to,from), \\					
+		\texttt{at}(to), \texttt{at}(from), \\
+		\neg \texttt{at}(to), \neg \texttt{at}(from), \\					
+		\texttt{dirty}(to), \texttt{dirty}(from), \\
+		\neg \texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+	\end{gathered}
+	\right\}
+	\\
+\end{align*}
+
+\begin{align*}
+	suck(t) &: \\
+	& Pre : 
+	\\
+	& Eff : 
+	\left\{
+	\begin{gathered}
+		\texttt{adj}(t,t), \neg \texttt{adj}(t,t), \\					
+		\neg \texttt{at}(t), \texttt{at}(t), \\			
+		\neg \texttt{dirty}(t), \texttt{dirty}(t), \\
+	\end{gathered}
+	\right\}
+	\\
+\end{align*}
+Planning 1:
+\begin{align*}
+	Plan &= [Move(t2,t2)]\\
+	S_{final} &=  \left\{
+	\begin{gathered}
+		\texttt{adj}(t1,t2), \texttt{adj}(t2,t1), \\
+	\end{gathered}
+	\right\}\\
+	\undefset_{final} &= \{\texttt{at}(t1),\texttt{dirty}(t1), \texttt{adj}(t1,t1) \}
+\end{align*}
+
+Do action Move(t2,t2) in state $S_0$
+
+\begin{align*}
+	S_1 = S_0 = \left\{
+	\begin{gathered}
+		\texttt{at}(t1),\texttt{dirty}(t2) \\
+		\texttt{adj}(t1,t2), \texttt{adj}(t2,t1), \\
+	\end{gathered}
+	\right\} 
+\end{align*}
+
+Update knowledge 1 for move:
+\begin{align*}	
+	Move_{\cset_P1}& =\left\{
+			\left\{
+			\begin{gathered}
+				\texttt{at}(to), \texttt{at}(from), \\
+				\neg \texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+				\texttt{adj}(from,to),  \texttt{adj}(from,from), \\
+				\texttt{adj}(to,to), \texttt{adj}(to,from)
+			\end{gathered}
+			\right\}
+	  \right\} \\
+\end{align*}
+Update action schema 1 for move:
+\begin{align*}
+	Move(from,to) &: \\
+	Pre &: \left(
+	\begin{gathered}
+		\texttt{at}(to) \lor \texttt{at}(from) \lor  \\
+		\neg \texttt{dirty}(to) \lor  \neg \texttt{dirty}(from) \lor  \\
+		\texttt{adj}(from,to) \lor   \texttt{adj}(from,from) \lor  \\
+		\texttt{adj}(to,to) \lor  \texttt{adj}(to,from)
+	\end{gathered}
+	\right)
+	\\
+	Eff &: 
+	\left\{
+	\begin{gathered}
+		\texttt{adj}(from,to), \texttt{adj}(from,from), \\
+		\texttt{adj}(to,to), \texttt{adj}(to,from), \\
+		\neg \texttt{adj}(from,to), \neg \texttt{adj}(from,from), \\
+		\neg \texttt{adj}(to,to), \neg \texttt{adj}(to,from), \\					
+		\texttt{at}(to), \texttt{at}(from), \\
+		\neg \texttt{at}(to), \neg \texttt{at}(from), \\					
+		\texttt{dirty}(to), \texttt{dirty}(from), \\
+		\neg \texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+	\end{gathered}
+	\right\}
+	\\
+\end{align*}
+
+Planning 2:
+\begin{align*}
+	Plan &= [Move(t2,t1)]\\
+	S_{final} &=  \{\}\\
+	\undefset_{final} &= \left\{
+				\begin{gathered}
+					\texttt{at}(t1), \texttt{at}(t2), \\
+					\texttt{dirty}(t1), \texttt{dirty}(t2), \\
+					\texttt{adj}(t1,t2),  \texttt{adj}(t2,t1) \\
+				\end{gathered}
+				\right\}
+\end{align*}
+
+Do action Move(t2,t1) in state $S_1$:
+
+\begin{align*}
+	S_2 = S_1 = \left\{
+	\begin{gathered}
+		\texttt{at}(t1),\texttt{dirty}(t2) \\
+		\texttt{adj}(t1,t2), \texttt{adj}(t2,t1), \\
+	\end{gathered}
+	\right\} 
+\end{align*}
+Update knowledge 2 for move:
+\begin{align*}	
+	Move_{\cset_P2}& =\left\{
+	\begin{gathered}
+	\left\{
+	\begin{gathered}
+		\neg \texttt{at}(to), \texttt{at}(from), \\
+		\texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+		\neg \texttt{adj}(from,to),  \texttt{adj}(from,from), \\
+		\texttt{adj}(to,to), \neg  \texttt{adj}(to,from)
+	\end{gathered}
+	\right\},\\
+	\left\{
+	\begin{gathered}
+		\texttt{at}(to), \texttt{at}(from), \\
+		\neg \texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+		\texttt{adj}(from,to),  \texttt{adj}(from,from), \\
+		\texttt{adj}(to,to), \texttt{adj}(to,from)
+	\end{gathered}
+	\right\}\\
+	\end{gathered}
+	\right\} \\
+\end{align*}	  
+
+Update action schema 2 for move:
+\begin{align*}
+	Move(from,to) &: \\
+	Pre &:
+	\left( 
+	\begin{gathered}
+	\left(
+	\begin{gathered}
+		\texttt{at}(to) \lor \texttt{at}(from) \lor  \\
+		\neg \texttt{dirty}(to) \lor  \neg \texttt{dirty}(from) \lor  \\
+		\texttt{adj}(from,to) \lor   \texttt{adj}(from,from) \lor  \\
+		\texttt{adj}(to,to) \lor  \texttt{adj}(to,from)
+	\end{gathered}
+	\right) \\ 
+	\land \\
+	\left(
+	\begin{gathered}
+		\neg \texttt{at}(to)\lor  \texttt{at}(from)\lor  \\
+		\texttt{dirty}(to)\lor  \neg \texttt{dirty}(from)\lor  \\
+		\neg \texttt{adj}(from,to)\lor   \texttt{adj}(from,from)\lor  \\
+		\texttt{adj}(to,to)\lor  \neg  \texttt{adj}(to,from)
+	\end{gathered}
+	\right)\\
+	\end{gathered}
+	\right)\\
+	\\
+	Eff &: 
+	\left\{
+	\begin{gathered}
+		\texttt{adj}(from,to), \texttt{adj}(from,from), \\
+		\texttt{adj}(to,to), \texttt{adj}(to,from), \\
+		\neg \texttt{adj}(from,to), \neg \texttt{adj}(from,from), \\
+		\neg \texttt{adj}(to,to), \neg \texttt{adj}(to,from), \\					
+		\texttt{at}(to), \texttt{at}(from), \\
+		\neg \texttt{at}(to), \neg \texttt{at}(from), \\					
+		\texttt{dirty}(to), \texttt{dirty}(from), \\
+		\neg \texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+	\end{gathered}
+	\right\}
+	\\
+\end{align*}
+
+Planning 3:
+\begin{align*}
+	Plan &= [Move(t1,t2)]\\
+	S_{final} &=  \{\}\\
+	\undefset_{final} &= \left\{
+	\begin{gathered}
+		\texttt{at}(t1), \texttt{at}(t2), \\
+		\texttt{dirty}(t1), \texttt{dirty}(t2), \\
+		\texttt{adj}(t1,t2),  \texttt{adj}(t2,t1) \\
+	\end{gathered}
+	\right\}
+\end{align*}
+
+Do action Move(t1,t2) in state $S_2$:
+
+\begin{align*}
+	S_3 &= \left\{
+	\begin{gathered}
+		\texttt{at}(t2),\texttt{dirty}(t2) \\
+		\texttt{adj}(t1,t2), \texttt{adj}(t2,t1), \\
+	\end{gathered}
+	\right\}\\
+	\geffects_3 &= \left\{
+	\begin{gathered}
+		\texttt{at}(t2), \neg \texttt{at}(t1)
+	\end{gathered}
+	\right\}\\ 
+\end{align*}
+
+Update knowledge 3 for move:
+\begin{align*}
+	Move_{\Dsp_E1} &=\left\{
+	\begin{gathered}
+		\texttt{adj}(from,from), \texttt{adj}(to,to) \\
+		\neg \texttt{adj}(from,to), \neg \texttt{adj}(to,from), \\					
+		\texttt{at}(from), \neg \texttt{at}(to), \\					
+		\texttt{dirty}(from), \neg \texttt{dirty}(to) \\
+	\end{gathered}
+	\right\} \\
+	Move_{\Pro_E1} &=\{ \texttt{at}(to), \neg \texttt{at}(from)\} \\	
+	Move_{\Dsp_P1} &=\left\{
+	\begin{gathered}
+		\texttt{adj}(from,from), \texttt{adj}(to,to), \\
+		\neg \texttt{adj}(from,to), \neg \texttt{adj}(to,from), \\					
+		\texttt{at}(to), \neg \texttt{at}(from), \\					
+		\texttt{dirty}(from), \neg \texttt{dirty}(to) \\
+	\end{gathered}
+	\right\} \\
+	Move_{\Pro_P0} &=\{\} \\
+	Move_{\cset_P3}& =\left\{
+	\begin{gathered}
+		\left\{
+		\begin{gathered}
+			\neg \texttt{at}(to), \texttt{at}(from), \\
+			\texttt{dirty}(to), \neg \texttt{dirty}(from) \\
+		\end{gathered}
+		\right\},\\
+		\left\{
+		\begin{gathered}
+			\texttt{at}(from), \\
+			\neg \texttt{dirty}(from), \\
+			\texttt{adj}(from,to),   \\
+			\texttt{adj}(to,from)
+		\end{gathered}
+		\right\}\\
+	\end{gathered}
+	\right\} \\   	
+\end{align*}  
+
+Update action schema 3 for move:
+\begin{align*}
+	Move(from,to) &: \\
+	Pre &:
+	\left( 
+	\begin{gathered}
+		\left(
+		\begin{gathered}
+			\neg \texttt{at}(to)\lor \texttt{at}(from) \lor \\
+			\texttt{dirty}(to)\lor \neg \texttt{dirty}(from) \\
+		\end{gathered}
+		\right) \\ 
+		\land \\
+		\left(
+		\begin{gathered}
+			\texttt{at}(from)\lor \\
+			\neg \texttt{dirty}(from)\lor \\
+			\texttt{adj}(from,to)\lor   \\
+			\texttt{adj}(to,from)
+		\end{gathered}
+		\right)\\
+	\end{gathered}
+	\right)\\
+	\\
+	Eff &: 
+	\left\{
+	\begin{gathered}
+		\texttt{adj}(from,to), \texttt{adj}(to,from), \\
+		\neg \texttt{adj}(from,from), \neg \texttt{adj}(to,to), \\					
+		\texttt{at}(to), \neg \texttt{at}(from), \\					
+		\texttt{dirty}(to), \neg \texttt{dirty}(from), \\
+	\end{gathered}
+	\right\}
+\end{align*}
+  
+  Planning 4:
+  \begin{align*}
+  	Plan &= [Suck(t2)]\\
+	S_{final} &=  \left\{
+	\begin{gathered}
+		\texttt{adj}(t1,t2), \texttt{adj}(t2,t1), \\
+	\end{gathered}
+	\right\}\\
+	\undefset_{final} &= \{\texttt{at}(t2),\texttt{dirty}(t2), \texttt{adj}(t1,t1) \}
+  \end{align*}
+  
+  Do action Suck(t2) in state $S_3$:
+  
+  \begin{align*}
+  	S_4 &= \left\{
+  	\begin{gathered}
+  		\texttt{at}(t2)
+  		\texttt{adj}(t1,t2), \texttt{adj}(t2,t1), \\
+  	\end{gathered}
+  	\right\}\\
+  	\geffects_4 &= \left\{
+  	\begin{gathered}
+  		\neg \texttt{dirty}(t2)
+  	\end{gathered}
+  	\right\}\\ 
+  \end{align*}
+  (solved goal, but continue updating knowledge)
+  
+Update knowledge 4 for suck:
+  \begin{align*}
+  	Suck_{\Dsp_E0} &=\left\{
+  	\begin{gathered}
+  		\texttt{adj}(t,t), \\					
+  		\neg \texttt{at}(t), \texttt{dirty}(t), \\
+  	\end{gathered}
+  	\right\} \\
+  	Suck_{\Pro_E0} &=\{\texttt{dirty}(t)\} \\	
+  	Suck_{\Dsp_P0} &=\left\{
+  	\begin{gathered}
+  		\neg \texttt{adj}(t,t), \\					
+  		\neg \texttt{at}(t), \\			
+  		\neg \texttt{dirty}(t) \\
+  	\end{gathered}
+  	\right\} \\
+  	Suck_{\Pro_P0} &=\{\} \\
+  	Suck_{\cset_P0}& =\{\} 	
+  \end{align*}
+  
+  Update action schema 4 for suck:
+\begin{align*}
+	suck(t) &: \\
+	& Pre : 
+	\\
+	& Eff : 
+	\left\{
+	\begin{gathered}
+		\neg \texttt{adj}(t,t), \\					
+		\texttt{at}(t), \\			
+		\neg \texttt{dirty}(t), \\
+	\end{gathered}
+	\right\}
+	\\
+\end{align*}
+  
+After update see goal has been successfully solved!  
+\end{document}
