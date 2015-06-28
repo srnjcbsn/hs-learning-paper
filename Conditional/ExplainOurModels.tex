@@ -22,7 +22,7 @@ Using connecting paths to represent knowledge requires a large amount of redunda
 
 While joining paths as described above removes redundant tails, there are still duplicate vertices in the resulting trees. Specifically, if two subtrees $T_1$ and $T_2$ are rooted in the same vertex (originating from the same argument of the same atom), then these two subtrees can be merged into one inheriting the children of both $T_1$ and $T_2$. If $T_1$'s parent is also $T_2$'s child, then this merging forms a cycle, and results in a cyclic, undirected \emph{path graph} $G = (V, E)$. 
 
-The edges in a path graph can be divided into two sets: those labelled $\bc$, and those labelled $\pc$, denoted $E_B$ and $E_P$, respectively.
+The edges in a path graph can be divided into two sets: those labelled $\bc$, and those labelled $\pc$, denoted $E_B$ and $E_A$, respectively.
 
 \begin{example}[Path graphs from path trees]\label{ex:ca:pathGraph}
     For the path tree constructed in Example~\ref{ex:ca:pathTrees}, the two subtrees of $p_2$ ($g_1 \bc m_1$ and $m_1 \bc g_1$) are mutually redundant, as both denote that $g_1$, $m_1$ and $p_2$ are $\bc$-connected. Therefore, they can be replaced with the cycle depicted in~\figref{fig:ca:graphExGraph}. 
@@ -51,7 +51,7 @@ A thorough explanation of learning conditional effects using hypergraphs is give
 
 Proven knowledge and candidates can be represented as pairs of vertices rather than sets of complete paths. As a vertex pair can represent several connecting paths, candidates can more easily be reduced to singleton sets. However, candidate sets can also be expanded, and as such knowledge is never decidedly proven to hold (although we still operate with singleton candidates as ``proven'' knowledge, for the sake of planning).
 
-We have provided a merging algorithm, which can combine the knowledge from two hypergraphs into one, disproving connections to be preconditions. However, this algorithm adds redundant, mutually isomorphic subhypergraphs to the resulting hypergraph, possibly expanding it instead of shrinking it. Removing these redundancies seems to be an NP-complete problem, although approximation algorithms do exist. As these redundancies is a problem of efficiency rather than correctness, an approximation algorithm removing a \emph{most} of them could be desirable.
+We have provided a merging algorithm (See \Cref{sec:app:hypergraph}), which can combine the knowledge from two hypergraphs into one, disproving connections to be preconditions. However, this algorithm adds redundant, mutually isomorphic subhypergraphs to the resulting hypergraph, possibly expanding it instead of shrinking it. Removing these redundancies seems to be an NP-complete problem, although approximation algorithms do exist. As these redundancies is a problem of efficiency rather than correctness, an approximation algorithm removing a \emph{most} of them could be desirable.
 
 \begin{figure}
     \centering

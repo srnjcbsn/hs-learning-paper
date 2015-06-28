@@ -172,17 +172,17 @@ If we wanted to guarantee that is it always \texttt{Exploitative} then  its effe
 	\end{equation}
 
     In order for this to work the planner must support three valued logic \cite{putnam1957a}, or planning with spurious actions (see~\cite{Russell}).
-	Such a planner would, when encountering an effect $p$ in an effect set \geffects that is to be added and deleted (is spurious), add it to a special undefined set $\undefset$.
+	Such a planner would, when encountering an effect $p$ in an effect set \geffects that is both positive and negative (is spurious), add it to a special undefined set $\undefset$.
 	If however the effect is not spurious meaning it is either positive or negative then it is removed from $\undefset$.
 
 			\begin{equation}
 				\begin{split}
 					Spurious~\geffects_{spur} &= \{ p \mid p \in \geffects \land \neg p \in \geffects \} \\
 					Non\text{-}Spurious~\geffects_{non\texttt{-}spur} &= \{ p \mid (p \in \geffects \land \neg p \notin \geffects ) \lor (p \notin \geffects \land \neg p \in \geffects )  \}\\
-					Undefined~set~\undefset' &= \undefset \cup \geffects_{spur} \setminus \geffects_{non\texttt{-}spur}
+					Undefined~set~\undefset' &= (\undefset \cup \geffects_{spur}) \setminus \geffects_{non\texttt{-}spur}
 				\end{split}
 			\end{equation}
-	For the purposes of checking whether the goal is solved, each literal in $\undefset$ is considered as both being positive and negative.
+	For the purposes of checking whether the goal is solved, each atom in $\undefset$ is considered as both being positive and negative.
 	For instance if the goal is $\goal = \{at(t1), \neg at(t2)\}$ and $\undefset = \{at(t1), at(t2)\}$ then that goal is deemed solved by the planner.
 
 	\begin{example}
@@ -253,7 +253,7 @@ If we wanted to guarantee that is it always \texttt{Exploitative} then  its effe
 A Confident strategy, as defined in Section~\ref{sec:Strategy}, have the traits \texttt{Exploitative} and \texttt{Self-sufficient},
 this means the hypothetical action schema will avoid both making F-PPMs and N-PPMs. 
 
-To accomplish this, our hypothesis will only use preconditions that have been proven.
+To accomplish this, our hypothesis will only use preconditions when needed to not repeat itself.
 For effect construction, it will initially use many literals while the agent is ignorant, and fewer as it becomes more knowledgeable. 
 
 The preconditions \eqref{eq:nca:opt-preconds} from the optimistic strategy will suffice for this purpose, and obviously the requirements for the planner will remain the same.

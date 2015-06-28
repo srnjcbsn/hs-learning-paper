@@ -3,21 +3,23 @@
 \begin{document}
   	Unsurprisingly the basics of hypothesis construction for conditional actions is very similar to that of non-conditional actions. 
   	As such refer to \Cref{sec:NC:hypcon} for detailed explanation of how the traits interacts with knowledge (proven, disproved, unproven.. etc.), to understand how we define trait see \Cref{sec:Strategy}.
-  	While the basic theory of traits remain the same, constructing hypothetical action schema using the knowledge we have modeled, is completely different. First off the knowledge that we work with is no longer sets of literals, but instead we have it in the form of connecting paths.
+  	While the basic theory of traits remain the same, constructing hypothetical action schema using the knowledge we have modeled, is slightly different. First off the knowledge that we work with is no longer sets of literals, but instead we have it in the form of connecting paths.
   	Therefore new approaches are needed if we want to design action schemas based on a specific strategy.
   	This section will go through how 
   	 	
-  	\subsection{Optimistic Strategy}
+  	\subsection{Example: Optimistic Strategy}
   	The optimistic strategy as we recall from \Cref{sec:Strategy}, has the traits \texttt{Explorative} and \texttt{Self-sufficient}.
   	To accomplish these traits we must do exactly as we did in hypothesis construction for non-conditional actions, 
   	which is to plan using candidate preconditions; except with a twist: 
   	We have to use the connecting paths that reach the candidates.
   	What we mean by reach, is that a candidate is not only defined by a single literal --- like for non-conditional actions --- but rather a path of literal nodes connected by variables (as explained in \Cref{ssec:ca:connecting-paths}). 
-  	Like for non-conditional knowledge we what we have are set of sets of paths. With the guarantee that for each set at least one path is a contains only actual preconditions. Therefore it follows that we can place the paths in a CNF, where the paths are the replace the literals.
+  	Like for non-conditional knowledge what we have is a set of sets of paths. With the guarantee that for each set at least one path is a contains only actual preconditions. Therefore it follows that we can place the paths in a CNF, where the paths replace the literals.
   	
-  	Since we have a candidate set for each individual effect, we must do it for each possible effect \preds.
+  	Since we have a candidate set \cset for each individual effect, we must add a CNF for each possible effect,
+  	this means we must add $2 \times |\preds|$ number of conditionals because of \Cref{rst:ca:no-action-params} and that each effect has a negative and positive version.
   	
-  	As such to build the hypothesis for the effects $q_1,q_2,\dots,q_n$:  	
+  	The hypothetical action schema is thus the conjunction of each effect's set of candidates.
+  	For the possible effects of $q_1,q_2,\dots,q_n$ :  	
   	\begin{equation} \label{eq:ca:opt-preconds}
   	\begin{split}  	
   	\forall ~& q_1 ~ when ~ \bigwedge\limits_{\pro \in \Pro_{q_1}} k ~ \land ~ 
@@ -36,25 +38,27 @@
   	\begin{example}\label{ex:ca:opt-hyp-cons} To get an idea of using all candidate paths between the effect and the precondition, 
   		we will show how candidate sets can be turned into an optimistic action schema hypothesis.
   		
-  		Imagine we are constructing a conditional for a single conditional.
+  		Imagine we are constructing a conditional with the following candidates.
   		\begin{align*}
   				candidate~ A &: q_1 \bc g_1  \\
   				candidate~ B &: q_1 \bc p_2 \pc p_1  	\\			
   				candidate~ C &: q_1 \bc h_1 \\
   				candidate~ D &: q_1 \bc b_2 \pc b_1 \bc  f_1\\
-  				Set of candidate sets &: \left\{ \{ A, B \}, \{ C, D \}  \right\}
+  				Set ~of ~candidate ~sets &: \left\{ \{ A, B \}, \{ C, D \}  \right\}
   		\end{align*}
   		
   		To turn these paths into preconditions we simply map each binding to a variable. 
   		For instance, binding $q_1 \bc g_1 \mapsto x$ and binding $q_1 \bc g_1 \mapsto y$.   		
   		As with non-conditional effects, we use the candidates set of sets in a CNF, but instead of single literals we use entire paths.
-  		That means we use $\land$ between each atom connection in the path, $\lor$ between each path and $\land$ between each candidate set; however in this example we only have a single set.	
+  		That means we use $\land$ between each atom connection in the path, $\lor$ between each path and $\land$ between each candidate set.	
   		Lastly as a minor optimization we can avoid using new variables for each separate candidate as they are in a disjunction.
   		However between the sets we must use new variables as they are in a conjunction.
   		For instance, the candidates $A$ and $B$ can share variables but the set $\{A, B\}$ cannot share variables with  the set $\{C, D\}$
   		
+  		This gives us the following hypothesis for the conditional:
+  		
   			\begin{align*}	
-  				Effect: \forall ~q(x)~ & when ~ \\
+  				\forall ~q(x)~ & when ~ \\
    				&\left( g(x) \lor p(x,y) \right) \\
   				&\land \\
   				&\left( h(x) \lor \left( b(z,x) \land f(z)  \right) \right)
@@ -66,9 +70,9 @@
   
   	
   	
-  	\subsection{Pessimistic Strategy}
+  	\subsection{Example: Pessimistic Strategy}
   	
-  we recall from \Cref{sec:NC:hypcon} that to make a pessimistic action schema it is only necessary to plan using only unproven preconditions. Since as we have shown we can have a set of unproven connecting paths then we need only convert it into conjunctions of literals, like in the optimistic strategy. Furthermore where the optimistic planner used all possible effects, the pessimistic strategy should only use effects that the agent had observed occurring.
+  we recall from \Cref{sec:NC:hypcon} that to make a pessimistic action schema it is only necessary to plan using only unproven and proven preconditions. Since as we have shown we can have a set of unproven connecting paths then we need only convert it into conjunctions of literals, like in the optimistic strategy. Furthermore where the optimistic planner used all possible effects, the pessimistic strategy should only use effects that the agent had observed occurring.
   
   As such to build the pessimistic hypothesis for the effects $q_1,q_2,\dots,q_n$:  	
   

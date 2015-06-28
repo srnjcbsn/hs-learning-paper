@@ -3,7 +3,7 @@
 \begin{document}
 
 When a STRIPS-style (non-conditional) action is invoked with arguments $O_1, \dots, O_n$, it is certain that these arguments are the only objects affected by the action.
-Thus, any literal in a state that contains objects other than these can be discarded as irrelevant when learning either the effects or the preconditions.
+Thus, any atom in a state that contains objects other than these can be discarded as irrelevant when learning either the effects or the preconditions.
 However, when actions contain conditional effects with support for use of quantifiers, this claim no longer holds.
 To properly discuss the subject we introduce \glits, which is the set of all grounded literals.
 
@@ -22,7 +22,7 @@ To properly discuss the subject we introduce \glits, which is the set of all gro
 	to avoid defining it as a function assume $\preds$ and $\objs$ are given from the context.
 \end{definition}
 
-A problem occurs when the set of objects \objs is infinite (or intractably large), which causes the set $\glits$ to also be infinite.
+A problem occurs when the set of objects \objs is infinite, which causes the set $\glits$ to also be infinite.
 Meaning it is theoretically possible to have chain of connected atoms, such as 
 \begin{equation*}
 	p(v_1,v_2), p(v_2,v_3),\dots, p(v_{|\objs|-2},v_{|\objs|-1}), p(v_{|\objs|-1},v_{|\objs|})
@@ -40,23 +40,29 @@ In order to simplify the problem we have made the following restrictions on cond
 \setlist[propenum]{label=R. \arabic*}
 \crefalias{propenumi}{arestriction} 
 
-\begin{arestriction}\leavevmode
+%\begin{arestriction*}\leavevmode
 \begin{propenum}[label=R.\arabic*]
-	\item Actions cannot have parameters, i.e.\ all actions are of form $A()$. 
+	\item \label{rst:ca:no-action-params} Actions cannot have parameters, i.e.\ all actions are of form $A()$. 
 	We have added this restricting to study the problem in its most minimal form.	
 	\item The environment must be fully observable.
 	\item The environment must contain a finite number of objects.
 %	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
 %	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
 
-    \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only be part of a one negative and one positive literal in the effects of all conditionals for an action $A$. This allows us to associate any effect literal with exactly one conditional. An additional consequence of this restriction is that disjunctive preconditions are not supported, since that would require a literal to occur in two different conditionals.
+    \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only be part of a one negative and one positive literal in the effects of all conditionals for an action $A$. 
+    
+    This allows us to associate any effect literal with exactly one conditional. An additional consequence of this restriction is that disjunctive preconditions are not supported, since that would require an effect literal to occur in two different conditionals.
 
 	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
 
 		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
 		  I.e.\ If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
+		  
+%	\item No recursive conditionals.
+%	
+%		The effects of an conditional must be a conjunction of literals and not another conditional.
 \end{propenum}
-\end{arestriction}
+%\end{arestriction*}
 
 %
 %Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditionals have the same effect, as that is equivalent to an disjunctive precondition.
@@ -66,8 +72,8 @@ In this section we will show how to approach the concept of learning conditional
 
 Given the restriction we presented we are able to simplify the problem. That is, we can model every possible action schema where each conditional only contains one effect.
 
-\begin{example}
-	Take for instance the conditional:	
+\begin{example} This example shows that conditionals with multiple effects can always be split into multiple conditionals, thus making modeling of the problem simpler.
+	Take for instance this action with a conditional:	
 	\begin{align*}
 		&A():&  \\
 		&\quad
@@ -78,7 +84,7 @@ Given the restriction we presented we are able to simplify the problem. That is,
 		\; when \;
 		\left[ \texttt{p}(x,y) \right]
 	\end{align*}		
-	That conditional is equivalent to: 
+	That action is equivalent to: 
 	\begin{align*}
 		A():&  \\
 			 &\quad\forall_{x, y}
@@ -112,8 +118,11 @@ Given the restriction we presented we are able to simplify the problem. That is,
 	\caption{\label{fig:ca:house-example}Three states of light problem for \Cref{ex:ca:light-on}}
 \end{figure}
 
-\begin{example}\label{ex:ca:light-on}
-Consider the problem of turning on light as shown in \Cref{fig:ca:house-example}.
+With the problem simplified we will now analyze what it means to learn conditional effects. 
+It is important to realize that in a conditional effect supported domain, if we observe an effect we must assume every atom connected to that effect is part of the preconditions. Only when the we observe a contradiction to this statement can we dismiss it. 
+
+\begin{example}\label{ex:ca:light-on} To get an idea of what it means to learn conditional effects,
+consider the problem of turning on light as shown in \Cref{fig:ca:house-example}.
 In the figure there are three different cases of a person learning how to turn on the
 light. In the first two cases the agent successfully turns on the light while in the last nothing occurs.
 
@@ -127,7 +136,8 @@ Even though we intuitively know that it is only the lamp which is the only requi
 \end{example}
 
 \subsection{Disproving preconditions}
-Objects are defined by the atoms in the state which they satisfy. As such when we say that all objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of literals is the requirement for the effects to occur.
+In \Cref{ex:ca:light-on}  we saw that different objects in a room could be possible preconditions for the effect of turning on a light. But since 
+objects are defined by the atoms in the state which they satisfy. As such when we say that the objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of literals is the requirement for the effects to occur.
 This means if we interpret the objects as variables connecting the literals in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
 to a to different variable.
 \begin{equation}\label{eq:ca:substitution}
@@ -153,7 +163,7 @@ Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not t
 \end{theorem}
 \begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in $\ts(S)$ for the effects \geffects.
 	In this case the effects would not occur as their required preconditions are missing, thus the preconditions must be satisfied in $\ts(S)$.
-	As such we can conclude $\ts(S)$ contains at least all precondition atoms.
+	As such we can conclude $\ts(S)$ contains at least all precondition literals.
 \end{proof}
 
 \begin{figure}
@@ -362,26 +372,28 @@ It follows from the above that if we have the sets of unproven preconditions $\U
 	\Up_p' = \Up_p1 \cap \Up_p2
 \end{equation}
 
-This will work for removing discard disproven literals if only if the two sets variables match up perfectly. Herein lies the problem of reducing preconditions; unlike non-conditional effects where entire literals are removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables. For instance, $p(x)$ and $q(x)$ have a binding since both have the variable $x$, to remove the binding simply rename one of their variables. I.e $p(x)$ and $q(y)$.
+\begin{example}\label{ex:ca:light-on-2} In this example we will show what it means to intersect unproven preconditions, seen from an abstract perspective.
+	Following from \Cref{ex:ca:light-on} we come to the second case in \Cref{fig:ca:house-example}
+	we see that we can turn on the light again but this time the sofa and the lamp has changed location and
+	there is no table. From this we expand our knowledge by learning:
+	\begin{itemize}
+		\item Sofa and lamp location does not matter
+		\item A table is not needed
+	\end{itemize}
+	Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
+\end{example}
+
+This will work for removing  disproven literals if only if the two sets' variables match up perfectly. Herein lies the problem of reducing preconditions; unlike non-conditional effects where variables always match with the object such that entire literals could be removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables. For instance, $p(x)$ and $q(x)$ have a binding since both have the variable $x$, to remove the binding simply rename one of their variables. I.e $p(x)$ and $q(y)$.
 
 \begin{definition}[Binding]\label{def:ca:binding}
     A binding between variables, means that variables between atoms are the same.
-	Bindings that contain only one variable are free and means that no binding exists.
+	Bindings that contain only one variable are disjoint and means that no binding exists.
 	It is important to note that a literal with multiple variables can have bindings with itself.
-	For instance $q(x)$ and $p(x,y)$ has a binding on their first argument as they both refer to the same variable, and $y$ is a free variable as no other literals with $y$ exists.
+	For instance $q(x)$ and $p(x,y)$ has a binding on their first argument as they both refer to the same variable, and $y$ is a disjoint variable as no other literals with $y$ exists.
 \end{definition}
 Therefore the approach to modeling the unknown preconditions, which we used for non-conditional actions is incorrect when used for conditional actions. See \Cref{ex:ca:nonbinding-intersection-model} for more details.
 
-\begin{example}\label{ex:ca:light-on-2}
-    Following from \Cref{ex:ca:light-on} we come to the second case in \Cref{fig:ca:house-example}
-    we see that we can turn on the light again but this time the sofa and the lamp has changed location and
-    there is no table. From this we expand our knowledge by learning:
-    \begin{itemize}
-        \item Sofa and lamp location does not matter
-        \item A table is not needed
-    \end{itemize}
-    Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
-\end{example}
+
 
 \begin{example}\label{ex:ca:nonbinding-intersection-model}
     To elucidate the problem of bindings further, imagine that we have two different $\Up_p$
@@ -391,8 +403,8 @@ Therefore the approach to modeling the unknown preconditions, which we used for 
     \end{align*}
     We see that $\Up_p1$ has a stronger precondition, meaning that if $\Up_p1$ holds then so does $\Up_p2$ but not oppositely. I.e.\ 
     \begin{equation*}
-    \forall_{x} \texttt{p}(x, x, x) \nvDash \forall_{x, y} \texttt{p}(x, x, y)  \quad and \quad
-     \forall_{x, y} \texttt{p}(x, x, y) \vDash \forall_{x} \texttt{p}(x, x, x) 
+    \texttt{p}(x, x, x) \vDash \texttt{p}(x, x, y)  \quad and \quad
+     \texttt{p}(x, x, y) \nvDash \texttt{p}(x, x, x) 
     \end{equation*}
     And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect.
     \begin{equation*}
@@ -460,7 +472,7 @@ If another effect with the same name as $p$ occurs in $\geffects$, we can now in
 	   	S &= \{ p(A,A), g(B) \}\\
 	   	S'& = S \cup \{ q(A,B) \}
    \end{align*}
-   with the effect
+   with the effect 
 	\begin{equation*}
 	 	\geffects = \{ q(A) \}
 	\end{equation*}
@@ -501,7 +513,8 @@ If another effect with the same name as $p$ occurs in $\geffects$, we can now in
 	   	\end{gathered}	
 	   	\right\}	
 	   \end{align*}
-   which is the same as $p(x,y)$. Therefore we can see 
+   which is the same as $p(x,y)$. We see that the intersection now correctly reduces the literals to a single literals.
+   That was unachievable in \Cref{ex:ca:nonbinding-intersection-model}.
    
    
    
@@ -520,20 +533,22 @@ For non-conditional actions proving the preconditions of an action was a matter 
     If there is less than one path in the preconditions then that means there are zero paths. By \Cref{rst:ca:no-disjoint-preconditions}, zero paths means zero precondition. If there are zero preconditions then the effect would not have failed. Therefore there must be a minimum of one path that is a precondition.
 \end{proof}
 
-Initially we have a set of paths $B_u$, which is our set of unproven preconditions for the effect of a conditional.
-If we then see that an effect does not occur in the state, the paths in the prior state that did not produce that effect becomes the candidates of possible bindings $B_c$.
+To discuss this we will redefine $\Up$ to be our set of possible paths, which is our set of unproven preconditions for the effect of a conditional.
+If we then see that an effect does not occur in the state, the paths in the prior state that was not satisfied becomes the candidates of possible bindings $\Cand$. 
+
+To understand this idea, see this as an almost identical solution to preconditions for non-conditional effects, but instead of literals we have paths.
 
 Because of \Cref{thm:minimum-one-binding} the following invariant holds:
 \begin{equation} \label{eq:binding_invariant}
-\left| \{b  \mid  b \in B_c \land b \in preconds_{paths}(A)\} \right|  \ge 1
+\left| \{path  \mid  path \in \Cand \land path \in preconds_{paths}(A)\} \right|  \ge 1
 \end{equation}
 
 
-Meaning that at least one of the paths in this set is part of the paths in the preconditions for the conditional. As paths that are not contained in $B_u$ are disproven, we can filter disproven candidates by:
+Meaning that at least one of the paths in this set is part of the paths in the preconditions for the conditional. As paths that are not contained in $\Up$ are disproven, we can filter disproven candidates by:
 \begin{equation}
-    B_c' = B_c \cap B_u
+    \Cand' = \Cand \cap \Up
 \end{equation}
-And thus if ever $|B_c| = 1$ then we know that it is a correct binding because of our \Cref{eq:binding_invariant} and thus it is proven.
+And thus if ever $|\Cand| = 1$ then we know that it is a correct binding because of our \Cref{eq:binding_invariant} and thus it is proven.
 
 \begin{example}\label{ex:ca:light-on-3}
     Consider the last case in \Cref{fig:ca:house-example}. This case is identical to the first case except it does not have a lamp, thus we learn that:
