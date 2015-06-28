@@ -4,13 +4,13 @@
 
 In order to discuss learning we must define a model for the domain which we operate within. We have chosen to use the generally accepted PDDL or Planning Domain Definition Language (see~\cite{PDDL}), as it is well researched.
 
-This section will give a minimal definition of PDDL, and provide context for syntax used in later chapters. We will also explain functions used in state manipulation such as the grounding and state-transition functions.
+This appendix will give a minimal definition of PDDL, and provide context for syntax used in our chapters. We will also explain functions used in state manipulation such as the grounding and state-transition functions.
 
 
 PDDL is based on set-theoretic planning (see~\cite{ghallab2004a}) popularized by the STRIPS language (see~\cite{STRIPS}). By default states in PDDL are based on closed-world-assumption, meaning that if something is not defined in the state it is assumed to be false. 
 In PDDL and set-theoretic planning, a state is set of grounded atoms defining the properties of the objects in an environment.
 
-\begin{definition} 
+\begin{definition}[State] 
 	An intensional definition of a state $S$ in PDDL is a set of grounded atoms:
     \begin{equation*}
         S=\{p(o_1,\dots,o_n) \mid  p \in \preds \land \{o_1,\dots,o_n\} \subseteq \objs \land p(o_1,\dots,o_n) = \texttt{TRUE}\}
@@ -20,8 +20,8 @@ In PDDL and set-theoretic planning, a state is set of grounded atoms defining th
 
 Since states are based on closed-world-assumption, they contain no negative atoms; however for the purpose of this thesis we would like to be able to represent a complete state which contain explicitly all the negative atoms. 
 We define this explicit state as $X$, which is derived from its original state $S$.
-\begin{definition} 
-	Explicit state function $X(S)$ outputs the state where absent atoms become negative literals while maintaining the old atoms as positive literals. It is defined as follows: 
+\begin{definition}[Explicit state function]\label{def:pddl:explicit-state}
+	The explicit state function $X(S)$ outputs the state where absent atoms become negative literals while maintaining the old atoms as positive literals. It is defined as follows: 
 	
 	\begin{equation*}
 	X(S)=\{p \mid p \in S \} \cup \{\neg p \mid  p \notin S \}
@@ -31,7 +31,7 @@ We define this explicit state as $X$, which is derived from its original state $
 
 The ways an agent can change the state, and under which circumstances, is described by \textit{action schemas}. 
 	
-\begin{definition} \label{def:lrn:action-spec-def}
+\begin{definition}[Action schema] \label{def:lrn:action-spec-def}
 		An action definition or action schema defines when an action is to be applied, as well as the consequences of the application. As such an action schema contains a logical formula specifying its preconditions, which must be satisfied for the action to be applied. If the preconditions are satisfied, the changes listed in the logic formula denoting the effects are applied. The structure of an action schema is the following:
 	\begin{itemize}
         \item[Pre] A goal description (GD), explained below. : :
@@ -76,7 +76,7 @@ The ways an agent can change the state, and under which circumstances, is descri
 	
 In PDDL a set of action schemas, along with properties about always present objects and specifications of all Predicates are defined as a domain.
 
-\begin{definition} A domain in PDDL, defines what predicates can be utilized, objects that are constant between all instantiations of the domain, and the action schemas available to the planner.
+\begin{definition}[PDDL domain] A domain in PDDL, defines what predicates can be utilized, objects that are constant between all instantiations of the domain, and the action schemas available to the planner.
 	
 $
 \begin{array}{ll}
@@ -94,7 +94,7 @@ Action-Specs & = A~set~of~action~schemas~avaiable~to~the~agent \\
 	
 
 An application of an action contain the name of its corresponding action schema, and a list of objects that are to be mapped to its variables.
-\begin{definition} 
+\begin{definition}[Applied action] 
 	An action $A(o_1,\dots,o_n)$ explains how action schema $A$ is to be applied. The mapping to variables works like normal function application. 
 	
 	$\sigma = \{ v_1 \mapsto o_1,\dots,v_n \mapsto o_n \}$.
@@ -111,7 +111,7 @@ An application of an action contain the name of its corresponding action schema,
 
 
 Atom which contain only objects in its arguments are referred to as grounded atoms. Given a mapping $\sigma$ from variables to objects any atom can become a grounded atom.
-\begin{definition} 
+\begin{definition}[ground function]\label{def:pddl:ground-func}
 	Any atom can be mapped to a grounded atom, by a applying a mapping $\sigma$ to each of its arguments. As such the \ground function takes a atom $p$ and a mapping $\sigma$
 	
 		$\ground(p(x_1,\dots,x_n),\sigma) = p(\sigma(x_1),\dots,\sigma(x_n)$ where $p$ is the predicate.
@@ -123,8 +123,8 @@ Atom which contain only objects in its arguments are referred to as grounded ato
 To explain how an action is applied to a state we define a State-Transition function in accordance with set-theoretic planning.
 
 
-\begin{definition} 
-	State-Transition function $\gamma$ takes two inputs a State $S$ and an Action $A$. Its exact definition is:
+\begin{definition}[state-transition function]\label{def:pddl:state-trans} 
+	The state-transition function $\gamma$ takes two inputs a State $S$ and an Action $A$. Its exact definition is:
 
 	$\gamma(S,A) \triangleq 
 	\left\{
@@ -142,13 +142,13 @@ To explain how an action is applied to a state we define a State-Transition func
 
 Furthermore, we define a single Transition as follows:
 
-\begin{definition} 
+\begin{definition}[Transition]
 	Transition $T$ refers to a triple (S,A,S'), where S is the original state, A is the action that was applied S and S' is the resulting state.
 \end{definition}
 
 Lastly in order for an agent to know its purpose when planning it must have a defined goal. Such a goal is defined within a PDDL Problem.
 
-\begin{definition} A problem contains the objects that is specific to the problem, the initial state of the planner and the goal expressed as a goal description (see Def.  \ref{def:lrn:action-spec-def}).
+\begin{definition}[PDDL Problem] A problem contains the objects that is specific to the problem, the initial state of the planner and the goal expressed as a goal description (see Def.  \ref{def:lrn:action-spec-def}).
 	
 	$
 	\begin{array}{ll}
@@ -164,7 +164,7 @@ Lastly in order for an agent to know its purpose when planning it must have a de
 
 To use a PDDL specification an agent can with a domain and an accompanying problem generate a plan, which solves that specific problem.
 
-\begin{definition} 
+\begin{definition}[Plan] 
 	A plan $P$ is defined as a list of action, solving a given problem.
 	$P = (a_1,\dots,a_n)$
 \end{definition}
