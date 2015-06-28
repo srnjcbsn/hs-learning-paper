@@ -99,7 +99,7 @@ This is logically sound and gives us the following theorem:
 	\end{equation*}
 \end{theorem}
 	\begin{proof}[Proof by definition]
-		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p) \notin S'$ can not have been an effect of action $A$ or it would by definition be in $S$.
+		Recall that $S'$ is the result of a union which include the grounded atom of an action $A$'s effects. Hence, it follows trivially that any atom $\ground(p)\footnote{Ground takes takes a literal and outputs its grounded literal counterpart, see \Cref{def:pddl:ground-func}.} \notin S'$ can not have been an effect of action $A$ or it would by definition be in $S$.
 	Likewise if a potential negative effect $\neg p$ is $\ground(p) \in S'$ then that could not have been a negative effect.
 	\end{proof}
 	

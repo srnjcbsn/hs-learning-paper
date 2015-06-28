@@ -4,7 +4,7 @@
 
 In order to discuss learning we must define a model for the domain which we operate within. We have chosen to use the generally accepted PDDL or Planning Domain Definition Language (see~\cite{PDDL}), as it is well researched.
 
-This section will give a minimal definition of PDDL, and provide context for syntax used in later chapters. We will also explain functions used in state manipulation such as the grounding and state-transition functions.
+This appendix will give a minimal definition of PDDL, and provide context for syntax used in our chapters. We will also explain functions used in state manipulation such as the grounding and state-transition functions.
 
 
 PDDL is based on set-theoretic planning (see~\cite{ghallab2004a}) popularized by the STRIPS language (see~\cite{STRIPS}). By default states in PDDL are based on closed-world-assumption, meaning that if something is not defined in the state it is assumed to be false. 
@@ -20,7 +20,7 @@ In PDDL and set-theoretic planning, a state is set of grounded atoms defining th
 
 Since states are based on closed-world-assumption, they contain no negative atoms; however for the purpose of this thesis we would like to be able to represent a complete state which contain explicitly all the negative atoms. 
 We define this explicit state as $X$, which is derived from its original state $S$.
-\begin{definition} 
+\begin{definition}\label{def:pddl:explicit-state}
 	Explicit state function $X(S)$ outputs the state where absent atoms become negative literals while maintaining the old atoms as positive literals. It is defined as follows: 
 	
 	\begin{equation*}
@@ -111,7 +111,7 @@ An application of an action contain the name of its corresponding action schema,
 
 
 Atom which contain only objects in its arguments are referred to as grounded atoms. Given a mapping $\sigma$ from variables to objects any atom can become a grounded atom.
-\begin{definition} 
+\begin{definition}\label{def:pddl:ground-func}
 	Any atom can be mapped to a grounded atom, by a applying a mapping $\sigma$ to each of its arguments. As such the \ground function takes a atom $p$ and a mapping $\sigma$
 	
 		$\ground(p(x_1,\dots,x_n),\sigma) = p(\sigma(x_1),\dots,\sigma(x_n)$ where $p$ is the predicate.

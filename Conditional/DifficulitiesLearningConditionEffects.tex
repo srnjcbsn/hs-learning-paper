@@ -47,7 +47,7 @@ In order to simplify the problem we have made the following restrictions on cond
 	\item The environment must be fully observable.
 	\item The environment must contain a finite number of objects.
 %	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
-%	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_x p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
+%	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_F p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
 
     \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only be part of a one negative and one positive literal in the effects of all conditionals for an action $A$. 
     
@@ -158,7 +158,7 @@ Another property we can take advantage of is that similar to non-conditional pre
 This gives us the following:
 
 \begin{theorem}\label{thm:ca:precondition-state}
-If $\gamma (S,a) = S'$ then $\pre(e) \subseteq \sigma(\ts(S))$  for the effect $e \in \geffects$.
+If $\gamma (S,a) = S'$ then $\pre(e) \subseteq \sigma(\ts(S))$\footnote{\ts(S) gives the state where atoms absent from the state are represented as negative literals, see \Cref{def:pddl:explicit-state}} for the effect $e \in \geffects$.
 Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not to remove actual preconditions.
 \end{theorem}
 \begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in $\ts(S)$ for the effects \geffects.
