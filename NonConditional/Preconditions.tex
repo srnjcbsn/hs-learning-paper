@@ -24,10 +24,10 @@ To obtain polynomial space complexity, the authors suggest limiting the maximum 
 We propose a solution with space complexity $O \left( |\lits|^2 \right)$, which also supports negative preconditions. With this solution, individual atoms are proven and disproven to be preconditions based on the following observations:
 \begin{itemize}
     \item When $a$ succeeds, there are atoms which, if they had been preconditions, would have caused failure. These can be immediately disproven to be preconditions.
-    \item When $a$ fails, there are a number of atoms which could be responsible for the failure if they are preconditions. Although it is indeterminable which of them are preconditions and which are not, this information can be saved and analysed later, when more information is available.
+    \item When $a$ fails, there are a number of atoms which could be responsible for the failure if they are preconditions. Although it is indeterminable which of them are preconditions and which are not, this information can be saved and analyzed later, when more information is available.
 \end{itemize}
 
-In the following we will analyse how the aforementioned atom sets can be deduced from a single state transition, and later discuss how knowledge obtained from earlier state transitions can be used to prove atoms to be preconditions.
+In the following we will analyze how the aforementioned atom sets can be deduced from a single state transition, and later discuss how knowledge obtained from earlier state transitions can be used to prove atoms to be preconditions.
 
 \begin{example}[Sokoban example]\label{ex:ncp:sokobanSetup}
     As a running example, we will once again use the sokoban domain, where the environment starts in the following state (visualized in figure~\ref{fig:sokoSmall}):
@@ -45,7 +45,7 @@ In the following we will analyse how the aforementioned atom sets can be deduced
         \right\}
     \end{equation*}
 
-    From this state, we will analyse the outcomes of different applications of the \texttt{move-h} action (presented in Section~\ref{sec:SokobanPDDL}), whose preconditions are reprinted below:
+    From this state, we will analyze the outcomes of different applications of the \texttt{move-h} action (presented in Section~\ref{sec:SokobanPDDL}), whose preconditions are reprinted below:
 
     \begin{align*}
         Pre_{\texttt{move-h}}^+ &= 

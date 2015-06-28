@@ -5,8 +5,8 @@
 We stated in the beginning that learning, \emph{the acquisition of knowledge}, does not change dependent on strategy, as such it is important to separate the two problems from each other.
 In this chapter we will provide an explanation of how learning of non-conditional action schemas can be achieved, and how the knowledge can be modelled.
 The limits of our solution is that it only functions with STRIPS-style domains, i.e.\ no disjunctive precondition, no conditional effect and that the environment is fully observable and discrete.
-We will begin by explaining the knowledge that is important to action schemas. 
-In \Cref{sec:NC:hypcon} we will show how to use this knowledge to define action schemas which follows a certain strategy.
+We will begin by explaining the knowledge that is important to action schemas and how it can be learned, i.e.\ we will show an instantiation of the $analyze$ function from \Cref{algo:PDDL}.
+In \Cref{sec:NC:hypcon} we will show how to use this knowledge to define action schemas which follows a certain strategy, i.e.\ a hypothesis construction.
 
 As action consists only of conjunctions, the knowledge of actions schemas must be defined by the literals that can be used in either an effect or a precondition.
 If we ignore the concept of constants, then we know that all literals in our action schema must have variables which are permutations of the  action schema's parameters.
