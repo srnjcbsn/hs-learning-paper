@@ -10,25 +10,25 @@ That the instant that something is shown to the agent in the state-transition th
 However if one were to implement our models directly, as they are written the same knowledge is repeated multiple times, but none of the knowledge would be superfluous.
 We realise that it might still be interesting what the exact space complexity of our non-condition action knowledge is, if implemented naively:
  \begin{align*}
- 	Unproven ~\Up_P = \Up_E & = O(\litsa) \\
- 	Disproven~\Dsp_P = \Up_E & = O(\litsa) \\
- 	Proven~\Pro_P = \Up_E &= O(\litsa) \\
- 	All ~ candidate~sets~ \cset & = O\left(\litsa^2\right) \\
-    Maximum ~ cardinality~ of ~ state  ~ n & = O \left( |\preds| \cdot |\objs| ^k \right) \\
+ 	Unproven ~\Up_P = \Up_E & = O(|\litsa|) \\
+ 	Disproven~\Dsp_P = \Up_E & = O(|\litsa|) \\
+ 	Proven~\Pro_P = \Up_E &= O(|\litsa|) \\
+ 	All ~ candidate~sets~ \cset & = O\left(|\litsa|^2\right) \\
+    Cardinality~ of ~all~ possible~ literals  ~ |\litsa| & = O \left( |\preds| \cdot m ^k \right) \\
  \end{align*} 
- where $k$ is the maximum arity of predicates.
+ where $k$ is the maximum arity of predicates, and m is maximum arity of the action.
  \begin{proof} 
- 	As the maximum number of atoms to add to a state is the maximum number of atoms possible in a state of size $n$,
- 	it follows that the maximum cardinality of effects or preconditions must therefore be $O(n)$.
-Since \up initially contains all possible effects or preconditions (depending on the use-case), 
-	it then follows that \Up must have the cardinality $O(n)$. 
-	As proven/disproven cannot be larger than unproven then they must also be $O(n)$.
-	In fact because of $\Cref{inv:nca:mutual-ex}$ and $\Cref{inv:nca:completeness}$, $|\Pro|+|\Up|+|\Dsp| = n$.
+ 	As \litsa is the maximum number of literals in an actions effect/precondition. Then
+ 	it follows that the maximum cardinality of effects or preconditions must therefore be $O(|\litsa|)$.
+Since $\Up_{E/P}$ initially contains all possible effects or preconditions (depending on the use-case), 
+	it then follows that $\Up_{E/P}$ must have the cardinality $O(|\litsa|)$. 
+	As proven/disproven cannot be larger than unproven then they must also be $O(|\litsa|)$.
+	In fact because of $\Cref{inv:nca:mutual-ex}$ and $\Cref{inv:nca:completeness}$, $|\Pro_{E/P}|+|\Up_{E/P}|+|\Dsp_{E/P}| = |\litsa|$.
 	For candidates it is less obvious, but consider that candidates require that there is one new precondition in
-	each set, and each set can at most be the size of the unproven set, then it follows that the space complexity must be $O(n^2)$.
+	each set, and each set can at most be the size of the unproven set, then it follows that the space complexity must be $O(|\litsa|^2)$.
  \end{proof}
 Since we only have the minimum amount of knowledge required, that means our space complexity --- if it is a problem --- is a compression problem and not a problem of design. 
-An idea of how we may operate with this knowledge more efficient, is if we consider that the knowledge we are storing is simply just permutations of the combinations of variables for an atom.
+An idea of how we may store this knowledge more efficient, is if we consider that the knowledge we are storing is simply just permutations of the combinations of variables for an atom.
 For instance, imagine we have the unproven knowledge
  \begin{equation*}
 	\Up = \{ p(x,y), p(x,x), p(y,y), p(y,x) \}
@@ -43,7 +43,7 @@ For instance, imagine we have the unproven knowledge
   \end{equation*} 
  Which can be interpreted as for each set in the sequence we select one element in the set and use that in our permutation.
  This would give us all the permutations of \Cref{eq:dis:sc:perms}. 
- If this model is proved to be viable, it would mean the space complexity could be $n = |\preds| \times \objs \times k$. 
+ If this model is proved to be viable, it would mean the space complexity could be $O(|\preds| \times m \times k)$. 
  However we have not studied it enough for us to conclude,
  and while we might already accept this complexity for non-conditional actions. 
  The permutation solution actually extends to conditional effects as well, since connecting paths can be viewed as also just different permutations of the possible strings of paths.
@@ -56,6 +56,6 @@ For instance, imagine we have the unproven knowledge
  \begin{equation*}
  	(\{q_1\},\{\bc\},\{p_1,g_1\}) 
  \end{equation*} 
-
+If this proved correct then we could achieve perfect prediction conditional learning in polynomial time. However further research is required, but our general impression is that this will prove to be correct.
 
 \end{document}
