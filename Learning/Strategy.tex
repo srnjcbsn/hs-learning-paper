@@ -1,8 +1,6 @@
 \providecommand{\master}{..}
 \documentclass[\master/Master.tex]{subfiles}
 \begin{document}
-    \section*{Learning Strategies}\label{sec:strats}
-
 
 	In our analysis of agent learning strategies we have found there are different traits that exists between all strategies, and some of the traits do tend to oppose each other thus by looking at the extreme cases we can get an understanding of where they are useful and in what situations. In~\cite{Walsh2008}, two such strategies are provided:
     \begin{itemize}
@@ -15,7 +13,7 @@
     Both of these strategies are equally valid approaches to learning.
     However, they show two different traits which we will define and analyze.
     \begin{definition}
-    [{Explorative/Exploitative}] An explorative strategy, like an explorative graph search will prefer to try and test unknown territory in the hopes that it will provide it with a better solution, but only in cases where there is no upside decide not to explore.
+    [{Explorative/Exploitative}] An explorative strategy, like an explorative graph search will prefer to try and test unknown territory in the search for informations which provide it with a better solution but only in cases where there is no upside decide not to explore.
     An exploitative strategy however will avoid the unexplored and only learn something when necessary otherwise it will use what it has already learned. Much akin to how the dynamic between a Breath-First-Search and a Depth-First-Search works. The advantage of a Explorative strategy is that once it has learned something, it will be very efficient at doing that thing, however for it to get to that point it will spend a long time learning. Opposite an exploitative strategy will be very fast to learn something but it will very likely be an inefficient way.
 	\end{definition}
 	\begin{example}
@@ -44,7 +42,7 @@
     	Imagine an agent that is put into a control room of nuclear powerplant.
     	 If the agent approached the problem of learning the environment in a self-sufficient manor, 
     	 this would result in the agent pressing the buttons until he figured out the system.
-    	 Obviously this is a dangerous and is inadvisable. 
+    	 Obviously this is dangerous and is inadvisable. 
     	 A more preferable approach would be to look through the manuals or receive guidance.
     \end{example}
 	By labeling the traits unique to learning strategies we can now apply them to the learning strategies which are provided in~\cite{Walsh2008} as part of the algorithm. Furthermore we can also define new strategies which use a different mixture of the traits:
@@ -56,9 +54,9 @@
 	    predicates). As described the algorithm and strategy is purely based on the explorative trait, and has no mentions of reliance on a teacher or other external entity.
 	    \begin{itemize}
 	    \item Explorative\\
-	    The strategy is using a explorative approach because the that actions
+	    The strategy is using a explorative approach because the actions
 	    which are unknown or have not been tested will always be chosen over
-	    actions that has as these actions are assumed to do more than they
+	    actions that has, as these actions are assumed to do more than they
 	    are supposed to.
 	    \item Self-sufficient\\
 	    The strategy always assumes it can solve all problems even if that

@@ -10,14 +10,13 @@ That the instant that something is shown to the agent in the state-transition th
 However if one were to implement our models directly, as they are written the same knowledge is repeated multiple times, but none of the knowledge would be superfluous.
 We realise that it might still be interesting what the exact space complexity of our non-condition action knowledge is, if implemented naively:
  \begin{align*}
- 	Unproven ~\Up_P = \Up_E & = O(n) \\
- 	Disproven~\Dsp_P = \Up_E & = O(n) \\
- 	Proven~\Pro_P = \Up_E &= O(n) \\
- 	All ~ candidate~sets~ \cset & = O(n \cdot n)=O(n^2) \\
- 	Maximum ~ cardinality~ of ~ state  ~ n & = |\preds| m^k \\
- 	where ~ k ~ is ~ the&  ~ arity ~ of ~ the~ highest~ arity ~ predicate.
+ 	Unproven ~\Up_P = \Up_E & = O(\litsa) \\
+ 	Disproven~\Dsp_P = \Up_E & = O(\litsa) \\
+ 	Proven~\Pro_P = \Up_E &= O(\litsa) \\
+ 	All ~ candidate~sets~ \cset & = O\left(\litsa^2\right) \\
+    Maximum ~ cardinality~ of ~ state  ~ n & = O \left( |\preds| \cdot |\objs| ^k \right) \\
  \end{align*} 
- where $k$ is the maximum arity of predicates, and $n$ is the size of a state.
+ where $k$ is the maximum arity of predicates.
  \begin{proof} 
  	As the maximum number of atoms to add to a state is the maximum number of atoms possible in a state of size $n$,
  	it follows that the maximum cardinality of effects or preconditions must therefore be $O(n)$.

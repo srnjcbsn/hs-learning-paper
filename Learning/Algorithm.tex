@@ -14,10 +14,9 @@ In the following, we consider a general algorithm for learning in a virtual worl
     \item Repeat from step 2, taking into account the newly obtained knowledge
 \end{enumerate}
 
-Note that the above summation does not describe an algorithm, as there is no termination condition in the cycle formed by steps 2--6. However in the following we will show our attempt to algorithmize it.
+Note that the above summation does not describe an algorithm, as there is no termination condition in the cycle formed by steps 2--6. However in the following we will algorithmize it.
 
 \section{Algorithm based on the scientific method}
-
 
 The algorithm presented in \Cref{algo:science} takes as input a question, a strategy, some initial knowledge, and a world in which the agent acts. The algorithm essentially repeats the cycle formed by steps 2--6 in the summation given above, untill the question can be satisfactorily answered.
 
