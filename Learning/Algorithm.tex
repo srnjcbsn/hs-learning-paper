@@ -3,13 +3,13 @@
 
 \begin{document}
 
-In the following, we consider a general algorithm for learning in a virtual world. The algorithm bears resemblance to, and is derived from, the generally accepted scientific method, which can be summarized as follows:
+In the following, we propose a general algorithm for learning in a virtual world. The algorithm bears resemblance to, and is derived from, the generally accepted scientific method, which can be summarized as follows:
 
 \begin{enumerate}
     \item Propose a question
     \item Collect existing knowledge about the question
     \item Form a hypothesis answering the question
-    \item Conduct an experiment serving to prove or disprove the hypothesis
+    \item Conduct an experiment serving to corroborate or disprove the hypothesis
     \item Analyze the results of the experiment and update the knowledge base accordingly.
     \item Repeat from step 2, taking into account the newly obtained knowledge
 \end{enumerate}
@@ -32,7 +32,7 @@ The algorithm presented in \Cref{algo:science} takes as input a question, a stra
                 \State{\texttt{Experiment} $e \gets design(w, h, s)$}
                 \If{an experiment could be found}
                     \State{$(\texttt{Result} \, r, w) \gets conduct(e, w)$}
-                    \State{$k \gets k \cup analyse(r, k)$}
+                    \State{$k \gets k \cup analyze(r, k)$}
                 \Else%
                     \State{$k \gets k \cup inquire(w, q)$}
                 \EndIf%
@@ -46,12 +46,9 @@ The algorithm presented in \Cref{algo:science} takes as input a question, a stra
 In the following we will elaborate on the types and functions used in the algorithmization of the scientific method, and their relevance to learning.
 
 \paragraph*{World}
-In the context of this algorithm, it is assumed that the world is discrete and static, ie.\ that it is only changed by the actions of the learning agent (specifically when the agent performs experiments). For an elaboration on these terms, see e.g.~\cite{Russell}. 
+The world is something in which the agent can act. In a typical scientific experiment, this is the known universe, or --- more likely --- an appropriate abstraction thereof. As conducting an experiment yields an enirely new world, it is assumed that the world is discrete and static, ie.\ that it is only changed by the actions of the learning agent (specifically when the agent performs experiments). For an elaboration on these terms, see e.g.~\cite{Russell}. 
 
 \paragraph*{Question}
-%In the context of learning, the formulation of the question depends on whether the agent is goal-driven or hypothesis-driven; in the first case, the question will typically be posed as a problem that must be solved (``How do we transition to state $t$?''). In the second case, it will take the more general form ``How does this domain work?''.
-%For the goal-oriented agent, the question can typically be answered when the problem has been solved, as the agent then has the knowledge required to solve the problem given the same start state (or any state on the path to the solution). For the hypothesis-driven agent, the question can be answered when a predefined amount of knowledge has been obtained about the domain. Note that although a hypothesis answers the question, it is generally not a satisfactory answer untill it has been proven to be true.
-
 In the context of learning, the formulation of the question will typically be posed as a problem that must be solved (``How do we get from $A$ to $B$?'').
 However it can also take the more general form ``How does this concept work?''.
 If the question is in form of a problem then it can typically be answered when that problem is solved, 
@@ -64,7 +61,7 @@ Note that for these broad question a hypothesis that answers the question, is ge
 The strategy determines how the agent forms hypotheses and chooses experiments to perform, and is as such essential to how the agent learns. Different learning strategies and their traits are described in Section~\ref{sec:Strategy}.
 
 \paragraph*{Hypothesis}
-Hypotheses are created and discarded in an ad-hoc manner, since we are only interested in the knowledge they allowed us to obtain. It is therefore presumed that given the knowledge derived from performing experiments based on the hypothesis, the question can be answered satisfactorily without knowledge of the hypothesis.
+After an experiment has been designed, the hypothesis used is discarded, since we are only interested in the knowledge it allowed us to obtain. It is therefore presumed that given the knowledge derived from performing experiments based on the hypothesis, the question can be answered satisfactorily without knowledge of the hypothesis.
 
 \paragraph*{Experiment and Result}
 An experiment is designed by a strategy and carried out in the world, which it changes. It is assumed that these changes can be observed, and obtained as part of the \texttt{Result} of the experiment. Additionally, the result may contain information on how the experiment was run, which parts of it succeeded and which did not.
@@ -103,11 +100,11 @@ An experiment is designed by a strategy and carried out in the world, which it c
          $]
         carries out the experiment $e$ in the world $w$, producing an updated world and a \texttt{Result}.
 
-    \item[$analyse( \texttt{Result} \; r
+    \item[$analyze( \texttt{Result} \; r
                   , \texttt{Knowledge} \; k
                   )
          $]
-        Analyses the results of the conducted experiment with respect to existing knowledge.
+        Analyzes the results of the conducted experiment with respect to existing knowledge.
 
     \item[$update( \texttt{Strategy} \; s
                  , \texttt{Knowledge} \; k

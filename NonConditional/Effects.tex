@@ -273,12 +273,12 @@ If the arguments given to an action $A$ are all unique, then $\ground$ is inject
 While \invground is single-valued when the arguments to the action are all unique. 
 This does not hold if that is not the case, but we should still be able to prove some of the literals; provided all other literals that map from the same grounded literal have been disproved. We can do this by using our disproved set \Dsp, built from earlier transitions, to discard incorrect literals. This gives us the following theorem: 
 
-\begin{theorem}\label{thm:nca:prove-effects} For a state-transition $(S,a,S')$ with 
+\begin{theorem}\label{thm:nca:prove-effects} Consider a state transition $(S,a,S')$ where
 	\begin{equation*}
 	\Delta S = \left(S' \setminus S\right) \cup \{\neg p \mid  p \in S \setminus S' \}
 	\end{equation*}
 	
-	then, for all $p \in \geffects$, the following holds:
+	Then, for all $p \in \geffects$, the following holds:
 	
     \begin{itemize}
         \item If \invground is single-valued, then $\invground(p)$ is an effect of $A$.

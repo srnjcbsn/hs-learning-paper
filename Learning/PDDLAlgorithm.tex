@@ -1,8 +1,13 @@
 \documentclass[../Master.tex]{subfiles}
 \begin{document}
 
-In the above description of the sceitific method and the algorithm derived from it, we 
-We will now present a formalization of \Cref{algo:science}
+When applied to a series of typical real-world laboratory experiments, the algorithm presented above seems rather absurd. While it is true that conducting an experiment can be seen as a procedure that changes the universe in some manner, only a small part of the universe is relevant for the result of the experiment. Additionally, the universe changes on its own, by the passing of time and other agents' actions. Thus, an abstraction is needed, which in the laboratory example would likely consist of only considering local changes, i.e.\ changes in the laboratory, petri dish, etc. 
+
+In this section, we will show how the algorithm can be used in a universe described by logic relations and a limited set of objects. We use the PDDL framework for this, as it provides the needed abstraction. In this framework, a $\texttt{Domain}$ describes the actions available to the agent as well as the possible relations, and a \texttt{Problem} defines an intial as well as a goal state. A PDDL action contains an effect, describing the changes the action imposes on the world, and a set of preconditions, which must be satisfied by the configuration of the world for the effect to occur. A more thorough explanation of PDDL is given in Appendix~\ref{sec:app:pddl}.
+
+% In the above description of the scientific method and the algorithm derived from it, we proposed that conducting an experiment yields an entirely new \texttt{World}. In an real-world laboratory experiment this is technically correct, as conducting the experiment changes the universe in  
+%
+% We will now present a formalization of \Cref{algo:science}
 
 Given a PDDL problem, it is then the agent's task to reach the goal specified by the problem by learning the effects and preconditions of the relevant actions. Thus, in this instance the \textit{question} from algorithm~\ref{algo:science} is a PDDL problem, and the $canAnswer$ function consists of checking whether the problem has been solved in the given state (denoted $isSolved$).
 
@@ -29,13 +34,11 @@ In order to test whether the newly constructed hypothesis is sufficient for answ
     \caption{Conducting a PDDL experiment (executing a plan)}\label{algo:PDDLConduct}
 \end{algorithm}
 
-The \texttt{Result} returned by \textit{conduct} is used by the \textit{analyse} function to obtain new knowledge (as described in the following sections), which is then merged into the knowledge base.
+The \texttt{Result} returned by \textit{conduct} is used by the \textit{analyze} function to obtain new knowledge (as described in the following sections), which is then merged into the knowledge base.
 
-If the generated hypothetical domain is too restrictive for the agent to find a solution to the problem (i.e.\ find a plan), no new knowledge can be gained, and the agent has the option to instead seek guidance from external sources. For this purpose,~\cite{Walsh2008} introduces the concept of a \textit{teacher}, which has full knowledge of the domain and can thus be queried for the solution to a specific problem. This solution is returned as a list of state transitions (a \texttt{Trace}), of which each one is analysed and the resulting knowledge is combined. In this context, the teacher can be seen as part of the \texttt{World}, as this already contains the actual domain. Thus, the $inquire$ function from Algorithm~\ref{algo:science} can be instantiated as querying a teacher using the $query$ function. However, other methods of inquiring knowledge from external sources could also be used.
+If the generated hypothetical domain is too restrictive for the agent to find a solution to the problem (i.e.\ find a plan), no new knowledge can be gained, and the agent has the option to instead seek guidance from external sources. For this purpose,~\cite{Walsh2008} introduces the concept of a \textit{teacher}, which has full knowledge of the domain and can thus be queried for the solution to a specific problem. This solution is returned as a list of state transitions (a \texttt{Trace}), of which each one is analyzed and the resulting knowledge is combined. In this context, the teacher can be seen as part of the \texttt{World}, as this already contains the actual domain. Thus, the $inquire$ function from Algorithm~\ref{algo:science} can be instantiated as querying a teacher using the $query$ function. However, other methods of inquiring knowledge from external sources could also be used.
 
 In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm from~\ref{algo:science} is presented. Note that both the optimistic and pessimistic algorithms from~\cite{Walsh2008}, can be derived from the one presented by applying the correct strategies and ignoring the $update$ function. 
-
-% that since the optimistic algorithm from~\cite{Walsh2008} always finds a plan that might fail, and the pessimistic only finds successful plans or none at all, both can be derived from Algorithm~\ref{algo:PDDL} by applying the correct strategies and setting $update$ to the identity function.
 
 \begin{algorithm}
     \begin{algorithmic}
@@ -45,11 +48,11 @@ In algorithm~\ref{algo:PDDL}, an instantiation of the more general algorithm fro
                 \State{\texttt{Plan} $l \gets design(w, d, s)$}
                 \If{a plan is found}
                     \State{$(\texttt{Result} \, r, w) \gets conduct(l, w, d)$}
-                    \State{$k \gets k + analyse(k, r)$}
+                    \State{$k \gets k + analyze(k, r)$}
                 \Else%
                     \State{\texttt{Trace} $t \gets query(w, p)$}
                     \ForAll{transitions $r \in t$}
-	                    \State{$k \gets k + analyse(k, r)$}
+	                    \State{$k \gets k + analyze(k, r)$}
                     \EndFor%
                 \EndIf%
                 \State{$s \gets update(s, k)$}

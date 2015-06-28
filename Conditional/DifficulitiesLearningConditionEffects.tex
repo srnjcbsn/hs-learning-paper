@@ -19,7 +19,7 @@ To properly discuss the subject we introduce \glits, which is the set of all gro
 		\right\}
 	\end{equation*}
 	
-	to avoid defining it as a function assume $\preds$ and $\objs$ are given from the context.
+	to avoid defining it as a function, it can be assumed that $\preds$ and $\objs$ are given from the context.
 \end{definition}
 
 A problem occurs when the set of objects \objs is infinite, which causes the set $\glits$ to also be infinite.
@@ -67,10 +67,10 @@ In order to simplify the problem we have made the following restrictions on cond
 %
 %Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditionals have the same effect, as that is equivalent to an disjunctive precondition.
 
-In this section we will show how to approach the concept of learning conditional effect. We will show what problems that occur using initial models and what changes to the models are necessary. Lastly we will introduce a new way to model atoms by using hypergraphs.
+In this section we will show how to approach the concept of learning conditional effect. We will show what problems occur using initial models and what changes to the models are necessary. Lastly we will introduce a new way to model atoms by using hypergraphs.
 
 
-Given the restriction we presented we are able to simplify the problem. That is, we can model every possible action schema where each conditional only contains one effect.
+Given the restrictions listed above, we are able to simplify the problem. That is, we can model every possible action schema where each conditional only contains one effect.
 
 \begin{example} This example shows that conditionals with multiple effects can always be split into multiple conditionals, thus making modeling of the problem simpler.
 	Take for instance this action with a conditional:	
@@ -107,9 +107,7 @@ Given the restriction we presented we are able to simplify the problem. That is,
 
 
 \begin{proposition}[Single effect per conditional]\label{prop:ca:singleConditional}
-    Consider a state transition $\left(S, a, S'\right)$ and a grounded literal $p \in \geffects$. By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, 
-    
-    there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two literals in $\geffects$ with the same predicate are effects of the same conditional.
+    Consider a state transition $\left(S, a, S'\right)$ and a grounded literal $p \in \geffects$. By \Cref{rst:ca:no-multiple-effect}, there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two literals in $\geffects$ with the same predicate are effects of the same conditional.
 \end{proposition}
 
 \begin{figure}
@@ -383,7 +381,7 @@ It follows from the above that if we have the sets of unproven preconditions $\U
 	Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
 \end{example}
 
-This will work for removing  disproven literals if only if the two sets' variables match up perfectly. Herein lies the problem of reducing preconditions; unlike non-conditional effects where variables always match with the object such that entire literals could be removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables. For instance, $p(x)$ and $q(x)$ have a binding since both have the variable $x$, to remove the binding simply rename one of their variables. I.e $p(x)$ and $q(y)$.
+\eqref{eq:unknownpredcondset} will work for removing  disproven literals only if the two sets' variables match up perfectly. Herein lies the problem of reducing preconditions; unlike non-conditional effects where variables always match with the object such that entire literals could be removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables. For instance, $p(x)$ and $q(x)$ have a binding since both have the variable $x$, to remove the binding simply rename one of their variables. I.e $p(x)$ and $q(y)$.
 
 \begin{definition}[Binding]\label{def:ca:binding}
     A binding between variables, means that variables between atoms are the same.
@@ -494,7 +492,7 @@ If another effect with the same name as $p$ occurs in $\geffects$, we can now in
 		\right\}	
 	\end{align*}
    these connecting paths would that define our initial unproven set $\Up_0$.
-   Lets assume we have another unproven set $Up_1$ which is based on the $p(x,y)$ precondition which similar to the one shown in \Cref{ex:ca:nonbinding-intersection-model}, but scaled down as .
+   Assume that we have another unproven set $Up_1$ which is based on the $p(x,y)$ precondition which similar to the one shown in~\Cref{ex:ca:nonbinding-intersection-model}, but scaled down as .
    \begin{align*}
    	\Up_1=
    	\left\{
