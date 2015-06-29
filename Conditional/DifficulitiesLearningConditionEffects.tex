@@ -61,7 +61,7 @@ Given the restrictions listed above, we are able to simplify the problem. That i
 	\end{align*}		
 	That action is equivalent to: 
 	\begin{align*}
-		A():&  \\
+		&A():&  \\
 			 &\quad\forall_{x, y}
 				\left[
 				h(y)
@@ -78,6 +78,8 @@ Given the restrictions listed above, we are able to simplify the problem. That i
 	\end{align*}
 	
 \end{example}
+
+It is worth noting that this lets us consider effect atoms as if they were the single effect of a conditional: Even if that is not the case, the action that the agent learns is equivalent to the original. This gives us the following simplification:
 
 \begin{proposition}[Single effect per conditional]\label{prop:ca:singleConditional}
     Consider a state transition $\left(S, a, S'\right)$ and a grounded literal $p \in \geffects$. By \Cref{rst:ca:no-multiple-effect}, there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two literals in $\geffects$ with the same predicate are effects of the same conditional.
@@ -103,8 +105,6 @@ Consider again a state transition $(S,a,S')$. Trivially, when an atom $q\left(O_
     \left[ \bigwedge_{p \in P} p \right]
 \end{equation*}
 where $P$ is a set of preconditions. Additionally, there exists an interpretation $\delta$ such that the observed effect is produced and the preconditions are satisfied in the state, i.e.\ $\delta\left(q\left(x_1, \dots, x_{|p|} \right)\right) \in \Delta S$ and $\delta\left[ P \right] \subseteq X(S)$. This interpretation resembles the grounding function from non-conditional learning, and similarly to non-conditional learning, the inverse can now be used with $X(S)$ to obtain a set of literals guaranteed to contain all preconditions. For conditionals, this inverse grounding function is denoted $\sigma$.
-
-% It now holds that if we can find the inverse of such an interpretation, i.e.\ one that maps objects in $\objs$ to variables in $\varC\left(E_C\right)$, where $\delta^{-1}\left(O_1\right) = x_1, \dots, \delta^{-1}\left(O_{|q|}\right) = x_{|q|}$, then $\delta^{-1} \left[ X(S) \right]$ contains the preconditions $P$. In the following, such a mapping is called $\sigma$.
 
 \begin{theorem}\label{thm:ca:precondition-state}
 If $\gamma (S,a) = S'$ then $\pre(\sigma(e)) \subseteq \sigma(\ts(S))$\footnote{\ts(S) gives the state where atoms absent from the state are represented as negative literals, see \Cref{def:pddl:explicit-state}} for the effect $e \in \geffects$.
@@ -338,43 +338,21 @@ Even though we intuitively know that it is only the lamp which is the only requi
 
 \subsection{Initial approach to disproving preconditions}\label{ssec:ca:init-approach}
 
-All the preconditions we get from a state can be seen as the unproven preconditions, like they were for non-conditional knowledge.
-Therefore as different scenarios are explored the unproven set $\Up_p$ of preconditions can be reduced.
+The pattern yielded by \Cref{thm:ca:precondition-state} for a conditional $E_C$ in a given state transition can be seen as our unproven knowledge $U$: everything not in this set is explicitly disproven to be a precondition.
+
 
 \begin{definition}
-The unproven set $\Up_p$ is the preconditions which has neither been proven nor disproven, initially it contains all  literals $\glits$.
+The unproven set $\Up$ is the preconditions which has neither been proven nor disproven, initially it contains all  literals $\glits$.
 \end{definition}
 
-We will now consider how this unproven set can be constructed using the methods for proving and disproving preconditions presented in \Cref{sec:NC:Preconditions}, show why it is insufficient and introduce a new model which fits the domain better.
+% We will now consider how this unproven set can be constructed using the methods for proving and disproving preconditions presented in \Cref{sec:NC:Preconditions}, show why it is insufficient and introduce a new model which fits the domain better.
 
-By \Cref{rst:ca:no-disjuntive-conditionals} and \Cref{rst:ca:no-multiple-effect}, each literal $p \in \geffects$ is spawned by exactly one conditional. As such, it can be deduced that if a literal $p\left(u_1, \dots, u_{|p|}\right)$ (where $\left\{u_1, \dots, u_{|p|}\right\} \subseteq \objs$) occurs in $\geffects$ after application of $a$, then $A$ contains a conditional of the form
-
-\begin{equation*}
-    \forall x_1, \dots, x_n 
-        \left[ p\left(\delta\left(u_1\right), \dots, \delta \left(u_{|p|}\right) \right) \right] \quad when \quad 
-        \left[ \left<unknown\right> \right]
-\end{equation*}
-where $\left\{\delta \left( u_1 \right), \dots, \delta \left(u_{|p|} \right) \right\} \subseteq \left\{ x_1, \dots, x_n \right\} \subseteq \delta [\objs]$ and $\delta$ is a substitution function as explained in \Cref{eq:ca:substitution}. Observe that once this conditional has been proven to exist, the problem of finding its preconditions is similar to finding the preconditions of a non-conditional action schema $A'$ accepting as many parameters as the number of objects in the world, ie. 
-
-\begin{align*}
-    \begin{split}
-        \textsc{Action} &\; \textit{A'}\left(\delta \left( o_1 \right), \ldots, \delta \left( o_{|\mathcal{O}|}\right)\right): \\
-        \textsc{Pre}: \; & \left< unknown \right> \\
-        \textsc{Eff}: \; & p\left( \delta \left(u_1\right), \dots, \delta \left( u_{|p|} \right)\right)
-    \end{split}
-\end{align*}
-
-in which case the grounding function becomes $\delta^{-1}$. Thus, the function $\dsp(S)$ from \Cref{sec:NC:Preconditions} can be used to disprove preconditions, and the set of unproven literals to be preconditions becomes $\sigma(\glits) \setminus \dsp(s)$.
-
-As all literals in $\geffects$ with the same name are effects of the same conditional, it is tempting to consider them different applications of $A'$ and prove knowledge about their preconditions as in \Cref{sec:NC:Preconditions}. However, the above only holds for a single grounded literal observed to be the effect of the conditional; if a literal with the same predicate but different arguments occurs in $\geffects$, then it is the effect of another interpretation of the universal quantifier in the conditional, and the nonconditional action schema constructed for it will not equal $A'$.
-
-Consequently, the preconditions disproven by $\dsp(S)$ for $A'$ are only applicable to the grounded literal $A'$ was constructed for. To find the preconditions of the conditional, a method of combining the different disproven literals is needed.
-
-It follows from the above that if we have the sets of unproven preconditions $\Up_p1$ and $\Up_p1$ from two different state transitions, we can compare them and remove discrepancies by intersection:
+As different scenarios are explored the unproven set $\Up$ of preconditions can be reduced, as follows:
+If we have two sets of unproven preconditions $\Up_1$ and $\Up_1$ from two different state transitions (or two different interpretations of the same conditional), we can compare them and remove discrepancies by intersection:
 
 \begin{equation}
 \label{eq:unknownpredcondset}
-	\Up_p' = \Up_p1 \cap \Up_p2
+	\Up' = \Up_1 \cap \Up_2
 \end{equation}
 
 \eqref{eq:unknownpredcondset} will work for removing  disproven literals only if the two sets' variables match up perfectly. Herein lies the problem of reducing preconditions; unlike non-conditional effects where variables always match with the object such that entire literals could be removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables. For instance, $p(x)$ and $q(x)$ have a binding since both have the variable $x$, to remove the binding simply rename one of their variables. I.e $p(x)$ and $q(y)$.
@@ -392,23 +370,23 @@ Therefore the approach to modeling the unknown preconditions, which we used for 
 \begin{example}\label{ex:ca:nonbinding-intersection-model}
     To elucidate the problem of bindings further, imagine that we have two different $\Up_p$
     \begin{align*}
-        \Up_p1 &= \{ \texttt{p}(x, x, x) \} \\
-        \Up_p2 &= \{ \texttt{p}(x, x, y) \}
+        \Up_1 &= \{ \texttt{p}(x, x, x) \} \\
+        \Up_2 &= \{ \texttt{p}(x, x, y) \}
     \end{align*}
-    We see that $\Up_p1$ has a stronger precondition, meaning that if $\Up_p1$ holds then so does $\Up_p2$ but not oppositely. I.e.\ 
+    We see that $\Up_1$ has a stronger precondition, meaning that if $\Up_1$ holds then so does $\Up_2$ but not oppositely. I.e.\ 
     \begin{equation*}
     \texttt{p}(x, x, x) \vDash \texttt{p}(x, x, y)  \quad and \quad
      \texttt{p}(x, x, y) \nvDash \texttt{p}(x, x, x) 
     \end{equation*}
     And if we were to take the intersection between the two sets then the resulting set would be the empty set which is incorrect.
     \begin{equation*}
-    	\Up_p1 \cap \Up_p2 = \emptyset
+    	\Up_1 \cap \Up_2 = \emptyset
     \end{equation*}
     
      As they have the similarity of having the same binding between the first and second argument. 
      What we actually need is to have a special atom intersection $(\cap)$ that take two sets of bindings and take the intersection of that.
      \begin{equation*}
-     	\Up_p1 (\cap) \Up_p2 = \{ \texttt{p}(x, x, y) \}
+     	\Up_1 (\cap) \Up_2 = \{ \texttt{p}(x, x, y) \}
      \end{equation*}
 \end{example}
 
