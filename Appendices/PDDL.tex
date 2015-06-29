@@ -84,8 +84,8 @@ Domain~\mathcal{D}: & \\
 
 \begin{array}{ll}
 Constants & = \{o_1,\dots,o_n\}			 \\  
-Predicate-Specs = \preds \\
-Action-Specs & = A~set~of~action~schemas~avaiable~to~the~agent \\
+Predicate\texttt{-}Specs &= \preds \\
+Action\texttt{-}Specs & = A~set~of~action~schemas~avaiable~to~the~agent \\
 \end{array}
 \end{array}$
 \end{definition}
@@ -171,13 +171,6 @@ To use a PDDL specification an agent can with a domain and an accompanying probl
 
 Given this machinery an agent is thus capable of modeling the world and define actions that is applicable in the world. These definitions provides a framework for learning of action schema, which we will go into detail with, for both non-conditional and conditional action schemas.
 
-\subsection*{Non-conditional vs Conditional actions}
-
-As we will go in depth through out this paper how to achieve both non-conditional and conditional action learning, as such we want to establish the difference such that they can be properly discussed. 
-
-A non-conditional action, as the name implies are actions which contain no conditional effects. This means that the effect of the action will always be the same. From a learning perspective this makes understanding the action easier because if an effect is observed then it is always guaranteed no matter the circumstances.  Specifically this means not using the $Forall$ and $When$ part of BNF for $<Effect>$, if those are not used then we define an action as being non-conditional. Conversely if those are used then an action is defined as being conditional.
-
-Whether an action support conditional effects or not has a huge impact on how the action can be described. For instance, if the action that is being modelled actually contain conditional effect, then in order to model it as a non-conditional action it has to be described using multiple actions. This becomes evident in our Sokoban example which we will use throughout this thesis, where we see that pushing a box and moving an agent is two different actions even though in the video game it was modelled after this was just one action.
 
 \section{Sokoban in PDDL}\label{sec:SokobanPDDL}
     \subfile{\master/Appendices/SokobanPDDL}

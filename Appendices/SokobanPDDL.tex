@@ -8,7 +8,7 @@
     \caption{\label{fig:simpleSokoban} A simple sokoban world. The circle is the sokoban, the squares are crates, and the dashed lines denote goal tiles.}
 \end{figure}
 
-We will now present a formalization of the sokoban world introduced in section \ref{sec:Algorithm} based on the PDDL specification presented in \cite{BS2011}.
+We will now present a formalization of the sokoban world based on the PDDL specification presented in \cite{BS2011}.
 
 \subsubsection*{Problem specification}
 Any given sokoban problem, such as the one illustrated in figure \ref{fig:simpleSokoban}, contains a number of $crate$ objects (denoted $c_1, \dots, c_n$) as well as a number of $tile$ objects (denoted $t_1, \dots, t_k$). To describe how the tiles are interconnected, we introduce the atoms $hAdj(t_1,t_2)$ and $vAdj(t_1,t_3)$, respectively denoting that tile $t_1$ is horizontally adjacent to tile $t_2$ and vertically adjacent to $t_3$. It is clear that these relations are symmetric; if $t_i$ is vertically adjacent to $t_j$, then $t_j$ is also vertically adjacent to $t_i$ (similarly for horizontal adjacency). In the framework presented above, there is no machinery for aximoatic reasoning, hence this symmetry must be manually encoded by the problem designer by --- in the above example --- adding the atom $hAdj(t_2,t_1)$ and $vAdj(t_3,t_1)$.

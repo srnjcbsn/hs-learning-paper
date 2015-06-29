@@ -148,6 +148,7 @@ If we wanted to guarantee that is it always \texttt{Exploitative} then  its effe
 	An optimistic strategy has the traits \texttt{Explorative} and \texttt{Self-sufficient},
 	this means the hypothetical action schema is allowed to make F-PPMs but never allowed to make N-PPMs.
 
+
 	In \cite{Walsh2008} an action schema's preconditions are constructed by iterating through all subset of non-disproven preconditions.
 	This is accomplished by selecting one subset of the non-disproven preconditions and use that until the planner returns "no plan" and thereafter discarding it along with precondition subsets that satisfied it.
 
@@ -247,6 +248,8 @@ If we wanted to guarantee that is it always \texttt{Exploitative} then  its effe
 				\end{split}
 			\end{equation*}
 	\end{example}
+
+	To see a full run of an optimistic strategy being used in vacuum world see \Cref{sec:app:vacuum-full}.
 
 \subsubsection{Example: Confident}
 
