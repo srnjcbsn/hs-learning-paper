@@ -81,7 +81,7 @@ For $\Pro$, $\Dsp$ and $\Up$ two important invariant holds.
 \subsection{Disproving effects}
 In order to prove or disprove the effects through a transition $(S,a,S')$ we must understand what occurs in a state transition.
 
-When an action is successfully applied in a state $S$, the literals comprising its positive effects are grounded and added to $S$ to form $S'$. Similarly, its negative effects are grounded and removed from $S$. Therefore, we should be able to observe the effects of the action as the differences between $S$ to $S'$ i.e \geffects. For the special case that an atom is both in $S$ and $S'$ there are two distinct possibilities: either it is part of the effects of the action but was already part of $S$ or it was not an effect (see Figure \ref{fig:nca:venn-of-effects}). The same holds for atoms that are in neither $S$ nor $S'$.
+When an action is successfully applied in a state $S$, the literals comprising its positive effects are grounded and added to $S$ to form $S'$. Similarly, its negative effects are grounded and removed from $S$. Therefore, we should be able to observe the effects of the action as the differences between $S$ to $S'$ i.e \geffects. For the special case that an atom is both in $S$ and $S'$ there are two distinct possibilities: either it is part of the effects of the action but was already part of $S$ or it was not an effect (see \Cref{fig:nca:venn-of-effects}). The same holds for atoms that are in neither $S$ nor $S'$.
 
 To disprove atoms for a single transition we use the idea that grounded atoms which are not in $S'$ cannot be positive effects, and grounded atoms which are in $S'$ cannot be negative effects. 
 This is logically sound and gives us the following theorem:
@@ -225,7 +225,8 @@ We see that incorrect effects are correctly disproved, such as moving the sokoba
 \subsection{Proving effects}
 In order to understand proving effects, we must understand how effects are generated based on the action schema.
 The $\ground$ function is used to ground atoms from an action's effect. This is important since if we know what atom a grounded atom originated from, then that is a proof for that atom. This means that if a grounded atom $p \in \Delta S$ returns only one atom when $\invground$ is applied to it, i.e. $\invground(p(O_1,O_2)) = {p(x,y)}$ then that atom $p(x,y)$ has been proved. In other words if $\ground$ is injective then $\invground$ is single-valued and it can thus be applied to all grounded atoms in $\Delta S$ and that will prove all of their respective atoms.
-Whether or not $\ground$ is injective depends on the arguments of the action (see Figure \ref*{fig:nca:ground-injectivity}).
+Whether or not $\ground$ is injective depends on the arguments of the action (see \Cref{fig:nca:ground-injectivity}).
+For instance, if for the action $A(x,y)$ an application of it is $A(O_1,O_2)$ then $\ground$ is injective, meaning that no two different atom can be outputted as the same grounded atom. However if the action is applied with $A(O_1,O_1)$, then it is obvious to see that \ground is non-injective as $\ground(p(x,x))=\ground(p(y,y))=p(O_1,O_1)$.
 This gives rise to the following lemma:
 \begin{lemma}
 If the arguments given to an action $A$ are all unique, then $\ground$ is injective, thereby making $\invground$ single-valued.
@@ -271,9 +272,12 @@ If the arguments given to an action $A$ are all unique, then $\ground$ is inject
 \textsc{An observation}, it follows from this proof that it is preferable for an agent to try actions, where the arguments to the action are all unique. This could be interesting when defining a heuristic for the agent's planner. 
 
 While \invground is single-valued when the arguments to the action are all unique. 
-This does not hold if that is not the case, but we should still be able to prove some of the literals; provided all other literals that map from the same grounded literal have been disproved. We can do this by using our disproved set \Dsp, built from earlier transitions, to discard incorrect literals. This gives us the following theorem: 
+There is no guarantee that the arguments to an action are always unique, but we should still be able to prove some of the literals.
+We can achieve this by removing outputs from \invground that has previously been disproved.
+As we maintain a disproved set \Dsp, built from earlier transitions, we can discard incorrect literals that we are guaranteed are not actual effects. 
+This gives us the following theorem: 
 
-\begin{theorem}\label{thm:nca:prove-effects} Consider a state transition $(S,a,S')$ where
+\begin{theorem}[Proving effects]\label{thm:nca:prove-effects} Consider a state transition $(S,a,S')$ where
 	\begin{equation*}
 	\Delta S = \left(S' \setminus S\right) \cup \{\neg p \mid  p \in S \setminus S' \}
 	\end{equation*}
