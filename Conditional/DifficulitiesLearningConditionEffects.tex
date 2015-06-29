@@ -2,6 +2,28 @@
 \documentclass[\master/Master.tex]{subfiles}
 \begin{document}
 
+\subsection{Restrictions and simplifications}
+In order to simplify the problem we have made the following restrictions on conditional effects we can learn:
+
+\newlist{propenum}{enumerate}{1} % also creates a counter called 'propenumi'
+\setlist[propenum]{label=R. \arabic*}
+\crefalias{propenumi}{arestriction} 
+
+\begin{propenum}[label=R.\arabic*]
+	\item \label{rst:ca:no-action-params} Actions cannot have parameters, i.e.\ all actions are of the form $A()$. 
+	We have added this restricting to study the problem in its most minimal form.	
+	\item The environment must be fully observable.
+	\item The environment must contain a finite number of objects.
+    \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only be part of a one negative and one positive literal in the effects of all conditionals for an action $A$. 
+    
+    This allows us to associate any effect literal with exactly one conditional. An additional consequence of this restriction is that disjunctive preconditions are not supported, since that would require an effect literal to occur in two different conditionals.
+
+	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
+
+		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
+		  I.e.\ If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
+\end{propenum}
+
 When a STRIPS-style (non-conditional) action is invoked with arguments $O_1, \dots, O_n$, it is certain that these arguments are the only objects affected by the action.
 Thus, any atom in a state that contains objects other than these can be discarded as irrelevant when learning either the effects or the preconditions.
 However, when actions contain conditional effects with support for use of quantifiers, this claim no longer holds.
@@ -22,53 +44,6 @@ To properly discuss the subject we introduce \glits, which is the set of all gro
 	to avoid defining it as a function, it can be assumed that $\preds$ and $\objs$ are given from the context.
 \end{definition}
 
-A problem occurs when the set of objects \objs is infinite, which causes the set $\glits$ to also be infinite.
-Meaning it is theoretically possible to have chain of connected atoms, such as 
-\begin{equation*}
-	p(v_1,v_2), p(v_2,v_3),\dots, p(v_{|\objs|-2},v_{|\objs|-1}), p(v_{|\objs|-1},v_{|\objs|})
-\end{equation*}
- as a precondition to a conditional.
-This means that initially we cannot assume that $|\varC| < |\objs|$.
-
-However if the environment has a finite number of objects, then we can limit $\glits$ to a finite set.
-This is important as we now have an initial assumption of possible literals for both the preconditions and the effects.
-
-%\subsubsection{Limitations}
-In order to simplify the problem we have made the following restrictions on conditional effects we can learn:
-
-\newlist{propenum}{enumerate}{1} % also creates a counter called 'propenumi'
-\setlist[propenum]{label=R. \arabic*}
-\crefalias{propenumi}{arestriction} 
-
-%\begin{arestriction*}\leavevmode
-\begin{propenum}[label=R.\arabic*]
-	\item \label{rst:ca:no-action-params} Actions cannot have parameters, i.e.\ all actions are of form $A()$. 
-	We have added this restricting to study the problem in its most minimal form.	
-	\item The environment must be fully observable.
-	\item The environment must contain a finite number of objects.
-%	\item \label{rst:ca:no-disjuntive-conditionals} No disjunctive preconditions or effects. As a consequence of this restriction, no two conditionals can contain the same effect if their preconditions differ.
-%	\item \label{rst:ca:no-multiple-effect} No multiples of the same effect. I.e.\ the conditional $\forall_F p(x) \land q(x)$ is supported, but $\forall_{x, y} p(x, y) \land p(x, x) $ is not.
-
-    \item \label{rst:ca:no-disjuntive-conditionals} \label{rst:ca:no-multiple-effect} A predicate can only be part of a one negative and one positive literal in the effects of all conditionals for an action $A$. 
-    
-    This allows us to associate any effect literal with exactly one conditional. An additional consequence of this restriction is that disjunctive preconditions are not supported, since that would require an effect literal to occur in two different conditionals.
-
-	\item \label{rst:ca:no-disjoint-preconditions} No disjoint preconditions.
-
-		  A disjoint precondition is when it is not connected to an effect or another non-disjoint precondition through its variables.
-		  I.e.\ If a conditional effect had the effect $p(x)$ a disjoint precondition could be $p(y)$ as $x \neq y$ however if it also had a precondition $q(x,y)$ this would connect the two variables thus making $p(y)$ non-disjoint.
-		  
-%	\item No recursive conditionals.
-%	
-%		The effects of an conditional must be a conjunction of literals and not another conditional.
-\end{propenum}
-%\end{arestriction*}
-
-%
-%Another aspect of conditional effects is the notion of multiple different effects in the same action. This is supported given that it does not break restriction~\ref{rst:ca:no-disjuntive-conditionals}; which it does if two conditionals have the same effect, as that is equivalent to an disjunctive precondition.
-
-In this section we will show how to approach the concept of learning conditional effect. We will show what problems occur using initial models and what changes to the models are necessary. Lastly we will introduce a new way to model atoms by using hypergraphs.
-
 
 Given the restrictions listed above, we are able to simplify the problem. That is, we can model every possible action schema where each conditional only contains one effect.
 
@@ -79,32 +54,30 @@ Given the restrictions listed above, we are able to simplify the problem. That i
 		&\quad
 		\forall_{x, y}
 			\left[
-				\texttt{q}(x) \land \texttt{h}(y)
+				q(x) \land h(y)
 			\right]
 		\; when \;
-		\left[ \texttt{p}(x,y) \right]
+		\left[ p(x,y) \right]
 	\end{align*}		
 	That action is equivalent to: 
 	\begin{align*}
 		A():&  \\
 			 &\quad\forall_{x, y}
 				\left[
-				\texttt{h}(y)
+				h(y)
 				\right]
 				\; when \;
-				\left[ \texttt{p}(x,y) \right] \\
+				\left[ p(x,y) \right] \\
 		&\quad\land 	\\		
 		&\quad\forall_{x, y}
 		\left[
 		\texttt{q}(x)
 		\right]
 		\; when \;
-		\left[ \texttt{p}(x,y) \right]
+		\left[ p(x,y) \right]
 	\end{align*}
 	
 \end{example}
-
-
 
 \begin{proposition}[Single effect per conditional]\label{prop:ca:singleConditional}
     Consider a state transition $\left(S, a, S'\right)$ and a grounded literal $p \in \geffects$. By \Cref{rst:ca:no-multiple-effect}, there is exactly one conditional in $A$ that could be responsible for producing $p$. Consequently, any two literals in $\geffects$ with the same predicate are effects of the same conditional.
@@ -112,9 +85,35 @@ Given the restrictions listed above, we are able to simplify the problem. That i
 
 \begin{figure}
 	\centering{%
-	\includegraphics[width=1\textwidth]{\master/Graphics/house_conditional_knowledge}}
+	\includegraphics[width=0.7\textwidth]{\master/Graphics/house_conditional_knowledge}}
 	\caption{\label{fig:ca:house-example}Three states of light problem for \Cref{ex:ca:light-on}}
 \end{figure}
+
+\subsection{Learning conditional effects}
+
+With the above simplification of the problem, we will now analyse what it means to learn conditional effects. The primary difference is that 
+
+Consider again a state transition $(S,a,S')$. Trivially, when an atom $q\left(O_1, \dots, O_{|p|}\right)$ occurs in $\Delta S$, it holds that there is a conditional in $A$ with atom $q\left((x_1, \dots, x_{|q|}\right)$ as an effect. That is, there exists a conditional of the form
+
+\begin{equation*}
+    E_C = \forall x_1, \dots, x_n 
+    \left[ q\left(x_1, \dots, x_{|q|} \right) \right] \quad when \quad 
+    \left[ \bigwedge_{p \in P} p \right]
+\end{equation*}
+where $P$ is a set of preconditions. Additionally, there exists an interpretation $\delta$ such that the observed effect is produced and the preconditions are satisfied in the state, i.e.\ $\delta\left(q\left(x_1, \dots, x_{|p|} \right)\right) \in \Delta S$ and $\delta\left[ P \right] \subseteq X(S)$. This interpretation resembles the grounding function from non-conditional learning, and similarly to non-conditional learning, the inverse can now be used with $X(S)$ to obtain a set of atoms guaranteed to contain all preconditions. For conditionals, this inverse grounding function is denoted $\sigma$.
+
+% It now holds that if we can find the inverse of such an interpretation, i.e.\ one that maps objects in $\objs$ to variables in $\varC\left(E_C\right)$, where $\delta^{-1}\left(O_1\right) = x_1, \dots, \delta^{-1}\left(O_{|q|}\right) = x_{|q|}$, then $\delta^{-1} \left[ X(S) \right]$ contains the preconditions $P$. In the following, such a mapping is called $\sigma$.
+
+\begin{theorem}\label{thm:ca:precondition-state}
+If $\gamma (S,a) = S'$ then $\pre(\sigma(e)) \subseteq \sigma(\ts(S))$\footnote{\ts(S) gives the state where atoms absent from the state are represented as negative literals, see \Cref{def:pddl:explicit-state}} for the effect $e \in \geffects$.
+Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not to remove actual preconditions.
+\end{theorem}
+\begin{proof}[\textbf{Proof by contradiction}] Assume that there are more preconditions than present in $\ts(S)$ for the effects \geffects.
+	In this case the effects would not occur as their required preconditions are missing, thus the preconditions must be satisfied in $\ts(S)$.
+	As such we can conclude $\ts(S)$ contains at least all precondition literals.
+\end{proof}
+
+While the above holds for a single effect of a conditional $E_C$ of an action schema $A$, there can be several effects produced by that conditional in a single state transition. For all of these effects we can disprove knowledge (as described above), thereby obtaining an expression for the unproven preconditions. However, combining the knowledge for several different effects is not straightforward, as each of their effects and preconditions involve different objects. The significant part of the knowledge they describe, and the part they must be compared by, is \emph{how} the relations making up their preconditions are interconnected. As such, the preconditions should be compared on the patterns their relations describe rather than the names of their variables, as those are arbitrarily chosen. To gain an intuitive understanding of this, see Example~\ref{ex:ca:light-on}.
 
 With the problem simplified we will now analyze what it means to learn conditional effects. 
 It is important to realize that in a conditional effect supported domain, if we observe an effect we must assume every atom connected to that effect is part of the preconditions. Only when the we observe a contradiction to this statement can we dismiss it. 
@@ -127,10 +126,21 @@ light. In the first two cases the agent successfully turns on the light while in
 In the first case we learn that to turn on the light there are these possible precondition:
 \begin{itemize}
 	\item There must be a sofa in the north-east corner.
-	\item There must be a lamp in the north-west corner. With an agent on the same spot.
+	\item There must be a lamp in the north-west corner with an agent on the same spot.
 	\item There must be a table in the middle.
 \end{itemize}
 Even though we intuitively know that it is only the lamp which is the only required object in this room for the light to turn on, we cannot discard any of the other objects present as not being a precondition.
+
+
+	In the second case in \Cref{fig:ca:house-example},
+	we see that we can turn on the light again but this time the sofa and the lamp has changed location and
+	there is no table. From this we expand our knowledge by learning:
+	\begin{itemize}
+		\item Sofa and lamp location does not matter
+		\item A table is not needed
+	\end{itemize}
+	Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
+
 \end{example}
 
 \subsection{Disproving preconditions}
@@ -155,14 +165,6 @@ To see how it works in sokoban see \Cref{ex:ca:sokoban-moveleft-action}
 Another property we can take advantage of is that similar to non-conditional preconditions, if an effect is successfully added to the state then that disproves all preconditions not currently satisfied.
 This gives us the following:
 
-\begin{theorem}\label{thm:ca:precondition-state}
-If $\gamma (S,a) = S'$ then $\pre(e) \subseteq \sigma(\ts(S))$\footnote{\ts(S) gives the state where atoms absent from the state are represented as negative literals, see \Cref{def:pddl:explicit-state}} for the effect $e \in \geffects$.
-Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not to remove actual preconditions.
-\end{theorem}
-\begin{proof}[\textbf{Proof by contradiction}] Lets assume that there are more preconditions than present in $\ts(S)$ for the effects \geffects.
-	In this case the effects would not occur as their required preconditions are missing, thus the preconditions must be satisfied in $\ts(S)$.
-	As such we can conclude $\ts(S)$ contains at least all precondition literals.
-\end{proof}
 
 \begin{figure}
     \hspace*{0.1\textwidth}%
@@ -183,7 +185,7 @@ Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not t
 \end{figure}
 
 \begin{example}\label{ex:ca:sokoban-moveleft-action}
-    Let us consider an example of acquiring preconditions from the state. In \Cref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
+    Consider an example of acquiring preconditions from the state. In \Cref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
 
     The action schema that produced the effect is:
     \begin{align*}
