@@ -91,7 +91,8 @@ Given the restrictions listed above, we are able to simplify the problem. That i
 
 \subsection{Learning conditional effects}
 
-With the above simplification of the problem, we will now analyse what it means to learn conditional effects. The primary difference is that 
+With the above simplification of the problem, we will now analyse what it means to learn conditional effects.
+It is important to realize that in a conditional effect supported domain, if we observe an effect we must assume every atom connected to that effect is part of the preconditions. Only when the we observe a contradiction to this statement can we dismiss it. 
 
 Consider again a state transition $(S,a,S')$. Trivially, when an atom $q\left(O_1, \dots, O_{|p|}\right)$ occurs in $\Delta S$, it holds that there is a conditional in $A$ with atom $q\left((x_1, \dots, x_{|q|}\right)$ as an effect. That is, there exists a conditional of the form
 
@@ -115,9 +116,6 @@ Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not t
 
 While the above holds for a single effect of a conditional $E_C$ of an action schema $A$, there can be several effects produced by that conditional in a single state transition. For all of these effects we can disprove knowledge (as described above), thereby obtaining an expression for the unproven preconditions. However, combining the knowledge for several different effects is not straightforward, as each of their effects and preconditions involve different objects. The significant part of the knowledge they describe, and the part they must be compared by, is \emph{how} the relations making up their preconditions are interconnected. As such, the preconditions should be compared on the patterns their relations describe rather than the names of their variables, as those are arbitrarily chosen. To gain an intuitive understanding of this, see Example~\ref{ex:ca:light-on}.
 
-With the problem simplified we will now analyze what it means to learn conditional effects. 
-It is important to realize that in a conditional effect supported domain, if we observe an effect we must assume every atom connected to that effect is part of the preconditions. Only when the we observe a contradiction to this statement can we dismiss it. 
-
 \begin{example}\label{ex:ca:light-on} To get an idea of what it means to learn conditional effects,
 consider the problem of turning on light as shown in \Cref{fig:ca:house-example}.
 In the figure there are three different cases of a person learning how to turn on the
@@ -139,7 +137,7 @@ Even though we intuitively know that it is only the lamp which is the only requi
 		\item Sofa and lamp location does not matter
 		\item A table is not needed
 	\end{itemize}
-	Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
+	Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions. Notice that although this is an abstract example, it can be seen that the relations between e.g.\ the sofa and the lamp or the table and the sofa are irrelevant.
 
 \end{example}
 
