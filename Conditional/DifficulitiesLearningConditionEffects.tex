@@ -190,31 +190,10 @@ Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not t
 		\end{gathered}
 		\right\}
 	\end{equation*}
-	To interpret the objects as variables we provide some mapping of objects to variables, such a mapping could be:
+	We apply an inverse interpretation function to the objects of $S_{before}$:
 	\begin{equation*}
-		\delta =
-		\left [
+		\sigma[S_{before}] =
 		\begin{gathered}
-			t1 \mapsto x \\
-			t2 \mapsto y \\
-			t3 \mapsto z \\
-			box \mapsto b
-		\end{gathered}
-		\right ]
-	\end{equation*}
-	We apply the mapping to the objects of $S_{before}$:
-	\begin{equation*}
-		\sigma(S_{before}, \delta) =
-		\begin{gathered}
-			\left\{
-			\begin{gathered}
-				\texttt{adj-h}(\delta (t1), \delta (t2)), \\
-				\texttt{adj-h}(\delta (t2), \delta (t3)), \\
-				\texttt{at}(\delta (box),\delta (t2)), \\
-				\texttt{sokobanAt}(\delta (t3))
-			\end{gathered}
-			\right\}
-			=
 			\left\{
 			\begin{gathered}
 				\texttt{adj-h}(x, y), \\
@@ -225,18 +204,9 @@ Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not t
 			\right\}
 		\end{gathered}
 	\end{equation*}
-	We also apply the mapping to the effects $\Delta S$
+	We also apply the same inverse interpretation function to the effects $\Delta S$
 	\begin{equation*}
-		\sigma(\geffects, \delta) =
-		\left\{
-		\begin{gathered}
-			\texttt{at}(\delta (box),\delta (t1)), \\
-			\texttt{sokobanAt}(\delta (t2)), \\
-			\neg\texttt{at}(\delta (box),\delta (t2)), \\
-			\neg\texttt{sokobanAt}(\delta (t3))
-		\end{gathered}
-		\right\}
-		=
+		\sigma[\geffects] =
 		\left\{
 		\begin{gathered}
 			\texttt{at}(b,x),
@@ -363,7 +333,7 @@ If we have two sets of unproven preconditions $\Up_1$ and $\Up_1$ from two diffe
 	It is important to note that a literal with multiple variables can have bindings with itself.
 	For instance $q(x)$ and $p(x,y)$ has a binding on their first argument as they both refer to the same variable, and $y$ is a disjoint variable as no other literals with $y$ exists.
 \end{definition}
-Therefore the approach to modeling the unknown preconditions, which we used for non-conditional actions is incorrect when used for conditional actions. See \Cref{ex:ca:nonbinding-intersection-model} for more details.
+Therefore the approach of modeling entire literals in a set like we used for non-conditional actions, is incorrect when used for conditional actions. See \Cref{ex:ca:nonbinding-intersection-model} for more details.
 
 
 

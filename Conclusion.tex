@@ -16,7 +16,7 @@ We have shown that these concepts can be implemented by an algorithmization of t
 \begin{description}
     \item[negative preconditions] Our solution is fairly simple as we just had to consider the absence of atoms in the state. The problem however, is that usually only a small subset of all the possible atoms are in the state at the same time, but with the introduction of negative preconditions, we have to consider all possible atoms all the time.
     \item[negative goals] Secondly we solved the problem with negative goals, the solution of extending the internal planner with a new feature --- planning with spurious actions --- is in our opinion quite ingenious, as it is very simple to implement. 
-    \item[tractable preconditions] Our implementation of precondition learning requires $O\left(|\lits|^2 \right)$ space, compared to $O\left(|\lits|^k\right)$ required by the original.
+    \item[tractable preconditions] Our implementation of precondition learning requires $O\left(|\lits|^2 \right)$ space, compared to $O\left(|\lits|^k\right)$ required by \cite{Walsh2008}.
 \end{description}
 	
 Initially when one looks at learning from a purely non-conditional perspective, 
