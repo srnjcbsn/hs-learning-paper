@@ -95,14 +95,14 @@ Given the restrictions listed above, we are able to simplify the problem. That i
 With the above simplification of the problem, we will now analyze what it means to learn conditional effects.
 It is important to realize that in a conditional effect supported domain, if we observe an effect we must assume every atom connected to that effect is part of the preconditions. Only when the we observe a contradiction to this statement can we dismiss it. 
 
-Consider again a state transition $(S,a,S')$. Trivially, when an atom $q\left(O_1, \dots, O_{|p|}\right)$ occurs in $\Delta S$, it holds that there is a conditional in $A$ with atom $q\left((x_1, \dots, x_{|q|}\right)$ as an effect. That is, there exists a conditional of the form
+Consider again a state transition $(S,a,S')$. Trivially, when an atom $q\left(O_1, \dots, O_{|p|}\right)$ occurs in $\Delta S$, it holds that there is a conditional in $A$ with literal $q\left(x_1, \dots, x_{|q|}\right)$ as an effect. That is, there exists a conditional of the form
 
 \begin{equation*}
     E_C = \forall x_1, \dots, x_n 
     \left[ q\left(x_1, \dots, x_{|q|} \right) \right] \quad when \quad 
     \left[ \bigwedge_{p \in P} p \right]
 \end{equation*}
-where $P$ is a set of preconditions. Additionally, there exists an interpretation $\delta$ such that the observed effect is produced and the preconditions are satisfied in the state, i.e.\ $\delta\left(q\left(x_1, \dots, x_{|p|} \right)\right) \in \Delta S$ and $\delta\left[ P \right] \subseteq X(S)$. This interpretation resembles the grounding function from non-conditional learning, and similarly to non-conditional learning, the inverse can now be used with $X(S)$ to obtain a set of atoms guaranteed to contain all preconditions. For conditionals, this inverse grounding function is denoted $\sigma$.
+where $P$ is a set of preconditions. Additionally, there exists an interpretation $\delta$ such that the observed effect is produced and the preconditions are satisfied in the state, i.e.\ $\delta\left(q\left(x_1, \dots, x_{|p|} \right)\right) \in \Delta S$ and $\delta\left[ P \right] \subseteq X(S)$. This interpretation resembles the grounding function from non-conditional learning, and similarly to non-conditional learning, the inverse can now be used with $X(S)$ to obtain a set of literals guaranteed to contain all preconditions. For conditionals, this inverse grounding function is denoted $\sigma$.
 
 % It now holds that if we can find the inverse of such an interpretation, i.e.\ one that maps objects in $\objs$ to variables in $\varC\left(E_C\right)$, where $\delta^{-1}\left(O_1\right) = x_1, \dots, \delta^{-1}\left(O_{|q|}\right) = x_{|q|}$, then $\delta^{-1} \left[ X(S) \right]$ contains the preconditions $P$. In the following, such a mapping is called $\sigma$.
 
