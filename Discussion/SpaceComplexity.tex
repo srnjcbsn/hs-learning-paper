@@ -18,8 +18,8 @@ We realise that it might still be interesting what the exact space complexity of
  \end{align*} 
  where $k$ is the maximum arity of predicates, and m is maximum arity of the action.
  \begin{proof} 
- 	As \litsa is all possible literals in an action's effects/preconditions. Then
- 	it follows that the maximum cardinality of effects or preconditions must therefore be $O(|\litsa|)$.
+ 	As \litsa is all possible literals in an action's effects/preconditions,
+ 	it follows that the maximum cardinality of effects or preconditions must be $O(|\litsa|)$.
 Since $\Up_{E/P}$ initially contains all possible effects or preconditions (depending on the use-case), 
 	it then follows that $\Up_{E/P}$ must have the cardinality $O(|\litsa|)$. 
 	As proven/disproven cannot be larger than unproven then they must also be $O(|\litsa|)$.
@@ -28,7 +28,7 @@ Since $\Up_{E/P}$ initially contains all possible effects or preconditions (depe
 	each set, and each set can at most be the size of the unproven set, then it follows that the space complexity must be $O(|\litsa|^2)$.
  \end{proof}
 Since we only have the minimum amount of knowledge required, that means our space complexity --- if it is a problem --- is a compression problem and not a problem of design. 
-An idea of how we may store this knowledge more efficient, is if we consider that the knowledge we are storing is simply just permutations of the combinations of variables for an atom.
+A possible solution to storing this knowledge more efficiently is to consider it permutations of the combinations of variables for an atom.
 For instance, imagine we have the unproven knowledge
  \begin{equation*}
 	\Up = \{ p(x,y), p(x,x), p(y,y), p(y,x) \}
@@ -43,7 +43,7 @@ For instance, imagine we have the unproven knowledge
   \end{equation*} 
  Which can be interpreted as for each set in the sequence we select one element in the set and use that in our permutation.
  This would give us all the permutations of \Cref{eq:dis:sc:perms}. 
- If this model is proved to be viable, it would mean the space complexity could be $O(|\preds| \times m \times k)$. 
+ If this model is proved to be viable, it would mean the space complexity could be $O(|\preds| \cdot m \cdot k)$. 
  However we have not studied it enough for us to conclude,
  and while we might already accept this complexity for non-conditional actions. 
  The permutation solution actually extends to conditional effects as well, since connecting paths can be viewed as also just different permutations of the possible strings of paths.
