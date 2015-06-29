@@ -19,9 +19,25 @@
 	\begin{example}
 		Imagine an agent trying to learn how to sail a ship around an island.
 		
-		In the beginning it can either sail clockwise and counter-clockwise, because it is new and inexperienced it does not know what the outcome of either of these actions will be. 
-		Lets assume that it takes seven counter-clockwise moves to reach its destination but only one clockwise move.
-		Because the agent does not know anything, both the clockwise and the counter-clockwise option is initially equally good to it. If it went with the counter-clockwise option then a strategy based on exploitativity would deem the problem solvable and no longer in need of learning, as the agent can simply stick to counter-clockwise moves around the island until it reaches its destination. However if it used a strategy based explorativity then it demands both options to be tested and thus the agent would do a clockwise afterwards learning that the problem can be easily solved using two clockwise moves instead of six further counter-clockwise moves that would be required. If however the agent had went clockwise to begin with then it would have been wasting its time learning to move counter-clockwise as it is the inferior solution in this case.
+		In the beginning it can either sail \textbf{clockwise} and \textbf{counter-clockwise}, because it is new and inexperienced it does not know what the outcome of either of these actions will be. 
+		
+		Lets assume that it takes seven \textbf{counter-clockwise} moves to reach its destination but only two \textbf{clockwise} move from its current location.
+		
+		Because the agent does not know anything, both the \textbf{clockwise} and the \textbf{counter-clockwise} option is initially equally good to it.
+		
+		\begin{itemize}
+			\item If it was exploitative and initially tried a \textbf{counter-clockwise} move.
+			
+			Then it would deem the problem solvable and no longer in need of learning. This is because an agent can simply stick to \textbf{counter-clockwise} moves around the island until it reaches its destination. 
+			
+			\item However if it used a strategy based explorativity.
+			
+			Then no matter what option it tried it would have to test both actions, meaning it would take a minimum of four actions total.
+			
+			\item Lastly If it was exploitative but initially tried a \textbf{clockwise} move.
+			
+			Then the agent would solve the problem in just 2 actions.
+		\end{itemize}
 		
 		Thus we see that both extremes have advantages and disadvantages.
 		
