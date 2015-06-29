@@ -115,6 +115,173 @@ Therefore limiting the preconditions to literals in $\ts(S)$ is guaranteed not t
 	As such we can conclude $\ts(S)$ contains at least all precondition literals.
 \end{proof}
 
+\begin{figure}
+	\hspace*{0.1\textwidth}%
+	\begin{subfigure}{0.35\textwidth}
+		\centering
+		\resizebox{\linewidth}{!}{\input{\master/Graphics/moveLeftBefore.pgf}}
+		\caption{Before execution of \texttt{MoveLeft}}
+	\end{subfigure}%
+	\hspace*{0.1\textwidth}%
+	\begin{subfigure}{0.35\textwidth}
+		\centering
+		\resizebox{\linewidth}{!}{\input{\master/Graphics/moveLeftAfter.pgf}}
+		\caption{After execution of \texttt{MoveLeft}}
+	\end{subfigure}
+	\hspace*{0.1\textwidth}
+	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for \Cref{ex:ca:sokoban-moveleft-action} }
+	
+\end{figure}
+
+
+\begin{example}\label{ex:ca:sokoban-moveleft-action}
+	This example shows the idea that all preconditions are guaranteed to be in the state if an effect occurs.
+ In \Cref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
+	
+	The action schema that produced the effect is:
+	\begin{align*}
+		&MoveLeft():&  \\
+		&\quad
+		\forall_{x, y}
+		\left[
+		\neg\texttt{sokobanAt}(y) \land \texttt{sokobanAt}(x)
+		\right]
+		\quad when \quad
+		\left[ \texttt{adj-h}(x,y) \land \texttt{sokobanAt}(y) \right]& \\
+		&\quad
+		\forall_{x, y, z, b}
+		\left[ \neg\texttt{at}(b,y) \land \texttt{at}(b,x) \right]
+		\quad when \quad
+		\left[
+		\begin{gathered}
+			\texttt{adj-h}(x,y) \land \texttt{adj-h}(y,z) \land \\
+			\texttt{sokobanAt}(z) \land \texttt{at}(b, y)
+		\end{gathered}
+		\right] &
+	\end{align*}
+	
+	The state transition that occurred:
+	
+	\begin{equation*}\label{eq:s_before}
+		S_{before} =
+		\left\{
+		\begin{gathered}
+			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
+			\texttt{at}(box,t2), \texttt{sokobanAt}(t3)
+		\end{gathered}
+		\right\}
+	\end{equation*}
+	\begin{equation*}
+		S_{after} =
+		\left\{
+		\begin{gathered}
+			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
+			\texttt{at}(box,t1), \texttt{sokobanAt}(t2)
+		\end{gathered}
+		\right\}
+	\end{equation*}
+	The effects of the state transition we calculate:
+	\begin{equation*}
+		\Delta S =
+		\left\{
+		\begin{gathered}
+			\texttt{at}(box, t1), \texttt{sokobanAt}(t2), \\
+			\neg\texttt{at}(box,t2), \neg\texttt{sokobanAt}(t3)
+		\end{gathered}
+		\right\}
+	\end{equation*}
+	To interpret the objects as variables we provide some mapping of objects to variables, such a mapping could be:
+	\begin{equation*}
+		\delta =
+		\left [
+		\begin{gathered}
+			t1 \mapsto x \\
+			t2 \mapsto y \\
+			t3 \mapsto z \\
+			box \mapsto b
+		\end{gathered}
+		\right ]
+	\end{equation*}
+	We apply the mapping to the objects of $S_{before}$:
+	\begin{equation*}
+		\sigma(S_{before}, \delta) =
+		\begin{gathered}
+			\left\{
+			\begin{gathered}
+				\texttt{adj-h}(\delta (t1), \delta (t2)), \\
+				\texttt{adj-h}(\delta (t2), \delta (t3)), \\
+				\texttt{at}(\delta (box),\delta (t2)), \\
+				\texttt{sokobanAt}(\delta (t3))
+			\end{gathered}
+			\right\}
+			=
+			\left\{
+			\begin{gathered}
+				\texttt{adj-h}(x, y), \\
+				\texttt{adj-h}(y, z), \\
+				\texttt{at}(y), \\
+				\texttt{sokobanAt}(z)
+			\end{gathered}
+			\right\}
+		\end{gathered}
+	\end{equation*}
+	We also apply the mapping to the effects $\Delta S$
+	\begin{equation*}
+		\sigma(\geffects, \delta) =
+		\left\{
+		\begin{gathered}
+			\texttt{at}(\delta (box),\delta (t1)), \\
+			\texttt{sokobanAt}(\delta (t2)), \\
+			\neg\texttt{at}(\delta (box),\delta (t2)), \\
+			\neg\texttt{sokobanAt}(\delta (t3))
+		\end{gathered}
+		\right\}
+		=
+		\left\{
+		\begin{gathered}
+			\texttt{at}(b,x),
+			\texttt{sokobanAt}(y), \\
+			\neg\texttt{at}(b,y),
+			\neg\texttt{sokobanAt}(z)
+		\end{gathered}
+		\right\}
+	\end{equation*}
+	
+	The resulting literals of $S_{before}$ and $\geffects$ are the preconditions and the effects.
+	Therefore our hypothesis of the action scheme is:
+	\begin{align*}
+		&MoveLeft_{hyp}():&  \\
+		&\quad
+		\forall_{x, y, z, b}
+		\left[
+		\begin{gathered}
+			\texttt{at}(b, x) \land \texttt{sokobanAt}(y) \land \\ \neg\texttt{at}(b,y) \land \neg\texttt{sokobanAt}(z) \quad
+		\end{gathered}
+		\right]
+		when
+		\left[
+		\begin{gathered}
+			\quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{at}(b,y) \land \texttt{sokobanAt}(z)
+		\end{gathered}
+		\right]&
+	\end{align*}
+	
+	According to \Cref{thm:ca:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
+	\begin{align*}
+		&\gamma(S_{before},MoveLeft_{hyp}) =
+		\left\{
+		\begin{gathered}
+			\texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
+			\texttt{at}(box,t1), \texttt{sokobanAt}(t2)
+		\end{gathered}
+		\right\}
+		= S_{after}
+		&
+	\end{align*}
+	
+	We observe that this is indeed correct.
+\end{example}
+
 While the above holds for a single effect of a conditional $E_C$ of an action schema $A$, there can be several effects produced by that conditional in a single state transition. For all of these effects we can disprove knowledge (as described above), thereby obtaining an expression for the unproven preconditions. However, combining the knowledge for several different effects is not straightforward, as each of their effects and preconditions involve different objects. The significant part of the knowledge they describe, and the part they must be compared by, is \emph{how} the relations making up their preconditions are interconnected. As such, the preconditions should be compared on the patterns their relations describe rather than the names of their variables, as those are arbitrarily chosen. To gain an intuitive understanding of this, see Example~\ref{ex:ca:light-on}.
 
 \begin{example}\label{ex:ca:light-on} To get an idea of what it means to learn conditional effects,
@@ -168,170 +335,6 @@ Another property we can take advantage of is that similar to non-conditional pre
 This gives us the following:
 
 
-\begin{figure}
-    \hspace*{0.1\textwidth}%
-    \begin{subfigure}{0.35\textwidth}
-        \centering
-        \resizebox{\linewidth}{!}{\input{\master/Graphics/moveLeftBefore.pgf}}
-        \caption{Before execution of \texttt{MoveLeft}}
-    \end{subfigure}%
-    \hspace*{0.1\textwidth}%
-    \begin{subfigure}{0.35\textwidth}
-        \centering
-        \resizebox{\linewidth}{!}{\input{\master/Graphics/moveLeftAfter.pgf}}
-        \caption{After execution of \texttt{MoveLeft}}
-    \end{subfigure}
-    \hspace*{0.1\textwidth}
-	\caption{\label{fig:ca:sokoban-moveleft-action}\texttt{MoveLeft} action being used in a sokoban world for \Cref{ex:ca:sokoban-moveleft-action} }
-
-\end{figure}
-
-\begin{example}\label{ex:ca:sokoban-moveleft-action}
-    Consider an example of acquiring preconditions from the state. In \Cref{fig:ca:sokoban-moveleft-action} we see an example of an agent in the sokoban world pushing a box using a MoveLeft action with zero parameters.
-
-    The action schema that produced the effect is:
-    \begin{align*}
-    &MoveLeft():&  \\
-    &\quad
-        \forall_{x, y}
-            \left[
-                \neg\texttt{sokobanAt}(y) \land \texttt{sokobanAt}(x)
-            \right]
-            \quad when \quad
-            \left[ \texttt{adj-h}(x,y) \land \texttt{sokobanAt}(y) \right]& \\
-    &\quad
-        \forall_{x, y, z, b}
-            \left[ \neg\texttt{at}(b,y) \land \texttt{at}(b,x) \right]
-            \quad when \quad
-            \left[
-                \begin{gathered}
-                     \texttt{adj-h}(x,y) \land \texttt{adj-h}(y,z) \land \\
-                          \texttt{sokobanAt}(z) \land \texttt{at}(b, y)
-                \end{gathered}
-            \right] &
-    \end{align*}
-
-    The state transition that occurred:
-
-    \begin{equation*}\label{eq:s_before}
-    S_{before} =
-        \left\{
-            \begin{gathered}
-                \texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-                \texttt{at}(box,t2), \texttt{sokobanAt}(t3)
-            \end{gathered}
-        \right\}
-    \end{equation*}
-    \begin{equation*}
-    S_{after} =
-        \left\{
-            \begin{gathered}
-                \texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-                \texttt{at}(box,t1), \texttt{sokobanAt}(t2)
-            \end{gathered}
-        \right\}
-    \end{equation*}
-    The effects of the state transition we calculate:
-    \begin{equation*}
-    \Delta S =
-        \left\{
-            \begin{gathered}
-                \texttt{at}(box, t1), \texttt{sokobanAt}(t2), \\
-                \neg\texttt{at}(box,t2), \neg\texttt{sokobanAt}(t3)
-            \end{gathered}
-        \right\}
-    \end{equation*}
-    To interpret the objects as variables we provide some mapping of objects to variables, such a mapping could be:
-    \begin{equation*}
-    \delta =
-        \left [
-            \begin{gathered}
-                t1 \mapsto x \\
-                t2 \mapsto y \\
-                t3 \mapsto z \\
-                box \mapsto b
-            \end{gathered}
-        \right ]
-    \end{equation*}
-    We apply the mapping to the objects of $S_{before}$:
-    \begin{equation*}
-        \sigma(S_{before}, \delta) =
-        \begin{gathered}
-            \left\{
-                \begin{gathered}
-                    \texttt{adj-h}(\delta (t1), \delta (t2)), \\
-                    \texttt{adj-h}(\delta (t2), \delta (t3)), \\
-                    \texttt{at}(\delta (box),\delta (t2)), \\
-                     \texttt{sokobanAt}(\delta (t3))
-                \end{gathered}
-            \right\}
-            =
-            \left\{
-                \begin{gathered}
-                    \texttt{adj-h}(x, y), \\
-                     \texttt{adj-h}(y, z), \\
-                    \texttt{at}(y), \\
-                    \texttt{sokobanAt}(z)
-                \end{gathered}
-            \right\}
-        \end{gathered}
-    \end{equation*}
-    We also apply the mapping to the effects $\Delta S$
-    \begin{equation*}
-        \sigma(\geffects, \delta) =
-            \left\{
-                \begin{gathered}
-                    \texttt{at}(\delta (box),\delta (t1)), \\
-                    \texttt{sokobanAt}(\delta (t2)), \\
-                    \neg\texttt{at}(\delta (box),\delta (t2)), \\
-                     \neg\texttt{sokobanAt}(\delta (t3))
-                \end{gathered}
-            \right\}
-            =
-            \left\{
-                \begin{gathered}
-                    \texttt{at}(b,x),
-                    \texttt{sokobanAt}(y), \\
-                    \neg\texttt{at}(b,y),
-                    \neg\texttt{sokobanAt}(z)
-                \end{gathered}
-            \right\}
-    \end{equation*}
-
-    The resulting literals of $S_{before}$ and $\geffects$ are the preconditions and the effects.
-    Therefore our hypothesis of the action scheme is:
-    \begin{align*}
-    &MoveLeft_{hyp}():&  \\
-    &\quad
-        \forall_{x, y, z, b}
-            \left[
-            \begin{gathered}
-                \texttt{at}(b, x) \land \texttt{sokobanAt}(y) \land \\ \neg\texttt{at}(b,y) \land \neg\texttt{sokobanAt}(z) \quad
-            \end{gathered}
-            \right]
-        when
-            \left[
-            \begin{gathered}
-            \quad \texttt{adj-h}(x, y) \land \texttt{adj-h}(y, z) \land \\ \texttt{at}(b,y) \land \texttt{sokobanAt}(z)
-            \end{gathered}
-            \right]&
-    \end{align*}
-
-    According to \Cref{thm:ca:precondition-state} we can use $MoveLeft_{hyp}$ on $S_{before}$ and get $S_{after}$.
-    \begin{align*}
-    &\gamma(S_{before},MoveLeft_{hyp}) =
-        \left\{
-            \begin{gathered}
-                \texttt{adj-h}(t1, t2), \texttt{adj-h}(t2, t3), \\
-                \texttt{at}(box,t1), \texttt{sokobanAt}(t2)
-            \end{gathered}
-        \right\}
-        = S_{after}
-    &
-    \end{align*}
-
-    We observe that this is indeed correct.
-\end{example}
 
 \subsection{Initial approach to reducing preconditions}\label{ssec:ca:init-approach}
 
