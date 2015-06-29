@@ -1,7 +1,7 @@
 \providecommand{\master}{..}
 \documentclass[\master/Master.tex]{subfiles}
 \begin{document}
-In this appendix we will provide a full example of an agent trying to learn vacuum world. 
+In this appendix we will provide a full example of an agent trying to learn the Vacuum World domain (see e.g.\ \cite{Russell}). 
 Furthermore, in this example the agent has been extended with both negative goals and negative preconditions feature.
 
 Predicates in domain: 
@@ -9,7 +9,7 @@ Predicates in domain:
 	\preds = \{adj,at,dirty\}
 \end{equation*}
 
-The actual real definition of its actions:
+The actual action schemas:
 \begin{align*}
 	Move(from,to) &: \\
 	\lits_{move} &: 
@@ -26,10 +26,10 @@ The actual real definition of its actions:
 				\end{gathered}
 				\right\}
 				\\
-	Pre &: 
+	Pre &: \left\{
 	\begin{gathered}
 		\texttt{adj}(from,to) \land \texttt{at}(from)\\
-	\end{gathered}
+    \end{gathered} \right\}
 	\\
 	Eff &: \{
 	\begin{gathered}
