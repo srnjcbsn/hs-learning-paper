@@ -6,11 +6,11 @@ We will briefly introduce the core concepts of what conditional effects are, but
 
 What separates conditional action schemas from their non-conditional counterparts is that instead of relying solely on the arguments the action was invoked with, each effect is determined based on the state the action was applied to. That is, an effect can contain \emph{conditionals} of the form:
 \begin{equation*}
-    \cond = \forall \underbrace{x, y, z, \dots}_{\varC \left(\cond\right)}\in \objs : 
+    \cond = \forall \underbrace{x, y, z, \dots}_{\varC \left(\cond\right)} : 
     \underbrace{\left[ q(x, y), \dots \right]}_{\textit{effects}} \quad when \quad 
     \underbrace{\left[ g(z, x), \dots  \right]}_{\textit{preconditions}}
 \end{equation*}
-For any interpretation of the variables $\varC\left(\cond\right)$, the \textit{effects} are only applied if the \textit{preconditions} are satisfied. Note that --- in this sense --- a conditional is similar to a non-conditional action with as many parameters as there are objects in the world. 
+For any interpretation of the variables $\varC\left(\cond\right)$ (i.e. a mapping from $\varC\left(\cond\right)$ to $\objs$), the \textit{effects} are only applied if the \textit{preconditions} are satisfied under that interpretation. Note that --- in this sense --- a conditional is similar to a non-conditional action with as many parameters as there are objects in the world. 
 
 \begin{definition}[Conditional]
 	An effect of the structure 
