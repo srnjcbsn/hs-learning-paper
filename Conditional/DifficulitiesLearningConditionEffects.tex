@@ -374,17 +374,6 @@ It follows from the above that if we have the sets of unproven preconditions $\U
 	\Up_p' = \Up_p1 \cap \Up_p2
 \end{equation}
 
-\begin{example}\label{ex:ca:light-on-2} In this example we will show what it means to intersect unproven preconditions, seen from an abstract perspective.
-	Following from \Cref{ex:ca:light-on} we come to the second case in \Cref{fig:ca:house-example}
-	we see that we can turn on the light again but this time the sofa and the lamp has changed location and
-	there is no table. From this we expand our knowledge by learning:
-	\begin{itemize}
-		\item Sofa and lamp location does not matter
-		\item A table is not needed
-	\end{itemize}
-	Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions.
-\end{example}
-
 \eqref{eq:unknownpredcondset} will work for removing  disproven literals only if the two sets' variables match up perfectly. Herein lies the problem of reducing preconditions; unlike non-conditional effects where variables always match with the object such that entire literals could be removed at a time, for conditional effects a reduction in the preconditions can simply mean the removal of a binding between two variables. For instance, $p(x)$ and $q(x)$ have a binding since both have the variable $x$, to remove the binding simply rename one of their variables. I.e $p(x)$ and $q(y)$.
 
 \begin{definition}[Binding]\label{def:ca:binding}
