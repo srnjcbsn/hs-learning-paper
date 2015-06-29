@@ -2,10 +2,11 @@
 \documentclass[\master/Master.tex]{subfiles}
 
 \begin{document}
+Hypergraphs is a representation of the all possible patterns that could possibly produce an effect. In this section we will show how we can reduce this pattern such that it will in end be equal to the real pattern of preconditions in the conditional.
 
-Consider again a state transition $\left( s, a, s' \right)$. The hypergraph constructed for $\ts(s)$ (as shown in Section~\ref{sec:ca:hgintro}) now describes how the atoms in $s$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(s))$, which constructs a hypergraph for $\ts(s) \cup \{p\}$, labelling the atom edge describing $p$ as an effect.
+Consider again a state transition $\left( S, a, S' \right)$. The hypergraph constructed for $\ts(S)$ (as shown in \Cref{sec:ca:hgintro}) now describes how the atoms in $S$ are interconnected without mentioning specific objects or variables. Similarly, a single effect $p$ of action $a$ can be encoded as a hypergraph by the function $hypergraph(p,\ts(S))$, which constructs a hypergraph for $\ts(S) \cup \{p\}$, labelling the atom edge describing $p$ as an effect.
 
-Such a hypergraph describes which bindings were present in $\ts(s)$ when the effect $p$ occurred, and how $p$ is connected to them. In other words, it denotes the preconditions for the conditional that spawned $p$ which has not been disproven, and any binding \textit{not} in the hypergraph is disproven to be a precondition.
+Such a hypergraph describes which bindings were present in $\ts(S)$ when the effect $p$ occurred, and how $p$ is connected to them. In other words, it denotes the preconditions for the conditional that spawned $p$ which has not been disproven, and any binding \textit{not} in the hypergraph is disproven to be a precondition.
 
 \begin{proposition}\label{prop:ca:disprovenHg}
     For a state transition $\left( S, a, S' \right)$ and a literal $p \in \Delta S$, any binding absent from $hypergraph \left( p, X(S) \right)$ is not a precondition for the conditional in $A$ with $p$ as effect. 
@@ -19,7 +20,7 @@ Recall that any two literals $p$ and $q$ in $\Delta S$ with the same name are ef
 
 In the following, we will assume availability of such a merging function (denoted $merge$), and a detailed algorithm can be found in Section~\ref{sec:C:HGMerging}.
 
-From the above, it follows that all grounded literals with name $n$ in $\Delta S$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be literals, and can as such be reused in another transition. This hypergraph describes the unknown knowledge $U$.
+From the above, it follows that all grounded literals with name $n$ in $\Delta S$ can be merged together to disprove preconditions of the conditional that spawned them. The resulting hypergraph then constitutes all bindings that have not explicitly been disproven to be literals, and can as such be reused in another transition. This hypergraph describes the unproven knowledge $U$.
 
 As with connecting paths, we have the concept of candidates, i.e.\ reasons a conditional could have failed in a certain interpretation. Recall that such a reason is a connecting path that was not present in the failing state. Since vertices in a hypergraph can be uniquely identified, and paths to the effect can be described by a binding to another vertex that is itself transitively connected, a candidate for failure can be encoded as a pair of vertices. I.e.\ it is sufficient to record the last component of the offending connecting path. Note that this pair can represent several connecting paths.
 
@@ -41,7 +42,7 @@ Given a candidate set $C$, the proven preconditions can now be seen as the singl
     \right\}
 \end{equation*}
 
-As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not necessarily identical, the $merge$ function must also perform an identifier renaming. Thus, the $reduce$ function ascribed above will not work with the merged $U$, as the vertex identifiers will not match, and vertices in $U$ can not be matched with those in $K$. Therefore, $merge$ should return the renaming function used, so that it can be applied to $C$ and $K$.
+As each vertex in a hypergraph has unique identifiers, and identifiers for two hypergraphs are not necessarily identical, the $merge$ function must also perform an identifier renaming. Thus, the $reduce$ function described above will not work with the merged $U$, as the vertex identifiers will not match, and vertices in $U$ can not be matched with those in $K$. Therefore, $merge$ should return the renaming function used, so that it can be applied to $C$ and $K$.
 
 As described in the next section, a vertex may have been ``shadowing'' another, such that what we perceived as a single vertex in a binding edge in $U$ were in fact two. If that is the case, the renaming function will replace that vertex with two equally-named vertices with different identifiers, both part of the binding edge the original vertex was part of. 
 
@@ -69,7 +70,7 @@ Observe that since the proven knowledge $K(C)$ is comprised of the singleton can
 %     \right\}
 % \end{equation*}
 
-In \Cref{algo:CondEffLearn}, an algorithm for updating knowledge about a single conditional is provided. The \textsc{Update-Knowledge} function takes as input a predicate $n$, a state transition, a hypergraph $U$ describing the unknown knowledge, as well as a set of candidates $\Cand$. It then merges $U$ with hypergraphs for all effects in the state transition with the same name as $n$, performs renaming (as explained above), and updates the set of candidates. Note that for a single state transition, this function should be called for every predicate in $\preds$, and an unknown hypergraph as well as a set of candidates should be maintained for every predicate in $\preds$.
+In \Cref{algo:CondEffLearn}, an algorithm for updating knowledge about a single conditional is provided. The \textsc{Update-Knowledge} function takes as input a predicate $n$, a state transition, a hypergraph $U$ describing the unproven knowledge, as well as a set of candidates $\Cand$. It then merges $U$ with hypergraphs for all effects in the state transition with the same name as $n$, performs renaming (as explained above), and updates the set of candidates. Note that for a single state transition, this function should be called for every predicate in $\preds$, and an unproven hypergraph as well as a set of candidates should be maintained for every predicate in $\preds$.
 
 \begin{algorithm}
     \caption{Algorithm for learning conditional effects using hypergraphs}\label{algo:CondEffLearn}
