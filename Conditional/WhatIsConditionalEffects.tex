@@ -4,7 +4,13 @@
 We will now turn our attention to the task of learning action schemas with conditional effects. 
 We will briefly introduce the core concepts of what conditional effects are, but for a more detailed explanation see~\oldcref{sec:app:pddl}. 
 
-What separates conditional action schemas from their non-conditional counterparts is that instead of relying solely on the arguments the action was invoked with, each effect is determined based on the state the action was applied to. That is, an effect can contain \emph{conditionals}:
+Although many domains can be satisfactorily described with non-conditional actions, it is not the most natural representation for a learning agent. The problem is that a non-conditional action must accept all objects used in its preconditions and effects as arguments. This means that the learning agent effectively have to know that, for example, a push action (in the sokoban domain) involves three different objects. Although the agent does not know the type of the objects, or what their relations should be, it still represents a certain amount of knowledge about the environment that a completely ignorant agent should not possess. We wish to consider actions that are \emph{local} to the agent, i.e.\ actions involving only its own actuators. In its most extreme form, this is implemented as parameterless actions. 
+
+For the sokoban agent, such an action could be the nullary action \textit{move-left()}, i.e.\ an action that tells the agent to turn to the left and spin its wheels such that it moves a tile's length forward (if the sokoban agent is incarnated as a robot on wheels). Compared with the non-conditional counterpart \textit{move-v}$(t_1, t_2)$ which has the agent request the environment for a relocation from tile $t_1$ to tile $t_2$, this is clearly closer to a learning agent that \textit{acts} on the environment, rather than query it. An implementation of the sokoban domain with these kinds of actions is presented in Appendix~\ref{sec:app:pddl}.
+
+To achieve parameter-less actions, a new PDDL construct must be used, namely universally quantified, conditional actions:
+
+Instead of relying solely on action arguments, each effect in a conditional action schema is determined based on the state the action was applied to. That is, an effect can contain \emph{conditionals}:
 \begin{definition}[Conditional]
     A conditional is a universally quantified consisting of a set of effects and a set of preconditions, written:
 \begin{equation*}
@@ -14,15 +20,13 @@ What separates conditional action schemas from their non-conditional counterpart
 \end{equation*}
 For any interpretation of the variables $\varC\left(\cond\right)$ (i.e. a mapping from $\varC\left(\cond\right)$ to $\objs$), the \textit{effects} are only applied if the \textit{preconditions} are satisfied under that interpretation. 
 \end{definition}
+
+In the above definition, the ``conditional'' part consists of the construct 
+\begin{equation*}
+    \left[ \textit{effects} \right] \; \textit{when} \; \left[ \textit{preconditions} \right]
+\end{equation*}
+
 Note that --- in this sense --- a conditional is similar to a non-conditional action with as many parameters as there are objects in the world. 
-
-\begin{definition}[Conditional]
-	An effect of the structure 
-	\begin{equation}
-		\forall_{\textsc{<vars>*}} \; \textsc{<Effect>} \; when \; \textsc{<GD>}
-	\end{equation} is what we will refer to as a conditional.
-\end{definition}
-
 
 See \Cref{ex:ca:sokoban-moveleft-action} for an example of an action with conditional effects. 
 
