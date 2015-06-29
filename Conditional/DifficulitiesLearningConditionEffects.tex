@@ -311,32 +311,32 @@ Even though we intuitively know that it is only the lamp which is the only requi
 	Its important to note that since we have not seen an absence of a sofa we cannot rule out that the presence of a sofa is a precondition for the light to turn on. This is important because it shows us that by trying different scenarios we reduce the incorrect preconditions. 
 
 \end{example}
+%
+%\subsection{Disproving preconditions}
+%In \Cref{ex:ca:light-on}  we saw that different objects in a room could be possible preconditions for the effect of turning on a light. But since 
+%objects are defined by the atoms in the state which they satisfy. As such when we say that the objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of literals is the requirement for the effects to occur.
+%This means if we interpret the objects as variables connecting the literals in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
+%to a to different variable.
+%\begin{equation}\label{eq:ca:substitution}
+%	\sigma(P,\delta) =  \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}
+%\end{equation}
+%For instance for the state.
+%$\{ p(O_1), p(O_2),\ldots,p(O_n)\}$ using a mapping
+%\begin{equation*}
+%\delta = \{O_1 \mapsto v_1, O_2 \mapsto v_2 \ldots, O_n \mapsto v_n\}
+%\end{equation*}
+%where $(v_1, v_2,\dots,v_{n-1},v_n)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects
+%\begin{equation*}
+%\{ p(\delta(O_1)), p(\delta(O_2)),\ldots,p(\delta(O_n))\} = \{ p(v_1), p(v_2),\ldots,p(v_n)\}
+%\end{equation*}
+%To see how it works in sokoban see \Cref{ex:ca:sokoban-moveleft-action}
+%
+%Another property we can take advantage of is that similar to non-conditional preconditions, if an effect is successfully added to the state then that disproves all preconditions not currently satisfied.
+%This gives us the following:
 
-\subsection{Disproving preconditions}
-In \Cref{ex:ca:light-on}  we saw that different objects in a room could be possible preconditions for the effect of turning on a light. But since 
-objects are defined by the atoms in the state which they satisfy. As such when we say that the objects are assumed to be possible preconditions for specific effects to occur, what we are actually saying is that a specific composition of literals is the requirement for the effects to occur.
-This means if we interpret the objects as variables connecting the literals in a pattern, then we can get an initial set of preconditions by using the state $S$ which led to the effects. In real terms interpreting objects as variables means mapping each object 
-to a to different variable.
-\begin{equation}\label{eq:ca:substitution}
-	\sigma(P,\delta) =  \left\{p\left(\delta(O_1),\ldots,\delta(O_n) \right) \mid p(O_1,\ldots,O_n) \in P  \right\}
-\end{equation}
-For instance for the state.
-$\{ p(O_1), p(O_2),\ldots,p(O_n)\}$ using a mapping
-\begin{equation*}
-\delta = \{O_1 \mapsto v_1, O_2 \mapsto v_2 \ldots, O_n \mapsto v_n\}
-\end{equation*}
-where $(v_1, v_2,\dots,v_{n-1},v_n)$ are variables for the quantifier of the conditional effect; Interpreting this state's objects as variables means to apply this mapping to the state's objects
-\begin{equation*}
-\{ p(\delta(O_1)), p(\delta(O_2)),\ldots,p(\delta(O_n))\} = \{ p(v_1), p(v_2),\ldots,p(v_n)\}
-\end{equation*}
-To see how it works in sokoban see \Cref{ex:ca:sokoban-moveleft-action}
-
-Another property we can take advantage of is that similar to non-conditional preconditions, if an effect is successfully added to the state then that disproves all preconditions not currently satisfied.
-This gives us the following:
 
 
-
-\subsection{Initial approach to reducing preconditions}\label{ssec:ca:init-approach}
+\subsection{Initial approach to disproving preconditions}\label{ssec:ca:init-approach}
 
 All the preconditions we get from a state can be seen as the unproven preconditions, like they were for non-conditional knowledge.
 Therefore as different scenarios are explored the unproven set $\Up_p$ of preconditions can be reduced.
